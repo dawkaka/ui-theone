@@ -17,14 +17,61 @@
   --success-light: #3291FF;
   --success: #0070F3;
   --success-dark: #0761D1;
+  --font-size: 16px;
+  --space: 4px;
+  --space-2x: 8px;
+  --space-4x: 16px;
+  --space-8x: 32px;
+  --space-16x: 64px;
+  --space-24x: 96px;
+  --space-32x: 128px;
+  --space-48x: 192px;
+  --space-64x: 256px;
+  --space-small: 32px;
+  --space-medium: 40px;
+  --space-large: 48px;
+  --space-gap: 24px;
+  --space-gap-half: 12px;
+  --space-gap-quarter: var(--space-2x);
+  --gap: var(--space-gap);
+  --gap-half: var(--space-gap-half);
+  --gap-quarter: var(--space-gap-quarter);
+  --gap-double: var(--space-large);
+  --gap-section: var(--space-small);
+  --space-negative: -4px;
+  --space-2x-negative: -8px;
+  --space-4x-negative: -16px;
+  --space-8x-negative: -32px;
+  --space-16x-negative: -64px;
+  --space-24x-negative: -96px;
+  --space-32x-negative: -128px;
+  --space-48x-negative: -192px;
+  --space-64x-negative: -256px;
+  --space-small-negative: -32px;
+  --space-medium-negative: -40px;
+  --space-large-negative: -48px;
+  --space-gap-negative: -24px;
+  --space-gap-half-negative: -12px;
+  --space-gap-quarter-negative: var(--space-2x-negative);
+  --gap-negative: var(--space-gap-negative);
+  --gap-half-negative: var(--space-gap-half-negative);
+  --gap-quarter-negative: var(--space-gap-quarter-negative);
+  --gap-double-negative: var(--space-large-negative);
+  --page-margin: var(--space-gap);
+  --page-width: 1200px;
+  --page-width-with-margin: calc(var(--page-width) + calc(2 * var(--page-margin)));
+  --radius: 5px;
+  --marketing-radius: 8px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  --font-mono: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  --header-height: 64px;
 }
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: var(--font-sans)
 }
 
 a {

@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.navItem {
+    padding: var(--gap);
+}
+
+.activeNav {
+    background-color: var(--success);
+    color: white;
+}
