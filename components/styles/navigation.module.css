@@ -1,14 +1,23 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 .navItem {
-    padding: var(--gap);
+    display: flex;
+    align-items: center;
+    gap: var(--gap-half);
+    border-radius: var(--radius-big);
+    width: fit-content;
+    padding: var(--gap-quarter) var(--gap);
+}
+
+.navItem:hover {
+    background-color: var(--accents-2);
+    cursor: pointer;
 }
 
 .activeNav {
-    background-color: var(--success);
-    color: white;
+    color: var(--success);
+    font-weight: bold;
 }

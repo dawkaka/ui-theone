@@ -1,12 +1,12 @@
-import { ReactElement, ReactNode } from "react";
+import { FunctionComponent, ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
 import Navigation  from "./navigation";
 import styles from "./styles/layout.module.css"
 
-const  Layout: NextPage<{children: ReactNode}> = ({children}) => {
+const  Layout:  FunctionComponent<{children: ReactNode}> = ({children}) => {
    return (
     <div className={styles.mainWrapper}>
-    <main>
+    <main className={styles.container}>
         <Navigation/>
         {children}
     </main>

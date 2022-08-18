@@ -5,7 +5,7 @@ import Layout from "../../components/mainLayout";
 
 
 
-export default function HomePage(): NextPage {
+export default function HomePage() {
     return(
         <Layout>
         <div>
