@@ -1,0 +1,41 @@
+.container {
+    max-width: 300px;
+    padding: var(--gap-half) var(--gap);
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    gap: var(--gap-half);
+    align-items: center;
+}
+
+.commentInfo em {
+    font-size: small;
+    color: var(--accents-5);
+}
+
+.nameContainer {
+    display: flex;
+    align-items: center;
+}
+
+.comment {
+    margin-block: var(--gap-quarter);
+    color: var(--accents-7);
+}
+
+.profileImage {
+    border-radius: 50%;
+}
+
+.iconContainer {
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+}
+
+.iconContainer span {
+    color: var(--accents-5);
+}
