@@ -1,15 +1,30 @@
 .container {
     display: flex;
     flex-direction: column;
+    margin: 0;
+    padding: 0;
+    width: 250px;
+    height: 100vh;
+    overflow: auto;
+    border-right: 1px solid var(--accents-2);
+    padding-inline: var(--gap);
+}
+
+.logoContainer {
+    color: var(--success);
+    margin-top: var(--gap);
+    margin-bottom: var(--gap-double);
+    margin-left: var(--gap);
 }
 
 .navItem {
     display: flex;
     align-items: center;
-    gap: var(--gap-half);
+    gap: var(--gap);
     border-radius: var(--radius-big);
     width: fit-content;
-    padding: var(--gap-quarter) var(--gap);
+    padding: var(--gap-half) var(--gap);
+    margin-bottom: var(--gap);
 }
 
 .navItem:hover {
@@ -20,4 +35,21 @@
 .activeNav {
     color: var(--success);
     font-weight: bold;
+}
+
+.postButtonContainer {
+    margin: var(--gap-double) 0 0 var(--gap-half);
+}
+
+.postButton {
+    background-color: var(--success);
+    font-size: large;
+    margin: 0;
+    padding: 0 3rem;
+    height: 2.81rem;
+    font-weight: bold;
+    border-radius: var(--radius-small);
+    box-shadow: 0 4px 14px 0 rgba(0, 118, 255, .39);
+    color: white;
+    cursor: pointer;
 }

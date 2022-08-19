@@ -6,8 +6,10 @@ import styles from "./styles/layout.module.css"
 const  Layout:  FunctionComponent<{children: ReactNode}> = ({children}) => {
    return (
     <div className={styles.mainWrapper}>
+        <header>
+            <Navigation/>
+        </header>
     <main className={styles.container}>
-        <Navigation/>
         {children}
     </main>
     </div>
