@@ -3,7 +3,7 @@
     align-items: center;
     gap: var(--gap);
     justify-content: space-between;
-    padding-inline: var(--gap);
+    padding-inline: var(--gap-half);
     margin-bottom: var(--gap-half);
 }
 
@@ -11,18 +11,25 @@
     display: flex;
     align-items: center;
     gap: var(--gap-half);
-    width: max-content;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    flex-shrink: 1;
+}
+
+.imageContainer {
+    height: 45px;
+    width: 45px;
 }
 
 .image {
     border-radius: 50%;
 }
 
+.coupleInfo {
+    flex-shrink: 1;
+}
+
 .coupleInfo h4 {
     word-break: break-all;
+    line-height: 1;
 }
 
 .coupleInfo p {
@@ -32,9 +39,8 @@
 .button {
     padding: .3em 0;
     font-size: 1.1rem;
-    max-width: 150px;
+    flex-basis: 20%;
     min-width: 80px;
-    flex-grow: 1;
     flex-shrink: 0;
     font-weight: normal;
 

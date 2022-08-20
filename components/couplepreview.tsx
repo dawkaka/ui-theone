@@ -17,7 +17,9 @@ const CouplePreview: React.FunctionComponent<couple> = ({name, isFollowing, stat
     return (
         <article className={styles.container}>
             <div className={styles.infoContainer}>
-            <Image  className={styles.image} src={profile_picture} height = {50} width={50}/>
+             <div className={styles.imageContainer}>
+            <Image  className={styles.image} src={profile_picture} height = "45px" width="45px" layout="fixed" />
+            </div>
              <div className={styles.coupleInfo}>
                 <h4>{name}{' '} {verified ? <FaCertificate size={13} color="var(--success-light)"/>:""}</h4>
                 <p className={styles.status}>{status}</p>

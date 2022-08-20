@@ -1,9 +1,6 @@
 .container {
     display: flex;
-    height: 100vh;
     width: 250px;
-    border-right: 1px solid var(--accents-2);
-    padding-inline: var(--gap);
 }
 
 .logoContainer {
@@ -15,6 +12,9 @@
 
 .nav {
     position: fixed;
+    height: 100vh;
+    border-right: 1px solid var(--accents-2);
+    padding-inline: var(--gap);
 }
 
 .navItem {
@@ -82,6 +82,8 @@
     }
 
     .nav {
+        border-right: none;
+        height: auto;
         padding: var(--gap-half) var(--gap);
         position: fixed;
         display: flex;
