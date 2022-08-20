@@ -11,12 +11,12 @@ export default function Navigation() {
     const { pathname } = useRouter()
     return (
         <div className={styles.container}>
-        <nav>
+        <nav className={styles.nav}>
+              <div className={`${styles.logoContainer}`}>
             <Link href={"/r/home"}>
-                 <div className={`${styles.logoContainer}`}>
                     <em>elwahid</em>
-                </div>
             </Link>
+             </div>
             <Link href={"/r/home"}>
                 <div className={`${styles.navItem} ${pathname === "/r/home" ? styles.activeNav: null}`}>
                     {
@@ -60,10 +60,10 @@ export default function Navigation() {
                     <li>Profile</li>
                 </div>
             </Link>
-        </nav>
-        <div className={styles.postButtonContainer}> 
+              <div className={styles.postButtonContainer}> 
             <button className={styles.postButton}><FaPlus></FaPlus>{' '}<span>Post</span></button>
         </div>
+        </nav>
         </div>
     )
 }

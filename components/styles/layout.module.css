@@ -1,10 +1,22 @@
 .mainWrapper {
     max-width: 1200px;
-    height: 100%;
     display: grid;
     grid-template-columns: 1fr 9fr;
 }
 
 .container {
     width: 100%;
+}
+
+@media only screen and (max-width: 900px) {
+    .mainWrapper {
+        grid-template-columns: 1fr 12fr;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .mainWrapper {
+        grid-template-columns: 1fr;
+        width: 100vw;
+    }
 }

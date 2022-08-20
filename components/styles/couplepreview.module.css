@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    justify-content: space-between;
+    padding-inline: var(--gap);
+    margin-bottom: var(--gap-half);
+}
+
+.infoContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-half);
+    width: max-content;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.image {
+    border-radius: 50%;
+}
+
+.coupleInfo h4 {
+    word-break: break-all;
+}
+
+.coupleInfo p {
+    color: var(--accents-5)
+}
+
+.button {
+    padding: .3em 0;
+    font-size: 1.1rem;
+    max-width: 150px;
+    min-width: 80px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    font-weight: normal;
+
+}
+
+.buttonDull {
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 1px solid var(--accents-2);
+}

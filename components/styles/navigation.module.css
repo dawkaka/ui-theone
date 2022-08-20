@@ -1,11 +1,7 @@
 .container {
     display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-    width: 250px;
     height: 100vh;
-    overflow: auto;
+    width: 250px;
     border-right: 1px solid var(--accents-2);
     padding-inline: var(--gap);
 }
@@ -15,6 +11,10 @@
     margin-top: var(--gap);
     margin-bottom: var(--gap-double);
     margin-left: var(--gap);
+}
+
+.nav {
+    position: fixed;
 }
 
 .navItem {
@@ -39,17 +39,72 @@
 
 .postButtonContainer {
     margin: var(--gap-double) 0 0 var(--gap-half);
+    position: fixed;
 }
 
 .postButton {
-    background-color: var(--success);
-    font-size: large;
-    margin: 0;
-    padding: 0 3rem;
-    height: 2.81rem;
-    font-weight: bold;
-    border-radius: var(--radius-small);
     box-shadow: 0 4px 14px 0 rgba(0, 118, 255, .39);
-    color: white;
-    cursor: pointer;
+    font-size: large;
+    padding: 1em 3em;
+}
+
+
+@media only screen and (max-width: 900px) {
+    .container {
+        width: 150px;
+        justify-content: center;
+    }
+
+    .navItem li {
+        display: none;
+    }
+
+    .postButton {
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        padding: 1em 1em;
+    }
+
+    .postButton span {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .container {
+        position: fixed;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        border-right: none;
+        z-index: 1;
+    }
+
+    .nav {
+        padding: var(--gap-half) var(--gap);
+        position: fixed;
+        display: flex;
+        justify-content: space-between;
+        bottom: 0;
+        width: 100%;
+        border-top: 1px solid var(--accents-2);
+        background-color: var(--background);
+    }
+
+    .navItem {
+        padding: 0;
+        margin: 0;
+    }
+
+    .logoContainer {
+        display: none;
+    }
+
+    .postButton {
+        position: fixed;
+        bottom: calc(var(--gap-half) + var(--gap-double));
+        z-index: 2999999999999999;
+        right: var(--gap);
+    }
 }

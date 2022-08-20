@@ -103,6 +103,12 @@ li {
 button {
   border: none;
   appearance: none;
+  background-color: var(--success-light);
+  margin: 0;
+  font-weight: bold;
+  border-radius: var(--radius-small);
+  color: white;
+  cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {
