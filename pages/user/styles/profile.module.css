@@ -1,0 +1,161 @@
+.section {
+    border-right: 1px solid var(--accents-2);
+    min-height: calc(100vh);
+}
+
+.profileTopContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    margin: 0px auto;
+    padding: var(--gap-double);
+    box-sizing: content-box;
+    border-bottom: 1px solid var(--accents-2);
+}
+
+.profileTop {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding-right: 92px;
+    gap: var(--space-large)
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.imageContainer {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.avatarContainer {
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profileImage {
+    width: 100%;
+    height: 100%;
+}
+
+.titleContainer {
+    flex: 1 1 0%;
+    cursor: pointer;
+    overflow: hidden;
+    margin-left: 20px;
+}
+
+.userName {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    padding-bottom: var(--gap-quarter);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.realName {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 450px;
+    white-space: nowrap;
+    color: var(--accents-6);
+}
+
+.requestContainer {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    position: relative;
+    padding: 0px;
+    margin: var(--gap-half) 0px 0px;
+}
+
+.requestWrapper {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    min-width: 208px;
+    line-height: 22px;
+    z-index: unset;
+    opacity: 1;
+}
+
+.requestButton {
+    border-radius: var(--radius-tiny);
+    background-color: var(--success-light);
+    font-size: var(--font-size);
+    padding: var(--gap-quarter) var(--gap);
+    user-select: none;
+}
+
+.bio {
+    text-align: left;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    max-width: 450px;
+    color: var(--accents-6);
+    white-space: pre-line;
+    margin-top: 10px;
+}
+
+.countInfo {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: 22px;
+    color: var(--accents-6)
+}
+
+.countItem {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    display: flex;
+    direction: ltr;
+    -webkit-box-align: baseline;
+    align-items: baseline;
+}
+
+.countItemTitle {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.actions {
+    margin-top: 11px;
+    cursor: pointer;
+    right: 12px;
+    color: var(--accents-6);
+    max-height: 10px;
+}

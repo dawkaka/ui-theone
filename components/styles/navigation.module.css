@@ -10,8 +10,14 @@
     margin-left: var(--gap);
 }
 
+.logoContainer2 {
+    display: none;
+    color: var(--success);
+}
+
 .nav {
     position: fixed;
+    width: 250px;
     height: 100vh;
     border-right: 1px solid var(--accents-2);
     padding-inline: var(--gap);
@@ -38,21 +44,29 @@
 }
 
 .postButtonContainer {
-    margin: var(--gap-double) 0 0 var(--gap-half);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
     position: fixed;
 }
 
 .postButton {
+    font-weight: normal;
     box-shadow: 0 4px 14px 0 rgba(0, 118, 255, .39);
     font-size: large;
-    padding: 1em 3em;
+    padding: .5em 3em;
+    margin: var(--gap-double) 0 0 var(--gap-half);
 }
 
 
 @media only screen and (max-width: 900px) {
     .container {
-        width: 150px;
+        width: 120px;
         justify-content: center;
+    }
+
+    .nav {
+        width: 120px;
     }
 
     .navItem li {
@@ -82,11 +96,12 @@
     }
 
     .nav {
+        display: flex;
+        flex-direction: row;
         border-right: none;
         height: auto;
         padding: var(--gap-half) var(--gap);
         position: fixed;
-        display: flex;
         justify-content: space-between;
         bottom: 0;
         width: 100%;
@@ -103,10 +118,34 @@
         display: none;
     }
 
-    .postButton {
+    .logoContainer2 {
+        display: block;
+    }
+
+    .postButtonContainer {
+        background-color: var(--background);
+        border-bottom: 1px solid var(--accents-2);
+        height: 40px;
+        width: 100vw;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
         position: fixed;
-        bottom: calc(var(--gap-half) + var(--gap-double));
-        z-index: 2999999999999999;
-        right: var(--gap);
+        top: 0;
+        left: 0;
+        z-index: 1;
+        padding-inline: var(--gap-half);
+
+    }
+
+    .postButton {
+        margin: 0;
+        background-color: transparent;
+        border-radius: var(--radius-small);
+        box-shadow: none;
+        color: var(--foreground);
+        border: 1px solid var(--foreground);
+        padding: 1px;
     }
 }

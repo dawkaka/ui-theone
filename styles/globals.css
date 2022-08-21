@@ -60,6 +60,7 @@
   --page-margin: var(--space-gap);
   --page-width: 1200px;
   --page-width-with-margin: calc(var(--page-width) + calc(2 * var(--page-margin)));
+  --radius-tiny: 4px;
   --radius-small: 8px;
   --radius-big: 25px;
   --radius: 8px;
@@ -87,7 +88,9 @@ a {
   text-decoration: none;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
