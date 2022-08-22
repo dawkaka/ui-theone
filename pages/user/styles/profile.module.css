@@ -1,6 +1,7 @@
 .section {
     border-right: 1px solid var(--accents-2);
-    min-height: calc(100vh);
+    min-height: 100vh;
+
 }
 
 .profileTopContainer {
@@ -9,7 +10,6 @@
     flex: 1 1 auto;
     margin: 0px auto;
     padding: var(--gap-double);
-    box-sizing: content-box;
     border-bottom: 1px solid var(--accents-2);
 }
 
@@ -20,7 +20,7 @@
     margin-bottom: 20px;
     box-sizing: border-box;
     padding-right: 92px;
-    gap: var(--space-large)
+    gap: var(--space-large);
 }
 
 .infoContainer {
@@ -28,6 +28,7 @@
     flex-direction: row;
     -webkit-box-align: center;
     align-items: center;
+    gap: var(--gap)
 }
 
 .imageContainer {
@@ -64,7 +65,6 @@
     flex: 1 1 0%;
     cursor: pointer;
     overflow: hidden;
-    margin-left: 20px;
 }
 
 .userName {
@@ -116,7 +116,6 @@
 }
 
 .bio {
-    text-align: left;
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
@@ -139,7 +138,6 @@
     font-size: 18px;
     line-height: 25px;
     display: flex;
-    direction: ltr;
     -webkit-box-align: baseline;
     align-items: baseline;
 }
@@ -158,4 +156,58 @@
     right: 12px;
     color: var(--accents-6);
     max-height: 10px;
+}
+
+.profileBottom {
+    --gap: 5px;
+    padding: var(--gap);
+}
+
+.showImagesWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--gap)
+}
+
+.showImageContainer {
+    position: relative;
+}
+
+
+@media only screen and (max-width: 570px) {
+
+    .profileTopContainer {
+        justify-content: grid;
+        place-items: center;
+        padding-inline: var(--gap-quarter);
+        padding-bottom: 0;
+    }
+
+    .profileTop {
+        padding-right: 0;
+    }
+
+    .infoWrapper {
+        display: grid;
+        place-items: center;
+    }
+
+    .infoContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-half)
+    }
+
+    .actions {
+        position: absolute;
+    }
+
+    .bio {
+        text-align: center;
+    }
+
+    .profileBottom {
+        --gap: 2px;
+        margin-bottom: var(--gap-double);
+    }
 }
