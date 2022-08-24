@@ -1,0 +1,27 @@
+.home {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.postsContainer {
+    border-right: 1px solid var(--accents-2);
+}
+
+
+.suggestionsContainer {
+    padding-block: var(--gap);
+    display: grid;
+    place-items: center;
+}
+
+.suggestionsWrapper {
+    border: 1px solid var(--accents-2);
+    padding: var(--gap);
+    border-radius: var(--radius-small);
+    position: fixed;
+    transform: translateY(-40%);
+}
+
+.suggestionsWrapper h1 {
+    margin-bottom: var(--gap);
+}

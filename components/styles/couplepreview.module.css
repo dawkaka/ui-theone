@@ -3,7 +3,6 @@
     align-items: center;
     gap: var(--gap);
     justify-content: space-between;
-    padding-inline: var(--gap-half);
     margin-bottom: var(--gap-half);
 }
 
@@ -21,6 +20,7 @@
 
 .image {
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .coupleInfo {
@@ -28,6 +28,7 @@
 }
 
 .coupleInfo h4 {
+    font-weight: 500;
     word-break: break-all;
     line-height: 1;
 }

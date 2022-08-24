@@ -1,0 +1,11 @@
+.container {
+    position: sticky;
+    top: -0.5px;
+    width: 100%;
+    background-color: var(--background);
+    border-bottom: 1px solid var(--accents-2);
+    padding: var(--gap-half) var(--gap);
+    background-color: var(--background);
+    z-index: 1;
+    width: 100%;
+}

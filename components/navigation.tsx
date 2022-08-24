@@ -67,7 +67,7 @@ export default function Navigation() {
                 <div className={styles.postButtonContainer}>
                     <div className={`${styles.navItem}`}>
                         <AiOutlineUser size={25}></AiOutlineUser>
-                        <li>Notifications</li>
+                        <li>Request</li>
                     </div>
                     <div className={`${styles.logoContainer2}`}>
                         <em>elwahid</em>
