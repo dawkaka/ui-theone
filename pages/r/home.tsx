@@ -11,7 +11,7 @@ export default function HomePage() {
 
                 <section className={styles.postsContainer}>
                     <Header title={"Home"} />
-                    <div>
+                    <div className={styles.content}>
                         <CouplePreview profile_picture="/me.jpg" name="Yukieforyoueyesbro" isFollowing={false} status="Dating" verified={false} />
                         <CouplePreview profile_picture="/me.jpg" name="Yukiesomething" isFollowing={false} status="married" verified />
                         <CouplePreview profile_picture="/me.jpg" name="Yukbeeie" isFollowing status="married" verified={false} />
