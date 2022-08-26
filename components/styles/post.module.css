@@ -2,6 +2,7 @@
     background-color: var(--background);
     margin-bottom: var(--gap);
     border: 1px solid var(--accents-2);
+    max-width: 500px;
 }
 
 .userInfoContainer {
@@ -50,6 +51,7 @@
     overflow-x: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    background-color: black;
 }
 
 .fileSlider::-webkit-scrollbar {
@@ -60,7 +62,6 @@
     flex-basis: 100%;
     flex-shrink: 0;
     width: 100%;
-    height: 600px;
     scroll-snap-align: start;
     position: relative;
 }
@@ -124,4 +125,38 @@
     color: var(--accents-7);
     padding: var(--gap-half);
     padding-top: var(--gap-quarter);
+}
+
+.commentContainer {
+    display: flex;
+    align-items: flex-end;
+    max-height: 100px;
+    justify-content: space-between;
+    padding-inline: var(--gap-half);
+    padding-block: var(--gap-quarter);
+    gap: var(--gap-quarter);
+    border-top: 1px solid var(--accents-2);
+}
+
+.commentContainer textarea {
+    background: none;
+    border: none;
+    color: rgb(var(--ig-primary-text));
+    display: flex;
+    flex-grow: 1;
+    font-size: inherit;
+    height: var(--system-14-line-height);
+    max-height: 80px;
+    outline: none;
+    padding: 0;
+    resize: none;
+    width: 0;
+    font-family: var(--font-sans);
+    height: 18px;
+}
+
+.commentContainer button {
+    background-color: transparent;
+    color: var(--success-light);
+    font-weight: bold;
 }

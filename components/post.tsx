@@ -5,6 +5,7 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import styles from "./styles/post.module.css";
 import { Actions, Verified } from "./mis";
 import { Console } from "console";
+import { FaAd } from "react-icons/fa";
 
 interface post {
     userName: string;
@@ -22,14 +23,18 @@ const Post: React.FunctionComponent<post> = (props) => {
     const [curr, setCurr] = useState(0)
 
     useEffect(() => {
-        slider.current!.addEventListener("scroll", () => {
+        const listner = slider.current!.addEventListener("scroll", () => {
             let width = window.getComputedStyle(slider.current!).width
             width = width.substring(0, width.length - 2)
             let scrollPos = slider.current!.scrollLeft
             const widthNum = Math.floor(Number(width))
             setCurr(Math.floor(scrollPos / widthNum))
         })
+        return () => {
+            slider.current!.removeEventListener("scroll", listner)
+        }
     })
+
     const scroll = (dir: string) => {
         let width = window.getComputedStyle(slider.current!).width
         width = width.substring(0, width.length - 2)
@@ -47,8 +52,6 @@ const Post: React.FunctionComponent<post> = (props) => {
         });
         setCurr(dist / widthNum)
     }
-
-
 
     return (
         <article className={styles.container}>
@@ -78,7 +81,13 @@ const Post: React.FunctionComponent<post> = (props) => {
                         <div className={styles.fileSlider} ref={slider}>
                             {
                                 files.map(file => (<div className={styles.fileContainer} key={file}>
-                                    <Image layout="fill" src={file} objectFit="cover" />
+                                    <Image
+                                        layout="responsive"
+                                        src={file}
+                                        objectFit="cover"
+                                        width="500px"
+                                        height="600px"
+                                    />
                                 </div>))
                             }
                         </div>
@@ -114,7 +123,15 @@ const Post: React.FunctionComponent<post> = (props) => {
                         </p>
                     </div>
                 </div>
-                <div></div>
+                <div className={styles.commentContainer}>
+                    <FaAd />
+                    <textarea aria-label="Add a comment…" placeholder="Add a comment…"
+                        autoComplete="off" autoCorrect="off"></textarea>
+                    <div>
+                        <button>post</button>
+                    </div>
+
+                </div>
             </div>
 
         </article>

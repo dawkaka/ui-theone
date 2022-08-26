@@ -4,6 +4,19 @@
 
 }
 
+.headerContainer {
+    position: sticky;
+    top: -0.5px;
+    width: 100%;
+    z-index: 1;
+    height: 60px;
+    padding-inline: var(--gap);
+    background-color: var(--background);
+    border-bottom: 1px solid var(--accents-2);
+    display: flex;
+    align-items: center;
+}
+
 .postsContainer {
     border-right: 1px solid var(--accents-2);
     min-height: 100vh;
@@ -13,6 +26,9 @@
 .content {
     margin-top: var(--gap-half);
     padding-inline: var(--gap);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
@@ -33,4 +49,36 @@
 
 .suggestionsWrapper h1 {
     margin-bottom: var(--gap);
+}
+
+@media screen and (max-width: 750px) {
+    .home {
+        grid-template-columns: 1fr;
+    }
+
+    .headerContainer {
+        display: none;
+    }
+
+    .postsContainer {
+        padding-top: 60px;
+        min-height: 0;
+    }
+
+    .content {
+        padding-inline: 0;
+    }
+
+    .suggestionsContainer {
+        padding-block: 0;
+    }
+
+    .suggestionsWrapper {
+        padding-block: 0;
+        position: inherit;
+        width: 100%;
+        border: none;
+        top: var(--gap);
+        margin-bottom: 75px;
+    }
 }
