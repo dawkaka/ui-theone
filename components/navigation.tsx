@@ -28,7 +28,7 @@ export default function Navigation() {
                                 <AiOutlineHome size={25}></AiOutlineHome>
                         }
 
-                        <li>Home</li>
+                        <p>Home</p>
                     </div>
                 </Link>
                 <Link href={"/r/explore"}>
@@ -37,7 +37,7 @@ export default function Navigation() {
                             <BsSearch size={25}></BsSearch>
                         }
 
-                        <li>Explore</li>
+                        <p>Explore</p>
                     </div>
                 </Link>
                 <Link href={"/r/notifications"}>
@@ -45,7 +45,7 @@ export default function Navigation() {
                         {pathname === "/r/notifications" ? <AiFillBell size={25}></AiFillBell> :
                             <AiOutlineBell size={25}></AiOutlineBell>
                         }
-                        <li>Notifications</li>
+                        <p>Notifications</p>
                     </div>
                 </Link>
                 <Link href={"/r/messages"}>
@@ -53,7 +53,7 @@ export default function Navigation() {
                         {pathname === "/r/messages" ? <MdEmail size={25}></MdEmail> :
                             <MdOutlineMail size={25}></MdOutlineMail>
                         }
-                        <li>Messages</li>
+                        <p>Messages</p>
                     </div>
                 </Link>
                 <Link href={"/user/yussif"}>
@@ -61,13 +61,13 @@ export default function Navigation() {
                         {pathname === "/user/[name]" ? <FaUser size={25}></FaUser> :
                             <AiOutlineUser size={25}></AiOutlineUser>
                         }
-                        <li>Profile</li>
+                        <p>Profile</p>
                     </div>
                 </Link>
                 <div className={styles.postButtonContainer}>
                     <div className={`${styles.navItem}`}>
                         <AiOutlineUser size={25}></AiOutlineUser>
-                        <li>Request</li>
+                        <p>Request</p>
                     </div>
                     <div className={`${styles.logoContainer2}`}>
                         <em>elwahid</em>

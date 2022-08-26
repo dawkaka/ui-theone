@@ -13,7 +13,7 @@ export const Actions: React.FunctionComponent<{ orientation: "potrait" | "landsc
     const r = orientation === "potrait" ? "rotate(50deg)" : "rotate(0)"
     return (
         <svg width={size} height={size} viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className={styles.actions} style={{ "--rotation": r } as CSSProperties}>
-            <path transform="rotate(50deg)" fill-rule="evenodd" clip-rule="evenodd" d="M4 24C4 21.7909 5.79086 20 8 20C10.2091 20 12 21.7909 12 24C12 26.2091 10.2091 28 8 28C5.79086 28 
+            <path fillRule="evenodd" clipRule="evenodd" d="M4 24C4 21.7909 5.79086 20 8 20C10.2091 20 12 21.7909 12 24C12 26.2091 10.2091 28 8 28C5.79086 28 
                                 4 26.2091 4 24ZM20 24C20 21.7909 21.7909 20 24 20C26.2091 20 28 21.7909 28 24C28 26.2091 
                                 26.2091 28 24 28C21.7909 28 20 26.2091 20 24ZM36 24C36 21.7909 37.7909 20 40 20C42.2091 20 44 21.7909 44 24C44 26.2091 42.2091
                                 28 40 28C37.7909 28 36 26.2091 36 24Z"></path>

@@ -13,7 +13,11 @@ export default function HomePage() {
                 <section className={styles.postsContainer}>
                     <Header title={"Home"} />
                     <div className={styles.content}>
-                        <Post />
+                        <Post verified />
+                        <Post verified />
+                        <Post verified />
+                        <Post verified />
+                        <Post verified />
                     </div>
                 </section>
 

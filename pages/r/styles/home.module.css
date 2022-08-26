@@ -1,11 +1,13 @@
 .home {
     display: grid;
     grid-template-columns: 7fr 5fr;
+
 }
 
 .postsContainer {
     border-right: 1px solid var(--accents-2);
     min-height: 100vh;
+    background-color: var(--accents-1);
 }
 
 .content {
@@ -15,6 +17,7 @@
 
 
 .suggestionsContainer {
+    position: relative;
     padding-block: var(--gap);
     display: grid;
     place-items: center;
@@ -25,7 +28,7 @@
     padding: var(--gap);
     border-radius: var(--radius-small);
     position: fixed;
-    transform: translateY(-40%);
+    top: 75px
 }
 
 .suggestionsWrapper h1 {
