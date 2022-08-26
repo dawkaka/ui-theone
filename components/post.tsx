@@ -1,9 +1,11 @@
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
 import { MdOutlineNavigateNext } from "react-icons/md";
 import styles from "./styles/post.module.css";
 import { Actions, Verified } from "./mis";
-import { useRef } from "react";
-import { FaMeteor } from "react-icons/fa";
+import { Console } from "console";
+
 interface post {
     userName: string;
     caption: string;
@@ -17,24 +19,36 @@ const Post: React.FunctionComponent<post> = (props) => {
 
     const files = ["/me.jpg", "/me2.jpg", "/me3.jpg"]
     const slider = useRef<HTMLDivElement>(null)
+    const [curr, setCurr] = useState(0)
 
+    useEffect(() => {
+        slider.current!.addEventListener("scroll", () => {
+            let width = window.getComputedStyle(slider.current!).width
+            width = width.substring(0, width.length - 2)
+            let scrollPos = slider.current!.scrollLeft
+            const widthNum = Math.floor(Number(width))
+            setCurr(Math.floor(scrollPos / widthNum))
+        })
+    })
     const scroll = (dir: string) => {
-
         let width = window.getComputedStyle(slider.current!).width
         width = width.substring(0, width.length - 2)
         let scrollPos = slider.current!.scrollLeft
+        const widthNum = Math.floor(Number(width))
         let dist
         if (dir === "right") {
-            dist = scrollPos + Number(width)
+            dist = scrollPos + widthNum
         } else {
-            dist = scrollPos - Number(width)
+            dist = scrollPos - widthNum
         }
         slider.current!.scroll({
             left: dist,
             behavior: 'smooth'
         });
-
+        setCurr(dist / widthNum)
     }
+
+
 
     return (
         <article className={styles.container}>
@@ -68,15 +82,37 @@ const Post: React.FunctionComponent<post> = (props) => {
                                 </div>))
                             }
                         </div>
-                        <div role="button" className={styles.prev} onClick={() => scroll("left")}>
+                        {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>
                             <MdOutlineNavigateNext size={20} className={styles.aIcon} />
                         </div>
-                        <div role="button" className={styles.next} onClick={() => scroll("right")}>
+                        }
+                        {curr < files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
                             <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                        </div>
+                        }
+                    </div>
+                    <div className={styles.postStats}>
+                        <div className={styles.postIcons}>
+                            <div className={styles.postIcon}>
+                                <AiOutlineHeart size={30} />
+                                <p>100000</p>
+                            </div>
+                            <div className={styles.postIcon}>
+                                <AiOutlineComment size={30} />
+                                <p>100000</p>
+                            </div>
+                        </div>
+                        <div className={styles.sliderPos}>
+                            <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} more` : ""}</small>
                         </div>
                     </div>
-                    <div></div>
-                    <figcaption></figcaption>
+                    <div className={styles.captionContainer}>
+                        <p>
+                            something caption that is very long and I don't want to know why it is like
+                            tha from ghana we are the best couple in the world
+                            I know so and I feel so.
+                        </p>
+                    </div>
                 </div>
                 <div></div>
             </div>

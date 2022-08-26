@@ -91,3 +91,37 @@
 .next {
     right: 0;
 }
+
+.postStats {
+    display: flex;
+    align-items: center;
+    padding: var(--gap-half);
+    padding-bottom: 0;
+    justify-content: space-between;
+}
+
+.postIcons {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.postIcon {
+    display: flex;
+    align-items: center;
+    gap: 5px
+}
+
+.postIcon p {
+    color: var(--accents-7);
+}
+
+.sliderPos {
+    color: var(--success);
+}
+
+.captionContainer {
+    color: var(--accents-7);
+    padding: var(--gap-half);
+    padding-top: var(--gap-quarter);
+}
