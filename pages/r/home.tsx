@@ -1,11 +1,17 @@
 import { NextPage } from "next";
+import Modal from 'react-modal';
 import styles from './styles/home.module.css'
 import Layout from "../../components/mainLayout";
 import CouplePreview from "../../components/couplepreview";
 import Header from "../../components/pageHeader";
-import Post from "../../components/post";
+import PostFullView, { Post } from "../../components/post";
+import { useRouter } from "next/router";
+
+
+Modal.setAppElement('#__next')
 
 export default function HomePage() {
+    const router = useRouter()
     return (
         <Layout>
             <div className={styles.home}>
@@ -35,6 +41,13 @@ export default function HomePage() {
                 </section>
 
             </div>
+            <Modal
+                isOpen={!!router.query.postId}
+                onRequestClose={() => router.push('/')}
+                contentLabel="Post modal"
+            >
+                <PostFullView postId={router.query.postId} coupleName={router.pathname} />
+            </Modal>
         </Layout >
     )
 }

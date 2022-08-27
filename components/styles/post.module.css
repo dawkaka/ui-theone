@@ -142,7 +142,6 @@
     background: none;
     border: none;
     color: rgb(var(--ig-primary-text));
-    display: flex;
     flex-grow: 1;
     font-size: inherit;
     height: var(--system-14-line-height);
@@ -159,4 +158,43 @@
     background-color: transparent;
     color: var(--success-light);
     font-weight: bold;
+    font-size: 15px;
+}
+
+.fullViewContainer {
+    width: 100%;
+    padding: 0 var(--gap-quarter);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.viewContent {
+    border: 1px solid var(--accents-2);
+    width: 100%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+}
+
+.viewFiles {
+    height: 100%;
+    background-color: black;
+}
+
+.viewComments {
+    display: grid;
+    overflow-y: scroll;
+    position: relative;
+}
+
+.viewComments::-webkit-scrollbar {
+    display: none;
+}
+
+.viewFixedBottom {
+    background-color: var(--background);
+    width: 100%;
+    position: sticky;
+    bottom: 0;
 }

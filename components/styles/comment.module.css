@@ -1,5 +1,5 @@
 .container {
-    max-width: 300px;
+    width: 100%;
     padding: var(--gap-half) var(--gap);
     display: flex;
     flex-direction: column;
@@ -28,6 +28,7 @@
 
 .profileImage {
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .iconContainer {
