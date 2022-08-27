@@ -18,7 +18,27 @@ interface post {
 
 export const Post: React.FunctionComponent<post> = (props) => {
 
-    const files = ["/me.jpg", "/me2.jpg", "/me3.jpg"]
+    const files = [{
+        name: "/me7.jpg",
+        width: "1080px",
+        height: "608px"
+    },
+    {
+        name: "/me.jpg",
+        width: "1080px",
+        height: "1350px"
+    },
+    {
+        name: "/me2.jpg",
+        width: "1080px",
+        height: "1080px"
+    },
+    {
+        name: "/me3.jpg",
+        width: "1080px",
+        height: "1350px"
+    }
+    ]
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
 
@@ -77,13 +97,12 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     <div className={styles.filesContainer}>
                         <div className={styles.fileSlider} ref={slider}>
                             {
-                                files.map(file => (<div className={styles.fileContainer} key={file}>
+                                files.map(file => (<div className={styles.fileContainer} key={file.name}>
                                     <Image
-                                        layout="responsive"
-                                        src={file}
+                                        src={file.name}
                                         objectFit="cover"
-                                        width="500px"
-                                        height="600px"
+                                        width={file.width}
+                                        height={file.height}
                                     />
                                 </div>))
                             }
@@ -139,10 +158,89 @@ export const Post: React.FunctionComponent<post> = (props) => {
 
 
 export function PostFullView({ coupleName, postId }: { coupleName: string | string[] | undefined; postId: string | string[] | undefined }) {
+
+    const files = [{
+        name: "/me7.jpg",
+        width: "1080px",
+        height: "608px"
+    },
+    {
+        name: "/me.jpg",
+        width: "1080px",
+        height: "1350px"
+    },
+    {
+        name: "/me2.jpg",
+        width: "1080px",
+        height: "1080px"
+    },
+    {
+        name: "/me3.jpg",
+        width: "1080px",
+        height: "1350px"
+    }
+    ]
+    const slider = useRef<HTMLDivElement>(null)
+    const [curr, setCurr] = useState(0)
+
+    useEffect(() => {
+        slider.current!.addEventListener("scroll", () => {
+            let width = window.getComputedStyle(slider.current!).width
+            width = width.substring(0, width.length - 2)
+            let scrollPos = slider.current!.scrollLeft
+            const widthNum = Math.floor(Number(width))
+            setCurr(Math.floor(scrollPos / widthNum))
+        })
+    })
+
+    const scroll = (dir: string) => {
+        let width = window.getComputedStyle(slider.current!).width
+        width = width.substring(0, width.length - 2)
+        let scrollPos = slider.current!.scrollLeft
+        const widthNum = Math.floor(Number(width))
+        let dist
+        if (dir === "right") {
+            dist = scrollPos + widthNum
+        } else {
+            dist = scrollPos - widthNum
+        }
+        slider.current!.scroll({
+            left: dist,
+            behavior: 'smooth'
+        });
+        setCurr(dist / widthNum)
+    }
     return (
         <div className={styles.fullViewContainer}>
             <div className={styles.viewContent}>
-                <div className={styles.viewFiles}></div>
+
+                <div className={styles.viewFiles}>
+                    <div className={styles.filesContainer}>
+                        <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent" }}>
+                            {
+                                files.map(file => (<div className={styles.fileContainer} key={file.name}>
+                                    <Image
+                                        src={file.name}
+                                        objectFit="cover"
+                                        width={file.width}
+                                        height={file.height}
+                                    />
+                                </div>))
+                            }
+                        </div>
+                        {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>
+                            <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                        </div>
+                        }
+                        {curr < files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
+                            <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                        </div>
+                        }
+                    </div>
+                    <div className={styles.viewSliderPos}>
+                        <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} more` : ""}</small>
+                    </div>
+                </div>
 
                 <div className={styles.viewComments}>
                     <div className={styles.userInfoContainer}>
