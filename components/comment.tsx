@@ -24,7 +24,7 @@ const Comment: React.FunctionComponent<comment> = (props) => {
         <div className={styles.commentInfo}>
           <div className={styles.nameContainer}>
             <h5>{props.userName}</h5>
-            <GoPrimitiveDot color="var(--success" title="has partner"></GoPrimitiveDot>
+            <AiFillHeart color="var(--error)" size={12} title="has partner"></AiFillHeart>
           </div>
 
           <small style={{ fontSize: "11px" }}>{props.date.toLocaleDateString()}</small>

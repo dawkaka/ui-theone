@@ -18,26 +18,22 @@ interface post {
 
 export const Post: React.FunctionComponent<post> = (props) => {
 
-    const files = [{
-        name: "/me7.jpg",
-        width: "1080px",
-        height: "608px"
-    },
-    {
-        name: "/me.jpg",
-        width: "1080px",
-        height: "1350px"
-    },
-    {
-        name: "/me2.jpg",
-        width: "1080px",
-        height: "1080px"
-    },
-    {
-        name: "/me3.jpg",
-        width: "1080px",
-        height: "1350px"
-    }
+    const files = [
+        {
+            name: "/me.jpg",
+            width: "1080px",
+            height: "1350px"
+        },
+        {
+            name: "/me2.jpg",
+            width: "1080px",
+            height: "1080px"
+        },
+        {
+            name: "/me3.jpg",
+            width: "1080px",
+            height: "1350px"
+        }
     ]
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
@@ -69,6 +65,8 @@ export const Post: React.FunctionComponent<post> = (props) => {
         });
         setCurr(dist / widthNum)
     }
+
+    const name = "somethign", id = "dafldj"
 
     return (
         <article className={styles.container}>
@@ -131,15 +129,21 @@ export const Post: React.FunctionComponent<post> = (props) => {
                             <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} more` : ""}</small>
                         </div>
                     </div>
-                    <Link href="/[coupleName]/[postId]" as={`/article/something`} >
-                        <div className={styles.captionContainer}>
-                            <p>
-                                something caption that is very long and I don't want to know why it is like
-                                tha from ghana we are the best couple in the world
-                                I know so and I feel so.
-                            </p>
-                        </div>
-                    </Link>
+                    <div className={styles.captionContainer}>
+                        <Link
+                            shallow
+                            href={{ pathname: "/[coupleName]/[something]" }}
+                            as={`/whatever/${encodeURIComponent("something")}`}
+                        >
+                            <a>
+                                <p>
+                                    something caption that is very long and I don't want to know why it is like
+                                    tha from ghana we are the best couple in the world
+                                    I know so and I feel so.
+                                </p>
+                            </a>
+                        </Link>
+                    </div>
                 </div>
                 <div className={styles.commentContainer}>
                     <FaAd />
@@ -304,9 +308,6 @@ export function PostFullView({ coupleName, postId }: { coupleName: string | stri
                                 <AiOutlineComment size={30} />
                                 <p>100000</p>
                             </div>
-                        </div>
-                        <div className={styles.sliderPos}>
-                            <small>+4 more</small>
                         </div>
                     </div>
                     <div className={styles.commentContainer} style={{

@@ -135,6 +135,7 @@
     color: var(--accents-7);
     padding: var(--gap-half);
     padding-top: var(--gap-quarter);
+    font-size: 15px;
 }
 
 .commentContainer {

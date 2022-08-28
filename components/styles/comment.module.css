@@ -11,7 +11,7 @@
     align-items: center;
 }
 
-.commentInfo em {
+.commentInfo small {
     font-size: small;
     color: var(--accents-5);
 }
@@ -23,7 +23,8 @@
 
 .comment {
     margin-block: var(--gap-quarter);
-    color: var(--accents-7);
+    color: var(--accents-6);
+    font-size: 15px;
 }
 
 .profileImage {
