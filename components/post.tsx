@@ -211,120 +211,118 @@ export function PostFullView({ coupleName, postId }: { coupleName: string | stri
         setCurr(dist / widthNum)
     }
     return (
-        <div className={styles.fullViewContainer}>
-            <div className={styles.viewContent}>
+        <div className={styles.viewContent}>
 
-                <div className={styles.viewFiles}>
-                    <div className={styles.filesContainer}>
-                        <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent" }}>
-                            {
-                                files.map(file => (<div className={styles.fileContainer} key={file.name}>
-                                    <Image
-                                        src={file.name}
-                                        objectFit="cover"
-                                        width={file.width}
-                                        height={file.height}
-                                    />
-                                </div>))
-                            }
-                        </div>
-                        {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>
-                            <MdOutlineNavigateNext size={20} className={styles.aIcon} />
-                        </div>
-                        }
-                        {curr < files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
-                            <MdOutlineNavigateNext size={20} className={styles.aIcon} />
-                        </div>
+            <div className={styles.viewFiles}>
+                <div className={styles.filesContainer}>
+                    <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent" }}>
+                        {
+                            files.map(file => (<div className={styles.fileContainer} key={file.name}>
+                                <Image
+                                    src={file.name}
+                                    objectFit="cover"
+                                    width={file.width}
+                                    height={file.height}
+                                />
+                            </div>))
                         }
                     </div>
-                    <div className={styles.viewSliderPos}>
-                        <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} more` : ""}</small>
+                    {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>
+                        <MdOutlineNavigateNext size={20} className={styles.aIcon} />
                     </div>
+                    }
+                    {curr < files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
+                        <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                    </div>
+                    }
                 </div>
+                <div className={styles.viewSliderPos}>
+                    <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} more` : ""}</small>
+                </div>
+            </div>
 
-                <div className={styles.viewComments}>
-                    <div className={styles.userInfoContainer}>
-                        <div className={styles.infoWrapper}>
-                            <div className={styles.imageContainer} style={{ width: "40px", height: "40px" }}>
-                                <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
-                                    <Image
-                                        layout="fill"
-                                        objectFit="cover"
-                                        src={"/me.jpg"}
-                                        className={styles.profileImage}
-                                    />
-                                </span>
-                            </div>
-                            <div>
-                                <h4>John.Doe{" "}<Verified size={13} /></h4>
-                            </div>
+            <div className={styles.viewComments}>
+                <div className={styles.userInfoContainer}>
+                    <div className={styles.infoWrapper}>
+                        <div className={styles.imageContainer} style={{ width: "40px", height: "40px" }}>
+                            <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
+                                <Image
+                                    layout="fill"
+                                    objectFit="cover"
+                                    src={"/me.jpg"}
+                                    className={styles.profileImage}
+                                />
+                            </span>
                         </div>
                         <div>
-                            <Actions size={24} orientation="potrait" />
+                            <h4>John.Doe{" "}<Verified size={13} /></h4>
                         </div>
                     </div>
-                    <div className={styles.captionContainer} style={{
-                        paddingTop: 0,
-                        borderBottom: "1px solid var(--accents-2)"
+                    <div>
+                        <Actions size={24} orientation="potrait" />
+                    </div>
+                </div>
+                <div className={styles.captionContainer} style={{
+                    paddingTop: 0,
+                    borderBottom: "1px solid var(--accents-2)"
 
+                }}>
+                    <p>
+                        something caption that is very long and I don't want to know why it is like
+                        tha from ghana we are the best couple in the world
+                        I know so and I feel so.
+                    </p>
+                </div>
+                <div className={styles.commentsContainer}>
+                    {
+                        new Array(15).fill(1).map((val, ind) => {
+                            return (
+                                <Comment
+                                    key={ind}
+                                    userName="cristiano"
+                                    profile_url="/me3.jpg"
+                                    hasPartner
+                                    hasLiked
+                                    isThisUser
+                                    comment={`we are dad bfor abeo before you come here talking the bewt other here and \n no dkiiings`}
+                                    date={new Date}
+                                    likes_count={3232}
+                                />
+                            )
+                        })
+                    }
+
+                </div>
+                <div className={styles.viewFixedBottom}>
+                    <div className={styles.postStats} style={{ borderTop: "1px solid var(--accents-2)", paddingBottom: "var(--gap-half)" }}>
+                        <div className={styles.postIcons}>
+                            <div className={styles.postIcon}>
+                                <AiOutlineHeart size={30} />
+                                <p>100000</p>
+                            </div>
+                            <div className={styles.postIcon}>
+                                <AiOutlineComment size={30} />
+                                <p>100000</p>
+                            </div>
+                        </div>
+                        <div className={styles.sliderPos}>
+                            <small>+4 more</small>
+                        </div>
+                    </div>
+                    <div className={styles.commentContainer} style={{
+                        paddingBlock: "var(--gap)"
                     }}>
-                        <p>
-                            something caption that is very long and I don't want to know why it is like
-                            tha from ghana we are the best couple in the world
-                            I know so and I feel so.
-                        </p>
-                    </div>
-                    <div className={styles.commentsContainer}>
-                        {
-                            new Array(15).fill(1).map((val, ind) => {
-                                return (
-                                    <Comment
-                                        key={ind}
-                                        userName="cristiano"
-                                        profile_url="/me3.jpg"
-                                        hasPartner
-                                        hasLiked
-                                        isThisUser
-                                        comment={`we are dad bfor abeo before you come here talking the bewt other here and \n no dkiiings`}
-                                        date={new Date}
-                                        likes_count={3232}
-                                    />
-                                )
-                            })
-                        }
-
-                    </div>
-                    <div className={styles.viewFixedBottom}>
-                        <div className={styles.postStats} style={{ borderTop: "1px solid var(--accents-2)", paddingBottom: "var(--gap-half)" }}>
-                            <div className={styles.postIcons}>
-                                <div className={styles.postIcon}>
-                                    <AiOutlineHeart size={30} />
-                                    <p>100000</p>
-                                </div>
-                                <div className={styles.postIcon}>
-                                    <AiOutlineComment size={30} />
-                                    <p>100000</p>
-                                </div>
-                            </div>
-                            <div className={styles.sliderPos}>
-                                <small>+4 more</small>
-                            </div>
+                        <FaAd />
+                        <textarea aria-label="Add a comment…" placeholder="Add a comment…"
+                            autoComplete="off" autoCorrect="off"></textarea>
+                        <div>
+                            <button>post</button>
                         </div>
-                        <div className={styles.commentContainer} style={{
-                            paddingBlock: "var(--gap)"
-                        }}>
-                            <FaAd />
-                            <textarea aria-label="Add a comment…" placeholder="Add a comment…"
-                                autoComplete="off" autoCorrect="off"></textarea>
-                            <div>
-                                <button>post</button>
-                            </div>
 
-                        </div>
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
 

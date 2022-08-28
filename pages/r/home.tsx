@@ -6,6 +6,7 @@ import CouplePreview from "../../components/couplepreview";
 import Header from "../../components/pageHeader";
 import PostFullView, { Post } from "../../components/post";
 import { useRouter } from "next/router";
+import { relative } from "node:path/win32";
 
 
 Modal.setAppElement('#__next')
@@ -42,10 +43,33 @@ export default function HomePage() {
 
             </div>
             <Modal
-                isOpen={!!router.query.postId}
+                isOpen={true}
                 onRequestClose={() => router.push('/')}
                 contentLabel="Post modal"
-            >
+                style={{
+                    overlay: {
+                        zIndex: 1,
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                        paddingInline: "var(--gap)",
+                        display: "grid",
+                        placeItems: "center",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 0
+                    },
+                    content: {
+                        maxWidth: "1200px",
+                        padding: 0,
+                        margin: 0,
+                        top: 0,
+                        left: 0,
+                        overflow: "hidden",
+                        height: "90%",
+                        backgroundColor: "var(--background)",
+                        border: "none",
+                        position: "relative"
+                    }
+                }} >
                 <PostFullView postId={router.query.postId} coupleName={router.pathname} />
             </Modal>
         </Layout >
