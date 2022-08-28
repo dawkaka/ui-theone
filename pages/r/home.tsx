@@ -1,5 +1,5 @@
 import Modal from 'react-modal';
-import styles from './styles/home.module.css'
+import styles from '../../styles/home.module.css'
 import Layout from "../../components/mainLayout";
 import CouplePreview from "../../components/couplepreview";
 import PostFullView, { Post } from "../../components/post";

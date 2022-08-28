@@ -14,7 +14,7 @@ export default function Navigation() {
 
     })
     return (
-        <div className={styles.container}>
+        <aside className={styles.container}>
             <nav className={styles.nav}>
                 <div className={`${styles.logoContainer}`}>
                     <Link href={"/r/home"}>
@@ -75,6 +75,6 @@ export default function Navigation() {
                     <button className={styles.postButton}><AiOutlinePlus />{' '}<span>Post</span></button>
                 </div>
             </nav>
-        </div>
+        </aside>
     )
 }

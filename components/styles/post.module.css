@@ -199,6 +199,7 @@
     display: grid;
     overflow-y: scroll;
     position: relative;
+    width: 80%;
     height: 100%;
     scrollbar-width: none;
 }

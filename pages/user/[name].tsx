@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Layout from "../../components/mainLayout";
-import styles from "./styles/profile.module.css"
+import styles from "../../styles/profile.module.css"
 import { Verified } from "../../components/mis";
 
 export default function Profile() {
