@@ -84,6 +84,21 @@ p {
   font-family: var(--font-sans)
 }
 
+p,
+a,
+button,
+input,
+textarea {
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  ;
+}
+
 a {
   color: inherit;
   text-decoration: none;

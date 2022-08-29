@@ -1,6 +1,7 @@
 import Image from "next/image"
 import styles from "../../styles/messages.module.css"
 import Layout from "../../components/mainLayout"
+import { FaAdjust, FaFile, FaFly } from "react-icons/fa";
 
 export default function Messages() {
     return (
@@ -13,34 +14,69 @@ export default function Messages() {
                                 <h3>Messaging</h3>
                             </div>
                             <div className={styles.searchContainer}>
-                                <input type="search" placeholder="Search messages" className={styles.search} />
+                                <input type="search" placeholder="Search messages..." className={styles.search} />
                             </div>
                         </div>
                         <div className={styles.chatItemsContainer}>
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified={false} />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me5.jpg" isVerified />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me4.jpg" isVerified />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
                             <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
                         </div>
-
+                        <div></div>
                     </section>
                     <section className={styles.chatContainer}>
                         <div className={styles.header}>
                             <h3>Messaging</h3>
                         </div>
+                        <div className={styles.pmWrapper}>
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="I don't do guarantess ahsdfa dalfja; adalkf" me />
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="hello world !!!" me />
+                            <ChatMessage text="hello world !!!" me />
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="hello world !!!" me />
+                            <ChatMessage text="hello world !!!" me />
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="I don't do guarantess ahsdfa dalfja; adalkf" me />
+                            <ChatMessage text="hello world !!!" />
+                            <ChatMessage text="hello world !!!d" me />
+                        </div>
+                        <div className={styles.writeMessageContainer}>
+                            <div className={styles.textAreaContainer}>
+                                <textarea
+                                    onKeyUp={(e) => {
+                                        e.currentTarget.style.height = "1px";
+                                        e.currentTarget.style.height = (20 + e.currentTarget.scrollHeight) + "px";
+                                    }}
+                                    className={styles.textArea} placeholder="Type message"
+                                >
+
+                                </textarea>
+                            </div>
+                            <div className={styles.messageControls}>
+                                <FaFile size={30} />
+                                <FaFly size={30} />
+                            </div>
+                        </div>
                     </section>
                 </div>
-            </div>
+            </div >
 
-        </Layout>
+        </Layout >
     )
 }
 
@@ -75,11 +111,16 @@ const ChatUser: React.FunctionComponent<{
 }
 
 const ChatMessage: React.FunctionComponent<{
-
-}> = (props) => {
+    text: string;
+    date: Date;
+    me: boolean;
+    type: "text" | "file"
+}> = ({ text, date, me, type }) => {
     return (
-        <div>
-
+        <div className={styles.messageContainer}>
+            <div className={`${styles.messageInner} ${me ? styles.messageSent : ""}`}>
+                <p>{text}</p>
+            </div>
         </div>
     )
 }
