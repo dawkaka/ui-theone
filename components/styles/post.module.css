@@ -15,7 +15,7 @@
 .userInfoContainer {
     display: flex;
     align-items: center;
-    padding: var(--gap-half);
+    padding: var(--gap-quarter);
     justify-content: space-between;
 }
 

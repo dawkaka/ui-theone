@@ -73,8 +73,8 @@ export const Post: React.FunctionComponent<post> = (props) => {
             <div>
                 <div className={styles.userInfoContainer}>
                     <div className={styles.infoWrapper}>
-                        <div className={styles.imageContainer} style={{ width: "40px", height: "40px" }}>
-                            <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
+                        <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
+                            <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
                                 <Image
                                     layout="fill"
                                     objectFit="cover"
@@ -88,7 +88,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         </div>
                     </div>
                     <div>
-                        <Actions size={24} orientation="potrait" />
+                        <Actions size={20} orientation="potrait" />
                     </div>
                 </div>
                 <div>
