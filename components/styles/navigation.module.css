@@ -1,6 +1,8 @@
 .container {
     display: flex;
     width: 250px;
+    position: sticky;
+    top: -0.5px
 }
 
 .logoContainer {
@@ -16,9 +18,11 @@
 }
 
 .nav {
-    position: fixed;
+    position: relative;
     width: 250px;
     height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     border-right: 1px solid var(--accents-2);
     padding-inline: var(--gap);
 }
@@ -46,8 +50,9 @@
 .postButtonContainer {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    position: fixed;
+    align-items: center;
+    position: absolute;
+    margin-bottom: var(--gap);
 }
 
 .postButton {
@@ -55,7 +60,6 @@
     box-shadow: 0 4px 14px 0 rgba(0, 118, 255, .39);
     font-size: large;
     padding: .5em 3em;
-    margin: var(--gap-double) 0 0 var(--gap-half);
 }
 
 

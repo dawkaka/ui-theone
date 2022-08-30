@@ -3,6 +3,7 @@ import styles from '../../styles/home.module.css'
 import Layout from "../../components/mainLayout";
 import CouplePreview from "../../components/couplepreview";
 import PostFullView, { Post } from "../../components/post";
+import Suggestions from "../../components/suggestions";
 import { useRouter } from "next/router";
 
 
@@ -26,18 +27,7 @@ export default function HomePage() {
                         <Post verified />
                     </div>
                 </section>
-
-                <section className={styles.suggestionsContainer}>
-                    <div className={styles.suggestionsWrapper}>
-                        <h1>Suggestions</h1>
-                        <CouplePreview profile_picture="/me.jpg" name="Yukieforyoueyesbro" isFollowing={false} status="Dating" verified={false} />
-                        <CouplePreview profile_picture="/me.jpg" name="Yukiesomething" isFollowing={false} status="married" verified />
-                        <CouplePreview profile_picture="/me.jpg" name="Yukbeeie" isFollowing status="married" verified={false} />
-                        <CouplePreview profile_picture="/me.jpg" name="Yukie" isFollowing={false} status="Dating" verified />
-                        <CouplePreview profile_picture="/me.jpg" name="Yukielikesfor" isFollowing status="Dating" verified={false} />
-                    </div>
-                </section>
-
+                <Suggestions />
             </div>
             <Modal
                 isOpen={!!router.query.postId}

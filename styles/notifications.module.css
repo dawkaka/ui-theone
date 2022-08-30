@@ -1,0 +1,83 @@
+.main {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+}
+
+.ntfsContainer {
+    border-right: 1px solid var(--accents-2);
+    min-height: 100vh;
+    width: 100%;
+}
+
+.notifContainer {
+    display: flex;
+    padding: var(--gap) 0 0 var(--gap-half);
+    background-color: var(--background);
+    gap: var(--gap);
+    width: 100%;
+}
+
+.notifContainer:hover {
+    background-color: var(--accents-2);
+}
+
+.notifIconContainer {}
+
+.notifInfoContainer {
+    padding-bottom: var(--gap);
+    padding-right: var(--gap-half);
+    flex-grow: 1;
+    border-bottom: 1px solid var(--accents-2)
+}
+
+.notifImagesContainer {
+    display: flex;
+    margin-bottom: var(--gap-quarter);
+}
+
+.imageContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatarContainer {
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profileImage {
+    width: 100%;
+    height: 100%;
+}
+
+.userName {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--accents-7)
+}
+
+@media screen and (max-width: 750px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
+
+    .headerContainer {
+        display: none;
+    }
+
+    .ntfsContainer {
+        padding-top: 60px;
+        min-height: 0;
+
+    }
+
+    .ntfs {
+        padding-left: var(--gap);
+    }
+}

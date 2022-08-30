@@ -1,0 +1,33 @@
+.suggestionsContainer {
+    position: relative;
+    padding-block: var(--gap);
+    display: grid;
+    place-items: center;
+}
+
+.suggestionsWrapper {
+    border: 1px solid var(--accents-2);
+    padding: var(--gap);
+    border-radius: var(--radius-small);
+    position: fixed;
+    top: 75px
+}
+
+.suggestionsWrapper h1 {
+    margin-bottom: var(--gap);
+}
+
+@media screen and (max-width: 750px) {
+    .suggestionsContainer {
+        padding-block: 0;
+    }
+
+    .suggestionsWrapper {
+        padding-block: 0;
+        position: inherit;
+        width: 100%;
+        border: none;
+        top: var(--gap);
+        margin-bottom: 75px;
+    }
+}
