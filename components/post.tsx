@@ -46,7 +46,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
             const widthNum = Math.floor(Number(width))
             setCurr(Math.floor(scrollPos / widthNum))
         })
-    })
+    }, [])
 
     const scroll = (dir: string) => {
         let width = window.getComputedStyle(slider.current!).width
@@ -195,7 +195,7 @@ export function PostFullView({ coupleName, postId }: { coupleName: string | stri
             const widthNum = Math.floor(Number(width))
             setCurr(Math.floor(scrollPos / widthNum))
         })
-    })
+    }, [])
 
     const scroll = (dir: string) => {
         let width = window.getComputedStyle(slider.current!).width

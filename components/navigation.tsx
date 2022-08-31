@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,7 +13,19 @@ import { MdEmail, MdOutlineMail } from 'react-icons/md'
 export default function Navigation() {
     const { pathname } = useRouter()
     const [openRequest, setOpenRequest] = useState(false)
-    console.log(pathname)
+    const [hideHeader, setHideHeader] = useState(false)
+
+
+    useEffect(() => {
+        window.addEventListener("resize", () => {
+            console.log()
+            if (window.screen.width < 750 && pathname !== "/r/home") {
+                setHideHeader(true)
+            } else {
+                setHideHeader(false)
+            }
+        })
+    }, [])
     return (
         <>
             <aside className={styles.container}>
@@ -66,16 +78,21 @@ export default function Navigation() {
                             <p>Profile</p>
                         </div>
                     </Link>
-                    <div className={styles.postButtonContainer}>
-                        <div className={`${styles.navItem}`} onClick={() => setOpenRequest(true)}>
-                            <AiOutlineUser size={25} color="var(--accents-6)"></AiOutlineUser>
-                            <p>Request</p>
-                        </div>
-                        <div className={`${styles.logoContainer2}`}>
-                            <em>elwahid</em>
-                        </div>
-                        <button className={styles.postButton}><AiOutlinePlus />{' '}<span>Post</span></button>
-                    </div>
+                    {
+                        !hideHeader && (
+                            <div className={styles.postButtonContainer}>
+                                <div className={`${styles.navItem}`} onClick={() => setOpenRequest(true)}>
+                                    <AiOutlineUser size={25} color="var(--accents-6)"></AiOutlineUser>
+                                    <p>Request</p>
+                                </div>
+                                <div className={`${styles.logoContainer2}`}>
+                                    <em>elwahid</em>
+                                </div>
+                                <button className={styles.postButton}><AiOutlinePlus />{' '}<span>Post</span></button>
+                            </div>
+                        )
+                    }
+
                 </nav>
             </aside>
             <Modal
