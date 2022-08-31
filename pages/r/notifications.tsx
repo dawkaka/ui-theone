@@ -4,7 +4,7 @@ import styles from "../../styles/notifications.module.css"
 import Layout from "../../components/mainLayout"
 import Suggestions from "../../components/suggestions"
 import Header from "../../components/pageHeader"
-import { FaAccessibleIcon, FaHeart, FaUser, FaUserAlt } from "react-icons/fa"
+import { FaHeart, FaUser } from "react-icons/fa"
 import { AiFillMessage } from "react-icons/ai";
 
 export default function Notifications() {

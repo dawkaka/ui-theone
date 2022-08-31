@@ -4,27 +4,59 @@ import Layout from "../../components/mainLayout"
 import Suggestions from "../../components/suggestions"
 import styles from "../../styles/explore.module.css"
 import { Post } from "../../components/post"
+import { AiFillCloseCircle } from "react-icons/ai"
+import CouplePreview from "../../components/couplepreview"
 
 
 export default function Explore() {
     const [query, setQuery] = useState("")
+    const [tab, setTab] = useState("users")
     return (
         <Layout>
 
             <div className={styles.main}>
                 <section className={styles.exploreContainer}>
                     <div className={styles.searchContainer}>
-                        <input type="search" placeholder="Search el wahid" onChange={(e) => {
-                            setQuery(e.currentTarget.value)
-                        }} />
+                        <input
+                            type="search"
+                            placeholder="Search el wahid"
+                            value={query}
+                            onChange={(e) => {
+                                setQuery(e.currentTarget.value)
+                            }} />
                         <FaSearch className={styles.searchIcon} color="var(--accents-3)" />
-                        {
-                            !!query && (
-                                <div className={styles.searchModal}>
 
+                        {!!query && (<div className={styles.searchModal}>
+                            <div className={styles.searchHeader}>
+                                <div className={styles.tabItem} onClick={() => setTab("users")}>
+                                    <p>Users</p>
+                                    <div className={`${styles.indicator} ${styles.indOne} ${tab === "users" ? styles.tabActive : ""}`}></div>
                                 </div>
-                            )
+                                <div className={`${styles.tabItem}`} onClick={() => setTab("couples")}>
+                                    <p>Couples</p>
+                                    <div className={`${styles.indicator} ${styles.indTwo} ${tab !== "users" ? styles.tabActive : ""}`}></div>
+                                </div>
+                                <div className={styles.closeSearch} onClick={() => setQuery("")}>
+                                    <AiFillCloseCircle size={30} />
+                                </div>
+                            </div>
+                            <div className={styles.searchResults}>
+                                {
+                                    tab === "users" ? (
+                                        <div>
+                                            <h1>Users </h1>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <h1>Couples</h1>
+                                        </div>)
+                                }
+                            </div>
+
+                        </div>
+                        )
                         }
+
                     </div>
 
                     <div className={styles.ntfs}>
@@ -42,7 +74,7 @@ export default function Explore() {
                     </div>
                 </section>
                 <Suggestions />
-            </div>
-        </Layout>
+            </div >
+        </Layout >
     )
 }
