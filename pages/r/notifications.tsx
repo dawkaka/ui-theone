@@ -11,9 +11,8 @@ export default function Notifications() {
     return (
         <Layout>
             <div className={styles.main}>
-
                 <section className={styles.ntfsContainer}>
-                    <Header title="Notifications" />
+                    <Header title="Notifications" arrow={false} />
                     <div className={styles.ntfs}>
                         <Notification />
                         <Notification type="comment" />

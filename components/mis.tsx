@@ -10,7 +10,7 @@ export const Verified: React.FunctionComponent<{ size: number }> = ({ size }) =>
 }
 
 export const Actions: React.FunctionComponent<{ orientation: "potrait" | "landscape", size: number }> = ({ orientation, size }) => {
-    const r = orientation === "potrait" ? "rotate(50deg)" : "rotate(0)"
+    const r = orientation === "potrait" ? "rotate(90deg)" : "rotate(0)"
     return (
         <svg width={size} height={size} viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className={styles.actions} style={{ "--rotation": r } as CSSProperties}>
             <path fillRule="evenodd" clipRule="evenodd" d="M4 24C4 21.7909 5.79086 20 8 20C10.2091 20 12 21.7909 12 24C12 26.2091 10.2091 28 8 28C5.79086 28 

@@ -41,10 +41,13 @@
     padding: .3em 0;
     font-size: 1.1rem;
     flex-basis: 20%;
+    border-radius: var(--radius-big);
     min-width: 80px;
     flex-shrink: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     font-weight: normal;
-
 }
 
 .buttonDull {

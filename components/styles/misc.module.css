@@ -1,4 +1,4 @@
 .actions {
-    transform: rotate(90deg);
+    transform: var(--rotation);
     cursor: pointer;
 }

@@ -1,0 +1,128 @@
+.mainContainer {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+}
+
+.profileContainer {
+    border-right: 1px solid var(--accents-2);
+    min-height: 100vh;
+    width: 100%;
+}
+
+.coverPicContainer {
+    position: relative;
+}
+
+.profile {
+    position: relative;
+    transform: translateY(-80px);
+    padding-inline: var(--gap-half);
+    border-bottom: 1px solid var(--accents-2);
+    padding-bottom: var(--gap);
+}
+
+.flex {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    min-height: 130px;
+    height: max-content;
+    gap: var(--gap);
+}
+
+
+.imageContainer {
+    position: relative;
+    border: 5px solid var(--background);
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    width: fit-content;
+    padding: 0;
+    margin: 0;
+}
+
+.profileImage {
+    border-radius: 50%;
+}
+
+.profileActBtnContainer {
+    margin-bottom: var(--gap-half);
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+    height: fit-content;
+}
+
+.profileActBtnContainer button {
+    padding: .3em 0;
+    font-size: 1.1rem;
+    flex-basis: 20%;
+    min-width: 100px;
+    border-radius: var(--radius-big);
+    flex-shrink: 0;
+    font-weight: normal;
+}
+
+.userName {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--accents-7);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 450px;
+    white-space: nowrap;
+}
+
+.bio {
+    max-width: 400px;
+    white-space: pre-line;
+}
+
+.countInfo {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: var(--gap-half);
+    color: var(--accents-6);
+}
+
+.countItem {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 25px;
+    display: flex;
+    -webkit-box-align: baseline;
+    align-items: baseline;
+}
+
+.countItemTitle {
+    font-weight: 400;
+    font-size: 16px;
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.dateStarted {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.postsContainer {
+    margin-top: -60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media screen and (max-width: 750px) {
+    .mainContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .profileContainer {
+        padding-top: 60px;
+        min-height: 0;
+
+    }
+}

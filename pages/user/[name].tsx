@@ -33,10 +33,11 @@ export default function Profile() {
                             </div>
                             <h2 className={styles.countInfo}>
                                 <div className={styles.countItem}>
-                                    <strong title="Following" data-e2e="following-count">830</strong>
+                                    <strong title="Following">830</strong>
                                     <span className={styles.countItemTitle}>Following</span>
-                                </div>  </h2>
-                            <h2 data-e2e="user-bio" className={styles.bio}>
+                                </div>
+                            </h2>
+                            <h2 className={styles.bio}>
                                 {`Acting and comedy
                     🇬🇭
                     Dm on Instagram @fatimazawwa for promo`}

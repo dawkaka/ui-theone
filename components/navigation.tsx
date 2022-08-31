@@ -13,6 +13,7 @@ import { MdEmail, MdOutlineMail } from 'react-icons/md'
 export default function Navigation() {
     const { pathname } = useRouter()
     const [openRequest, setOpenRequest] = useState(false)
+    console.log(pathname)
     return (
         <>
             <aside className={styles.container}>
