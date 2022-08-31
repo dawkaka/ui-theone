@@ -2,6 +2,7 @@ import Image from "next/image";
 import Layout from "../../components/mainLayout";
 import styles from "../../styles/profile.module.css"
 import { Verified } from "../../components/mis";
+import Link from "next/link";
 
 export default function Profile() {
     return (
@@ -26,7 +27,9 @@ export default function Profile() {
                                     <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
                                     <div className={styles.requestContainer}>
                                         <div className={styles.requestButtonWrapper}>
-                                            <button type="button" className={styles.requestButton}>Send request</button>
+                                            <Link href={"/user"}>
+                                                <button type="button" className={styles.requestButton}>Send request</button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

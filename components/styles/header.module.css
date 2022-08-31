@@ -4,24 +4,24 @@
     width: 100%;
     z-index: 1;
     height: 60px;
-    padding-inline: var(--gap);
     background-color: var(--background);
     border-bottom: 1px solid var(--accents-2);
     display: flex;
     align-items: center;
     overflow: hidden;
-    gap: var(--gap-double)
+    gap: var(--gap-quarter)
 }
 
-.iconContainer {
-    padding: var(--gap);
+.backIcon {
+    padding: var(--gap) var(--gap-half);
 }
 
-.iconContainer:hover {
+.backIcon:hover {
     background-color: var(--accents-2);
 }
 
 .container h1 {
+    margin-left: var(--gap);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

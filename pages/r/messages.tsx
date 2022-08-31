@@ -1,7 +1,8 @@
-import Image from "next/image"
-import styles from "../../styles/messages.module.css"
-import Layout from "../../components/mainLayout"
-import { FaAdjust, FaFile, FaFly } from "react-icons/fa";
+import Image from "next/image";
+import styles from "../../styles/messages.module.css";
+import Layout from "../../components/mainLayout";
+import { GoFileMedia } from "react-icons/go";
+import { AiOutlineSend } from 'react-icons/ai';
 
 export default function Messages() {
     return (
@@ -68,8 +69,8 @@ export default function Messages() {
                                 </textarea>
                             </div>
                             <div className={styles.messageControls}>
-                                <FaFile size={30} />
-                                <FaFly size={30} />
+                                <GoFileMedia size={30} color="var(--accents-6)" />
+                                <AiOutlineSend size={30} color="var(--success)" />
                             </div>
                         </div>
                     </section>
