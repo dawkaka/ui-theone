@@ -18,7 +18,6 @@ export default function Navigation() {
 
     useEffect(() => {
         window.addEventListener("resize", () => {
-            console.log()
             if (window.screen.width < 750 && pathname !== "/r/home") {
                 setHideHeader(true)
             } else {
@@ -26,6 +25,7 @@ export default function Navigation() {
             }
         })
     }, [])
+
     return (
         <>
             <aside className={styles.container}>
