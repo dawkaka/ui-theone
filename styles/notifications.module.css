@@ -21,7 +21,7 @@
     background-color: var(--accents-2);
 }
 
-.notifIconContainer {}
+/* .notifIconContainer {} */
 
 .notifInfoContainer {
     padding-bottom: var(--gap);

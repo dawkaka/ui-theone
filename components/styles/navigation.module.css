@@ -62,6 +62,121 @@
     padding: .5em 3em;
 }
 
+.requestContainer {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--accents-2);
+    padding: var(--gap);
+    background-color: var(--accents-1);
+    margin: var(--gap-double);
+    border-radius: var(--radius-small);
+}
+
+@media screen and (max-width: 550px) {
+    .requestContainer {
+        margin-inline: var(--gap-half);
+        padding: var(--gap-half);
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .userInfo {
+        flex-direction: column;
+    }
+
+    .requestButtons {
+        flex-direction: column;
+    }
+
+    .requestContainer {
+        margin-inline: var(--gap);
+        padding: var(--gap);
+    }
+
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    margin-bottom: var(--gap-double);
+}
+
+.imageContainer {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.avatarContainer {
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profileImage {
+    width: 100%;
+    height: 100%;
+}
+
+.titleContainer {
+    flex: 1 1 0%;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.userName {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    padding-bottom: var(--gap-quarter);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.realName {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 450px;
+    white-space: nowrap;
+    color: var(--accents-6);
+}
+
+.requestButtons {
+    display: flex;
+    gap: var(--gap)
+}
+
+.requestButtons button {
+    font-size: 20px;
+    padding: .5em .2em;
+    width: 150px;
+}
+
+.acceptBtn {
+    background-color: limegreen;
+}
+
+.declineBtn {
+    background-color: var(--error);
+}
 
 @media only screen and (max-width: 900px) {
     .container {

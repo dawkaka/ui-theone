@@ -30,7 +30,7 @@ export default function HomePage() {
                 <Suggestions />
             </div>
             <Modal
-                isOpen={!!router.query.postId}
+                isOpen={false}
                 onRequestClose={() => router.back()}
                 contentLabel="Post modal"
                 style={{
