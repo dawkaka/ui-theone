@@ -20,20 +20,20 @@ export const Post: React.FunctionComponent<post> = (props) => {
 
     const files = [
         {
-            name: "/me.jpg",
-            width: "1080px",
-            height: "1350px"
-        },
-        {
-            name: "/me2.jpg",
+            name: "/med.jpg",
             width: "1080px",
             height: "1080px"
         },
-        {
-            name: "/me3.jpg",
-            width: "1080px",
-            height: "1350px"
-        }
+        // {
+        //     name: "/me2.jpg",
+        //     width: "1080px",
+        //     height: "1080px"
+        // },
+        // {
+        //     name: "/me3.jpg",
+        //     width: "1080px",
+        //     height: "1350px"
+        // }
     ]
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)

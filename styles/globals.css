@@ -129,6 +129,11 @@ button {
   cursor: pointer;
 }
 
+input[type="search"]:focus {
+  border: 1px solid var(--success-light);
+  outline: none;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
