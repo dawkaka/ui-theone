@@ -54,9 +54,10 @@
     border: none;
     width: 100%;
     padding: var(--gap-quarter) var(--gap-quarter);
-    background-color: var(--accents-2);
+    background-color: var(--accents-1);
     border-radius: var(--radius-tiny);
-    border: 1px solid var(--accents-3);
+    border: 1px solid var(--accents-2);
+    outline: none;
 }
 
 .chatItemsContainer {
