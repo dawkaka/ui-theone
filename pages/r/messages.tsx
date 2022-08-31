@@ -36,7 +36,17 @@ export default function Messages() {
                     </section>
                     <section className={styles.chatContainer}>
                         <div className={styles.header}>
-                            <h3>Messaging</h3>
+                            <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
+                                <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
+                                    <Image
+                                        layout="fill"
+                                        objectFit="cover"
+                                        src={"/me.jpg"}
+                                        className={styles.profileImage}
+                                    />
+                                </span>
+                            </div>
+                            <h4>john.doe</h4>
                         </div>
                         <div className={styles.pmWrapper}>
                             <ChatMessage text="hello world !!!" />
