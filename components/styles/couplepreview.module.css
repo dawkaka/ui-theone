@@ -38,12 +38,11 @@
 }
 
 .button {
-    padding: .3em 0;
+    padding: .3em .2em;
     font-size: 1.1rem;
     flex-basis: 20%;
     border-radius: var(--radius-big);
-    min-width: 80px;
-    flex-shrink: 0;
+    min-width: 85px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
