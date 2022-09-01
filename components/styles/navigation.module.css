@@ -63,36 +63,46 @@
 }
 
 .requestContainer {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--accents-2);
-    padding: var(--gap);
-    background-color: var(--accents-1);
-    margin: var(--gap-double);
-    border-radius: var(--radius-small);
+    padding: var(--gap-double);
+    overflow: hidden;
+    width: 100%;
 }
 
-@media screen and (max-width: 550px) {
-    .requestContainer {
-        margin-inline: var(--gap-half);
-        padding: var(--gap-half);
-    }
+.requestContainer:before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--success-dark), var(--success-lighter));
 }
 
-@media screen and (max-width: 400px) {
-    .userInfo {
-        flex-direction: column;
-    }
+.requestHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--gap-half) 0 var(--gap);
+    align-items: center;
+    border-bottom: 1px solid var(--accents-2);
+    width: 100%;
+}
 
-    .requestButtons {
-        flex-direction: column;
-    }
+.requestHeader p {
+    font-size: 18px;
+    font-weight: 510;
+}
 
-    .requestContainer {
-        margin-inline: var(--gap);
-        padding: var(--gap);
-    }
-
+.closeContainer {
+    color: var(--accents-3);
+    cursor: pointer;
+    padding: var(--gap-half);
+    border-radius: 50%
 }
 
 .userInfo {
@@ -161,13 +171,14 @@
 
 .requestButtons {
     display: flex;
-    gap: var(--gap)
+    gap: var(--gap);
+    width: 100%;
 }
 
 .requestButtons button {
     font-size: 20px;
     padding: .5em .2em;
-    width: 150px;
+    width: min(100%, 150px);
 }
 
 .acceptBtn {
@@ -176,6 +187,37 @@
 
 .declineBtn {
     background-color: var(--error);
+}
+
+@media screen and (max-width: 450px) {
+
+    .requestContainer {
+        padding: var(--gap-half);
+    }
+
+    .userInfo {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-quarter);
+        margin-bottom: var(--gap);
+    }
+
+    .titleContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+    }
+
+    .requestContainer {
+        align-items: center;
+        width: 100%;
+        padding: var(--gap);
+    }
+
+    .requestButtons button {
+        font-size: 18px
+    }
 }
 
 @media only screen and (max-width: 900px) {

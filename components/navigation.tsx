@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Modal from "react-modal";
 import styles from "./styles/navigation.module.css"
-import { AiFillHome, AiOutlineBell, AiFillBell, AiOutlineHome, AiOutlineUser, AiOutlinePlus } from "react-icons/ai"
+import { AiFillHome, AiOutlineBell, AiFillBell, AiOutlineHome, AiOutlineUser, AiOutlinePlus, AiFillCloseCircle } from "react-icons/ai"
 import { BsSearch } from "react-icons/bs"
 import { FaSearch, FaPlus, FaUser, FaRegQuestionCircle } from "react-icons/fa"
 import { MdEmail, MdOutlineMail } from 'react-icons/md'
+import { IoMdClose } from "react-icons/io"
 
 
 export default function Navigation() {
@@ -17,6 +18,9 @@ export default function Navigation() {
 
 
     useEffect(() => {
+        if (window.screen.width < 750 && pathname !== "/r/home") {
+            setHideHeader(true)
+        }
         window.addEventListener("resize", () => {
             if (window.screen.width < 750 && pathname !== "/r/home") {
                 setHideHeader(true)
@@ -102,7 +106,7 @@ export default function Navigation() {
                 style={{
                     overlay: {
                         zIndex: 1,
-                        backgroundColor: "rgba(0,0,0,0.2)",
+                        backgroundColor: "rgba(0,0,0,0.75)",
                         paddingInline: "var(--gap)",
                         display: "flex",
                         flexDirection: "column",
@@ -112,10 +116,12 @@ export default function Navigation() {
                         backgroundColor: "var(--background)",
                         alignSelf: "center",
                         minHeight: "30%",
+                        width: "min(100%, 430px)",
                         position: "relative",
                         padding: 0,
                         margin: 0,
-                        top: "15vh",
+                        overflow: "hidden",
+                        top: "10vh",
                         display: "flex",
                         flexDirection: "column",
                         borderRadius: "var(--radius-small)",
@@ -125,7 +131,7 @@ export default function Navigation() {
                     }
                 }}
             >
-                <Request />
+                <Request close={() => setOpenRequest(false)} />
 
             </Modal>
         </>
@@ -134,29 +140,39 @@ export default function Navigation() {
 
 
 
-const Request: React.FunctionComponent = () => {
+const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
     return (
-        <div className={styles.requestContainer}>
-            <div className={styles.userInfo}>
-                <div className={styles.imageContainer} style={{ width: "116px", height: "116px" }}>
-                    <span className={styles.avatarContainer} style={{ width: "116px", height: "116px" }}>
-                        <Image
-                            layout="fill"
-                            objectFit="cover"
-                            src={"/me.jpg"}
-                            className={styles.profileImage}
-                        />
-                    </span>
-                </div>
-                <div className={styles.titleContainer}>
-                    <h1 className={styles.userName}>ant.man{' '}</h1>
-                    <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
+        <>
+            <div className={styles.requestHeader}>
+                <p>Couple Request</p>
+                <div onClick={() => close()}
+                    className={styles.closeContainer}
+                >
+                    <IoMdClose color="tranparent" size={25} />
                 </div>
             </div>
-            <div className={styles.requestButtons}>
-                <button className={styles.acceptBtn}>Accept</button>
-                <button className={styles.declineBtn}>Decline</button>
+            <div className={styles.requestContainer}>
+                <div className={styles.userInfo}>
+                    <div className={styles.imageContainer} style={{ width: "116px", height: "116px" }}>
+                        <span className={styles.avatarContainer} style={{ width: "116px", height: "116px" }}>
+                            <Image
+                                layout="fill"
+                                objectFit="cover"
+                                src={"/me.jpg"}
+                                className={styles.profileImage}
+                            />
+                        </span>
+                    </div>
+                    <div className={styles.titleContainer}>
+                        <h1 className={styles.userName}>ant.man{' '}</h1>
+                        <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
+                    </div>
+                </div>
+                <div className={styles.requestButtons}>
+                    <button className={styles.acceptBtn}>Accept</button>
+                    <button className={styles.declineBtn}>Decline</button>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
