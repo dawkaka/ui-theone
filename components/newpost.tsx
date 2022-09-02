@@ -3,23 +3,29 @@ import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import Modal from "react-modal";
 import styles from "./styles/newpost.module.css";
-import { IoMdClose } from "react-icons/io";
+import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import { GoFileMedia } from "react-icons/go";
 import { BiArrowBack } from "react-icons/bi";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import { CheckMark } from "./mis";
 
 Modal.setAppElement("body")
 
 
 const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> = ({ isOpen, close }) => {
 
-
+    const [files, setFiles] = useState<FileList>()
     const [step, setStep] = useState(0)
     const [caption, setCaption] = useState("")
+    const blob = useRef("")
 
+    const altRef = useRef<HTMLTextAreaElement>(null)
+    const imgRef = useRef<HTMLImageElement>(null)
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.currentTarget.files
         if (files) {
             const reader = new FileReader()
+            setFiles(files)
             reader.readAsDataURL(files[0])
             reader.onload = (e) => {
                 const _URL = window.URL || window.webkitURL
@@ -30,29 +36,34 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
     }
 
     const handleCaption = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let cp = e.currentTarget.value.split(" ")
-        cp = cp.map(word => {
-            if (word[0] === "@") {
-                word = `<span class="user-tag">${word}</span>`
-            }
-            return word
-        })
-        setCaption(cp.join(" "))
+        setCaption(e.currentTarget.value)
+    }
+
+    const handleAltText = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.currentTarget.value.length > 100) {
+            return
+        }
     }
 
     useEffect(() => {
-        if (step == 1) {
-
+        const _URL = window.URL || window.webkitURL
+        if (files) {
+            cropperRef.current!.src = _URL.createObjectURL(files[0]);
+        }
+        if (imgRef.current) {
+            imgRef.current.src = blob.current
         }
 
     }, [step])
 
 
     const cropperRef = useRef<HTMLImageElement>(null);
-    const onCrop = () => {
-        const imageElement: any = cropperRef?.current;
-        const cropper: any = imageElement?.cropper;
-    };
+    const onCrop = (e: any) => {
+        const data = e.target.cropper.getCroppedCanvas().toDataURL()
+        blob.current = data
+        // const imageElement: any = cropperRef?.current;
+        // const cropper: any = imageElement?.cropper;
+    }
 
     return (
         <Modal
@@ -84,7 +95,7 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
         >
 
             {
-                step == 0 && (
+                step === 0 && (
                     <div className={styles.modalBody}>
                         <div className={styles.requestHeader}>
                             <p>New post</p>
@@ -111,7 +122,7 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
                 )
             }
             {
-                step == 1 && (
+                step === 1 && (
                     <div className={styles.modalBody}>
                         <div className={styles.requestHeader}>
                             <div className={styles.backIcon} onClick={() => setStep(0)}>
@@ -133,7 +144,7 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
                                 style={{ height: "500px" }}
                                 // Cropper.js options
                                 viewMode={2}
-                                aspectRatio={16 / 9}
+                                aspectRatio={4 / 5}
                                 checkOrientation={false}
                                 responsive={true}
                                 zoomOnTouch={false}
@@ -144,12 +155,14 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
                                 crop={onCrop}
                                 ref={cropperRef}
                             />
+
                         </div>
+
                     </div>
                 )
             }
             {
-                step == 2 && (
+                step === 2 && (
                     <div className={styles.modalBody}>
                         <div className={styles.requestHeader}>
                             <div className={styles.backIcon} onClick={() => setStep(1)}>
@@ -159,17 +172,83 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
                             <div onClick={() => setStep(3)}
                                 className={styles.nextContainer}
                             >
-                                <p>Post</p>
+                                <p>Preview</p>
                             </div>
                         </div>
                         <div className={`${styles.modalContent} ${styles.captionStage}`}>
                             <div className={styles.captionContainer}>
-                                <textarea placeholder="caption" onChange={handleCaption}
-                                    autoFocus></textarea>
-                                <div dangerouslySetInnerHTML={{ __html: caption }}></div>
+                                <textarea placeholder="Type caption..." onChange={handleCaption}
+                                    autoFocus value={caption} className={styles.textArea}></textarea>
+                            </div>
+                            <div className={styles.altTextContainer} >
+                                <div onClick={() => {
+                                    const vis = altRef.current!.style.display
+                                    if (vis === "none") {
+                                        altRef.current!.style.display = "block"
+                                    } else {
+                                        altRef.current!.style.display = "none"
+                                    }
+                                }}>
+                                    <h4>Alt Text</h4>
+
+                                </div>
+                                <textarea
+                                    className={`${styles.textArea} ${styles.altTextArea}`}
+                                    placeholder="Type alt text" onChange={handleAltText}
+                                    ref={altRef}
+                                ></textarea>
                             </div>
                         </div>
 
+                    </div>
+                )
+            }
+            {
+                step === 3 && (
+                    <div className={styles.preBody}>
+                        <div className={styles.requestHeader}>
+                            <div className={styles.backIcon} onClick={() => setStep(2)}>
+                                <BiArrowBack size={20} color="var(--accents-6)" />
+                            </div>
+                            <p>Preview</p>
+                            <div onClick={() => setStep(4)}
+                                className={styles.nextContainer}
+                            >
+                                <p>Ship</p>
+                            </div>
+                        </div>
+
+                        <div className={styles.previewContent}>
+                            <div className={styles.pfileContainer}>
+                                <img ref={imgRef} />
+                            </div>
+                            <div className={styles.previewCaption}>
+                                <p>{caption}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                )
+            }
+            {
+                step === 4 && (
+                    <div className={styles.modalBody}>
+                        <div className={styles.requestHeader}>
+                            <div className={styles.backIcon} onClick={() => setStep(2)}>
+
+                            </div>
+                            <p>Shiping</p>
+                            <div onClick={() => close()}
+                                className={styles.nextContainer}
+                            >
+                                <IoMdClose size={20} color="var(--accents-6)" />
+                            </div>
+                        </div>
+
+                        <div className={styles.modalContent}>
+
+                            <CheckMark size={200} />
+                        </div>
                     </div>
                 )
             }

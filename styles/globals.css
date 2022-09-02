@@ -112,6 +112,7 @@ a {
 body {
   display: flex;
   justify-content: center;
+  --border: 1px solid var(--accents-2)
 }
 
 li {

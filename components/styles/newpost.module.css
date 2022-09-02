@@ -47,11 +47,10 @@
     width: 100%;
     flex-direction: column;
     min-height: calc(50vh);
-    overflow-y: scroll;
-    overflow-x: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
 }
 
 .fileContent {
@@ -101,35 +100,87 @@
 
 .captionStage {
     justify-content: flex-start;
+    height: 100%;
 }
 
 .captionContainer {
     position: relative;
-    justify-self: flex-start;
     width: 100%;
     height: 50%;
+
 }
 
-.captionContainer div {
-    top: 0;
-    position: absolute;
-    white-space: pre-wrap;
-    padding: var(--gap) var(--gap-half);
-    color: var(--accents-6);
-    font-size: 18px;
-    overflow-y: scroll;
-    overflow-y: hidden;
-    height: 100%;
-    width: 100%;
-}
-
-.captionContainer textarea {
-    padding: var(--gap) var(--gap-half);
-    color: var(--accents-5);
+.textArea {
+    padding: var(--gap-half) var(--gap-half);
+    color: var(--accents-7);
     font-size: 18px;
     height: 100%;
+    overflow-y: auto;
     width: 100%;
     border: none;
     outline: none;
     resize: none;
+}
+
+.captionContainer textarea {}
+
+.altTextContainer {
+    width: 100%;
+}
+
+.altTextContainer>div {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    --border: 2px solid var(--accents-2);
+    padding-right: var(--gap-half);
+    border-bottom: var(--border);
+    border-top: var(--border)
+}
+
+.altTextContainer h4 {
+    font-weight: normal;
+    padding: var(--gap-quarter) var(--gap-half);
+
+}
+
+.altTextArea {
+    display: none;
+}
+
+.preBody {
+    width: min(95vw, 470px);
+    background-color: var(--background);
+    border-radius: var(--radius-small);
+}
+
+.previewContent {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    overflow-y: scroll;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.previewCaption {
+    padding: var(--gap-half) var(--gap-half);
+    font-size: 15px;
+    color: var(--accents-7);
+}
+
+.pfileContainer {
+    position: relative;
+    width: 100%;
+    max-height: 700px;
+    display: flex;
+    justify-content: center;
+}
+
+.pfileContainer img {
+    width: 100%;
+    object-fit: contain;
 }

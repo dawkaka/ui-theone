@@ -52,5 +52,5 @@
 .buttonDull {
     background-color: var(--background);
     color: var(--foreground);
-    border: 1px solid var(--accents-2);
+    border: var(--border);
 }

@@ -1,5 +1,5 @@
 .section {
-    border-right: 1px solid var(--accents-2);
+    border-right: var(--border);
     min-height: 100vh;
 
 }
@@ -10,7 +10,7 @@
     flex: 1 1 auto;
     margin: 0px auto;
     padding: var(--gap-double);
-    border-bottom: 1px solid var(--accents-2);
+    border-bottom: var(--border);
 }
 
 .profileTop {

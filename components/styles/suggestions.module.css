@@ -6,7 +6,7 @@
 }
 
 .suggestionsWrapper {
-    border: 1px solid var(--accents-2);
+    border: var(--border);
     padding: var(--gap);
     border-radius: var(--radius-small);
     position: fixed;

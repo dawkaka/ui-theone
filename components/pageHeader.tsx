@@ -15,7 +15,6 @@ const Header: React.FunctionComponent<{ title: string, arrow: boolean }> = ({ ti
             <h1>{title}</h1>
         </div>
     )
-
 }
 
 

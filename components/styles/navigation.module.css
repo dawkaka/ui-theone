@@ -23,7 +23,7 @@
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
-    border-right: 1px solid var(--accents-2);
+    border-right: var(--border);
     padding-inline: var(--gap);
 }
 
@@ -93,7 +93,7 @@
     justify-content: space-between;
     padding: 0 var(--gap-half) 0 var(--gap);
     align-items: center;
-    border-bottom: 1px solid var(--accents-2);
+    border-bottom: var(--border);
     width: 100%;
 }
 
@@ -274,7 +274,7 @@
         justify-content: space-between;
         bottom: 0;
         width: 100%;
-        border-top: 1px solid var(--accents-2);
+        border-top: var(--border);
         background-color: var(--background);
     }
 
@@ -293,7 +293,7 @@
 
     .postButtonContainer {
         background-color: var(--background);
-        border-bottom: 1px solid var(--accents-2);
+        border-bottom: var(--border);
         height: 60px;
         width: 100vw;
         display: flex;

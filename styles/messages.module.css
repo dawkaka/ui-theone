@@ -5,7 +5,7 @@
     padding-inline: var(--gap-half);
     display: flex;
     align-items: center;
-    border-right: 1px solid var(--accents-2);
+    border-right: var(--border);
 }
 
 .messagingContainer {
@@ -56,7 +56,7 @@
     padding: var(--gap-quarter) var(--gap-quarter);
     background-color: var(--accents-1);
     border-radius: var(--radius-tiny);
-    border: 1px solid var(--accents-2);
+    border: var(--border);
     outline: none;
 }
 
@@ -207,7 +207,7 @@
 }
 
 .messageControls {
-    border-top: 1px solid var(--accents-2);
+    border-top: var(--border);
     width: 100%;
     display: flex;
     justify-content: space-between;

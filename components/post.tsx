@@ -268,7 +268,7 @@ export function PostFullView({ coupleName, postId }: { coupleName: string | stri
                 </div>
                 <div className={styles.captionContainer} style={{
                     paddingTop: 0,
-                    borderBottom: "1px solid var(--accents-2)"
+                    borderBottom: "var(--border)"
 
                 }}>
                     <p>
@@ -298,7 +298,7 @@ export function PostFullView({ coupleName, postId }: { coupleName: string | stri
 
                 </div>
                 <div className={styles.viewFixedBottom}>
-                    <div className={styles.postStats} style={{ borderTop: "1px solid var(--accents-2)", paddingBottom: "var(--gap-half)" }}>
+                    <div className={styles.postStats} style={{ borderTop: "var(--border)", paddingBottom: "var(--gap-half)" }}>
                         <div className={styles.postIcons}>
                             <div className={styles.postIcon}>
                                 <AiOutlineHeart size={30} />

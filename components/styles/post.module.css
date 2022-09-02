@@ -1,7 +1,7 @@
 .container {
     background-color: var(--background);
     margin-bottom: var(--gap);
-    border: 1px solid var(--accents-2);
+    border: var(--border);
     max-width: 470px;
     border-radius: var(--radius-small);
 }
@@ -146,7 +146,7 @@
     padding-inline: var(--gap-half);
     padding-block: var(--gap-half);
     gap: var(--gap-quarter);
-    border-top: 1px solid var(--accents-2);
+    border-top: var(--border);
 }
 
 .commentContainer textarea {
