@@ -17,6 +17,7 @@ export default function Navigation() {
     const { pathname } = useRouter()
     const [openRequest, setOpenRequest] = useState(false)
     const [hideHeader, setHideHeader] = useState(false)
+    const [openPostModal, setOpenPostModal] = useState(false)
 
     const modalOverlay: CSSProperties = {
         zIndex: 1,
@@ -102,7 +103,10 @@ export default function Navigation() {
                                 <div className={`${styles.logoContainer2}`}>
                                     <em>elwahid</em>
                                 </div>
-                                <button className={styles.postButton}><AiOutlinePlus />{' '}<span>Post</span></button>
+                                <button
+                                    className={styles.postButton}
+                                    onClick={() => setOpenPostModal(true)}
+                                ><AiOutlinePlus />{' '}<span>Post</span></button>
                             </div>
                         )
                     }
@@ -137,7 +141,7 @@ export default function Navigation() {
                 <Request close={() => setOpenRequest(false)} />
 
             </Modal>
-            <AddPost />
+            <AddPost isOpen={openPostModal} close={() => setOpenPostModal(false)} />
         </>
     )
 }
