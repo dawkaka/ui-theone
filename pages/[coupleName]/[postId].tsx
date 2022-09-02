@@ -5,7 +5,6 @@ import { PostFullView } from "../../components/post"
 
 export default function Post() {
     const router = useRouter()
-    console.log(router)
     const { postId, coupleName } = router.query
     return (
         <Layout>

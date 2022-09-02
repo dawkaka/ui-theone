@@ -55,6 +55,10 @@
     margin-bottom: var(--gap);
 }
 
+.postButtonContainer .navItem {
+    margin-left: -10px
+}
+
 .postButton {
     font-weight: normal;
     box-shadow: 0 4px 14px 0 rgba(0, 118, 255, .39);
@@ -234,6 +238,10 @@
         display: none;
     }
 
+    .postButtonContainer .navItem {
+        margin-left: 0
+    }
+
     .postButton {
         border-radius: 50%;
         display: grid;
@@ -299,6 +307,8 @@
         padding-inline: var(--gap-half);
 
     }
+
+
 
     .postButton {
         margin: 0;

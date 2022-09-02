@@ -134,6 +134,10 @@ input[type="search"]:focus {
   outline: none;
 }
 
+.user-tag {
+  color: var(--success)
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

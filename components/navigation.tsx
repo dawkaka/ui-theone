@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,6 +9,8 @@ import { BsSearch } from "react-icons/bs"
 import { FaSearch, FaPlus, FaUser, FaRegQuestionCircle } from "react-icons/fa"
 import { MdEmail, MdOutlineMail } from 'react-icons/md'
 import { IoMdClose } from "react-icons/io"
+import AddPost from "./newpost";
+import ReactModal from "react-modal";
 
 
 export default function Navigation() {
@@ -16,6 +18,14 @@ export default function Navigation() {
     const [openRequest, setOpenRequest] = useState(false)
     const [hideHeader, setHideHeader] = useState(false)
 
+    const modalOverlay: CSSProperties = {
+        zIndex: 1,
+        backgroundColor: "rgba(0,0,0,0.75)",
+        paddingInline: "var(--gap)",
+        display: "flex",
+        flexDirection: "column",
+        margin: 0
+    }
 
     useEffect(() => {
         if (window.screen.width < 750 && pathname !== "/r/home") {
@@ -104,14 +114,7 @@ export default function Navigation() {
                 onRequestClose={() => setOpenRequest(false)}
                 contentLabel="Post modal"
                 style={{
-                    overlay: {
-                        zIndex: 1,
-                        backgroundColor: "rgba(0,0,0,0.75)",
-                        paddingInline: "var(--gap)",
-                        display: "flex",
-                        flexDirection: "column",
-                        margin: 0
-                    },
+                    overlay: modalOverlay,
                     content: {
                         backgroundColor: "var(--background)",
                         alignSelf: "center",
@@ -134,6 +137,7 @@ export default function Navigation() {
                 <Request close={() => setOpenRequest(false)} />
 
             </Modal>
+            <AddPost />
         </>
     )
 }
