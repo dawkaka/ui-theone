@@ -27,7 +27,7 @@ export const Actions: React.FunctionComponent<{ orientation: "potrait" | "landsc
 
 export const CheckMark: React.FunctionComponent<{ size: number }> = ({ size }) => {
     const styles = useSpring({
-        config: { friction: 5 },
+        config: { friction: 8 },
         from: { scale: 0.5 },
         to: { scale: 1 },
     })
