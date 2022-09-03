@@ -19,9 +19,12 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [caption, setCaption] = useState("")
     const [aspectRatio, setAspectRatio] = useState(1)
     const [lockAsRatio, setLockAsRatio] = useState(false)
+    const [flash, setFlash] = useState(true)
 
     const files = useRef<File[]>([])
     const blobs = useRef<string[]>([])
+    const cropperRef = useRef<any>(null);
+
     const blob = useRef("")
     const altRef = useRef<HTMLTextAreaElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
@@ -60,11 +63,10 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                 blobs.current.push(blb)
             }
         }
-        setStep(10)
+        setFlash(false)
         setTimeout(() => {
-            setStep(1)
+            setFlash(true)
         });
-        console.log(blobs.current)
     }
 
 
@@ -75,13 +77,12 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const changeAspectRatio = (a: number) => {
         if (aspectRatio === a) return
         setAspectRatio(a)
-        setStep(10)
+        setFlash(false)
         setTimeout(() => {
-            setStep(1)
+            setFlash(true)
         });
 
     }
-
 
     const handleAltText = (e: ChangeEvent<HTMLTextAreaElement>) => {
         if (e.currentTarget.value.length > 100) {
@@ -103,14 +104,23 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     }, [step])
 
-
-    const cropperRef = useRef<any>(null);
-
     const onCrop = () => {
         const data = cropperRef.current?.cropper.getCroppedCanvas().toDataURL() as string
         blob.current = data
         blobs.current[blobs.current.length - 1] = data
-        console.log(blobs.current)
+    }
+
+    const removeImage = () => {
+        if (files.current.length == 1) return
+        cropperRef.current!.src = files.current.pop()
+        blobs.current.pop()
+        if (files.current.length === 1) {
+            setLockAsRatio(false)
+        }
+        setStep(10)
+        setTimeout(() => {
+            setStep(1)
+        });
     }
 
     return (
@@ -189,7 +199,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             </div>
                         </div>
                         <div className={styles.fileContent}>
-                            <Cropper
+                            {flash && <Cropper
                                 src={cropperRef.current?.src}
                                 dragMode="move"
                                 style={{ height: "500px" }}
@@ -197,7 +207,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 viewMode={2}
                                 aspectRatio={aspectRatio}
                                 background={false}
-                                modal={false}
+                                modal={true}
                                 movable={false}
                                 checkOrientation={false}
                                 responsive={true}
@@ -209,6 +219,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 crop={onCrop}
                                 ref={cropperRef}
                             />
+                            }
                             <div className={styles.aspectRatios}>
                                 <div className={styles.addImage}>
                                     <AiOutlinePlus />
@@ -219,7 +230,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                         onChange={addImage}
                                     />
                                 </div>
-                                <div>
+                                <div onClick={removeImage}>
                                     <AiOutlineMinus color="white" />
                                 </div>
                                 {

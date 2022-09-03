@@ -52,7 +52,7 @@
 }
 
 .aIcon {
-    opacity: 1;
+    opacity: .5;
     background-color: var(--accents-1);
     border-radius: 50%;
     box-shadow: 0 0 5px var(--accents-5);
