@@ -66,8 +66,6 @@ export const Post: React.FunctionComponent<post> = (props) => {
         setCurr(dist / widthNum)
     }
 
-    const name = "somethign", id = "dafldj"
-
     return (
         <article className={styles.container}>
             <div>

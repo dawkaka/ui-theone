@@ -1,8 +1,8 @@
 import { CSSProperties } from "react"
 import styles from "./styles/misc.module.css"
 import { useSpring, animated } from "@react-spring/web";
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useRef } from "react";
+import { MdOutlineNavigateNext } from "react-icons/md";
 
 export const Verified: React.FunctionComponent<{ size: number }> = ({ size }) => {
     return (
@@ -64,5 +64,64 @@ export const CheckMark: React.FunctionComponent<{ size: number }> = ({ size }) =
 		S509.502,87.794,504.969,83.262z"/>
             </g>
         </animated.svg >
+    )
+}
+
+
+export const Carousel: React.FunctionComponent<{ files: string[] }> = ({ files }) => {
+    const slider = useRef<HTMLDivElement>(null)
+    const [curr, setCurr] = useState(0)
+
+    useEffect(() => {
+        slider.current!.addEventListener("scroll", () => {
+            let width = window.getComputedStyle(slider.current!).width
+            width = width.substring(0, width.length - 2)
+            let scrollPos = slider.current!.scrollLeft
+            const widthNum = Math.floor(Number(width))
+            setCurr(Math.floor(scrollPos / widthNum))
+        })
+    }, [])
+
+    const scroll = (dir: string) => {
+        let width = window.getComputedStyle(slider.current!).width
+        width = width.substring(0, width.length - 2)
+        let scrollPos = slider.current!.scrollLeft
+        const widthNum = Math.floor(Number(width))
+        let dist
+        if (dir === "right") {
+            dist = scrollPos + widthNum
+        } else {
+            dist = scrollPos - widthNum
+        }
+        slider.current!.scroll({
+            left: dist,
+            behavior: 'smooth'
+        });
+        setCurr(dist / widthNum)
+    }
+
+
+    return (
+        <div className={styles.filesContainer}>
+            <div className={styles.fileSlider} ref={slider}>
+                {
+                    files.map((file, indx) => (<div className={styles.fileContainer} key={indx}>
+                        <img
+                            src={file}
+                            className={styles.postImage}
+                            loading="lazy"
+                        />
+                    </div>))
+                }
+            </div>
+            {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>
+                <MdOutlineNavigateNext size={30} className={styles.aIcon} />
+            </div>
+            }
+            {curr < files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
+                <MdOutlineNavigateNext size={30} className={styles.aIcon} />
+            </div>
+            }
+        </div>
     )
 }

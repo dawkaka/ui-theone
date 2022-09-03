@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { GoFileMedia } from "react-icons/go";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { CheckMark } from "./mis";
+import { Carousel, CheckMark } from "./mis";
 
 Modal.setAppElement("body")
 
@@ -306,9 +306,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
                         <div className={styles.previewContent}>
                             <div className={styles.pfileContainer}>
-                                {
-                                    blobs.current.map((bl, indx) => (<img src={bl} key={indx} />))
-                                }
+                                <Carousel files={blobs.current} />
                             </div>
                             <div className={styles.previewCaption}>
                                 <p>{caption}</p>

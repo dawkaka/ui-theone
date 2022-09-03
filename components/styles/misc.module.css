@@ -2,3 +2,67 @@
     transform: var(--rotation);
     cursor: pointer;
 }
+
+
+.filesContainer {
+    position: relative;
+}
+
+.fileSlider {
+    scroll-snap-type: x mandatory;
+    height: 100%;
+    display: flex;
+    overflow-y: hidden;
+    align-tracks: center;
+    align-items: center;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background-color: var(--background)
+}
+
+.fileSlider::-webkit-scrollbar {
+    display: none;
+}
+
+.fileContainer {
+    flex-basis: 100%;
+    flex-shrink: 0;
+    width: 100%;
+    scroll-snap-align: start;
+    position: relative;
+}
+
+.postImage {
+    width: 100%;
+    height: auto;
+}
+
+.prev,
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    padding: var(--gap)var(--gap-half);
+    user-select: none;
+}
+
+.aIcon {
+    opacity: 1;
+    background-color: var(--accents-1);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--accents-5);
+}
+
+.prev {
+    left: 0;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.next {
+    right: 0;
+}
