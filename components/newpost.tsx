@@ -6,7 +6,7 @@ import styles from "./styles/newpost.module.css";
 import { IoMdClose } from "react-icons/io";
 import { GoFileMedia } from "react-icons/go";
 import { BiArrowBack } from "react-icons/bi";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { CheckMark } from "./mis";
 
 Modal.setAppElement("body")
@@ -164,7 +164,6 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 background={false}
                                 modal={false}
                                 movable={false}
-
                                 checkOrientation={false}
                                 responsive={true}
                                 zoomOnTouch={false}
@@ -178,7 +177,14 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             <div className={styles.aspectRatios}>
                                 <div className={styles.addImage}>
                                     <AiOutlinePlus />
-                                    <input type="file" accept="image/jpeg, image/png" title="add image" />
+                                    <input
+                                        type="file"
+                                        accept="image/jpeg, image/png"
+                                        title="add image"
+                                    />
+                                </div>
+                                <div>
+                                    <AiOutlineMinus color="white" />
                                 </div>
                                 <div className={styles.square} onClick={() => changeAspectRatio(1)}></div>
                                 <div className={styles.landscape} onClick={() => changeAspectRatio(16 / 9)}></div>
