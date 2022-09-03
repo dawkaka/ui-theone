@@ -12,15 +12,17 @@ import { CheckMark } from "./mis";
 Modal.setAppElement("body")
 
 
-const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> = ({ isOpen, close }) => {
+const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, close: () => void }> = ({ isOpen, close, open }) => {
 
     const [files, setFiles] = useState<FileList>()
     const [step, setStep] = useState(0)
     const [caption, setCaption] = useState("")
-    const blob = useRef("")
+    const [aspectRatio, setAspectRatio] = useState(1)
 
+    const blob = useRef("")
     const altRef = useRef<HTMLTextAreaElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
+
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.currentTarget.files
         if (files) {
@@ -38,6 +40,16 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
     const handleCaption = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setCaption(e.currentTarget.value)
     }
+
+    const changeAspectRatio = (a: number) => {
+        setAspectRatio(a)
+        setStep(10)
+        setTimeout(() => {
+            setStep(1)
+        });
+
+    }
+
 
     const handleAltText = (e: ChangeEvent<HTMLTextAreaElement>) => {
         if (e.currentTarget.value.length > 100) {
@@ -57,9 +69,9 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
     }, [step])
 
 
-    const cropperRef = useRef<HTMLImageElement>(null);
-    const onCrop = (e: any) => {
-        const data = e.target.cropper.getCroppedCanvas().toDataURL()
+    const cropperRef = useRef<any>(null);
+    const onCrop = () => {
+        const data = cropperRef.current?.cropper.getCroppedCanvas().toDataURL()
         blob.current = data
         // const imageElement: any = cropperRef?.current;
         // const cropper: any = imageElement?.cropper;
@@ -144,7 +156,11 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
                                 style={{ height: "500px" }}
                                 // Cropper.js options
                                 viewMode={2}
-                                aspectRatio={4 / 5}
+                                aspectRatio={aspectRatio}
+                                background={false}
+                                modal={false}
+                                movable={false}
+
                                 checkOrientation={false}
                                 responsive={true}
                                 zoomOnTouch={false}
@@ -155,10 +171,14 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
                                 crop={onCrop}
                                 ref={cropperRef}
                             />
-
-                        </div>
-
-                    </div>
+                            <div className={styles.aspectRatios}>
+                                <div className={styles.square} onClick={() => changeAspectRatio(1)}></div>
+                                <div className={styles.landscape} onClick={() => changeAspectRatio(16 / 9)}></div>
+                                <div className={styles.portrait} onClick={() => changeAspectRatio(4 / 5)}></div>
+                            </div>
+                        </div >
+                        <div><p>{Date.now()}</p></div>
+                    </div >
                 )
             }
             {
@@ -253,7 +273,7 @@ const AddPost: React.FunctionComponent<{ isOpen: boolean, close: () => void }> =
                 )
             }
 
-        </Modal>
+        </Modal >
 
     )
 }

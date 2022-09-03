@@ -141,7 +141,7 @@ export default function Navigation() {
                 <Request close={() => setOpenRequest(false)} />
 
             </Modal>
-            <AddPost isOpen={openPostModal} close={() => setOpenPostModal(false)} />
+            <AddPost isOpen={openPostModal} open={() => setOpenPostModal(true)} close={() => setOpenPostModal(false)} />
         </>
     )
 }
