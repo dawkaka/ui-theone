@@ -42,6 +42,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     }
 
     const changeAspectRatio = (a: number) => {
+        if (aspectRatio === a) return
         setAspectRatio(a)
         setStep(10)
         setTimeout(() => {
@@ -126,7 +127,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
                                 <button>Select files from device
                                     <input
-                                        type="file" onChange={newFile} multiple
+                                        type="file" onChange={newFile}
                                         accept="image/jpeg, image/png"
                                     />
                                 </button>
