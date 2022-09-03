@@ -3,10 +3,10 @@ import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import Modal from "react-modal";
 import styles from "./styles/newpost.module.css";
-import { IoMdCheckmark, IoMdClose } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 import { GoFileMedia } from "react-icons/go";
 import { BiArrowBack } from "react-icons/bi";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import { AiOutlinePlus } from "react-icons/ai";
 import { CheckMark } from "./mis";
 
 Modal.setAppElement("body")
@@ -176,12 +176,15 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 ref={cropperRef}
                             />
                             <div className={styles.aspectRatios}>
+                                <div className={styles.addImage}>
+                                    <AiOutlinePlus />
+                                    <input type="file" accept="image/jpeg, image/png" title="add image" />
+                                </div>
                                 <div className={styles.square} onClick={() => changeAspectRatio(1)}></div>
                                 <div className={styles.landscape} onClick={() => changeAspectRatio(16 / 9)}></div>
                                 <div className={styles.portrait} onClick={() => changeAspectRatio(4 / 5)}></div>
                             </div>
                         </div >
-                        <div><p>{Date.now()}</p></div>
                     </div >
                 )
             }
