@@ -76,6 +76,11 @@
     position: relative;
 }
 
+.postImage {
+    width: 100%;
+    height: auto;
+}
+
 .prev,
 .next {
     cursor: pointer;

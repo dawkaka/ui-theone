@@ -19,16 +19,16 @@ interface post {
 export const Post: React.FunctionComponent<post> = (props) => {
 
     const files = [
-        {
-            name: "/med.jpg",
-            width: "1080px",
-            height: "1080px"
-        },
         // {
-        //     name: "/me2.jpg",
+        //     name: "/med.jpg",
         //     width: "1080px",
         //     height: "1080px"
         // },
+        {
+            name: "/me2.jpg",
+            width: "1080px",
+            height: "1080px"
+        },
         // {
         //     name: "/me3.jpg",
         //     width: "1080px",
@@ -96,11 +96,10 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         <div className={styles.fileSlider} ref={slider}>
                             {
                                 files.map(file => (<div className={styles.fileContainer} key={file.name}>
-                                    <Image
+                                    <img
                                         src={file.name}
-                                        objectFit="cover"
-                                        width={file.width}
-                                        height={file.height}
+                                        className={styles.postImage}
+                                        loading="lazy"
                                     />
                                 </div>))
                             }
