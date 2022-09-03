@@ -19,16 +19,16 @@ interface post {
 export const Post: React.FunctionComponent<post> = (props) => {
 
     const files = [
-        // {
-        //     name: "/med.jpg",
-        //     width: "1080px",
-        //     height: "1080px"
-        // },
         {
-            name: "/me2.jpg",
+            name: "/med.jpg",
             width: "1080px",
             height: "1080px"
         },
+        // {
+        //     name: "/me2.jpg",
+        //     width: "1080px",
+        //     height: "1080px"
+        // },
         // {
         //     name: "/me3.jpg",
         //     width: "1080px",

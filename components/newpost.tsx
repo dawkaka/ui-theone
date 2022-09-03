@@ -125,7 +125,10 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             <div className={styles.selectFile}>
 
                                 <button>Select files from device
-                                    <input type="file" onChange={newFile} />
+                                    <input
+                                        type="file" onChange={newFile} multiple
+                                        accept="image/jpeg, image/png"
+                                    />
                                 </button>
                             </div>
                         </div>
