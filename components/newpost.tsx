@@ -14,28 +14,59 @@ Modal.setAppElement("body")
 
 const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, close: () => void }> = ({ isOpen, close, open }) => {
 
-    const [files, setFiles] = useState<FileList>()
+
     const [step, setStep] = useState(0)
     const [caption, setCaption] = useState("")
     const [aspectRatio, setAspectRatio] = useState(1)
+    const [lockAsRatio, setLockAsRatio] = useState(false)
 
+    const files = useRef<File[]>([])
+    const blobs = useRef<string[]>([])
     const blob = useRef("")
     const altRef = useRef<HTMLTextAreaElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
 
+
+
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
-        const files = e.currentTarget.files
-        if (files) {
+        const fs = e.currentTarget.files
+        if (fs) {
             const reader = new FileReader()
-            setFiles(files)
-            reader.readAsDataURL(files[0])
+            files.current.push(fs[0])
+            reader.readAsDataURL(fs[0])
             reader.onload = (e) => {
                 const _URL = window.URL || window.webkitURL
-                cropperRef.current!.src = _URL.createObjectURL(files[0]);
+                const blb = _URL.createObjectURL(fs[0]);
+                cropperRef.current!.src = blb
+                blobs.current.push(blb)
             }
             setStep(1)
         }
     }
+
+    const addImage = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!lockAsRatio) {
+            setLockAsRatio(true)
+        }
+        const fs = e.currentTarget.files
+        if (fs) {
+            const reader = new FileReader()
+            files.current.push(fs[0])
+            reader.readAsDataURL(fs[0])
+            reader.onload = (e) => {
+                const _URL = window.URL || window.webkitURL
+                const blb = _URL.createObjectURL(fs[0]);
+                cropperRef.current!.src = blb
+                blobs.current.push(blb)
+            }
+        }
+        setStep(10)
+        setTimeout(() => {
+            setStep(1)
+        });
+        console.log(blobs.current)
+    }
+
 
     const handleCaption = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setCaption(e.currentTarget.value)
@@ -60,9 +91,12 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     useEffect(() => {
         const _URL = window.URL || window.webkitURL
-        if (files) {
-            cropperRef.current!.src = _URL.createObjectURL(files[0]);
+        if (step === 1) {
+            if (files.current.length > 0) {
+                cropperRef.current!.src = _URL.createObjectURL(files.current[files.current.length - 1]);
+            }
         }
+
         if (imgRef.current) {
             imgRef.current.src = blob.current
         }
@@ -71,11 +105,12 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
 
     const cropperRef = useRef<any>(null);
+
     const onCrop = () => {
-        const data = cropperRef.current?.cropper.getCroppedCanvas().toDataURL()
+        const data = cropperRef.current?.cropper.getCroppedCanvas().toDataURL() as string
         blob.current = data
-        // const imageElement: any = cropperRef?.current;
-        // const cropper: any = imageElement?.cropper;
+        blobs.current[blobs.current.length - 1] = data
+        console.log(blobs.current)
     }
 
     return (
@@ -181,14 +216,32 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                         type="file"
                                         accept="image/jpeg, image/png"
                                         title="add image"
+                                        onChange={addImage}
                                     />
                                 </div>
                                 <div>
                                     <AiOutlineMinus color="white" />
                                 </div>
-                                <div className={styles.square} onClick={() => changeAspectRatio(1)}></div>
-                                <div className={styles.landscape} onClick={() => changeAspectRatio(16 / 9)}></div>
-                                <div className={styles.portrait} onClick={() => changeAspectRatio(4 / 5)}></div>
+                                {
+                                    !lockAsRatio ?
+                                        <div className={styles.square}
+                                            onClick={() => changeAspectRatio(1)}></div>
+                                        :
+                                        null
+                                }
+                                {
+                                    !lockAsRatio ?
+                                        <div className={styles.landscape}
+                                            onClick={() => changeAspectRatio(16 / 9)}></div>
+                                        :
+                                        null
+                                }
+                                {
+                                    !lockAsRatio ? <div className={styles.portrait}
+                                        onClick={() => changeAspectRatio(4 / 5)}></div>
+                                        :
+                                        null
+                                }
                             </div>
                         </div >
                     </div >
@@ -253,7 +306,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
                         <div className={styles.previewContent}>
                             <div className={styles.pfileContainer}>
-                                <img ref={imgRef} />
+                                {
+                                    blobs.current.map((bl, indx) => (<img src={bl} key={indx} />))
+                                }
                             </div>
                             <div className={styles.previewCaption}>
                                 <p>{caption}</p>
