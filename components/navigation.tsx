@@ -120,18 +120,14 @@ export default function Navigation() {
                 style={{
                     overlay: modalOverlay,
                     content: {
-                        backgroundColor: "var(--background)",
                         alignSelf: "center",
-                        minHeight: "30%",
-                        width: "min(100%, 430px)",
                         position: "relative",
                         padding: 0,
                         margin: 0,
                         overflow: "hidden",
-                        top: "10vh",
+                        justifyContent: "center",
                         display: "flex",
                         flexDirection: "column",
-                        borderRadius: "var(--radius-small)",
                         alignItems: "center",
                         left: 0,
                         border: "none",
@@ -150,7 +146,7 @@ export default function Navigation() {
 
 const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
     return (
-        <>
+        <div className={styles.requestModal}>
             <div className={styles.requestHeader}>
                 <p>Couple Request</p>
                 <div onClick={() => close()}
@@ -160,27 +156,22 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                 </div>
             </div>
             <div className={styles.requestContainer}>
-                <div className={styles.userInfo}>
-                    <div className={styles.imageContainer} style={{ width: "116px", height: "116px" }}>
-                        <span className={styles.avatarContainer} style={{ width: "116px", height: "116px" }}>
-                            <Image
-                                layout="fill"
-                                objectFit="cover"
-                                src={"/me.jpg"}
-                                className={styles.profileImage}
-                            />
-                        </span>
-                    </div>
-                    <div className={styles.titleContainer}>
-                        <h1 className={styles.userName}>ant.man{' '}</h1>
-                        <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
-                    </div>
+                <div className={styles.imageContainer}>
+                    <img
+                        src={"/med.jpg"}
+                        className={styles.profileImage}
+                    />
+                </div>
+                <div className={styles.titleContainer}>
+                    <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
+                    <h3 className={styles.userName}>@ant.man</h3>
                 </div>
                 <div className={styles.requestButtons}>
                     <button className={styles.acceptBtn}>Accept</button>
                     <button className={styles.declineBtn}>Decline</button>
                 </div>
             </div>
-        </>
+
+        </div>
     )
 }
