@@ -68,7 +68,7 @@ export const CheckMark: React.FunctionComponent<{ size: number }> = ({ size }) =
 }
 
 
-export const Carousel: React.FunctionComponent<{ files: string[] }> = ({ files }) => {
+export const Carousel: React.FunctionComponent<{ files: string[], currFunc: (a: number) => void }> = ({ files, currFunc }) => {
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
 
@@ -99,7 +99,9 @@ export const Carousel: React.FunctionComponent<{ files: string[] }> = ({ files }
         });
         setCurr(dist / widthNum)
     }
-
+    useEffect(() => {
+        currFunc(curr)
+    }, [curr])
 
     return (
         <div className={styles.filesContainer}>

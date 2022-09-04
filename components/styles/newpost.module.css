@@ -196,32 +196,6 @@
 
 .captionContainer textarea {}
 
-.altTextContainer {
-    width: 100%;
-}
-
-.altTextContainer>div {
-    width: 100%;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    --border: 2px solid var(--accents-2);
-    padding-right: var(--gap-half);
-    border-bottom: var(--border);
-    border-top: var(--border)
-}
-
-.altTextContainer h4 {
-    font-weight: normal;
-    padding: var(--gap-quarter) var(--gap-half);
-
-}
-
-.altTextArea {
-    display: none;
-}
-
 .preBody {
     width: min(95vw, 470px);
     background-color: var(--background);
@@ -257,4 +231,64 @@
 .pfileContainer img {
     width: 100%;
     object-fit: contain;
+}
+
+.altTextContainer {
+    top: 20%;
+    z-index: 1;
+    width: 100%;
+    position: absolute;
+    display: none;
+    padding-inline: var(--gap);
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.altTextContainer>div {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding-right: var(--gap-half);
+    border-top: var(--border)
+}
+
+.altButton {
+    position: absolute;
+    z-index: 2;
+    width: fit-content;
+    left: 0;
+}
+
+.altButton button {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: fit-content;
+    font-weight: normal;
+    border-radius: 0;
+    font-weight: bold;
+    color: white;
+    padding: var(--gap-quarter) var(--gap-half);
+
+
+}
+
+.textAreaAlt {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: block;
+    border: none;
+    padding: var(--gap-half) var(--gap-quarter);
+    font-size: 16px;
+    height: 200px;
+    resize: none;
+    width: 100%;
+    outline: none;
+}
+
+.altTextContainer button {
+    margin-top: var(--gap-half);
+    padding: 10px;
+    float: right;
+    width: 100px;
 }

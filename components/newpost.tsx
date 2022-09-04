@@ -20,13 +20,15 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [aspectRatio, setAspectRatio] = useState(1)
     const [lockAsRatio, setLockAsRatio] = useState(false)
     const [flash, setFlash] = useState(true)
+    const [alt, setAlt] = useState<string[]>(new Array(10).fill(""))
+    const [carouselCurrent, setCarouselCurrent] = useState(0)
 
     const files = useRef<File[]>([])
     const blobs = useRef<string[]>([])
     const cropperRef = useRef<any>(null);
 
     const blob = useRef("")
-    const altRef = useRef<HTMLTextAreaElement>(null)
+    const altRef = useRef<HTMLDivElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
 
 
@@ -84,11 +86,6 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     }
 
-    const handleAltText = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        if (e.currentTarget.value.length > 100) {
-            return
-        }
-    }
 
     useEffect(() => {
         const _URL = window.URL || window.webkitURL
@@ -121,6 +118,18 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         setTimeout(() => {
             setStep(1)
         });
+    }
+
+    const handleAltText = () => {
+        const al = altRef.current!.value
+        let newArr = alt
+        newArr[carouselCurrent] = al
+        setAlt(newArr)
+    }
+    const altChanged = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        let newArr = alt
+        newArr[carouselCurrent] = e.currentTarget.value
+        setAlt(newArr)
     }
 
     return (
@@ -277,24 +286,6 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 <textarea placeholder="Type caption..." onChange={handleCaption}
                                     autoFocus value={caption} className={styles.textArea}></textarea>
                             </div>
-                            <div className={styles.altTextContainer} >
-                                <div onClick={() => {
-                                    const vis = altRef.current!.style.display
-                                    if (vis === "none") {
-                                        altRef.current!.style.display = "block"
-                                    } else {
-                                        altRef.current!.style.display = "none"
-                                    }
-                                }}>
-                                    <h4>Alt Text</h4>
-
-                                </div>
-                                <textarea
-                                    className={`${styles.textArea} ${styles.altTextArea}`}
-                                    placeholder="Type alt text" onChange={handleAltText}
-                                    ref={altRef}
-                                ></textarea>
-                            </div>
                         </div>
 
                     </div>
@@ -317,7 +308,29 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
                         <div className={styles.previewContent}>
                             <div className={styles.pfileContainer}>
-                                <Carousel files={blobs.current} />
+                                <div className={styles.altButton} onClick={() => {
+                                    const vis = altRef.current!.style.display
+                                    if (vis === "none") {
+                                        altRef.current!.style.display = "block"
+                                    } else {
+                                        altRef.current!.style.display = "none"
+                                    }
+                                }}>
+                                    <button>Alt Text</button>
+
+                                </div>
+                                <div className={styles.altTextContainer} ref={altRef} >
+
+                                    <textarea
+                                        className={`${styles.textAreaAlt} ${styles.altTextArea}`}
+                                        placeholder="Type alt text"
+                                        onChange={altChanged}
+                                        value={alt[carouselCurrent]}
+                                    ></textarea>
+                                    <button onClick={handleAltText}>Done</button>
+                                </div>
+                                <Carousel files={blobs.current}
+                                    currFunc={(a: number) => setCarouselCurrent(a)} />
                             </div>
                             <div className={styles.previewCaption}>
                                 <p>{caption}</p>
