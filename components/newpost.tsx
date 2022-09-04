@@ -22,6 +22,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [flash, setFlash] = useState(true)
     const [alt, setAlt] = useState<string[]>(new Array(10).fill(""))
     const [carouselCurrent, setCarouselCurrent] = useState(0)
+    const [currAlt, setCurrentAlt] = useState(alt[carouselCurrent])
 
     const files = useRef<File[]>([])
     const blobs = useRef<string[]>([])
@@ -29,6 +30,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     const blob = useRef("")
     const altRef = useRef<HTMLDivElement>(null)
+    const altTextRef = useRef<HTMLTextAreaElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
 
 
@@ -121,16 +123,23 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     }
 
     const handleAltText = () => {
-        const al = altRef.current!.value
+        const al = altTextRef.current!.value
         let newArr = alt
         newArr[carouselCurrent] = al
         setAlt(newArr)
+        altRef.current!.style.display = "none"
     }
+
     const altChanged = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let newArr = alt
+        setCurrentAlt(e.currentTarget.value)
         newArr[carouselCurrent] = e.currentTarget.value
         setAlt(newArr)
     }
+
+    useEffect(() => {
+        setCurrentAlt(alt[carouselCurrent])
+    }, [carouselCurrent])
 
     return (
         <Modal
@@ -325,7 +334,8 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                         className={`${styles.textAreaAlt} ${styles.altTextArea}`}
                                         placeholder="Type alt text"
                                         onChange={altChanged}
-                                        value={alt[carouselCurrent]}
+                                        ref={altTextRef}
+                                        value={currAlt}
                                     ></textarea>
                                     <button onClick={handleAltText}>Done</button>
                                 </div>

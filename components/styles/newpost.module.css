@@ -262,13 +262,13 @@
 }
 
 .altButton button {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
     width: fit-content;
     font-weight: normal;
-    border-radius: 0;
+    border-radius: var(--radius-tiny);
     font-weight: bold;
     color: white;
-    padding: var(--gap-quarter) var(--gap-half);
+    padding: var(--gap-half) var(--gap-half);
 
 
 }
