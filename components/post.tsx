@@ -134,9 +134,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         >
                             <a>
                                 <p>
-                                    something caption that is very long and I don't want to know why it is like
-                                    tha from ghana we are the best couple in the world
-                                    I know so and I feel so.
+                                    Mr. Frimpong
                                 </p>
                             </a>
                         </Link>
@@ -285,7 +283,8 @@ export function PostFullView({ coupleName, postId }: { coupleName: string | stri
                                     hasPartner
                                     hasLiked
                                     isThisUser
-                                    comment={`we are dad bfor abeo before you come here talking the bewt other here and \n no dkiiings`}
+                                    comment={`we are dad bfor abeo before you come here talking the bewt other here and
+                                     no dkiiings`}
                                     date={new Date}
                                     likes_count={3232}
                                 />
