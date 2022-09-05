@@ -173,7 +173,7 @@ export default function Profile() {
                         step === 0 && (
                             <div className={styles.modalBody}>
                                 <div className={styles.requestHeader}>
-                                    <p>New post</p>
+                                    <p>Select Image</p>
                                     <div onClick={() => close()}
                                         className={styles.closeContainer}
                                     >
