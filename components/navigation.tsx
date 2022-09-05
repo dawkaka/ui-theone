@@ -39,7 +39,7 @@ export default function Navigation() {
                 setHideHeader(false)
             }
         })
-    }, [])
+    }, [pathname])
 
     return (
         <>

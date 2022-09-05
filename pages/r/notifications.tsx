@@ -75,7 +75,7 @@ const Notification: React.FunctionComponent<{
                             </p>
                         </div>
                         <div style={{ marginTop: "var(--gap-quarter" }}>
-                            <p>Hello world I'm suraj</p>
+                            <p>Hello world I am suraj</p>
                         </div>
                     </div>
                 </article>

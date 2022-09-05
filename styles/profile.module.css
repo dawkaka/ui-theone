@@ -48,17 +48,119 @@
 }
 
 .avatarContainer {
-    display: grid;
+    display: none;
     place-items: center;
     position: relative;
     overflow: hidden;
     border-radius: 50%;
     cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.avatarContainer:hover {
+    display: grid;
 }
 
 .profileImage {
     width: 100%;
     height: 100%;
+}
+
+.profileImage:hover~.avatarContainer {
+    display: grid;
+}
+
+.modalBody {
+    width: min(95vw, 600px);
+    background-color: var(--background);
+    border-radius: var(--radius-small);
+}
+
+.modalContent {
+    width: 100%;
+    flex-direction: column;
+    min-height: calc(50vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.requestHeader {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0 var(--gap-half) 0 var(--gap-half);
+    align-items: center;
+    border-bottom: 2px solid var(--accents-2);
+    width: 100%;
+}
+
+.requestHeader p {
+    font-size: 18px;
+    font-weight: 510;
+}
+
+.closeContainer {
+    color: var(--accents-3);
+    cursor: pointer;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.nextContainer {
+    color: var(--success);
+    cursor: pointer;
+    font-weight: 800;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.backIcon {
+    color: var(--accents-3);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.fileIcons {
+
+    margin-bottom: var(--gap-double);
+    position: relative;
+    height: 100px;
+    width: 100px;
+    color: var(--success-light);
+    margin-left: -50px;
+}
+
+.fileIcons>* {
+    position: absolute;
+}
+
+.fileIcon1 {
+    transform: rotate(25deg);
+    left: 50px
+}
+
+.selectFile {
+    position: relative;
+}
+
+.selectFile input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    opacity: 0;
+}
+
+.selectFile button {
+    font-size: 16px;
+    padding: 10px
 }
 
 .titleContainer {

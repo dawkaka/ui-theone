@@ -267,7 +267,7 @@ export function PostFullView({ coupleName, postId }: { coupleName: string | stri
 
                 }}>
                     <p>
-                        something caption that is very long and I don't want to know why it is like
+                        something caption that is very long and I do not want to know why it is like
                         tha from ghana we are the best couple in the world
                         I know so and I feel so.
                     </p>

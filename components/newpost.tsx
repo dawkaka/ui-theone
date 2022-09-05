@@ -14,7 +14,6 @@ Modal.setAppElement("body")
 
 const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, close: () => void }> = ({ isOpen, close, open }) => {
 
-
     const [step, setStep] = useState(0)
     const [caption, setCaption] = useState("")
     const [aspectRatio, setAspectRatio] = useState(1)
@@ -27,7 +26,6 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const files = useRef<File[]>([])
     const blobs = useRef<string[]>([])
     const cropperRef = useRef<any>(null);
-
     const blob = useRef("")
     const altRef = useRef<HTMLDivElement>(null)
     const altTextRef = useRef<HTMLTextAreaElement>(null)
@@ -139,7 +137,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     useEffect(() => {
         setCurrentAlt(alt[carouselCurrent])
-    }, [carouselCurrent])
+    }, [carouselCurrent, alt])
 
     return (
         <Modal

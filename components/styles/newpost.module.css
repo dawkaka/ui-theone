@@ -194,8 +194,6 @@
     resize: none;
 }
 
-.captionContainer textarea {}
-
 .preBody {
     width: min(95vw, 470px);
     background-color: var(--background);
