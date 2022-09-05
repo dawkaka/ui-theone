@@ -11,7 +11,9 @@ import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal"
-Modal.setAppElement(`.${styles.section}`)
+
+
+Modal.setAppElement("body")
 
 export default function Profile() {
     const [step, setStep] = useState(0)
@@ -19,14 +21,34 @@ export default function Profile() {
     const cropperRef = useRef<any>(null)
     const avatarImgRef = useRef<HTMLImageElement>(null)
     const newFileRef = useRef<any>("")
+    const targetRef = useRef<"avatar" | "show">("avatar")
+    const [showImage, setShowImage] = useState(0)
+
 
     const editProfileImage = (e: React.MouseEvent<HTMLSpanElement>) => {
+        targetRef.current = "avatar"
         setIsOpen(true)
     }
 
     const onCrop = (e: any) => {
-        console.log(e)
+
     }
+
+    const onDone = () => {
+        newFileRef.current = cropperRef.current?.cropper.getCroppedCanvas().toDataURL()
+        if (targetRef.current === "avatar") {
+            avatarImgRef.current!.src = newFileRef.current
+        } else {
+            const imgTarget = document.querySelector<HTMLImageElement>("#show-image-" + showImage)
+            if (imgTarget) {
+                console.log(imgTarget.srcset)
+                imgTarget.srcset = newFileRef.current
+            }
+        }
+
+        setIsOpen(false)
+    }
+
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const fs = e.currentTarget.files
         if (fs) {
@@ -42,12 +64,18 @@ export default function Profile() {
     }
 
     useEffect(() => {
-
         if (step === 1) {
             cropperRef.current.src = newFileRef.current
         }
-
     }, [step])
+
+    const editShowImage = (n: number) => {
+        setShowImage(n)
+        setIsOpen(true)
+        targetRef.current = "show"
+    }
+
+    const showImages = ["/med.jpg", "/med2.jpg", "/me.jpg", "/me3.jpg", "/me2.jpg", "/me5.jpg"]
 
     return (
         <Layout>
@@ -102,24 +130,15 @@ export default function Profile() {
                 </div>
                 <div className={styles.profileBottom}>
                     <div className={styles.showImagesWrapper}>
-                        <article className={styles.showImageContainer}>
-                            <Image src={"/me.jpg"} height="230px" width="200px" layout="responsive" objectFit="cover" className={styles.showImage} />
-                        </article>
-                        <article className={styles.showImageContainer}>
-                            <Image src={"/me2.jpg"} height="230px" width="200px" layout="responsive" objectFit="cover" className={styles.showImage} />
-                        </article>
-                        <article className={styles.showImageContainer}>
-                            <Image src={"/me3.jpg"} height="230px" width="200px" layout="responsive" objectFit="cover" className={styles.showImage} />
-                        </article>
-                        <article className={styles.showImageContainer}>
-                            <Image src={"/me4.jpg"} height="230px" width="200px" layout="responsive" objectFit="cover" className={styles.showImage} />
-                        </article>
-                        <article className={styles.showImageContainer}>
-                            <Image src={"/me5.jpg"} height="230px" width="200px" layout="responsive" objectFit="cover" className={styles.showImage} />
-                        </article>
-                        <article className={styles.showImageContainer}>
-                            <Image src={"/me6.jpg"} height="230px" width="200px" layout="responsive" objectFit="cover" className={styles.showImage} />
-                        </article>
+                        {
+                            showImages.map((file, indx) => {
+                                return (
+                                    <ShowPicture file={file} position={indx} editProfileImage={editShowImage} />
+                                )
+                            })
+                        }
+
+
                     </div>
                 </div>
 
@@ -189,6 +208,7 @@ export default function Profile() {
                                     </div>
                                     <p>Crop</p>
                                     <div
+                                        onClick={onDone}
                                         className={styles.nextContainer}
                                     >
                                         <p>Done</p>
@@ -227,3 +247,32 @@ export default function Profile() {
         </Layout >
     )
 }
+
+
+
+const ShowPicture: React.FunctionComponent<{
+    editProfileImage: (a: number) => void,
+    file: string,
+    position: number
+}>
+    = ({ editProfileImage, position, file }) => {
+        const edit = () => {
+            editProfileImage(position)
+        }
+        return (
+            <article className={styles.showImageContainer}>
+                <div className={styles.showImage}>
+                    <Image src={file}
+                        height="230px" width="230px" layout="responsive"
+                        objectFit="cover" id={`show-image-${position}`} />
+                </div>
+                <span
+                    className={styles.showImageEdit}
+                    style={{ position: "absolute", top: 0, right: 0 }}
+                    onClick={edit}
+                >
+                    <MdModeEdit size={30} color="var(--accents-1)" />
+                </span>
+            </article>
+        )
+    }

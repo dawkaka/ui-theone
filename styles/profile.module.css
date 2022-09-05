@@ -275,6 +275,17 @@
     position: relative;
 }
 
+.showImage:hover~.showImageEdit {
+    display: block;
+}
+
+.showImageEdit {
+    display: none;
+}
+
+.showImageEdit:hover {
+    display: block;
+}
 
 @media only screen and (max-width: 570px) {
 
