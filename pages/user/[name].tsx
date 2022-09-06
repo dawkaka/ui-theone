@@ -13,7 +13,7 @@ import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal"
 
 
-Modal.setAppElement("body")
+Modal.setAppElement("#__next")
 
 export default function Profile() {
     const [step, setStep] = useState(0)

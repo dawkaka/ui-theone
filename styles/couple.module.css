@@ -13,6 +13,21 @@
     position: relative;
 }
 
+.cover:hover~.editCover {
+    display: block;
+}
+
+.editCover {
+    display: none;
+    padding: var(--gap-half);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+.editCover:hover {
+    display: block;
+}
+
 .profile {
     position: relative;
     transform: translateY(-80px);
@@ -30,20 +45,36 @@
     gap: var(--gap);
 }
 
-
 .imageContainer {
     position: relative;
     border: 5px solid var(--background);
-    display: grid;
-    place-items: center;
+    overflow: hidden;
     border-radius: 50%;
-    width: fit-content;
     padding: 0;
     margin: 0;
 }
 
 .profileImage {
     border-radius: 50%;
+}
+
+.avatarContainer {
+    top: 0;
+    left: 0;
+    display: none;
+    position: absolute;
+    border-radius: 50%;
+    place-items: center;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.avatarContainer:hover {
+    display: grid;
+}
+
+.profileImage:hover~.avatarContainer {
+    display: grid;
 }
 
 .profileActBtnContainer {
@@ -62,6 +93,99 @@
     border-radius: var(--radius-big);
     flex-shrink: 0;
     font-weight: normal;
+}
+
+.modalBody {
+    width: min(95vw, 600px);
+    background-color: var(--background);
+    border-radius: var(--radius-small);
+}
+
+.modalContent {
+    width: 100%;
+    flex-direction: column;
+    min-height: calc(50vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.requestHeader {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0 var(--gap-half) 0 var(--gap-half);
+    align-items: center;
+    border-bottom: 2px solid var(--accents-2);
+    width: 100%;
+}
+
+.requestHeader p {
+    font-size: 18px;
+    font-weight: 510;
+}
+
+.closeContainer {
+    color: var(--accents-3);
+    cursor: pointer;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.nextContainer {
+    color: var(--success);
+    cursor: pointer;
+    font-weight: 800;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.backIcon {
+    color: var(--accents-3);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.fileIcons {
+
+    margin-bottom: var(--gap-double);
+    position: relative;
+    height: 100px;
+    width: 100px;
+    color: var(--success-light);
+    margin-left: -50px;
+}
+
+.fileIcons>* {
+    position: absolute;
+}
+
+.fileIcon1 {
+    transform: rotate(25deg);
+    left: 50px
+}
+
+.selectFile {
+    position: relative;
+}
+
+.selectFile input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    opacity: 0;
+}
+
+.selectFile button {
+    font-size: 16px;
+    padding: 10px
 }
 
 .userName {
