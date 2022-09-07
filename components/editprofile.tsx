@@ -1,16 +1,19 @@
-import { useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { IoMdClose } from "react-icons/io"
 import Modal from "react-modal"
 import styles from "./styles/edit.module.css"
 
-Modal.setAppElement("#__next")
 
-const EditCouple: React.FunctionComponent<{ open: boolean }> = ({ open }) => {
-    const [isOpen, setOpen] = useState(open)
+const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        close()
+    }
+
     return (
         <Modal
-            isOpen={isOpen}
-            onRequestClose={() => setOpen(false)}
+            isOpen={open}
+            onRequestClose={close}
             style={{
                 overlay: {
                     zIndex: 1,
@@ -35,9 +38,9 @@ const EditCouple: React.FunctionComponent<{ open: boolean }> = ({ open }) => {
                 }
             }}
         >
-            <form className={styles.modalBody}>
+            <form className={styles.modalBody} onSubmit={handleSubmit}>
                 <div className={styles.requestHeader}>
-                    <div className={styles.backIcon} onClick={() => setOpen(false)}>
+                    <div className={styles.backIcon} onClick={close}>
                         <IoMdClose size={25} color="var(--accents-6)" />
                     </div>
                     <p>Edit</p>
@@ -51,7 +54,7 @@ const EditCouple: React.FunctionComponent<{ open: boolean }> = ({ open }) => {
                 <section className={styles.modalContent}>
                     <div className={styles.editItem}>
                         <label htmlFor="bio">Bio</label>
-                        <textarea id="bio">
+                        <textarea id="bio" className={styles.bio} placeholder="write bio">
                         </textarea>
                     </div>
                     <div className={styles.editItem}>
@@ -60,11 +63,11 @@ const EditCouple: React.FunctionComponent<{ open: boolean }> = ({ open }) => {
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="date">Date relationship began</label>
-                        <input type="date" id="date" />
+                        <input type="date" id="date" pattern="yyy-mm-d" />
                     </div>
                     <div className={styles.editItem}>
-                        <label htmlFor="website">Website</label>
-                        <input type="url" id="website" />
+                        <label htmlFor="contact">Contact</label>
+                        <input type="url" id="contact" placeholder="example@gmail.com" />
                     </div>
 
                 </section>

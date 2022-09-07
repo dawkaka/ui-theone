@@ -22,6 +22,7 @@ Modal.setAppElement("#__next")
 
 const CoupleProfile: NextPage = () => {
     const [step, setStep] = useState(0)
+    const [editOpen, setEditOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const cropperRef = useRef<any>(null)
     const newFileRef = useRef<any>("")
@@ -107,7 +108,7 @@ const CoupleProfile: NextPage = () => {
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
                                         <Actions size={25} orientation="landscape" />
-                                        {false ? <button>Follow</button> : <button className={styles.editButton}>Edit</button>}
+                                        {false ? <button>Follow</button> : <button className={styles.editButton} onClick={() => setEditOpen(true)}>Edit</button>}
                                     </div>
                                 </div>
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>
@@ -147,7 +148,7 @@ const CoupleProfile: NextPage = () => {
                         <Suggestions />
                     </div>
 
-                    <EditCouple open={true} />
+                    <EditCouple open={editOpen} close={() => setEditOpen(false)} />
                     <Modal
                         isOpen={isOpen}
                         onRequestClose={() => setIsOpen(false)}

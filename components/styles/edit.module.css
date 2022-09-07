@@ -7,8 +7,10 @@
 .modalContent {
     width: 100%;
     flex-direction: column;
-    min-height: calc(50vh);
+    min-height: 50vh;
+    max-height: 80vh;
     display: flex;
+    padding: var(--gap);
     overflow-y: auto;
 }
 
@@ -41,4 +43,34 @@
     font-weight: 800;
     padding: 5px var(--gap-half);
     border-radius: var(--radius-small)
+}
+
+.editItem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-quarter);
+    margin-bottom: var(--gap);
+    outline: none;
+}
+
+.editItem input {}
+
+.editItem textarea,
+.editItem input {
+    padding: var(--gap-quarter) var(--gap-half);
+    font-size: 1rem;
+    border: 2px solid var(--accents-3);
+    border-radius: var(--radius-tiny);
+}
+
+.editItem textarea:focus,
+.editItem input:focus {
+    outline: none;
+    border: 2px solid var(--success);
+}
+
+.bio {
+    width: 100%;
+    resize: vertical;
+    height: 100px;
 }
