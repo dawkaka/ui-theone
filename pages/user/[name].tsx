@@ -12,6 +12,8 @@ import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
+import { EditUser } from "../../components/editprofile";
+import { Actions } from "../../components/mis";
 
 
 Modal.setAppElement("#__next")
@@ -24,7 +26,7 @@ export default function Profile() {
     const newFileRef = useRef<any>("")
     const targetRef = useRef<"avatar" | "show">("avatar")
     const [showImage, setShowImage] = useState(0)
-
+    const [editOpen, setEditOpen] = useState(false)
     const router = useRouter()
 
 
@@ -103,13 +105,14 @@ export default function Profile() {
                                     </span>
                                 </div>
                                 <div className={styles.titleContainer}>
-                                    <h1 className={styles.userName}>ant.man</h1>
+                                    <h3 className={styles.userName}>@ant.man</h3>
                                     <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
                                     <div className={styles.requestContainer}>
                                         <div className={styles.requestButtonWrapper}>
-                                            <Link href={"/user"}>
+                                            {false ? <Link href={"/user"}>
                                                 <button type="button" className={styles.requestButton}>Send request</button>
-                                            </Link>
+                                            </Link> : <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>Edit</button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -127,7 +130,7 @@ export default function Profile() {
                             </h2>
                         </div>
                         <div className={styles.actions}>
-
+                            <Actions orientation="landscape" size={25} />
                         </div>
                     </div>
                 </div>
@@ -144,12 +147,7 @@ export default function Profile() {
 
                     </div>
                 </div>
-                <Modal
-                    isOpen={router.pathname === "/user/edit"}
-                >
-
-                </Modal>
-
+                <EditUser open={editOpen} close={() => setEditOpen(false)} />
                 <Modal
                     isOpen={isOpen}
                     onRequestClose={() => setIsOpen(false)}

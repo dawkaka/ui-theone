@@ -53,20 +53,18 @@
     outline: none;
 }
 
-.editItem input {}
-
 .editItem textarea,
 .editItem input {
     padding: var(--gap-quarter) var(--gap-half);
     font-size: 1rem;
-    border: 2px solid var(--accents-3);
+    border: 1px solid var(--accents-3);
     border-radius: var(--radius-tiny);
 }
 
 .editItem textarea:focus,
 .editItem input:focus {
     outline: none;
-    border: 2px solid var(--success);
+    border: 1px solid var(--success);
 }
 
 .bio {

@@ -1,5 +1,6 @@
 .section {
     border-right: var(--border);
+    padding-top: 15px;
     min-height: 100vh;
 
 }
@@ -19,7 +20,7 @@
     flex: 0 0 auto;
     margin-bottom: 20px;
     box-sizing: border-box;
-    padding-right: 92px;
+
     gap: var(--space-large);
 }
 
@@ -27,7 +28,7 @@
     display: flex;
     flex-direction: row;
     -webkit-box-align: center;
-    align-items: center;
+
     gap: var(--gap)
 }
 
@@ -165,29 +166,25 @@
 
 .titleContainer {
     flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
     overflow: hidden;
 }
 
 .userName {
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 38px;
+    font-weight: normal;
+    font-size: 22px;
     padding-bottom: var(--gap-quarter);
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: left;
+    color: var(--accents-5);
 }
 
 .realName {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 25px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 450px;
-    white-space: nowrap;
-    color: var(--accents-6);
+    font-weight: 500;
+    font-size: 25px;
+    max-width: 350px;
 }
 
 .requestContainer {
@@ -265,6 +262,12 @@
     padding: var(--gap);
 }
 
+.editButton {
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 2px solid var(--accents-2);
+}
+
 .showImagesWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -287,7 +290,7 @@
     display: block;
 }
 
-@media only screen and (max-width: 570px) {
+@media only screen and (max-width:500px) {
 
     .profileTopContainer {
         justify-content: grid;
@@ -296,13 +299,11 @@
         padding-bottom: 0;
     }
 
-    .profileTop {
-        padding-right: 0;
-    }
 
     .infoWrapper {
         display: grid;
         place-items: center;
+        text-align: center;
     }
 
     .infoContainer {
@@ -313,6 +314,14 @@
 
     .actions {
         position: absolute;
+    }
+
+    .userName {
+        order: 1
+    }
+
+    .requestContainer {
+        order: 2;
     }
 
     .bio {
