@@ -1,0 +1,44 @@
+.modalBody {
+    width: min(95vw, 600px);
+    background-color: var(--background);
+    border-radius: var(--radius-small);
+}
+
+.modalContent {
+    width: 100%;
+    flex-direction: column;
+    min-height: calc(50vh);
+    display: flex;
+    overflow-y: auto;
+}
+
+.requestHeader {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0 var(--gap-half) 0 var(--gap-half);
+    align-items: center;
+    border-bottom: 2px solid var(--accents-2);
+    width: 100%;
+}
+
+.requestHeader p {
+    font-size: 18px;
+    font-weight: 510;
+}
+
+.closeContainer {
+    color: var(--accents-3);
+    cursor: pointer;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.nextContainer {
+    color: #fff;
+    background-color: var(--success-light);
+    cursor: pointer;
+    font-weight: 800;
+    padding: 5px var(--gap-half);
+    border-radius: var(--radius-small)
+}

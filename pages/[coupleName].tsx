@@ -9,12 +9,14 @@ import Cropper from "react-cropper";
 import styles from "../styles/couple.module.css"
 import { Actions, Verified } from "../components/mis";
 import { Post } from "../components/post";
-import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import EditCouple from "../components/editprofile";
 
 Modal.setAppElement("#__next")
 
@@ -24,8 +26,7 @@ const CoupleProfile: NextPage = () => {
     const cropperRef = useRef<any>(null)
     const newFileRef = useRef<any>("")
     const targetRef = useRef<"avatar" | "cover">("avatar")
-
-
+    const router = useRouter
 
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const fs = e.currentTarget.files
@@ -106,7 +107,7 @@ const CoupleProfile: NextPage = () => {
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
                                         <Actions size={25} orientation="landscape" />
-                                        <button>follow</button>
+                                        {false ? <button>Follow</button> : <button className={styles.editButton}>Edit</button>}
                                     </div>
                                 </div>
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>
@@ -125,7 +126,7 @@ const CoupleProfile: NextPage = () => {
                                         </h2>
                                         <h2 className={styles.countInfo}>
                                             <div className={`${styles.countItem} ${styles.dateStarted}`}>
-                                                <p title="Following">{new Date().toDateString().substring(3)}</p>
+                                                <p title="Date relationship started">{new Date().toDateString().substring(3)}</p>
                                                 <span className={styles.countItemTitle}>Started</span>
                                             </div>
                                         </h2>
@@ -145,6 +146,8 @@ const CoupleProfile: NextPage = () => {
                     <div>
                         <Suggestions />
                     </div>
+
+                    <EditCouple open={true} />
                     <Modal
                         isOpen={isOpen}
                         onRequestClose={() => setIsOpen(false)}
@@ -243,6 +246,7 @@ const CoupleProfile: NextPage = () => {
                             )
                         }
                     </Modal>
+
                 </div>
             </Layout >
         </>

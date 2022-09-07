@@ -10,7 +10,8 @@ import { MdModeEdit } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
-import Modal from "react-modal"
+import Modal from "react-modal";
+import { useRouter } from "next/router";
 
 
 Modal.setAppElement("#__next")
@@ -23,6 +24,8 @@ export default function Profile() {
     const newFileRef = useRef<any>("")
     const targetRef = useRef<"avatar" | "show">("avatar")
     const [showImage, setShowImage] = useState(0)
+
+    const router = useRouter()
 
 
     const editProfileImage = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -141,6 +144,11 @@ export default function Profile() {
 
                     </div>
                 </div>
+                <Modal
+                    isOpen={router.pathname === "/user/edit"}
+                >
+
+                </Modal>
 
                 <Modal
                     isOpen={isOpen}
