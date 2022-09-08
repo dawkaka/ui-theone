@@ -6,6 +6,7 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import styles from "./styles/post.module.css";
 import { Actions, Verified } from "./mis";
 import { FaAd } from "react-icons/fa";
+import { BsEmojiSmile } from "react-icons/bs";
 import Comment from "./comment"
 interface post {
     userName: string;
@@ -140,15 +141,18 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         </Link>
                     </div>
                 </div>
-                <div className={styles.commentContainer}>
-                    <FaAd />
+                <form className={styles.commentContainer} onSubmit={(e) => e.preventDefault()}>
+                    <BsEmojiSmile />
                     <textarea aria-label="Add a comment…" placeholder="Add a comment…"
-                        autoComplete="off" autoCorrect="off"></textarea>
+                        autoComplete="off" autoCorrect="off" onKeyUp={(e) => {
+                            e.currentTarget.style.height = "1px";
+                            e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
+                        }}></textarea>
                     <div>
                         <button>post</button>
                     </div>
 
-                </div>
+                </form>
             </div>
 
         </article>
@@ -306,17 +310,20 @@ export function PostFullView({ coupleName, postId }: { coupleName: string | stri
                             </div>
                         </div>
                     </div>
-                    <div className={styles.commentContainer} style={{
+                    <form className={styles.commentContainer} style={{
                         paddingBlock: "var(--gap)"
                     }}>
-                        <FaAd />
+                        <BsEmojiSmile />
                         <textarea aria-label="Add a comment…" placeholder="Add a comment…"
-                            autoComplete="off" autoCorrect="off"></textarea>
+                            autoComplete="off" autoCorrect="off" onKeyUp={(e) => {
+                                e.currentTarget.style.height = "1px";
+                                e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
+                            }}></textarea>
                         <div>
                             <button>post</button>
                         </div>
 
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
