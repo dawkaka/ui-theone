@@ -1,8 +1,7 @@
 .suggestionsContainer {
     position: relative;
     padding-block: var(--gap);
-    display: grid;
-    place-items: center;
+    padding-left: var(--gap);
 }
 
 .suggestionsWrapper {
@@ -15,6 +14,7 @@
 
 .suggestionsWrapper h1 {
     margin-bottom: var(--gap);
+    font-size: 1rem;
 }
 
 @media screen and (max-width: 750px) {
