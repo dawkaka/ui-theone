@@ -14,7 +14,7 @@ import Modal from "react-modal";
 import { useRouter } from "next/router";
 import { EditUser } from "../../components/editprofile";
 import { Actions } from "../../components/mis";
-
+import { UserSettings } from "../../components/settings"
 
 Modal.setAppElement("#__next")
 
@@ -27,6 +27,7 @@ export default function Profile() {
     const targetRef = useRef<"avatar" | "show">("avatar")
     const [showImage, setShowImage] = useState(0)
     const [editOpen, setEditOpen] = useState(false)
+    const [openSettings, setOpenSettings] = useState(false)
     const router = useRouter()
 
 
@@ -129,7 +130,7 @@ export default function Profile() {
                     Dm on Instagram @fatimazawwa for promo`}
                             </h2>
                         </div>
-                        <div className={styles.actions}>
+                        <div className={styles.actions} onClick={() => setOpenSettings(true)}>
                             <Actions orientation="landscape" size={25} />
                         </div>
                     </div>
@@ -148,6 +149,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <EditUser open={editOpen} close={() => setEditOpen(false)} />
+                <UserSettings open={openSettings} close={() => setOpenSettings(false)} />
                 <Modal
                     isOpen={isOpen}
                     onRequestClose={() => setIsOpen(false)}

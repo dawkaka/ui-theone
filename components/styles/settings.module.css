@@ -1,0 +1,93 @@
+.modalBody {
+    width: min(95vw, 400px);
+    background-color: var(--background);
+    border-radius: var(--radius-small);
+}
+
+.modalContent {
+    width: 100%;
+    flex-direction: column;
+    min-height: 50vh;
+    max-height: 80vh;
+    display: flex;
+    overflow-y: auto;
+}
+
+.requestHeader {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0 var(--gap-half) 0 var(--gap-half);
+    align-items: center;
+    border-bottom: 2px solid var(--accents-2);
+    width: 100%;
+    margin-bottom: var(--gap);
+}
+
+.requestHeader p {
+    font-size: 18px;
+    font-weight: 510;
+}
+
+.closeContainer {
+    color: var(--accents-3);
+    cursor: pointer;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.nextContainer {
+    color: #fff;
+    background-color: var(--success-light);
+    cursor: pointer;
+    font-weight: 800;
+    padding: 5px var(--gap-half);
+    border-radius: var(--radius-small)
+}
+
+.settingItemHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--accents-2);
+    padding: var(--gap-quarter);
+    padding-inline: var(--gap-half);
+    cursor: pointer;
+    color: var(--accents-7);
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    height: 0;
+    overflow: hidden;
+    margin-bottom: var(--gap-half);
+}
+
+.inputContainer input {
+    padding: var(--gap-quarter) var(--gap-half);
+    font-size: 1rem;
+    border: 2px solid var(--accents-2);
+    border-radius: var(--radius-tiny);
+    margin-bottom: var(--gap-half);
+}
+
+.inputContainer input:focus {
+    outline: none;
+    border: 1px solid var(--success-light);
+}
+
+.inputContainer button {
+    background-color: transparent;
+    color: var(--success-light);
+    align-self: flex-end;
+}
+
+.show {
+    transform: rotate(180deg);
+}
+
+.expand {
+    padding: var(--gap-half);
+    height: max-content;
+}
