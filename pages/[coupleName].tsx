@@ -108,7 +108,7 @@ const CoupleProfile: NextPage = () => {
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
                                         <Actions size={25} orientation="landscape" />
-                                        {false ? <button>Follow</button> : <button className={styles.editButton} onClick={() => setEditOpen(true)}>Edit</button>}
+                                        {true ? <button>Follow</button> : <button className={styles.editButton} onClick={() => setEditOpen(true)}>Edit</button>}
                                     </div>
                                 </div>
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>

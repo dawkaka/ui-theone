@@ -125,7 +125,7 @@ button {
   background-color: var(--success-light);
   margin: 0;
   font-weight: bold;
-  border-radius: var(--radius-small);
+  border-radius: var(--radius-tiny);
   color: white;
   cursor: pointer;
 }

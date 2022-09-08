@@ -90,7 +90,7 @@
     font-size: 1.1rem;
     flex-basis: 20%;
     min-width: 100px;
-    border-radius: var(--radius-big);
+    border-radius: var(--radius-tiny);
     flex-shrink: 0;
     font-weight: normal;
 }
