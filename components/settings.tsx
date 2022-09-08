@@ -82,12 +82,12 @@ const SettingInputItem: React.FunctionComponent<{ type: string, title: string, s
     }
     return (
         <form onSubmit={change}>
-            <div tabIndex={0} className={styles.settingItemHeader} onClick={showInputs}>
+            <button className={styles.settingItemHeader} onClick={showInputs}>
                 <p>{title}</p>
                 <div ref={iconRef}>
                     <FaCaretDown />
                 </div>
-            </div>
+            </button>
             <div ref={containerRef} className={styles.inputContainer}>
                 {title.toLocaleLowerCase() === "password" ?
                     <input type={type} value={val} placeholder={`Current ${title.toLocaleLowerCase()}`} />

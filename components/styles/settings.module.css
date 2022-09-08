@@ -11,6 +11,7 @@
     max-height: 80vh;
     display: flex;
     overflow-y: auto;
+    padding-bottom: var(--gap);
 }
 
 .requestHeader {
@@ -49,18 +50,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: transparent;
+    border-radius: 0;
+    width: 100%;
     border-bottom: 2px solid var(--accents-2);
     padding: var(--gap-quarter);
     padding-inline: var(--gap-half);
+    font-size: 16px;
+    font-weight: normal;
     cursor: pointer;
-    color: var(--accents-7);
+    color: var(--foreground);
 }
 
 .inputContainer {
-    display: flex;
+    display: none;
     flex-direction: column;
-    height: 0;
-    overflow: hidden;
+    padding: var(--gap-half);
     margin-bottom: var(--gap-half);
 }
 
@@ -88,6 +93,5 @@
 }
 
 .expand {
-    padding: var(--gap-half);
-    height: max-content;
+    display: flex;
 }
