@@ -1,5 +1,5 @@
 .modalBody {
-    width: min(95vw, 400px);
+    width: min(95vw, 450px);
     background-color: var(--background);
     border-radius: var(--radius-small);
 }
@@ -46,6 +46,10 @@
     border-radius: var(--radius-small)
 }
 
+.itemContainer {
+    margin-bottom: var(--gap-half);
+}
+
 .settingItemHeader {
     display: flex;
     align-items: center;
@@ -65,8 +69,20 @@
 .inputContainer {
     display: none;
     flex-direction: column;
+    --0: var(--success-lighter);
+    --1: var(--yellow-light);
     padding: var(--gap-half);
     margin-bottom: var(--gap-half);
+}
+
+.inputContainer label {
+    font-size: 12px;
+    border-radius: var(--radius-big);
+    padding: 2px var(--gap-quarter);
+}
+
+.inputContainer input[type="radio"] {
+    accent-color: var(--success-light);
 }
 
 .inputContainer input {

@@ -58,7 +58,8 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     <SettingInputItem title="User name" type="text" submit={changeUserName} />
                     <SettingInputItem title="Password" type="text" submit={changeUserName} />
                     <SettingInputItem title="Email" type="text" submit={changeUserName} />
-                    <SettingInputItem title="Username" type="text" submit={changeUserName} />
+                    <SettingRadio title="Language" options={["English", "Español"]} />
+                    <SettingRadio title="Theme" options={["Light", "Dark"]} />
                 </section>
             </div>
         </Modal>
@@ -81,7 +82,7 @@ const SettingInputItem: React.FunctionComponent<{ type: string, title: string, s
         containerRef.current!.classList.toggle(`${styles.expand}`)
     }
     return (
-        <form onSubmit={change}>
+        <form onSubmit={change} className={styles.itemContainer}>
             <button className={styles.settingItemHeader} onClick={showInputs}>
                 <p>{title}</p>
                 <div ref={iconRef}>
@@ -99,6 +100,44 @@ const SettingInputItem: React.FunctionComponent<{ type: string, title: string, s
                     : null
                 }
                 <button>Change</button>
+            </div>
+        </form>
+    )
+}
+
+const SettingRadio: React.FunctionComponent<{ title: string; options: string[] }> = ({ title, options }) => {
+    const [val, setVal] = useState("")
+    const iconRef = useRef<HTMLDivElement>(null)
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    const change = (e: FormEvent) => {
+        e.preventDefault()
+    }
+    const showInputs = () => {
+        iconRef.current!.classList.toggle(`${styles.show}`)
+        containerRef.current!.classList.toggle(`${styles.expand}`)
+    }
+    return (
+        <form onSubmit={change} className={styles.itemContainer}>
+            <button className={styles.settingItemHeader} onClick={showInputs}>
+                <p>{title}</p>
+                <div ref={iconRef}>
+                    <FaCaretDown />
+                </div>
+            </button>
+            <div ref={containerRef} className={styles.inputContainer}>
+                <div>
+                    {
+                        options.map((option, indx) => (
+                            <div key={option}>
+                                <input type="radio" id={option} value={option} name={title} />
+                                <label htmlFor={option} style={{ backgroundColor: `var(--${indx})` }}>{option}</label>
+                            </div>
+                        ))
+                    }
+                </div>
+
+                {title === "Theme" ? null : <button>Change</button>}
             </div>
         </form>
     )
