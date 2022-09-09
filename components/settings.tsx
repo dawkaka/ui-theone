@@ -1,13 +1,15 @@
-import { FormEvent, MouseEventHandler, useRef, useState } from "react"
+import { ChangeEvent, FormEvent, MouseEventHandler, useEffect, useRef, useState } from "react"
 import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
 import styles from "./styles/settings.module.css"
 import { FaCaretDown } from "react-icons/fa";
 
+Modal.setAppElement("body")
+
 const modalStyles: Modal.Styles = {
     overlay: {
         zIndex: 1,
-        backgroundColor: "rgba(0,0,0,0.75)",
+        backgroundColor: "var(--modal-overlay)",
         paddingInline: "var(--gap)",
         display: "flex",
         flexDirection: "column",
@@ -21,6 +23,7 @@ const modalStyles: Modal.Styles = {
         overflow: "hidden",
         justifyContent: "center",
         display: "flex",
+        backgroundColor: "var(--background)",
         flexDirection: "column",
         alignItems: "center",
         left: 0,
@@ -32,6 +35,29 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
 
     const changeUserName = (newName: string) => {
         console.log(newName)
+    }
+
+    const themeChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const val = e.currentTarget.value
+        const modals = document.querySelectorAll(".ReactModal__Content")
+        window.localStorage.setItem("Theme", val)
+        if (val == "Dark") {
+            document.querySelector("body")!.className = "dark"
+            document.documentElement.style.colorScheme = "dark"
+            for (let modal of Array.from(modals)) {
+                modal.classList.add("dark")
+            }
+        } else {
+            document.querySelector("body")!.className = "light"
+            document.documentElement.style.colorScheme = "light"
+            for (let modal of Array.from(modals)) {
+                modal.classList.remove("dark")
+            }
+        }
+    }
+
+    const langChange = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(e.currentTarget.value)
     }
 
     return (
@@ -58,8 +84,8 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     <SettingInputItem title="User name" type="text" submit={changeUserName} />
                     <SettingInputItem title="Password" type="text" submit={changeUserName} />
                     <SettingInputItem title="Email" type="text" submit={changeUserName} />
-                    <SettingRadio title="Language" options={["English", "Español"]} />
-                    <SettingRadio title="Theme" options={["Light", "Dark"]} />
+                    <SettingRadio title="Language" options={["English", "Español"]} value="English" handleChange={langChange} />
+                    <SettingRadio title="Theme" options={["Light", "Dark"]} value="Light" handleChange={themeChange} />
                 </section>
             </div>
         </Modal>
@@ -105,20 +131,27 @@ const SettingInputItem: React.FunctionComponent<{ type: string, title: string, s
     )
 }
 
-const SettingRadio: React.FunctionComponent<{ title: string; options: string[] }> = ({ title, options }) => {
-    const [val, setVal] = useState("")
+const SettingRadio: React.FunctionComponent<{
+    title: "Theme" | "Language"; options: string[];
+    value: string; handleChange: (e: ChangeEvent<HTMLInputElement>) => void
+}> = ({ title, options, value, handleChange }) => {
+    const [val, setVal] = useState(value)
     const iconRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
-    const change = (e: FormEvent) => {
-        e.preventDefault()
+    const change = (e: ChangeEvent<HTMLInputElement>) => {
+        setVal(e.currentTarget.value)
+        handleChange(e)
     }
+
     const showInputs = () => {
         iconRef.current!.classList.toggle(`${styles.show}`)
         containerRef.current!.classList.toggle(`${styles.expand}`)
     }
+
+
     return (
-        <form onSubmit={change} className={styles.itemContainer}>
+        <div className={styles.itemContainer} role="form">
             <button className={styles.settingItemHeader} onClick={showInputs}>
                 <p>{title}</p>
                 <div ref={iconRef}>
@@ -130,15 +163,13 @@ const SettingRadio: React.FunctionComponent<{ title: string; options: string[] }
                     {
                         options.map((option, indx) => (
                             <div key={option}>
-                                <input type="radio" id={option} value={option} name={title} />
+                                <input type="radio" id={option} value={option} name={title} onChange={change} checked={option === val} />
                                 <label htmlFor={option} style={{ backgroundColor: `var(--${indx})` }}>{option}</label>
                             </div>
                         ))
                     }
                 </div>
-
-                {title === "Theme" ? null : <button>Change</button>}
             </div>
-        </form>
+        </div>
     )
 }

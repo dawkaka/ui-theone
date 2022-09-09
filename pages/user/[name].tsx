@@ -156,7 +156,7 @@ export default function Profile() {
                     style={{
                         overlay: {
                             zIndex: 1,
-                            backgroundColor: "rgba(0,0,0,0.75)",
+                            backgroundColor: "var(--modal-overlay)",
                             paddingInline: "var(--gap)",
                             display: "flex",
                             flexDirection: "column",
@@ -167,6 +167,7 @@ export default function Profile() {
                             position: "relative",
                             padding: 0,
                             margin: 0,
+                            backgroundColor: "var(--background)",
                             overflow: "hidden",
                             justifyContent: "center",
                             display: "flex",
@@ -182,7 +183,7 @@ export default function Profile() {
                             <div className={styles.modalBody}>
                                 <div className={styles.requestHeader}>
                                     <p>Select Image</p>
-                                    <div onClick={() => close()}
+                                    <div onClick={() => setIsOpen(false)}
                                         className={styles.closeContainer}
                                     >
                                         <IoMdClose color="tranparent" size={25} />
@@ -279,7 +280,7 @@ const ShowPicture: React.FunctionComponent<{
                     style={{ position: "absolute", top: 0, right: 0 }}
                     onClick={edit}
                 >
-                    <MdModeEdit size={30} color="var(--accents-1)" />
+                    <MdModeEdit size={20} color="var(--accents-1)" />
                 </span>
             </article>
         )

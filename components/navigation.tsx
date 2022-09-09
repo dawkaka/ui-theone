@@ -21,7 +21,7 @@ export default function Navigation() {
 
     const modalOverlay: CSSProperties = {
         zIndex: 1,
-        backgroundColor: "rgba(0,0,0,0.75)",
+        backgroundColor: "var(--modal-overlay)",
         paddingInline: "var(--gap)",
         display: "flex",
         flexDirection: "column",

@@ -1,6 +1,7 @@
 .modalBody {
     width: min(95vw, 450px);
     background-color: var(--background);
+    color: var(--foreground);
     border-radius: var(--radius-small);
 }
 
@@ -69,7 +70,7 @@
 .inputContainer {
     display: none;
     flex-direction: column;
-    --0: var(--success-lighter);
+    --0: var(--success-dark);
     --1: var(--yellow-light);
     padding: var(--gap-half);
     margin-bottom: var(--gap-half);

@@ -265,7 +265,7 @@
 .editButton {
     background-color: var(--background);
     color: var(--foreground);
-    border: 2px solid var(--accents-2);
+    border: var(--border)
 }
 
 .showImagesWrapper {
@@ -284,6 +284,10 @@
 
 .showImageEdit {
     display: none;
+    background-color: var(--accents-7);
+    padding: 5px 6px;
+    border-radius: 50%;
+    text-align: center;
 }
 
 .showImageEdit:hover {

@@ -69,6 +69,8 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   --font-mono: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
   --header-height: 64px;
+  --modal-overlay: rgba(0, 0, 0, 0.75);
+  --border: 1px solid var(--accents-2)
 }
 
 
@@ -112,10 +114,26 @@ a {
   box-sizing: border-box;
 }
 
+.dark {
+  --background: #111;
+  --foreground: #FFF;
+  --accents-1: #1c1c1c;
+  --accents-2: #333;
+  --accents-3: #444;
+  --accents-4: #666;
+  --accents-5: #888;
+  --accents-6: #999;
+  --accents-7: #EAEAEA;
+  --accents-8: #FAFAFA;
+  --modal-overlay: rgba(1, 1, 1, 0.75);
+  --border: 1px solid #333;
+  color: var(--foreground);
+}
+
 body {
   display: flex;
   justify-content: center;
-  --border: 1px solid var(--accents-2)
+
 }
 
 li {
@@ -150,5 +168,23 @@ input[type="search"]:focus {
   body {
     color: white;
     background: black;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --background: #111;
+    --foreground: #FFF;
+    --accents-1: #222;
+    --accents-2: #333;
+    --accents-3: var(--accents-6);
+    --accents-4: var(--accents-5);
+    --accents-5: var(--accents-4);
+    --accents-6: var(--accents-3);
+    --accents-7: #EAEAEA;
+    --accents-8: #FAFAFA;
+    --modal-overlay: rgba(1, 1, 1, 0.75);
+    --border: 1px solid #333;
+    color: var(--foreground);
   }
 }

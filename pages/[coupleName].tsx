@@ -14,7 +14,6 @@ import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import EditCouple from "../components/editprofile";
 
@@ -155,7 +154,7 @@ const CoupleProfile: NextPage = () => {
                         style={{
                             overlay: {
                                 zIndex: 1,
-                                backgroundColor: "rgba(0,0,0,0.75)",
+                                backgroundColor: "var(--modal-overlay)",
                                 paddingInline: "var(--gap)",
                                 display: "flex",
                                 flexDirection: "column",
@@ -165,6 +164,7 @@ const CoupleProfile: NextPage = () => {
                                 alignSelf: "center",
                                 position: "relative",
                                 padding: 0,
+                                backgroundColor: "var(--background)",
                                 margin: 0,
                                 overflow: "hidden",
                                 justifyContent: "center",
@@ -181,7 +181,7 @@ const CoupleProfile: NextPage = () => {
                                 <div className={styles.modalBody}>
                                     <div className={styles.requestHeader}>
                                         <p>Select Image</p>
-                                        <div onClick={() => close()}
+                                        <div onClick={() => setIsOpen(false)}
                                             className={styles.closeContainer}
                                         >
                                             <IoMdClose color="tranparent" size={25} />

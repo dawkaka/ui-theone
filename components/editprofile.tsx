@@ -6,7 +6,7 @@ import styles from "./styles/edit.module.css"
 const modalStyles: Modal.Styles = {
     overlay: {
         zIndex: 1,
-        backgroundColor: "rgba(0,0,0,0.75)",
+        backgroundColor: "var(--modal-overlay)",
         paddingInline: "var(--gap)",
         display: "flex",
         flexDirection: "column",
@@ -18,6 +18,7 @@ const modalStyles: Modal.Styles = {
         padding: 0,
         margin: 0,
         overflow: "hidden",
+        backgroundColor: "black",
         justifyContent: "center",
         display: "flex",
         flexDirection: "column",

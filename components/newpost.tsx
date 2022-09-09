@@ -146,7 +146,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
             style={{
                 overlay: {
                     zIndex: 1,
-                    backgroundColor: "rgba(0,0,0,0.75)",
+                    backgroundColor: "var(--modal-overlay)",
                     paddingInline: "var(--gap)",
                     display: "flex",
                     flexDirection: "column",
@@ -155,6 +155,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                 content: {
                     alignSelf: "center",
                     position: "relative",
+                    backgroundColor: "var(--background)",
                     padding: 0,
                     margin: 0,
                     overflow: "hidden",
