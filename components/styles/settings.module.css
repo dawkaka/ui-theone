@@ -70,8 +70,9 @@
 .inputContainer {
     display: none;
     flex-direction: column;
-    --0: var(--success-dark);
-    --1: var(--yellow-light);
+    --0: #29bdc1;
+    --1: #00ffab;
+    --2: rgba(145, 63, 146, .75);
     padding: var(--gap-half);
     margin-bottom: var(--gap-half);
 }
@@ -80,6 +81,7 @@
     font-size: 12px;
     border-radius: var(--radius-big);
     padding: 2px var(--gap-quarter);
+    color: black;
 }
 
 .inputContainer input[type="radio"] {
