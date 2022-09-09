@@ -140,7 +140,7 @@ export default function Profile() {
                         {
                             showImages.map((file, indx) => {
                                 return (
-                                    <ShowPicture file={file} position={indx} editProfileImage={editShowImage} />
+                                    <ShowPicture file={file} position={indx} editProfileImage={editShowImage} key={indx} />
                                 )
                             })
                         }

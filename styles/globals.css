@@ -170,21 +170,3 @@ input[type="search"]:focus {
     background: black;
   }
 }
-
-@media (prefers-color-scheme: dark) {
-  body {
-    --background: #111;
-    --foreground: #FFF;
-    --accents-1: #222;
-    --accents-2: #333;
-    --accents-3: var(--accents-6);
-    --accents-4: var(--accents-5);
-    --accents-5: var(--accents-4);
-    --accents-6: var(--accents-3);
-    --accents-7: #EAEAEA;
-    --accents-8: #FAFAFA;
-    --modal-overlay: rgba(1, 1, 1, 0.75);
-    --border: 1px solid #333;
-    color: var(--foreground);
-  }
-}
