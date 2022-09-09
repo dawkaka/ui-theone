@@ -105,11 +105,11 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                 <section className={styles.modalContent}>
                     <div className={styles.editItem}>
                         <label htmlFor="first">First Name*</label>
-                        <input type="text" id="first" required />
+                        <input type="text" id="first" required placeholder="Enter first name" />
 
                     </div> <div className={styles.editItem}>
                         <label htmlFor="last">Last Name*</label>
-                        <input type="text" id="last" required />
+                        <input type="text" id="last" required placeholder="Enter last name" />
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="last">Date of Birth*</label>

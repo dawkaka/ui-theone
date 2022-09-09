@@ -89,6 +89,10 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     <SettingInputItem title="Email" type="text" submit={changeUserName} />
                     <SettingRadio title="Language" options={["en_English", "es_Español", "fr_French"]} value={locale!} handleChange={langChange} />
                     <SettingRadio title="Theme" options={["Light", "Dark"]} value={theme} handleChange={themeChange} />
+                    <div className={styles.dangerousActionContainer}>
+                        <button>Logout</button>
+                        <button>Delete account</button>
+                    </div>
                 </section>
             </div>
         </Modal>

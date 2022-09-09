@@ -18,12 +18,11 @@
 .requestHeader {
     display: flex;
     justify-content: space-between;
-    height: 50px;
+    height: 40px;
     padding: 0 var(--gap-half) 0 var(--gap-half);
     align-items: center;
     border-bottom: 2px solid var(--accents-2);
     width: 100%;
-    margin-bottom: var(--gap);
 }
 
 .requestHeader p {
@@ -58,7 +57,7 @@
     background-color: transparent;
     border-radius: 0;
     width: 100%;
-    border-bottom: 2px solid var(--accents-2);
+    border-bottom: 1px solid var(--accents-2);
     padding: var(--gap-quarter);
     padding-inline: var(--gap-half);
     font-size: 16px;
@@ -119,4 +118,19 @@
 
 .expand {
     display: flex;
+}
+
+.dangerousActionContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--gap);
+    padding-inline: var(--gap);
+}
+
+.dangerousActionContainer button {
+    margin-top: var(--gap);
+    padding: var(--gap-half) var(--gap);
+    color: red;
+    background-color: transparent;
+    border: 1px solid var(--accents-2);
 }
