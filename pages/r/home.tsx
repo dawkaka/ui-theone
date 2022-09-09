@@ -58,7 +58,7 @@ export default function HomePage() {
                         position: "relative"
                     }
                 }} >
-                <PostFullView postId={router.query.postId} coupleName={router.pathname} />
+                <PostFullView postId={router.query.postId} couplename={router.pathname} />
             </Modal>
         </Layout >
     )

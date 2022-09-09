@@ -130,7 +130,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     <div className={styles.captionContainer}>
                         <Link
                             shallow
-                            href={{ pathname: "/[coupleName]/[something]" }}
+                            href={{ pathname: "/[couplename]/[something]" }}
                             as={`/whatever/${encodeURIComponent("something")}`}
                         >
                             <a>
@@ -160,7 +160,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
 }
 
 
-export function PostFullView({ coupleName, postId }: { coupleName: string | string[] | undefined; postId: string | string[] | undefined }) {
+export function PostFullView({ couplename, postId }: { couplename: string | string[] | undefined; postId: string | string[] | undefined }) {
 
     const files = [{
         name: "/me7.jpg",

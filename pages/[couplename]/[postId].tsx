@@ -5,7 +5,7 @@ import { PostFullView } from "../../components/post"
 
 export default function Post() {
     const router = useRouter()
-    const { postId, coupleName } = router.query
+    const { postId, couplename } = router.query
     return (
         <Layout>
             <div style={{
@@ -17,7 +17,7 @@ export default function Post() {
                 justifyContent: "center"
             }}>
                 <div style={{ height: "80%", border: "1px  solid var(--accents-2)" }}>
-                    <PostFullView coupleName={coupleName!} postId={postId!} />
+                    <PostFullView couplename={couplename!} postId={postId!} />
                 </div>
 
             </div>
