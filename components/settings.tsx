@@ -163,20 +163,18 @@ const SettingRadio: React.FunctionComponent<{
                 </div>
             </button>
             <div ref={containerRef} className={styles.inputContainer}>
-                <div>
-                    {
-                        options.map((option, indx) => {
-                            const v = title === "Language" ? option.split("_")[0] : option
-                            const lab = title === "Language" ? option.split("_")[1] : option
-                            return (
-                                <div key={option}>
-                                    <input type="radio" id={option} value={v} name={title} onChange={change} checked={v === val} />
-                                    <label htmlFor={option} style={{ background: `var(--${indx})` }}>{lab}</label>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+                {
+                    options.map((option, indx) => {
+                        const v = title === "Language" ? option.split("_")[0] : option
+                        const lab = title === "Language" ? option.split("_")[1] : option
+                        return (
+                            <div key={option} className={styles.inputContainerInner}>
+                                <input type="radio" id={option} value={v} name={title} onChange={change} checked={v === val} />
+                                <label htmlFor={option} style={{ background: `var(--${indx})` }}>{lab}</label>
+                            </div>
+                        )
+                    })
+                }
             </div>
         </div>
     )

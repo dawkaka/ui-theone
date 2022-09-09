@@ -70,14 +70,15 @@
 .inputContainer {
     display: none;
     flex-direction: column;
-    --0: #29bdc1;
+    --0: dodgerblue;
     --1: #00ffab;
-    --2: rgba(145, 63, 146, .75);
+    --2: rgba(237, 95, 239);
     padding: var(--gap-half);
     margin-bottom: var(--gap-half);
 }
 
 .inputContainer label {
+    margin-top: 2px;
     font-size: 12px;
     border-radius: var(--radius-big);
     padding: 2px var(--gap-quarter);
@@ -94,6 +95,11 @@
     border: 2px solid var(--accents-2);
     border-radius: var(--radius-tiny);
     margin-bottom: var(--gap-half);
+}
+
+.inputContainerInner {
+    display: flex;
+    align-items: flex-start;
 }
 
 .inputContainer input:focus {
