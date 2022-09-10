@@ -18,6 +18,7 @@ export default function Navigation() {
     const [openRequest, setOpenRequest] = useState(false)
     const [hideHeader, setHideHeader] = useState(false)
     const [openPostModal, setOpenPostModal] = useState(false)
+    const [hideBottomTab, setHideBottomTab] = useState(false)
 
     const modalOverlay: CSSProperties = {
         zIndex: 1,
@@ -29,21 +30,24 @@ export default function Navigation() {
     }
 
     useEffect(() => {
-        if (window.screen.width < 750 && pathname !== "/r/home") {
-            setHideHeader(true)
+        if (window.screen.width < 751) {
+            if (pathname !== "/r/home") setHideHeader(true)
+            if (pathname === "/r/messages") setHideBottomTab(true)
         }
         window.addEventListener("resize", () => {
-            if (window.screen.width < 750 && pathname !== "/r/home") {
-                setHideHeader(true)
+            if (window.screen.width < 751) {
+                if (pathname !== "/r/home") setHideHeader(true)
+                if (pathname === "/r/messages") setHideBottomTab(true)
             } else {
                 setHideHeader(false)
+                setHideBottomTab(false)
             }
         })
     }, [pathname])
 
     return (
         <>
-            <aside className={styles.container}>
+            {hideBottomTab ? null : <aside className={styles.container}>
                 <nav className={styles.nav}>
                     <div className={`${styles.logoContainer}`} aria-label="company logo, el wahid">
                         <Link href={"/r/home"}>
@@ -114,6 +118,7 @@ export default function Navigation() {
 
                 </nav>
             </aside>
+            }
             <Modal
                 isOpen={openRequest}
                 onRequestClose={() => setOpenRequest(false)}

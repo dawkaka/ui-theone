@@ -3,50 +3,39 @@ import styles from "../../styles/messages.module.css";
 import Layout from "../../components/mainLayout";
 import { GoFileMedia } from "react-icons/go";
 import { AiOutlineSend } from 'react-icons/ai';
+import { FaBackward } from "react-icons/fa";
+import { BiArrowBack } from "react-icons/bi";
+import { useRouter } from "next/router";
 
 export default function Messages() {
+    const router = useRouter()
+
     return (
         <Layout>
             <div className={styles.messagePageContainer}>
                 <div className={styles.messagingContainer}>
-                    <section className={styles.usersMessagesContainer}>
-                        <div className={styles.fixedContainer}>
-                            <div className={styles.header}>
-                                <h3>Messaging</h3>
-                            </div>
-                            <div className={styles.searchContainer}>
-                                <input type="search" placeholder="Search messages..." className={styles.search} />
-                            </div>
-                        </div>
-                        <div className={styles.chatItemsContainer}>
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified={false} />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me5.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me4.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
-                        </div>
-                        <div></div>
-                    </section>
                     <section className={styles.chatContainer}>
                         <div className={styles.header}>
-                            <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
-                                <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
-                                    <Image
-                                        layout="fill"
-                                        objectFit="cover"
-                                        src={"/me.jpg"}
-                                        className={styles.profileImage}
-                                    />
-                                </span>
+                            <div style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "var(--gap)"
+                            }}>
+                                <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
+                                    <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
+                                        <Image
+                                            layout="fill"
+                                            objectFit="cover"
+                                            src={"/me.jpg"}
+                                            className={styles.profileImage}
+                                        />
+                                    </span>
+                                </div>
+                                <h4>john.doe</h4>
                             </div>
-                            <h4>john.doe</h4>
+                            <div onClick={() => router.back()} className={styles.backIcon}>
+                                <BiArrowBack />
+                            </div>
                         </div>
                         <div className={styles.pmWrapper}>
                             <ChatMessage text="hello world !!!" />

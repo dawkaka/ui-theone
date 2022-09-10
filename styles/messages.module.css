@@ -16,31 +16,37 @@
     display: flex;
 }
 
-.usersMessagesContainer {
-    height: 100%;
-    width: 100%;
-    flex: 2;
-    border-right: 2px solid var(--accents-2);
-    overflow-y: hidden;
-    position: relative;
-}
+@media screen and (max-width: 750px) {
+    .messagePageContainer {
+        padding: 0;
+        border-right: none;
+    }
 
-.fixedContainer {
-    background-color: var(--background);
-    width: 100%;
-    position: static;
-    top: -0.5px;
-    z-index: 1;
+    .messagingContainer {
+        height: 100%;
+        padding-inline: 0;
+        border: none;
+    }
+
+    .usersMessagesContainer {
+        border-right: none;
+    }
 }
 
 .header {
     padding: 0 var(--gap);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 2px solid var(--accents-2);
-    height: 50px;
+    height: 60px;
     flex-shrink: 0;
     gap: var(--gap-quarter);
+    overflow-y: hidden;
+}
+
+.backIcon {
+    padding: var(--gap-half) var(--gap);
 }
 
 .searchContainer {
@@ -175,6 +181,12 @@
     padding: var(--gap-half);
     margin-bottom: var(--gap-quarter);
     border: 2px solid var(--accents-2);
+}
+
+@media only screen and (max-width: 450px) {
+    .messageInner {
+        max-width: 85%;
+    }
 }
 
 .messageSent {
