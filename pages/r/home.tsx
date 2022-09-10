@@ -1,12 +1,9 @@
 import Modal from 'react-modal';
 import styles from '../../styles/home.module.css'
 import Layout from "../../components/mainLayout";
-import CouplePreview from "../../components/couplepreview";
 import PostFullView, { Post } from "../../components/post";
 import Suggestions from "../../components/suggestions";
 import { useRouter } from "next/router";
-import { useContext } from "react";
-import { LocaleContext } from "../../components/context"
 
 
 Modal.setAppElement('#__next')
@@ -64,19 +61,4 @@ export default function HomePage() {
             </Modal>
         </Layout >
     )
-}
-
-export async function getStaticProps({ locale }: { locale: "en" | "es" | "fr" }) {
-    // Call an external API endpoint to get posts.
-    // You can use any data fetching library
-    const res = await import(`../../i18n/locales/${locale}.json`)
-    const messages = JSON.stringify(res["home"])
-
-    // By returning { props: { posts } }, the Blog component
-    // will receive `posts` as a prop at build time
-    return {
-        props: {
-            messages,
-        },
-    }
 }
