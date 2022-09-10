@@ -117,6 +117,10 @@ export default function Navigation() {
                 isOpen={openRequest}
                 onRequestClose={() => setOpenRequest(false)}
                 contentLabel="Post modal"
+                aria={{
+                    labelledby: "Couple request",
+                    describedby: "full_description"
+                }}
                 style={{
                     overlay: modalOverlay,
                     content: {
@@ -127,6 +131,7 @@ export default function Navigation() {
                         overflow: "hidden",
                         justifyContent: "center",
                         display: "flex",
+
                         flexDirection: "column",
                         alignItems: "center",
                         left: 0,
@@ -146,9 +151,9 @@ export default function Navigation() {
 
 const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
     return (
-        <div className={styles.requestModal}>
-            <div className={styles.requestHeader}>
-                <p>Couple Request</p>
+        <div className={styles.requestModal} aria-label="couple request modal">
+            <div className={styles.requestHeader} id="full_description">
+                <p aria-label="New couple request sent to you" role={"heading"}>Couple Request</p>
                 <div onClick={() => close()}
                     className={styles.closeContainer}
                 >
@@ -163,12 +168,12 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                     />
                 </div>
                 <div className={styles.titleContainer}>
-                    <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
-                    <h3 className={styles.userName}>@ant.man</h3>
+                    <h2 tabIndex={0} aria-label="Name of the person that sent you the couple request is Yussif Mohammed" className={styles.realName}>Yussif Mohammed</h2>
+                    <h3 tabIndex={0} aria-label="Their unique user name is ant.man" className={styles.userName}>@ant.man</h3>
                 </div>
                 <div className={styles.requestButtons}>
-                    <button className={styles.acceptBtn}>Accept</button>
-                    <button className={styles.declineBtn}>Decline</button>
+                    <button aria-label="Accept the couple request" className={styles.acceptBtn}>Accept</button>
+                    <button aria-label="Decline the couple request" className={styles.declineBtn}>Decline</button>
                 </div>
             </div>
 

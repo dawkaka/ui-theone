@@ -148,11 +148,14 @@
 }
 
 .acceptBtn {
-    background-color: limegreen;
+    background-color: lime;
+    margin-bottom: var(--gap-half);
 }
 
 .declineBtn {
-    background-color: var(--error);
+    background-color: transparent;
+    border: 1px solid var(--error);
+    color: var(--error)
 }
 
 @media screen and (max-height: 700px) {
