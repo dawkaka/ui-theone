@@ -17,8 +17,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       document.querySelector("body")!.className = "dark"
       document.documentElement.style.colorScheme = "dark"
     }
-  }, [])
-  return <Component {...pageProps} />
+  }, []);
+
+
+  return (
+    <Component {...pageProps} />
+  )
 }
 
 export default MyApp
