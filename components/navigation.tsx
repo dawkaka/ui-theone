@@ -10,11 +10,10 @@ import { FaSearch, FaPlus, FaUser, FaRegQuestionCircle } from "react-icons/fa"
 import { MdEmail, MdOutlineMail } from 'react-icons/md'
 import { IoMdClose } from "react-icons/io"
 import AddPost from "./newpost";
-import ReactModal from "react-modal";
-
-
+import messages from "../i18n/locales/navigation..json"
+type Langs = "en" | "es" | "fr"
 export default function Navigation() {
-    const { pathname } = useRouter()
+    const { pathname, locale } = useRouter()
     const [openRequest, setOpenRequest] = useState(false)
     const [hideHeader, setHideHeader] = useState(false)
     const [openPostModal, setOpenPostModal] = useState(false)
@@ -28,6 +27,7 @@ export default function Navigation() {
         flexDirection: "column",
         margin: 0
     }
+    const cMessages = locale ? messages[locale as Langs] : messages["en"]
 
     useEffect(() => {
         if (window.screen.width < 751) {
@@ -61,7 +61,7 @@ export default function Navigation() {
                                     <AiOutlineHome size={25} color="var(--accents-6)"></AiOutlineHome>
                             }
 
-                            <p>Home</p>
+                            <p>{cMessages.home}</p>
                         </div>
                     </Link>
                     <Link href={"/r/explore"}>
@@ -70,7 +70,7 @@ export default function Navigation() {
                                 <BsSearch size={25} color="var(--accents-6)"></BsSearch>
                             }
 
-                            <p>Explore</p>
+                            <p>{cMessages.explore}</p>
                         </div>
                     </Link>
                     <Link href={"/r/notifications"}>
@@ -78,7 +78,7 @@ export default function Navigation() {
                             {pathname === "/r/notifications" ? <AiFillBell size={25}></AiFillBell> :
                                 <AiOutlineBell size={25} color="var(--accents-6)" ></AiOutlineBell>
                             }
-                            <p>Notifications</p>
+                            <p>{cMessages.notifications}</p>
                         </div>
                     </Link>
                     <Link href={"/r/messages"}>
@@ -86,7 +86,7 @@ export default function Navigation() {
                             {pathname === "/r/messages" ? <MdEmail size={25}></MdEmail> :
                                 <MdOutlineMail size={25} color="var(--accents-5)"></MdOutlineMail>
                             }
-                            <p>Messages</p>
+                            <p>{cMessages.messages}</p>
                         </div>
                     </Link>
                     <Link href={"/user/yussif"}>
@@ -94,7 +94,7 @@ export default function Navigation() {
                             {pathname === "/user/[name]" ? <FaUser size={25}></FaUser> :
                                 <AiOutlineUser size={25} color="var(--accents-6)"></AiOutlineUser>
                             }
-                            <p>Profile</p>
+                            <p>{cMessages.profile}</p>
                         </div>
                     </Link>
                     {
@@ -102,7 +102,7 @@ export default function Navigation() {
                             <div className={styles.postButtonContainer}>
                                 <div className={`${styles.navItem}`} onClick={() => setOpenRequest(true)} tabIndex={0} aria-label="Check couple request">
                                     <AiOutlineUser size={25} color="var(--accents-6)"></AiOutlineUser>
-                                    <p>Request</p>
+                                    <p>{cMessages.request}</p>
                                 </div>
                                 <div className={`${styles.logoContainer2}`}>
                                     <em>elwahid</em>
@@ -111,7 +111,7 @@ export default function Navigation() {
                                     aria-label="add a new post"
                                     className={styles.postButton}
                                     onClick={() => setOpenPostModal(true)}
-                                ><AiOutlinePlus />{' '}<span>Post</span></button>
+                                ><AiOutlinePlus />{' '}<span>{cMessages.post}</span></button>
                             </div>
                         )
                     }

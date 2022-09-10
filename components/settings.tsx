@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import styles from "./styles/settings.module.css"
 import { FaCaretDown } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { url } from "inspector";
 
 Modal.setAppElement("body")
 
@@ -33,9 +34,9 @@ const modalStyles: Modal.Styles = {
 }
 
 export const UserSettings: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
-    const { locale } = useRouter()
+    const router = useRouter()
+    const { locale, pathname, asPath } = router
     const [theme, setTheme] = useState("Light")
-    console.log(locale)
 
     const changeUserName = (newName: string) => {
         console.log(newName)
@@ -60,8 +61,9 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     })
 
     const langChange = (e: ChangeEvent<HTMLInputElement>) => {
-        document.cookie = `NEXT_LOCALE=${e.currentTarget.value};${1000 * 60 * 60 * 24 * 40};path=/`
-        console.log(e.currentTarget.value)
+        const lang = e.currentTarget.value
+        document.cookie = `NEXT_LOCALE=${lang};${1000 * 60 * 60 * 24 * 40};path=/`
+        router.replace("/user/[name]", asPath, { locale: lang })
     }
 
     return (

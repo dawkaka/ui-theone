@@ -1,0 +1,29 @@
+{
+    "en": {
+        "home": "Home",
+        "explore": "Explore",
+        "notifications": "Notifications",
+        "messages": "Messages",
+        "profile": "Profile",
+        "request": "Request",
+        "post": "Post"
+    },
+    "es": {
+        "home": "Casa",
+        "explore": "Explorar",
+        "notifications": "Notificaciones",
+        "messages": "Mensajes",
+        "profile": "Perfile",
+        "request": "Oferta",
+        "post": "Publicar"
+    },
+    "fr": {
+        "home": "Casa1",
+        "explore": "Explorar2",
+        "notifications": "Notificaciones3",
+        "messages": "Mensajes4",
+        "profile": "Perfile5",
+        "request": "Oferta6",
+        "post": "Publicar7"
+    }
+}
