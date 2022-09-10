@@ -248,7 +248,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                     />
                                 </div>
                                 <div onClick={removeImage}>
-                                    <AiOutlineMinus color="white" />
+                                    <AiOutlineMinus color="var(--background)" />
                                 </div>
                                 {
                                     !lockAsRatio ?

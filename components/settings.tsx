@@ -60,6 +60,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     })
 
     const langChange = (e: ChangeEvent<HTMLInputElement>) => {
+        document.cookie = `NEXT_LOCALE=${e.currentTarget.value};${1000 * 60 * 60 * 24 * 40};path=/`
         console.log(e.currentTarget.value)
     }
 

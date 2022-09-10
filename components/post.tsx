@@ -5,9 +5,9 @@ import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
 import { MdOutlineNavigateNext } from "react-icons/md";
 import styles from "./styles/post.module.css";
 import { Actions, Verified } from "./mis";
-import { FaAd } from "react-icons/fa";
 import { BsEmojiSmile } from "react-icons/bs";
 import Comment from "./comment"
+import { useRouter } from "next/router";
 interface post {
     userName: string;
     caption: string;
@@ -38,6 +38,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
     ]
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
+    const locale = useRouter().locale || useRouter().defaultLocale
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -66,7 +67,8 @@ export const Post: React.FunctionComponent<post> = (props) => {
         });
         setCurr(dist / widthNum)
     }
-
+    const num = new Intl.NumberFormat(locale, { notation: "compact" }).format(1400)
+    const comments = num, likes = num
     return (
         <article className={styles.container}>
             <div>
@@ -116,11 +118,11 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         <div className={styles.postIcons}>
                             <div className={styles.postIcon}>
                                 <AiOutlineHeart size={30} />
-                                <p>100000</p>
+                                <p>{likes}</p>
                             </div>
                             <div className={styles.postIcon}>
                                 <AiOutlineComment size={30} />
-                                <p>100000</p>
+                                <p>{comments}</p>
                             </div>
                         </div>
                         <div className={styles.sliderPos}>
