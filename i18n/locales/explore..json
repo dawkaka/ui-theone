@@ -1,5 +1,12 @@
 {
-    "home": {
-        "header": "Casa"
-    }
+    "en": {
+        "search": "Search",
+        "users": "Users",
+        "couples": "Couples" 
+    },
+   "es": {
+        "search": "Buscar",
+        "users": "Usarios",
+        "couples": "Parejas" 
+    } 
 }

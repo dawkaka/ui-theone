@@ -1,0 +1,12 @@
+{
+    "en": {
+        "following": "Following",
+        "edit": "Edit",
+        "sendrequest": "Send request"
+    },
+    "es": {
+        "following": "Sigiendo",
+       "edit": "Editar",
+       "sendrequest": "Envie una respuesta" 
+    }
+}
