@@ -5,12 +5,15 @@ import Suggestions from "../../components/suggestions"
 import styles from "../../styles/explore.module.css"
 import { Post } from "../../components/post"
 import { AiFillCloseCircle } from "react-icons/ai"
-import CouplePreview from "../../components/couplepreview"
-
-
+import tr from "../../i18n/locales/explore..json"
+import { useRouter } from "next/router"
+import { Langs } from "../../types"
 export default function Explore() {
+    const router = useRouter()
     const [query, setQuery] = useState("")
     const [tab, setTab] = useState("users")
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
     return (
         <Layout>
 
@@ -19,7 +22,7 @@ export default function Explore() {
                     <div className={styles.searchContainer}>
                         <input
                             type="search"
-                            placeholder="Search el wahid"
+                            placeholder={`${localeTr.search} el wahid`}
                             value={query}
                             onChange={(e) => {
                                 setQuery(e.currentTarget.value)
@@ -29,11 +32,11 @@ export default function Explore() {
                         {!!query && (<div className={styles.searchModal}>
                             <div className={styles.searchHeader}>
                                 <div className={styles.tabItem} onClick={() => setTab("users")}>
-                                    <p>Users</p>
+                                    <p>{localeTr.users}</p>
                                     <div className={`${styles.indicator} ${styles.indOne} ${tab === "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={`${styles.tabItem}`} onClick={() => setTab("couples")}>
-                                    <p>Couples</p>
+                                    <p>{localeTr.couples}</p>
                                     <div className={`${styles.indicator} ${styles.indTwo} ${tab !== "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={styles.closeSearch} onClick={() => setQuery("")}>

@@ -1,8 +1,8 @@
 {
     "en": {
-        "placeholder": "Type message"
+        "writeMessage": "Type message"
     },
     "es": {
-        "placeholder": "Escribe un mensaje"
+        "writeMessage": "Escribe un mensaje"
     }
 }

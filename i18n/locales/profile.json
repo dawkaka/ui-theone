@@ -2,11 +2,17 @@
     "en": {
         "following": "Following",
         "edit": "Edit",
-        "sendrequest": "Send request"
+        "sendrequest": "Send request",
+        "selectimage": "Select image",
+        "crop": "Crop",
+        "done": "Done"
     },
     "es": {
-        "following": "Sigiendo",
+        "following": "Siguiendo",
        "edit": "Editar",
-       "sendrequest": "Envie una respuesta" 
+       "sendrequest": "Enviar petición",
+       "selectimage": "Elegir una imagen",
+       "crop": "Delimitar",
+       "done": "Hecho"
     }
 }

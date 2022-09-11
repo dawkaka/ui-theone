@@ -4,19 +4,23 @@ import Layout from "../../components/mainLayout";
 import PostFullView, { Post } from "../../components/post";
 import Suggestions from "../../components/suggestions";
 import { useRouter } from "next/router";
+import tr from "../../i18n/locales/home.json"
+import { Langs } from "../../types";
 
 
 Modal.setAppElement('#__next')
 
 export default function HomePage() {
     const router = useRouter()
+    const locale = router.locale as Langs || "en"
+    const localeTr = tr[locale]
     return (
         <Layout>
             <div className={styles.home}>
 
                 <section className={styles.postsContainer}>
                     <div className={styles.headerContainer}>
-                        <h1>Home</h1>
+                        <h1>{localeTr.header}</h1>
                     </div>
                     <div className={styles.content}>
                         <Post verified />

@@ -6,13 +6,19 @@ import Suggestions from "../../components/suggestions"
 import Header from "../../components/pageHeader"
 import { FaHeart, FaUser } from "react-icons/fa"
 import { AiFillMessage } from "react-icons/ai";
+import { useRouter } from "next/router";
+import tr from "../../i18n/locales/notifications.json"
+import { Langs } from "../../types";
 
 export default function Notifications() {
+    const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
     return (
         <Layout>
             <div className={styles.main}>
                 <section className={styles.ntfsContainer}>
-                    <Header title="Notifications" arrow={false} />
+                    <Header title={localeTr.notifications} arrow={false} />
                     <div className={styles.ntfs}>
                         <Notification />
                         <Notification type="comment" />

@@ -15,7 +15,8 @@ import { useRouter } from "next/router";
 import { EditUser } from "../../components/editprofile";
 import { Actions } from "../../components/mis";
 import { UserSettings } from "../../components/settings"
-
+import tr from "../../i18n/locales/profile.json"
+import { Langs } from "../../types";
 Modal.setAppElement("#__next")
 
 export default function Profile() {
@@ -29,7 +30,8 @@ export default function Profile() {
     const [editOpen, setEditOpen] = useState(false)
     const [openSettings, setOpenSettings] = useState(false)
     const router = useRouter()
-
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
 
     const editProfileImage = (e: React.MouseEvent<HTMLSpanElement>) => {
         targetRef.current = "avatar"
@@ -110,9 +112,11 @@ export default function Profile() {
                                     <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
                                     <div className={styles.requestContainer}>
                                         <div className={styles.requestButtonWrapper}>
-                                            {false ? <Link href={"/user"}>
-                                                <button type="button" className={styles.requestButton}>Send request</button>
-                                            </Link> : <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>Edit</button>
+                                            {true ? <Link href={"/user"}>
+                                                <button type="button" className={styles.requestButton}>{localeTr.sendrequest}</button>
+                                            </Link> : <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>
+                                                {localeTr.edit}
+                                            </button>
                                             }
                                         </div>
                                     </div>
@@ -121,7 +125,7 @@ export default function Profile() {
                             <h2 className={styles.countInfo}>
                                 <div className={styles.countItem}>
                                     <strong title="Following">830</strong>
-                                    <span className={styles.countItemTitle}>Following</span>
+                                    <span className={styles.countItemTitle}>{localeTr.following}</span>
                                 </div>
                             </h2>
                             <h2 className={styles.bio}>
@@ -182,7 +186,7 @@ export default function Profile() {
                         step === 0 && (
                             <div className={styles.modalBody}>
                                 <div className={styles.requestHeader}>
-                                    <p>Select Image</p>
+                                    <p>{localeTr.selectimage}</p>
                                     <div onClick={() => setIsOpen(false)}
                                         className={styles.closeContainer}
                                     >
@@ -196,7 +200,7 @@ export default function Profile() {
                                     </div>
                                     <div className={styles.selectFile}>
 
-                                        <button>Select image from device
+                                        <button>{localeTr.selectimage}
                                             <input
                                                 type="file" onChange={newFile}
                                                 accept="image/jpeg, image/png"
@@ -215,12 +219,12 @@ export default function Profile() {
                                     <div className={styles.backIcon} onClick={() => setStep(0)}>
                                         <BiArrowBack size={20} color="var(--accents-6)" />
                                     </div>
-                                    <p>Crop</p>
+                                    <p>{localeTr.crop}</p>
                                     <div
                                         onClick={onDone}
                                         className={styles.nextContainer}
                                     >
-                                        <p>Done</p>
+                                        <p>{localeTr.done}</p>
                                     </div>
                                 </div>
                                 <div className={styles.modalContent}>

@@ -6,10 +6,13 @@ import { AiOutlineSend } from 'react-icons/ai';
 import { FaBackward } from "react-icons/fa";
 import { BiArrowBack } from "react-icons/bi";
 import { useRouter } from "next/router";
+import tr from "../../i18n/locales/messages.json"
+import { Langs } from "../../types";
 
 export default function Messages() {
     const router = useRouter()
-
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
     return (
         <Layout>
             <div className={styles.messagePageContainer}>
@@ -62,7 +65,7 @@ export default function Messages() {
                                         e.currentTarget.style.height = "1px";
                                         e.currentTarget.style.height = (20 + e.currentTarget.scrollHeight) + "px";
                                     }}
-                                    className={styles.textArea} placeholder="Type message"
+                                    className={styles.textArea} placeholder={localeTr.writeMessage}
                                 >
 
                                 </textarea>

@@ -11,7 +11,7 @@ import { MdEmail, MdOutlineMail } from 'react-icons/md'
 import { IoMdClose } from "react-icons/io"
 import AddPost from "./newpost";
 import messages from "../i18n/locales/navigation..json"
-type Langs = "en" | "es" | "fr"
+import { Langs } from "../types";
 export default function Navigation() {
     const { pathname, locale } = useRouter()
     const [openRequest, setOpenRequest] = useState(false)
