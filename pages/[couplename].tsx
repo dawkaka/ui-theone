@@ -16,6 +16,8 @@ import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import EditCouple from "../components/editprofile";
+import tr from "../i18n/locales/coupleprofile.json"
+import { Langs } from "../types";
 
 Modal.setAppElement("#__next")
 
@@ -26,7 +28,9 @@ const CoupleProfile: NextPage = () => {
     const cropperRef = useRef<any>(null)
     const newFileRef = useRef<any>("")
     const targetRef = useRef<"avatar" | "cover">("avatar")
-    const router = useRouter
+    const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
 
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const fs = e.currentTarget.files
@@ -107,7 +111,8 @@ const CoupleProfile: NextPage = () => {
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
                                         <Actions size={25} orientation="landscape" />
-                                        {true ? <button>Follow</button> : <button className={styles.editButton} onClick={() => setEditOpen(true)}>Edit</button>}
+                                        {true ? <button>{localeTr.follow}</button> :
+                                            <button className={styles.editButton} onClick={() => setEditOpen(true)}>{localeTr.edit}</button>}
                                     </div>
                                 </div>
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>
@@ -121,13 +126,13 @@ const CoupleProfile: NextPage = () => {
                                         <h2 className={styles.countInfo}>
                                             <div className={styles.countItem}>
                                                 <strong title="Following">830</strong>
-                                                <span className={styles.countItemTitle}>Followers</span>
+                                                <span className={styles.countItemTitle}>{localeTr.followers}</span>
                                             </div>
                                         </h2>
                                         <h2 className={styles.countInfo}>
                                             <div className={`${styles.countItem} ${styles.dateStarted}`}>
                                                 <p title="Date relationship started">{new Date().toDateString().substring(3)}</p>
-                                                <span className={styles.countItemTitle}>Started</span>
+                                                <span className={styles.countItemTitle}>{localeTr.started}</span>
                                             </div>
                                         </h2>
                                     </div>
@@ -180,7 +185,7 @@ const CoupleProfile: NextPage = () => {
                             step === 0 && (
                                 <div className={styles.modalBody}>
                                     <div className={styles.requestHeader}>
-                                        <p>Select Image</p>
+                                        <p>{localeTr.selectimage}</p>
                                         <div onClick={() => setIsOpen(false)}
                                             className={styles.closeContainer}
                                         >
@@ -194,7 +199,7 @@ const CoupleProfile: NextPage = () => {
                                         </div>
                                         <div className={styles.selectFile}>
 
-                                            <button>Select image from device
+                                            <button>{localeTr.selectimage}
                                                 <input
                                                     type="file" onChange={newFile}
                                                     accept="image/jpeg, image/png"
@@ -213,12 +218,12 @@ const CoupleProfile: NextPage = () => {
                                         <div className={styles.backIcon} onClick={() => setStep(0)}>
                                             <BiArrowBack size={20} color="var(--accents-6)" />
                                         </div>
-                                        <p>Crop</p>
+                                        <p>{localeTr.crop}</p>
                                         <div
                                             onClick={onDone}
                                             className={styles.nextContainer}
                                         >
-                                            <p>Done</p>
+                                            <p>{localeTr.done}</p>
                                         </div>
                                     </div>
                                     <div className={styles.modalContent}>

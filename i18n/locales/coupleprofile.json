@@ -1,0 +1,20 @@
+{
+    "en": {
+        "follow": "Follow",
+        "followers": "Followers",
+        "started": "Started",
+        "selectimage": "Select image",
+        "edit": "Edit",
+        "crop": "Crop",
+        "done": "Done"
+    },
+    "es": {
+        "follow": "Seguir",
+        "followers": "Seguidores",
+        "started": "Empezada",
+        "edit": "Editar",
+        "selectimage": "Elegir una imagen",
+        "crop": "Delimitar",
+        "done": "Hecho" 
+    }
+}
