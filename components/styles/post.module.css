@@ -2,7 +2,7 @@
     background-color: var(--background);
     margin-bottom: var(--gap);
     border: var(--border);
-    max-width: 470px;
+    width: min(100vw, 470px);
     border-radius: var(--radius-small);
 }
 
