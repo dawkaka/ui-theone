@@ -48,7 +48,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const themeChange = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.currentTarget.value
         window.localStorage.setItem("Theme", val)
-        if (val == "Dark" || val == "Oscuro") {
+        if (val == "Dark") {
             document.querySelector("body")!.className = "dark"
             document.documentElement.style.colorScheme = "dark"
         } else {
@@ -113,8 +113,8 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         actionTitle={localeTr.change}
                         submit={changeUserName}
                     />
-                    <SettingRadio title={localeTr.language.title} options={["en_English", "es_Español"]} value={locale === "en" ? 0 : 1} handleChange={langChange} lang />
-                    <SettingRadio title={localeTr.theme.title} options={[localeTr.theme.light, localeTr.theme.dark]} value={theme === "light" ? 0 : 1} handleChange={themeChange} />
+                    <SettingRadio title={localeTr.language.title} options={[{ id: "en", label: "English" }, { id: "es", label: "Español" }]} value={locale} handleChange={langChange} lang />
+                    <SettingRadio title={localeTr.theme.title} options={[{ id: "Light", label: localeTr.theme.light }, { id: "Dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
                         <button>{localeTr.logout}</button>
                         <button style={{ backgroundColor: "var(--error)", color: "white" }}>{localeTr.deleteacount}</button>
@@ -178,8 +178,8 @@ const SettingInputItem: React.FunctionComponent<{
 
 const SettingRadio: React.FunctionComponent<{
     title: string,
-    options: string[],
-    value: number,
+    options: { id: string, label: string }[],
+    value: string,
     lang?: boolean;
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void
 }> = ({ title, options, value, handleChange, lang }) => {
@@ -187,8 +187,8 @@ const SettingRadio: React.FunctionComponent<{
     const iconRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
-    const change = (e: ChangeEvent<HTMLInputElement>, indx: number) => {
-        setVal(indx)
+    const change = (e: ChangeEvent<HTMLInputElement>) => {
+        setVal(e.currentTarget.value)
         handleChange(e)
     }
 
@@ -209,12 +209,11 @@ const SettingRadio: React.FunctionComponent<{
             <div ref={containerRef} className={styles.inputContainer}>
                 {
                     options.map((option, indx) => {
-                        const v = lang ? option.split("_")[0] : option
-                        const lab = lang ? option.split("_")[1] : option
+
                         return (
-                            <div key={option} className={styles.inputContainerInner}>
-                                <input type="radio" id={option} value={v} name={title} onChange={(e) => change(e, indx)} checked={val === indx} />
-                                <label htmlFor={option} style={{ background: `var(--${indx})` }}>{lab}</label>
+                            <div key={option.id} className={styles.inputContainerInner}>
+                                <input type="radio" id={option.id} value={option.id} name={title} onChange={change} checked={val === option.id} />
+                                <label htmlFor={option.id} style={{ background: `var(--${indx})` }}>{option.label}</label>
                             </div>
                         )
                     })
