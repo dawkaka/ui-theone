@@ -94,7 +94,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     <SettingRadio title="Theme" options={["Light", "Dark"]} value={theme} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
                         <button>Logout</button>
-                        <button>Delete account</button>
+                        <button style={{ backgroundColor: "var(--error)", color: "white" }}>Delete account</button>
                     </div>
                 </section>
             </div>
