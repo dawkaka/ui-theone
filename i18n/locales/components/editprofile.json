@@ -1,0 +1,61 @@
+{
+    "en": {
+        "editcp": "Edit couple profile",
+        "editup": "Edit user profile",
+        "done": "Done",
+        "bio": {
+            "title": "Bio",
+            "placholder": "Write bio"
+        },
+        "firstname": {
+            "title": "First name",
+            "placholder": "Enter first name"
+        },
+        "lastname": {
+            "title": "Last name",
+            "placholder": "Enter last name"
+        },
+        "status": {
+            "title": "Status"
+        },
+        "contact": {
+            "title": "Contact"
+        },
+        "dob": {
+            "title": "Birth date",
+            "placholder": "Enter birth date"
+        },
+        "drb": {
+            "title": "Date relationship began",
+            "placholder": "Date relationship began"
+        }
+    },
+    "es": {
+        "editcp": "Editar perfil de pareja",
+        "editup": "Editar perfil de usuario",
+        "done": "Hecho",
+        "bio": {
+            "title": "Biografía",
+            "placeholder": "Escribir biografía"
+        },
+        "firstname": {
+            "title": "Nombre",
+            "placholder": "Ingrese el nombre"
+        },
+        "lastname": {
+            "title": "Apellido",
+            "placholder": "Ingrese el apellido"
+        },
+        "contact": {
+            "title": "Contacto"
+        },
+        "dob": {
+            "title": "Fecha de nacimiento",
+            "placholder": "Ingrese fecha de nacimiento"
+        },
+        "drb": {
+            "title": "Fecha en que comenzó la relación",
+            "placholder": "Ingrese fecha en que comenzó la relación"
+        }
+    }
+}

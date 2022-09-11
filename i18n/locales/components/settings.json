@@ -1,0 +1,62 @@
+{
+    "en": {
+        "header": "Account settings",
+        "username": {
+            "title": "User name",
+            "placehoder": "New user name"
+        },
+        "password": {
+            "title": "Password",
+            "current": "Current password",
+            "new": "New password",
+            "repeat": "Repeat password"
+        },
+        "email": {
+            "title": "Email",
+            "placehoder": "New email"
+        },
+        "language": {
+            "title": "Language",
+            "english": "English",
+            "spanish": "Español"
+        },
+        "theme": {
+            "title": "Theme",
+            "light": "Light",
+            "dark": "Dark"
+        },
+        "logout": "Logout",
+        "deleteacount": "Delete account",
+        "change": "Change"
+    },
+    "es": {
+        "header": "Configuraciones de la cuenta",
+        "username": {
+            "title": "Nombre de usuario",
+            "placehoder": "Nuevo nombre de usuario"
+        },
+        "password": {
+            "title": "Contraseña",
+            "current": "Contraseña actual",
+            "new": "Nueva contraseña",
+            "repeat": "Repita la contraseña"
+        },
+        "email": {
+            "title": "Coreo electrónico",
+            "placehoder": "Nuevo correo electrónico"
+        },
+        "language": {
+            "title": "Idioma",
+            "english": "English",
+            "spanish": "Español"
+        },
+        "theme": {
+            "title": "Tema",
+            "light": "Ligero",
+            "dark": "Oscuro"
+        },
+        "logout": "Cerrar sesión",
+        "deleteacount": "Borrar cuenta",
+        "change": "Cambiar"
+    }
+}

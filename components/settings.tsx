@@ -4,8 +4,8 @@ import { IoMdClose } from "react-icons/io";
 import styles from "./styles/settings.module.css"
 import { FaCaretDown } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { url } from "inspector";
-
+import tr from "../i18n/locales/components/settings.json"
+import { Langs } from "../types"
 Modal.setAppElement("body")
 
 const modalStyles: Modal.Styles = {
@@ -35,8 +35,11 @@ const modalStyles: Modal.Styles = {
 
 export const UserSettings: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
     const router = useRouter()
-    const { locale, pathname, asPath } = router
+    const { pathname, asPath } = router
     const [theme, setTheme] = useState("Light")
+
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
 
     const changeUserName = (newName: string) => {
         console.log(newName)
@@ -45,7 +48,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const themeChange = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.currentTarget.value
         window.localStorage.setItem("Theme", val)
-        if (val == "Dark") {
+        if (val == "Dark" || val == "Oscuro") {
             document.querySelector("body")!.className = "dark"
             document.documentElement.style.colorScheme = "dark"
         } else {
@@ -78,7 +81,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     <div className={styles.backIcon} onClick={close}>
                         <IoMdClose size={25} color="var(--accents-6)" />
                     </div>
-                    <p>Account Settings</p>
+                    <p>{localeTr.header}</p>
                     <div
                         className={styles.nextContainer}
                         style={{ backgroundColor: "transparent" }}
@@ -87,14 +90,34 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     </div>
                 </div>
                 <section className={styles.modalContent}>
-                    <SettingInputItem title="User name" type="text" submit={changeUserName} />
-                    <SettingInputItem title="Password" type="password" submit={changeUserName} />
-                    <SettingInputItem title="Email" type="text" submit={changeUserName} />
-                    <SettingRadio title="Language" options={["en_English", "es_Español", "fr_French"]} value={locale!} handleChange={langChange} />
-                    <SettingRadio title="Theme" options={["Light", "Dark"]} value={theme} handleChange={themeChange} />
+                    <SettingInputItem
+                        type="text"
+                        title={localeTr.username.title}
+                        submit={changeUserName}
+                        placeholder={localeTr.username.placehoder}
+                        actionTitle={localeTr.change}
+                    />
+                    <SettingInputItem
+                        type="password"
+                        title={localeTr.password.title}
+                        placeholder={localeTr.password.new}
+                        actionTitle={localeTr.change}
+                        placeholderCurrent={localeTr.password.current}
+                        placeholderRepeat={localeTr.password.repeat}
+                        submit={changeUserName}
+                    />
+                    <SettingInputItem
+                        type="email"
+                        title={localeTr.email.title}
+                        placeholder={localeTr.email.placehoder}
+                        actionTitle={localeTr.change}
+                        submit={changeUserName}
+                    />
+                    <SettingRadio title={localeTr.language.title} options={["en_English", "es_Español"]} value={locale === "en" ? 0 : 1} handleChange={langChange} lang />
+                    <SettingRadio title={localeTr.theme.title} options={[localeTr.theme.light, localeTr.theme.dark]} value={theme === "light" ? 0 : 1} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
-                        <button>Logout</button>
-                        <button style={{ backgroundColor: "var(--error)", color: "white" }}>Delete account</button>
+                        <button>{localeTr.logout}</button>
+                        <button style={{ backgroundColor: "var(--error)", color: "white" }}>{localeTr.deleteacount}</button>
                     </div>
                 </section>
             </div>
@@ -104,7 +127,14 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
 
 
 
-const SettingInputItem: React.FunctionComponent<{ type: string, title: string, submit: (val: string) => void }> = ({ type, title, submit }) => {
+const SettingInputItem: React.FunctionComponent<{
+    type: string, title: string,
+    submit: (val: string) => void,
+    placeholderCurrent?: string,
+    placeholderRepeat?: string
+    placeholder: string,
+    actionTitle: string
+}> = ({ placeholder, type, title, submit, actionTitle, placeholderCurrent, placeholderRepeat }) => {
     const [val, setVal] = useState("")
     const [currentPassword, setCurrentPassword] = useState("")
     const [rNewPassword, setRNewPassword] = useState("")
@@ -127,31 +157,38 @@ const SettingInputItem: React.FunctionComponent<{ type: string, title: string, s
                 </div>
             </button>
             <div ref={containerRef} className={styles.inputContainer}>
-                {title.toLocaleLowerCase() === "password" ?
-                    <input type={type} value={currentPassword} placeholder={`Current ${title.toLocaleLowerCase()}`} onChange={(e) => setCurrentPassword(e.currentTarget.value)} />
-                    : null
+                {
+                    placeholderCurrent ?
+                        <input type={type} value={currentPassword} placeholder={placeholderCurrent} onChange={(e) => setCurrentPassword(e.currentTarget.value)} />
+                        :
+                        null
                 }
-                <input type={type} value={val} placeholder={`New ${title.toLocaleLowerCase()}`} onChange={(e) => setVal(e.currentTarget.value)} />
-                {title.toLocaleLowerCase() === "password" ?
-                    <input type={type} value={rNewPassword} placeholder={`Repeat ${title.toLocaleLowerCase()}`} onChange={(e) => setRNewPassword(e.currentTarget.value)} />
-                    : null
+                <input type={type} value={val} placeholder={placeholder} onChange={(e) => setVal(e.currentTarget.value)} />
+                {
+                    placeholderRepeat ?
+                        <input type={type} value={rNewPassword} placeholder={placeholderRepeat} onChange={(e) => setRNewPassword(e.currentTarget.value)} />
+                        :
+                        null
                 }
-                <button>Change</button>
+                <button>{actionTitle}</button>
             </div>
         </form>
     )
 }
 
 const SettingRadio: React.FunctionComponent<{
-    title: "Theme" | "Language"; options: string[];
-    value: string; handleChange: (e: ChangeEvent<HTMLInputElement>) => void
-}> = ({ title, options, value, handleChange }) => {
+    title: string,
+    options: string[],
+    value: number,
+    lang?: boolean;
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void
+}> = ({ title, options, value, handleChange, lang }) => {
     const [val, setVal] = useState(value)
     const iconRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
-    const change = (e: ChangeEvent<HTMLInputElement>) => {
-        setVal(e.currentTarget.value)
+    const change = (e: ChangeEvent<HTMLInputElement>, indx: number) => {
+        setVal(indx)
         handleChange(e)
     }
 
@@ -172,11 +209,11 @@ const SettingRadio: React.FunctionComponent<{
             <div ref={containerRef} className={styles.inputContainer}>
                 {
                     options.map((option, indx) => {
-                        const v = title === "Language" ? option.split("_")[0] : option
-                        const lab = title === "Language" ? option.split("_")[1] : option
+                        const v = lang ? option.split("_")[0] : option
+                        const lab = lang ? option.split("_")[1] : option
                         return (
                             <div key={option} className={styles.inputContainerInner}>
-                                <input type="radio" id={option} value={v} name={title} onChange={change} checked={v === val} />
+                                <input type="radio" id={option} value={v} name={title} onChange={(e) => change(e, indx)} checked={val === indx} />
                                 <label htmlFor={option} style={{ background: `var(--${indx})` }}>{lab}</label>
                             </div>
                         )
