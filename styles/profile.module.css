@@ -2,7 +2,7 @@
     border-right: var(--border);
     padding-top: 15px;
     min-height: 100vh;
-
+    color: var(--accents-7);
 }
 
 .profileTopContainer {
@@ -20,7 +20,6 @@
     flex: 0 0 auto;
     margin-bottom: 20px;
     box-sizing: border-box;
-
     gap: var(--space-large);
 }
 
@@ -28,7 +27,6 @@
     display: flex;
     flex-direction: row;
     -webkit-box-align: center;
-
     gap: var(--gap)
 }
 
@@ -178,7 +176,7 @@
     padding-bottom: var(--gap-quarter);
     overflow: hidden;
     text-overflow: ellipsis;
-    color: var(--accents-5);
+    color: var(--accents-6);
 }
 
 .realName {
@@ -219,7 +217,6 @@
     font-size: 16px;
     line-height: 22px;
     max-width: 450px;
-    color: var(--accents-6);
     white-space: pre-line;
     margin-top: 10px;
 }
@@ -229,7 +226,7 @@
     -webkit-box-align: center;
     align-items: center;
     margin-top: 22px;
-    color: var(--accents-6)
+    color: var(--accents-7)
 }
 
 .countItem {
@@ -247,6 +244,7 @@
     line-height: 22px;
     display: inline-block;
     margin-left: 6px;
+    color: var(--accents-6)
 }
 
 .actions {
