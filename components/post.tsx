@@ -8,6 +8,8 @@ import { Actions, Verified } from "./mis";
 import { BsEmojiSmile } from "react-icons/bs";
 import Comment from "./comment"
 import { useRouter } from "next/router";
+import { Langs } from "../types";
+import tr from "../i18n/locales/components/post.json"
 interface post {
     userName: string;
     caption: string;
@@ -38,7 +40,8 @@ export const Post: React.FunctionComponent<post> = (props) => {
     ]
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
-    const locale = useRouter().locale || useRouter().defaultLocale
+    const locale = useRouter().locale || "en"
+    const localeTr = tr[locale as Langs]
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -126,7 +129,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                             </div>
                         </div>
                         <div className={styles.sliderPos}>
-                            <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} more` : ""}</small>
+                            <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} ${localeTr.more}` : ""}</small>
                         </div>
                     </div>
                     <div className={styles.captionContainer}>
@@ -145,13 +148,13 @@ export const Post: React.FunctionComponent<post> = (props) => {
                 </div>
                 <form className={styles.commentContainer} onSubmit={(e) => e.preventDefault()}>
                     <BsEmojiSmile />
-                    <textarea aria-label="Add a comment…" placeholder="Add a comment…"
+                    <textarea aria-label={localeTr.addcomment} placeholder={localeTr.addcomment + "..."}
                         autoComplete="off" autoCorrect="off" onKeyUp={(e) => {
                             e.currentTarget.style.height = "1px";
                             e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
                         }}></textarea>
                     <div>
-                        <button>post</button>
+                        <button>{localeTr.post}</button>
                     </div>
 
                 </form>
@@ -187,6 +190,8 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     ]
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
+    const locale = useRouter().locale || "en"
+    const localeTr = tr[locale as Langs]
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -242,7 +247,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                     }
                 </div>
                 <div className={styles.viewSliderPos}>
-                    <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} more` : ""}</small>
+                    <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} ${localeTr.more}` : ""}</small>
                 </div>
             </div>
 
@@ -316,13 +321,13 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                         paddingBlock: "var(--gap)"
                     }}>
                         <BsEmojiSmile />
-                        <textarea aria-label="Add a comment…" placeholder="Add a comment…"
+                        <textarea aria-label={localeTr.addcomment} placeholder={localeTr.addcomment + "..."}
                             autoComplete="off" autoCorrect="off" onKeyUp={(e) => {
                                 e.currentTarget.style.height = "1px";
                                 e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
                             }}></textarea>
                         <div>
-                            <button>post</button>
+                            <button>{localeTr.post}</button>
                         </div>
 
                     </form>

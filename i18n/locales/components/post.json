@@ -1,9 +1,13 @@
 {
     "en": {
-
+      "addcomment": "Add a comment",
+      "post": "post",
+      "more": "more"
     },
-    
-    "es": {
 
+    "es": {
+      "addcomment": "Añadir un comentario",
+      "post": "publicar",
+      "more": "más"
     }
 }
