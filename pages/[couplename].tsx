@@ -16,6 +16,7 @@ import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import EditCouple from "../components/editprofile";
+import { CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
 import { Langs } from "../types";
 
@@ -25,6 +26,7 @@ const CoupleProfile: NextPage = () => {
     const [step, setStep] = useState(0)
     const [editOpen, setEditOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
+    const [openSettings, setOpenSettings] = useState(false)
     const cropperRef = useRef<any>(null)
     const newFileRef = useRef<any>("")
     const targetRef = useRef<"avatar" | "cover">("avatar")
@@ -110,7 +112,9 @@ const CoupleProfile: NextPage = () => {
                                         </span>
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
-                                        <Actions size={25} orientation="landscape" />
+                                        <div onClick={() => setOpenSettings(true)}>
+                                            <Actions size={25} orientation="landscape" />
+                                        </div>
                                         {false ? <button>{localeTr.follow}</button> :
                                             <button className={styles.editButton} onClick={() => setEditOpen(true)}>{localeTr.edit}</button>}
                                     </div>
@@ -153,6 +157,8 @@ const CoupleProfile: NextPage = () => {
                     </div>
 
                     <EditCouple open={editOpen} close={() => setEditOpen(false)} />
+                    <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} />
+
                     <Modal
                         isOpen={isOpen}
                         onRequestClose={() => setIsOpen(false)}

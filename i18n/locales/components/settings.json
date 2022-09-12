@@ -1,9 +1,14 @@
 {
     "en": {
         "header": "Account settings",
+        "coupleheader": "Couple profile settings",
         "username": {
             "title": "User name",
             "placehoder": "New user name"
+        },
+        "couplename": {
+            "title": "Couple name",
+            "placehoder": "New couple name"
         },
         "password": {
             "title": "Password",
@@ -27,13 +32,19 @@
         },
         "logout": "Logout",
         "deleteacount": "Delete account",
-        "change": "Change"
+        "change": "Change",
+        "edoncast": "Deactivate couple profile"
     },
     "es": {
         "header": "Configuraciones de la cuenta",
+        "coupleheader": "Configuraciones de perfil",
         "username": {
             "title": "Nombre de usuario",
             "placehoder": "Nuevo nombre de usuario"
+        },
+        "couplename": {
+            "title": "Nombre de pareja",
+            "placehoder": "Nuevo nombre de pareja"
         },
         "password": {
             "title": "Contraseña",
@@ -57,6 +68,7 @@
         },
         "logout": "Cerrar sesión",
         "deleteacount": "Borrar cuenta",
-        "change": "Cambiar"
+        "change": "Cambiar",
+        "edoncast": "Deactivate couple profile"
     }
 }

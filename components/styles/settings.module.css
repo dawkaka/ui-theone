@@ -47,7 +47,7 @@
 }
 
 .itemContainer {
-    margin-bottom: var(--gap-half);
+    margin-top: var(--gap-half);
 }
 
 .settingItemHeader {

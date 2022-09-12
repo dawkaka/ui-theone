@@ -125,8 +125,50 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     )
 }
 
+export const CoupleSettings: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
+    const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
 
+    const changeCoupleName = (newName: string) => {
+        console.log(newName)
+    }
+    return (
+        <Modal
+            isOpen={open}
+            onRequestClose={close}
+            style={modalStyles}
+        >
 
+            <div className={styles.modalBody}>
+                <div className={styles.requestHeader}>
+                    <div className={styles.backIcon} onClick={close}>
+                        <IoMdClose size={25} color="var(--accents-6)" />
+                    </div>
+                    <p>{localeTr.coupleheader}</p>
+                    <div
+                        className={styles.nextContainer}
+                        style={{ backgroundColor: "transparent" }}
+                    >
+                        <p style={{ whiteSpace: "pre-wrap" }}>{" "}</p>
+                    </div>
+                </div>
+                <section className={styles.modalContent}>
+                    <SettingInputItem
+                        type="text"
+                        title={localeTr.couplename.title}
+                        submit={changeCoupleName}
+                        placeholder={localeTr.couplename.placehoder}
+                        actionTitle={localeTr.change}
+                    />
+                    <div className={styles.dangerousActionContainer}>
+                        <button style={{ backgroundColor: "var(--error)", color: "white" }}>{localeTr.edoncast}</button>
+                    </div>
+                </section>
+            </div>
+        </Modal>
+    )
+}
 const SettingInputItem: React.FunctionComponent<{
     type: string, title: string,
     submit: (val: string) => void,
