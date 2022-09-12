@@ -5,15 +5,15 @@
         "done": "Done",
         "bio": {
             "title": "Bio",
-            "placholder": "Write bio"
+            "placeholder": "Write bio"
         },
         "firstname": {
             "title": "First name",
-            "placholder": "Enter first name"
+            "placeholder": "Enter first name"
         },
         "lastname": {
             "title": "Last name",
-            "placholder": "Enter last name"
+            "placeholder": "Enter last name"
         },
         "status": {
             "title": "Status"
@@ -23,11 +23,11 @@
         },
         "dob": {
             "title": "Birth date",
-            "placholder": "Enter birth date"
+            "placeholder": "Enter birth date"
         },
         "drb": {
             "title": "Date relationship began",
-            "placholder": "Date relationship began"
+            "placeholder": "Date relationship began"
         }
     },
     "es": {
@@ -38,24 +38,27 @@
             "title": "Biografía",
             "placeholder": "Escribir biografía"
         },
+        "status": {
+         "title": "Estado"
+        },
         "firstname": {
             "title": "Nombre",
-            "placholder": "Ingrese el nombre"
+            "placeholder": "Ingrese el nombre"
         },
         "lastname": {
             "title": "Apellido",
-            "placholder": "Ingrese el apellido"
+            "placeholder": "Ingrese el apellido"
         },
         "contact": {
             "title": "Contacto"
         },
         "dob": {
             "title": "Fecha de nacimiento",
-            "placholder": "Ingrese fecha de nacimiento"
+            "placeholder": "Ingrese fecha de nacimiento"
         },
         "drb": {
             "title": "Fecha en que comenzó la relación",
-            "placholder": "Ingrese fecha en que comenzó la relación"
+            "placeholder": "Ingrese fecha en que comenzó la relación"
         }
     }
 }

@@ -111,7 +111,7 @@ const CoupleProfile: NextPage = () => {
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
                                         <Actions size={25} orientation="landscape" />
-                                        {true ? <button>{localeTr.follow}</button> :
+                                        {false ? <button>{localeTr.follow}</button> :
                                             <button className={styles.editButton} onClick={() => setEditOpen(true)}>{localeTr.edit}</button>}
                                     </div>
                                 </div>
