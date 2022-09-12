@@ -87,7 +87,7 @@ const CoupleProfile: NextPage = () => {
                                     style={{ position: "absolute", top: 0, right: 0 }}
                                     onClick={editCover}
                                 >
-                                    <MdModeEdit size={30} color="var(--accents-1)" />
+                                    <MdModeEdit size={30} color="white" />
                                 </span>
                             </div>
                             <div className={styles.profile}>
@@ -106,7 +106,7 @@ const CoupleProfile: NextPage = () => {
                                             style={{ width: "100%", height: "100%" }}
                                             onClick={editAvatar}
                                         >
-                                            <MdModeEdit size={30} color="var(--accents-1)" style={{ top: "50%", left: "50%" }} />
+                                            <MdModeEdit size={30} color="white" style={{ top: "50%", left: "50%" }} />
                                         </span>
                                     </div>
                                     <div className={styles.profileActBtnContainer}>

@@ -104,7 +104,7 @@ export default function Profile() {
                                         style={{ width: "116px", height: "116px" }}
                                         onClick={editProfileImage}
                                     >
-                                        <MdModeEdit size={30} color="var(--accents-1)" />
+                                        <MdModeEdit size={30} color="white" />
                                     </span>
                                 </div>
                                 <div className={styles.titleContainer}>

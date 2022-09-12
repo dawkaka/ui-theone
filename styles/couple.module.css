@@ -214,7 +214,7 @@
     -webkit-box-align: center;
     align-items: center;
     margin-top: var(--gap-half);
-    color: var(--accents-6);
+    color: var(--accents-7);
 }
 
 .countItem {
@@ -231,6 +231,7 @@
     font-size: 16px;
     display: inline-block;
     margin-left: 6px;
+    color: var(--accents-6);
 }
 
 .dateStarted {
