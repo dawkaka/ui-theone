@@ -113,7 +113,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         actionTitle={localeTr.change}
                         submit={changeUserName}
                     />
-                    <SettingRadio title={localeTr.language.title} options={[{ id: "en", label: "English" }, { id: "es", label: "Español" }]} value={locale} handleChange={langChange} lang />
+                    <SettingRadio title={localeTr.language.title} options={[{ id: "en", label: "English" }, { id: "es", label: "Español" }]} value={locale} handleChange={langChange} />
                     <SettingRadio title={localeTr.theme.title} options={[{ id: "Light", label: localeTr.theme.light }, { id: "Dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
                         <button>{localeTr.logout}</button>
@@ -129,10 +129,15 @@ export const CoupleSettings: React.FunctionComponent<{ open: boolean, close: () 
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+    const visibility = "public"
 
     const changeCoupleName = (newName: string) => {
         console.log(newName)
     }
+    const visibilityChange = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(e.currentTarget.value);
+    }
+
     return (
         <Modal
             isOpen={open}
@@ -161,6 +166,12 @@ export const CoupleSettings: React.FunctionComponent<{ open: boolean, close: () 
                         placeholder={localeTr.couplename.placehoder}
                         actionTitle={localeTr.change}
                     />
+                    <SettingRadio
+                        title={localeTr.visibility.title}
+                        options={[{ id: "public", label: localeTr.visibility.public }, { id: "private", label: localeTr.visibility.private }]}
+                        value={visibility} handleChange={visibilityChange}
+                    />
+
                     <div className={styles.dangerousActionContainer}>
                         <button style={{ backgroundColor: "var(--error)", color: "white" }}>{localeTr.edoncast}</button>
                     </div>
@@ -222,9 +233,8 @@ const SettingRadio: React.FunctionComponent<{
     title: string,
     options: { id: string, label: string }[],
     value: string,
-    lang?: boolean;
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void
-}> = ({ title, options, value, handleChange, lang }) => {
+}> = ({ title, options, value, handleChange }) => {
     const [val, setVal] = useState(value)
     const iconRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)

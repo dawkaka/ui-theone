@@ -30,6 +30,11 @@
             "light": "Light",
             "dark": "Dark"
         },
+        "visibility": {
+            "title": "Visibility",
+            "public": "Public",
+            "private": "Private"
+        },
         "logout": "Logout",
         "deleteacount": "Delete account",
         "change": "Change",
@@ -60,6 +65,11 @@
             "title": "Idioma",
             "english": "English",
             "spanish": "Español"
+        },
+        "visibility": {
+            "title": "Visibility",
+            "public": "Public",
+            "private": "Private"
         },
         "theme": {
             "title": "Tema",
