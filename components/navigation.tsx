@@ -165,10 +165,12 @@ export default function Navigation() {
 
 
 const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
+    const { locale } = useRouter()
+    const tr = locale ? messages[locale as Langs] : messages["en"]
     return (
         <div className={styles.requestModal} aria-label="couple request modal">
             <div className={styles.requestHeader} id="full_description">
-                <p aria-label="New couple request sent to you" role={"heading"}>Couple Request</p>
+                <p aria-label="New couple request sent to you" role={"heading"}>{tr.couplerequest}</p>
                 <div onClick={() => close()}
                     className={styles.closeContainer}
                 >
@@ -187,8 +189,8 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                     <h3 tabIndex={0} aria-label="Their unique user name is ant.man" className={styles.userName}>@ant.man</h3>
                 </div>
                 <div className={styles.requestButtons}>
-                    <button aria-label="Accept the couple request" className={styles.acceptBtn}>Accept</button>
-                    <button aria-label="Decline the couple request" className={styles.declineBtn}>Decline</button>
+                    <button aria-label={tr.accept + tr.couplerequest} className={styles.acceptBtn}>{tr.accept}</button>
+                    <button aria-label={tr.decline + tr.couplerequest} className={styles.declineBtn}>{tr.decline}</button>
                 </div>
             </div>
 

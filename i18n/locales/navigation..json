@@ -6,7 +6,10 @@
         "messages": "Messages",
         "profile": "Profile",
         "request": "Request",
-        "post": "Post"
+        "post": "Post",
+        "couplerequest": "Couple request",
+        "accept": "Accept",
+        "decline": "Decline"
     },
     "es": {
         "home": "Casa",
@@ -14,7 +17,10 @@
         "notifications": "Notificaciones",
         "messages": "Mensajes",
         "profile": "Perfil",
-        "request": "Oferta",
-        "post": "Publicar"
+        "request": "Petición",
+        "post": "Publicar",
+        "couplerequest": "Petición de pareja",
+        "accept": "Aceptar",
+        "decline": "Rechazar"
     }
 }
