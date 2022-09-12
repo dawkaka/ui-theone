@@ -8,6 +8,9 @@ import { GoFileMedia } from "react-icons/go";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { Carousel, CheckMark } from "./mis";
+import tr from "../i18n/locales/components/newpost.json"
+import { useRouter } from "next/router";
+import { Langs } from "../types";
 
 Modal.setAppElement("body")
 
@@ -30,6 +33,10 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const altRef = useRef<HTMLDivElement>(null)
     const altTextRef = useRef<HTMLTextAreaElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
+
+    const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
 
 
 
@@ -173,7 +180,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                 step === 0 && (
                     <div className={styles.modalBody}>
                         <div className={styles.requestHeader}>
-                            <p>New post</p>
+                            <p>{localeTr.newpost}</p>
                             <div onClick={() => close()}
                                 className={styles.closeContainer}
                             >
@@ -187,7 +194,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             </div>
                             <div className={styles.selectFile}>
 
-                                <button>Select files from device
+                                <button>{localeTr.selectfile}
                                     <input
                                         type="file" onChange={newFile}
                                         accept="image/jpeg, image/png"
@@ -206,13 +213,13 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             <div className={styles.backIcon} onClick={() => setStep(0)}>
                                 <BiArrowBack size={20} color="var(--accents-6)" />
                             </div>
-                            <p>Edit</p>
+                            <p>{localeTr.crop}</p>
                             <div onClick={() => {
                                 setStep(2)
                             }}
                                 className={styles.nextContainer}
                             >
-                                <p>Next</p>
+                                <p>{localeTr.next}</p>
                             </div>
                         </div>
                         <div className={styles.fileContent}>
@@ -282,16 +289,16 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             <div className={styles.backIcon} onClick={() => setStep(1)}>
                                 <BiArrowBack size={20} color="var(--accents-6)" />
                             </div>
-                            <p>Caption</p>
+                            <p>{localeTr.caption}</p>
                             <div onClick={() => setStep(3)}
                                 className={styles.nextContainer}
                             >
-                                <p>Preview</p>
+                                <p>{localeTr.next}</p>
                             </div>
                         </div>
                         <div className={`${styles.modalContent} ${styles.captionStage}`}>
                             <div className={styles.captionContainer}>
-                                <textarea placeholder="Type caption..." onChange={handleCaption}
+                                <textarea placeholder={localeTr.typecaption + "..."} onChange={handleCaption}
                                     autoFocus value={caption} className={styles.textArea}></textarea>
                             </div>
                         </div>
@@ -306,11 +313,11 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             <div className={styles.backIcon} onClick={() => setStep(2)}>
                                 <BiArrowBack size={20} color="var(--accents-6)" />
                             </div>
-                            <p>Preview</p>
+                            <p>{localeTr.preview}</p>
                             <div onClick={() => setStep(4)}
                                 className={styles.nextContainer}
                             >
-                                <p>Ship</p>
+                                <p>{localeTr.share}</p>
                             </div>
                         </div>
 
@@ -324,19 +331,19 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                         altRef.current!.style.display = "none"
                                     }
                                 }}>
-                                    <button>Alt Text</button>
+                                    <button>{localeTr.alttext}</button>
 
                                 </div>
                                 <div className={styles.altTextContainer} ref={altRef} >
 
                                     <textarea
                                         className={`${styles.textAreaAlt} ${styles.altTextArea}`}
-                                        placeholder="Type alt text"
+                                        placeholder={localeTr.typealttext + "..."}
                                         onChange={altChanged}
                                         ref={altTextRef}
                                         value={currAlt}
                                     ></textarea>
-                                    <button onClick={handleAltText}>Done</button>
+                                    <button onClick={handleAltText}>{localeTr.done}</button>
                                 </div>
                                 <Carousel files={blobs.current}
                                     currFunc={(a: number) => setCarouselCurrent(a)} />
