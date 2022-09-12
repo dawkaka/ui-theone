@@ -112,7 +112,7 @@ export default function Profile() {
                                     <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
                                     <div className={styles.requestContainer}>
                                         <div className={styles.requestButtonWrapper}>
-                                            {true ? <Link href={"/user"}>
+                                            {false ? <Link href={"/user"}>
                                                 <button type="button" className={styles.requestButton}>{localeTr.sendrequest}</button>
                                             </Link> : <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>
                                                 {localeTr.edit}

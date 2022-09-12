@@ -27,6 +27,16 @@ export const Post: React.FunctionComponent<post> = (props) => {
             width: "1080px",
             height: "1080px"
         },
+        {
+            name: "/med.jpg",
+            width: "1080px",
+            height: "1080px"
+        },
+        {
+            name: "/med.jpg",
+            width: "1080px",
+            height: "1080px"
+        },
         // {
         //     name: "/me2.jpg",
         //     width: "1080px",
