@@ -1,15 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link"
+import Link from "next/link";
 import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
-import { MdOutlineNavigateNext } from "react-icons/md";
+import { MdBlock, MdModeEdit, MdOutlineContentCopy, MdOutlineNavigateNext, MdReport } from "react-icons/md";
 import styles from "./styles/post.module.css";
 import { Actions, Verified } from "./mis";
 import { BsEmojiSmile } from "react-icons/bs";
-import Comment from "./comment"
+import { AiOutlineDelete } from "react-icons/ai";
+import { RiUserUnfollowLine } from "react-icons/ri";
+import Modal from 'react-modal';
+import Comment from "./comment";
 import { useRouter } from "next/router";
 import { Langs } from "../types";
-import tr from "../i18n/locales/components/post.json"
+import tr from "../i18n/locales/components/post.json";
+import { BiCommentX } from "react-icons/bi";
+
+
 interface post {
     userName: string;
     caption: string;
@@ -17,6 +23,32 @@ interface post {
     likes_count: number;
     comments_count: number;
     verified: boolean
+}
+
+const modalStyles: Modal.Styles = {
+    overlay: {
+        zIndex: 1,
+        backgroundColor: "var(--modal-overlay)",
+        padding: 0,
+        paddingInline: "var(--gap)",
+        display: "flex",
+        flexDirection: "column",
+        margin: 0
+    },
+    content: {
+        alignSelf: "center",
+        position: "relative",
+        padding: 0,
+        margin: 0,
+        overflow: "hidden",
+        justifyContent: "center",
+        backgroundColor: "transparent",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        left: 0,
+        border: "none",
+    }
 }
 
 export const Post: React.FunctionComponent<post> = (props) => {
@@ -36,22 +68,13 @@ export const Post: React.FunctionComponent<post> = (props) => {
             name: "/med.jpg",
             width: "1080px",
             height: "1080px"
-        },
-        // {
-        //     name: "/me2.jpg",
-        //     width: "1080px",
-        //     height: "1080px"
-        // },
-        // {
-        //     name: "/me3.jpg",
-        //     width: "1080px",
-        //     height: "1350px"
-        // }
+        }
     ]
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
+    const [modalOpen, setModalOpen] = useState(false)
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -101,7 +124,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                             <h4>John.Doe{" "} {props.verified && <Verified size={13} />}</h4>
                         </div>
                     </div>
-                    <div>
+                    <div onClick={() => setModalOpen(true)}>
                         <Actions size={20} orientation="potrait" />
                     </div>
                 </div>
@@ -169,7 +192,22 @@ export const Post: React.FunctionComponent<post> = (props) => {
 
                 </form>
             </div>
-
+            <Modal
+                isOpen={modalOpen}
+                style={modalStyles}
+                onRequestClose={() => setModalOpen(false)} >
+                <div>
+                    <ul className={styles.modalBody}>
+                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>Delete</span></li>
+                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdReport size={25} /><span>Report</span></li>
+                        <li className={styles.actionItem}><MdModeEdit size={25} /><span>Edit</span></li>
+                        <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
+                        <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>Unfollow</span></li>
+                        <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
+                    </ul>
+                </div>
+            </Modal>
         </article>
     )
 }
@@ -202,6 +240,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
+    const [modalOpen, setModalOpen] = useState(false)
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -278,7 +317,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                             <h4>John.Doe{" "}<Verified size={13} /></h4>
                         </div>
                     </div>
-                    <div>
+                    <div onClick={() => setModalOpen(true)}>
                         <Actions size={24} orientation="potrait" />
                     </div>
                 </div>
@@ -343,6 +382,22 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                     </form>
                 </div>
             </div>
+            <Modal
+                isOpen={modalOpen}
+                style={modalStyles}
+                onRequestClose={() => setModalOpen(false)} >
+                <div>
+                    <ul className={styles.modalBody}>
+                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>Delete</span></li>
+                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdReport size={25} /><span>Report</span></li>
+                        <li className={styles.actionItem}><MdModeEdit size={25} /><span>Edit</span></li>
+                        <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
+                        <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>Unfollow</span></li>
+                        <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
+                    </ul>
+                </div>
+            </Modal>
         </div>
     )
 }

@@ -6,6 +6,38 @@
     border-radius: var(--radius-small);
 }
 
+.modalBody {
+    width: min(95vw, 400px);
+    background-color: var(--background);
+    border-radius: var(--radius-small);
+    height: 60vh;
+    margin-top: calc(20vh - 45px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    justify-content: center;
+}
+
+.actionItem {
+    width: 100%;
+    padding: var(--gap-half);
+    border-bottom: var(--border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-half);
+    font-size: 18px;
+}
+
+.dangerAction {
+    color: tomato
+}
+
+.actionItem:hover {
+    background-color: var(--accents-2);
+}
+
 @media screen and (max-width: 470px) {
     .container {
         border-radius: 0;
