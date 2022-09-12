@@ -2,6 +2,7 @@
     "en": {
         "follow": "Follow",
         "followers": "Followers",
+        "following": "Following",
         "started": "Started",
         "selectimage": "Select image",
         "edit": "Edit",
@@ -11,6 +12,7 @@
     "es": {
         "follow": "Seguir",
         "followers": "Seguidores",
+         "following": "Siguiendo",
         "started": "Empezada",
         "edit": "Editar",
         "selectimage": "Elegir una imagen",

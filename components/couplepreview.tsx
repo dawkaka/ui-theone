@@ -1,8 +1,10 @@
 import React from "react"
 import Image from "next/image"
 import styles from "./styles/couplepreview.module.css"
-import { FaCertificate } from "react-icons/fa";
 import { Verified } from "./mis";
+import tr from "../i18n/locales/components/couplepreview.json"
+import { useRouter } from "next/router";
+import { Langs } from "../types";
 
 
 interface couple {
@@ -15,6 +17,9 @@ interface couple {
 
 
 const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, status, profile_picture, verified }) => {
+    const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
     return (
         <article className={styles.container}>
             <div className={styles.infoContainer}>
@@ -26,7 +31,7 @@ const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, sta
                     <p className={styles.status}>{status}</p>
                 </div>
             </div>
-            <button className={`${styles.button} ${isFollowing ? styles.buttonDull : ""}`}>{isFollowing ? "following" : "follow"}</button>
+            <button className={`${styles.button} ${isFollowing ? styles.buttonDull : ""}`}>{isFollowing ? localeTr.following : localeTr.follow}</button>
         </article>
     )
 }
