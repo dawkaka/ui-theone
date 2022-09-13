@@ -19,11 +19,94 @@
     justify-content: center;
 }
 
+.editModal {
+    width: min(95vw, 500px);
+    justify-content: start;
+}
+
+.editHeader {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0 var(--gap-half) 0 var(--gap-half);
+    align-items: center;
+    border-bottom: 2px solid var(--accents-2);
+    width: 100%;
+}
+
+.editHeader p {
+    font-size: 18px;
+    font-weight: 510;
+}
+
+.closeContainer {
+    color: var(--accents-3);
+    cursor: pointer;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.saveButton {
+    color: white;
+    cursor: pointer;
+    padding: var(--gap-quarter) var(--gap-half);
+}
+
+.modalContent {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    overflow-y: auto;
+    padding: var(--gap-half);
+}
+
+.editItem {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--gap-quarter);
+    margin-bottom: var(--gap);
+    outline: none;
+}
+
+.editItem textarea,
+.editItem input {
+    padding: var(--gap-quarter) var(--gap-half);
+    font-size: 1rem;
+    border: 1px solid var(--accents-3);
+    border-radius: var(--radius-tiny);
+}
+
+.editItem label {
+    color: var(--foreground)
+}
+
+.editItem textarea:focus,
+.editItem input:focus {
+    outline: none;
+    border: 1px solid var(--success);
+}
+
+.textArea {
+    padding: var(--gap-half) var(--gap-half);
+    color: var(--accents-7);
+    font-size: 18px;
+    height: min(40vh, 200px);
+    overflow-y: auto;
+    width: 100%;
+    border: 2px solid var(--accents-2);
+    outline: none;
+    resize: none;
+}
+
+
 .actionItem {
     width: 100%;
     padding: var(--gap-half);
     border-bottom: var(--border);
-    color: var(--accents-6);
+    color: var(--accents-7);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -31,8 +114,9 @@
     font-size: 18px;
 }
 
+
 .dangerAction {
-    color: tomato
+    color: var(--error-light)
 }
 
 .actionItem:hover {

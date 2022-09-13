@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { Langs } from "../types";
 import tr from "../i18n/locales/components/post.json";
 import { BiCommentX } from "react-icons/bi";
+import { IoMdClose } from "react-icons/io";
 
 
 interface post {
@@ -75,6 +76,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
+    const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -84,6 +86,11 @@ export const Post: React.FunctionComponent<post> = (props) => {
             const widthNum = Math.floor(Number(width))
             setCurr(Math.floor(scrollPos / widthNum))
         })
+    }, [])
+
+    const closeModal = useCallback(() => {
+        setStep("actions")
+        setModalOpen(false)
     }, [])
 
     const scroll = (dir: string) => {
@@ -195,18 +202,78 @@ export const Post: React.FunctionComponent<post> = (props) => {
             <Modal
                 isOpen={modalOpen}
                 style={modalStyles}
-                onRequestClose={() => setModalOpen(false)} >
-                <div>
-                    <ul className={styles.modalBody}>
-                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>Delete</span></li>
-                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdReport size={25} /><span>Report</span></li>
-                        <li className={styles.actionItem}><MdModeEdit size={25} /><span>Edit</span></li>
-                        <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
-                        <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>Unfollow</span></li>
-                        <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
-                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
-                    </ul>
-                </div>
+                onRequestClose={closeModal} >
+                {
+                    step === "actions" && (
+                        <ul className={styles.modalBody}>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>Delete</span></li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>Report</span></li>
+                            <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>Edit</span></li>
+                            <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
+                            <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>Unfollow</span></li>
+                            <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
+                        </ul>
+                    )
+                }
+                {
+                    step === "edit" && (
+                        <div className={`${styles.modalBody} ${styles.editModal}`}>
+                            <div className={styles.editHeader}>
+                                <div className={styles.backIcon} onClick={closeModal}>
+                                    <IoMdClose size={20} color="var(--accents-6)" />
+                                </div>
+                                <p>Edit</p>
+                                <button onClick={() => console.log("done")}
+                                    className={styles.saveButton}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                            <div className={`${styles.modalContent} ${styles.captionStage}`}>
+                                <div className={styles.editItem}>
+                                    <label htmlFor="caption">Caption:</label>
+                                    <textarea
+                                        placeholder="Add caption..."
+                                        autoFocus
+                                        className={styles.textArea}
+                                        id="caption"
+                                    ></textarea>
+                                </div>
+                                <div className={styles.editItem}>
+                                    <label htmlFor="location">Location:</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Add location..."
+                                        id="location"
+                                    />
+                                </div>
+                            </div>
+
+                        </div>
+                    )
+                }
+                {
+                    step === "report" && (
+                        <div className={`${styles.modalBody} ${styles.editModal}`}>
+                            <div className={styles.editHeader}>
+                                <div className={styles.backIcon} onClick={closeModal}>
+                                    <IoMdClose size={20} color="var(--accents-6)" />
+                                </div>
+                                <p>Report post</p>
+                                <button onClick={() => console.log("done")}
+                                    className={styles.saveButton}
+                                >
+                                    Send
+                                </button>
+                            </div>
+                            <div className={`${styles.modalContent} ${styles.captionStage}`}>
+
+                            </div>
+
+                        </div>
+                    )
+                }
             </Modal>
         </article>
     )
