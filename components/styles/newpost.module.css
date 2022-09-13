@@ -173,26 +173,49 @@
 .captionStage {
     justify-content: flex-start;
     height: 100%;
+    padding: var(--gap);
 }
 
-.captionContainer {
-    position: relative;
-    width: 100%;
-    height: 50%;
 
+.editItem {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--gap-quarter);
+    margin-bottom: var(--gap);
+    outline: none;
+}
+
+.editItem textarea,
+.editItem input {
+    padding: var(--gap-quarter) var(--gap-half);
+    font-size: 1rem;
+    border: 1px solid var(--accents-3);
+    border-radius: var(--radius-tiny);
+}
+
+.editItem label {
+    color: var(--foreground)
+}
+
+.editItem textarea:focus,
+.editItem input:focus {
+    outline: none;
+    border: 1px solid var(--success);
 }
 
 .textArea {
     padding: var(--gap-half) var(--gap-half);
     color: var(--accents-7);
     font-size: 18px;
-    height: 100%;
+    height: min(40vh, 200px);
     overflow-y: auto;
     width: 100%;
-    border: none;
+    border: 2px solid var(--accents-2);
     outline: none;
     resize: none;
 }
+
 
 .preBody {
     width: min(95vw, 470px);
