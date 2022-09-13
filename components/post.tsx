@@ -416,6 +416,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                         </div>
                         <div>
                             <h4>John.Doe{" "}<Verified size={13} /></h4>
+                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>Zambiza, Tanzania</p>
                         </div>
                     </div>
                     <div onClick={() => setModalOpen(true)}>

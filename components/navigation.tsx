@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Modal from "react-modal";
 import styles from "./styles/navigation.module.css"
 import { AiFillHome, AiOutlineBell, AiFillBell, AiOutlineHome, AiOutlineUser, AiOutlinePlus, AiFillCloseCircle } from "react-icons/ai"
-import { BsSearch } from "react-icons/bs"
+import { BsHeartHalf, BsSearch } from "react-icons/bs"
 import { FaSearch, FaPlus, FaUser, FaRegQuestionCircle } from "react-icons/fa"
 import { MdEmail, MdOutlineMail } from 'react-icons/md'
 import { IoMdClose } from "react-icons/io"
@@ -110,7 +110,7 @@ export default function Navigation() {
                         !hideHeader && (
                             <div className={styles.postButtonContainer}>
                                 <div className={`${styles.navItem}`} onClick={() => setOpenRequest(true)} tabIndex={0} aria-label="Check couple request">
-                                    <div><AiOutlineUser size={25} color="var(--accents-6)"></AiOutlineUser></div>
+                                    <div><BsHeartHalf size={25} color="var(--accents-6)" /></div>
                                     <p>{cMessages.request}</p>
                                 </div>
                                 <div className={`${styles.logoContainer2}`}>
