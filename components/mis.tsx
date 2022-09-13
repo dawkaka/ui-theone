@@ -3,6 +3,7 @@ import styles from "./styles/misc.module.css"
 import { useSpring, animated } from "@react-spring/web";
 import { useState, useEffect, useRef } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
+import { FaHeart } from "react-icons/fa";
 
 export const Verified: React.FunctionComponent<{ size: number }> = ({ size }) => {
     return (
@@ -125,5 +126,42 @@ export const Carousel: React.FunctionComponent<{ files: string[], currFunc: (a: 
             </div>
             }
         </div>
+    )
+}
+
+
+export const SearchUser: React.FunctionComponent<{
+    hasPartner: boolean,
+    userName: string, picture: string, fullName: string
+}> = ({ hasPartner, userName, picture, fullName }) => {
+    return (
+        <article style={{ display: "flex", alignItems: "center", gap: "var(--gap-half)", marginBottom: "var(--gap-half)" }}>
+            <div>
+                <img src={picture} style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "5px", color: "var(--accents-7)" }}>
+                <h4 style={{}}>{fullName}</h4>
+                <p style={{ color: "var(--accents-6)" }}>@{userName} {' '}{hasPartner ? <FaHeart color="var(--error)" size={12} /> : ""}</p>
+            </div>
+        </article>
+    )
+}
+
+export const SearchCouple: React.FunctionComponent<{
+    verified: boolean,
+    status: "dating" | "married",
+    name: string,
+    picture: string
+}> = ({ verified, status, name, picture }) => {
+    return (
+        <article style={{ display: "flex", alignItems: "center", gap: "var(--gap-half)", marginBottom: "var(--gap-half)" }}>
+            <div>
+                <img src={picture} style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "5px", color: "var(--accents-7)" }}>
+                <h4 style={{}}>{name}{" "} {verified ? <Verified size={13} /> : ""}</h4>
+                <p style={{ color: "var(--accents-6)" }}>{status}</p>
+            </div>
+        </article>
     )
 }

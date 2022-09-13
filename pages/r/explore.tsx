@@ -8,6 +8,9 @@ import { AiFillCloseCircle } from "react-icons/ai"
 import tr from "../../i18n/locales/explore..json"
 import { useRouter } from "next/router"
 import { Langs } from "../../types"
+import { SearchCouple, SearchUser } from "../../components/mis"
+
+
 export default function Explore() {
     const router = useRouter()
     const [query, setQuery] = useState("")
@@ -46,13 +49,51 @@ export default function Explore() {
                             <div className={styles.searchResults}>
                                 {
                                     tab === "users" ? (
-                                        <div>
-                                            <h1>Users </h1>
+                                        <div style={{ padding: "var(--gap)", overflowY: "auto", height: "85vh" }}>
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" hasPartner />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" hasPartner />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" hasPartner />
+                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
+                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
                                         </div>
                                     ) : (
-                                        <div>
-                                            <h1>Couples</h1>
-                                        </div>)
+                                        <div style={{ padding: "var(--gap)", overflowY: "auto", height: "85vh" }}>
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+
+                                        </div>
+                                    )
                                 }
                             </div>
 
