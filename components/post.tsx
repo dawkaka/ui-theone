@@ -267,10 +267,37 @@ export const Post: React.FunctionComponent<post> = (props) => {
                                     Send
                                 </button>
                             </div>
-                            <div className={`${styles.modalContent} ${styles.captionStage}`}>
-
-                            </div>
-
+                            <ul className={`${styles.modalContent} ${styles.report}`}>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" id="adult" value={"adult content"}
+                                        className={styles.reportInput} />
+                                    <label htmlFor="adult">Adult content</label>
+                                </li>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" value={"adult content"}
+                                        id="harassment"
+                                        className={styles.reportInput} />
+                                    <label htmlFor="harassment">Harassment or hateful speech</label>
+                                </li>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" value={"adult content"}
+                                        id="violence"
+                                        className={styles.reportInput} />
+                                    <label htmlFor="violence">Violence of physical harm</label>
+                                </li>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" value={"adult content"}
+                                        id="fake"
+                                        className={styles.reportInput} />
+                                    <label htmlFor="fake">Fake or spam</label>
+                                </li>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" value={"adult content"}
+                                        id="intellectual"
+                                        className={styles.reportInput} />
+                                    <label htmlFor="intellectual">Intellectual property infringement</label>
+                                </li>
+                            </ul>
                         </div>
                     )
                 }

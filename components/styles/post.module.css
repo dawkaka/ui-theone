@@ -19,6 +19,27 @@
     justify-content: center;
 }
 
+.actionItem {
+    width: 100%;
+    padding: var(--gap-half);
+    border-bottom: var(--border);
+    color: var(--accents-7);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-half);
+    font-size: 18px;
+}
+
+
+.dangerAction {
+    color: var(--error-light)
+}
+
+.actionItem:hover {
+    background-color: var(--accents-2);
+}
+
 .editModal {
     width: min(95vw, 500px);
     justify-content: start;
@@ -101,26 +122,31 @@
     resize: none;
 }
 
+.report {
+    display: flex;
+    flex-direction: column;
+}
 
-.actionItem {
+.reportItem {
     width: 100%;
-    padding: var(--gap-half);
-    border-bottom: var(--border);
-    color: var(--accents-7);
-    cursor: pointer;
     display: flex;
     align-items: center;
     gap: var(--gap-half);
+    border-bottom: var(--border);
+    padding-block: var(--gap-half);
+    margin-bottom: var(--gap);
+}
+
+.reportInput {
+    height: 20px;
+    width: 20px;
+    accent-color: var(--success);
+}
+
+.reportItem label {
     font-size: 18px;
-}
-
-
-.dangerAction {
-    color: var(--error-light)
-}
-
-.actionItem:hover {
-    background-color: var(--accents-2);
+    user-select: none;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 470px) {
