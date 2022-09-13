@@ -19,7 +19,6 @@
 .postsContainer {
     border-right: var(--border);
     min-height: 100vh;
-    background-color: var(--accents-1);
 }
 
 .content {

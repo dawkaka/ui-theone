@@ -23,6 +23,7 @@
     width: 100%;
     padding: var(--gap-half);
     border-bottom: var(--border);
+    color: var(--accents-6);
     cursor: pointer;
     display: flex;
     align-items: center;
