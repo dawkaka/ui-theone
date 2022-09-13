@@ -125,7 +125,62 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     )
 }
 
-export const CoupleSettings: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
+export const CoupleReportModal: React.FunctionComponent<{
+    open: boolean,
+    close: () => void
+}> = ({ open, close }) => {
+    return (
+        <Modal
+            isOpen={open}
+            onRequestClose={close}
+            style={modalStyles}
+        >
+            <div className={`${styles.modalBody} ${styles.editModal}`}>
+                <div className={styles.requestHeader}>
+                    <div className={styles.backIcon} onClick={close}>
+                        <IoMdClose size={20} color="var(--accents-6)" />
+                    </div>
+                    <p>Report couple</p>
+                    <button onClick={() => console.log("done")}
+                        className={styles.saveButton}
+                    >
+                        Send
+                    </button>
+                </div>
+                <ul className={`${styles.modalContent} ${styles.report}`}>
+                    <li className={styles.reportItem}>
+                        <input type="checkbox" id="adult" value={"adult content"}
+                            className={styles.reportInput} />
+                        <label htmlFor="adult">Not a real couple</label>
+                    </li>
+                    <li className={styles.reportItem}>
+                        <input type="checkbox" value={"adult content"}
+                            id="harassment"
+                            className={styles.reportInput} />
+                        <label htmlFor="harassment">Either partner under 18 years old</label>
+                    </li>
+                    <li className={styles.reportItem}>
+                        <input type="checkbox" value={"adult content"}
+                            id="violence"
+                            className={styles.reportInput} />
+                        <label htmlFor="violence">Violence of physical harm</label>
+                    </li>
+                    <li className={styles.reportItem}>
+                        <input type="checkbox" value={"adult content"}
+                            id="fake"
+                            className={styles.reportInput} />
+                        <label htmlFor="fake">Nudity or Impersonation</label>
+                    </li>
+                </ul>
+            </div>
+        </Modal>
+    )
+}
+
+export const CoupleSettings: React.FunctionComponent<{
+    open: boolean,
+    close: () => void
+}> = ({ open, close }) => {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]

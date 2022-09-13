@@ -9,14 +9,14 @@ import Cropper from "react-cropper";
 import styles from "../styles/couple.module.css"
 import { Actions, Verified } from "../components/mis";
 import { Post } from "../components/post";
-import { MdModeEdit } from "react-icons/md";
+import { MdBlock, MdModeEdit, MdReport } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import EditCouple from "../components/editprofile";
-import { CoupleSettings } from "../components/settings";
+import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
 import { Langs } from "../types";
 
@@ -27,6 +27,7 @@ const CoupleProfile: NextPage = () => {
     const [editOpen, setEditOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [openSettings, setOpenSettings] = useState(false)
+    const [openReportModal, setOpenReportModal] = useState(false)
     const cropperRef = useRef<any>(null)
     const newFileRef = useRef<any>("")
     const targetRef = useRef<"avatar" | "cover">("avatar")
@@ -112,8 +113,23 @@ const CoupleProfile: NextPage = () => {
                                         </span>
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
-                                        <div onClick={() => setOpenSettings(true)}>
-                                            <Actions size={25} orientation="landscape" />
+                                        <div style={{ position: "relative" }}>
+                                            <div onClick={() => setOpenSettings(true)}>
+                                                <Actions size={25} orientation="landscape" />
+                                            </div>
+                                            <ul className={styles.userActions}>
+                                                <li
+                                                    className={`${styles.actionItem} ${styles.dangerAction}`}
+                                                    onClick={() => setOpenReportModal(true)}>
+                                                    <MdReport size={25} />
+                                                    <span>Report</span>
+                                                </li>
+                                                <li
+                                                    className={`${styles.actionItem} ${styles.dangerAction}`}>
+                                                    <MdBlock size={25} />
+                                                    <span>Block</span>
+                                                </li>
+                                            </ul>
                                         </div>
                                         {false ? <button>{localeTr.follow}</button> :
                                             <button className={styles.editButton} onClick={() => setEditOpen(true)}>{localeTr.edit}</button>}
@@ -158,6 +174,7 @@ const CoupleProfile: NextPage = () => {
 
                     <EditCouple open={editOpen} close={() => setEditOpen(false)} />
                     <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} />
+                    <CoupleReportModal open={openReportModal} close={() => setOpenReportModal(false)} />
 
                     <Modal
                         isOpen={isOpen}

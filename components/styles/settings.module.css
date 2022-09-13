@@ -134,3 +134,37 @@
     background-color: transparent;
     border: 1px solid var(--accents-2);
 }
+
+.report {
+    display: flex;
+    flex-direction: column;
+    padding-inline: var(--gap-half);
+}
+
+.reportItem {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-half);
+    border-bottom: var(--border);
+    padding-block: var(--gap-half);
+    margin-bottom: var(--gap);
+}
+
+.reportInput {
+    height: 20px;
+    width: 20px;
+    accent-color: var(--success);
+}
+
+.reportItem label {
+    font-size: 18px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.saveButton {
+    color: white;
+    cursor: pointer;
+    padding: var(--gap-quarter) var(--gap-half);
+}

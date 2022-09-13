@@ -101,6 +101,34 @@
     border: 2px solid var(--accents-2);
 }
 
+.userActions {
+    position: absolute;
+    padding: var(--gap) 0;
+    background-color: var(--background);
+    border: var(--border);
+}
+
+.actionItem {
+    width: 100%;
+    padding: var(--gap-half);
+    border-bottom: var(--border);
+    color: var(--accents-7);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-half);
+    font-size: 18px;
+}
+
+
+.dangerAction {
+    color: var(--error-light)
+}
+
+.actionItem:hover {
+    background-color: var(--accents-2);
+}
+
 .modalBody {
     width: min(95vw, 600px);
     background-color: var(--background);
