@@ -335,6 +335,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
+    const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -344,6 +345,11 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
             const widthNum = Math.floor(Number(width))
             setCurr(Math.floor(scrollPos / widthNum))
         })
+    }, [])
+
+    const closeModal = useCallback(() => {
+        setStep("actions")
+        setModalOpen(false)
     }, [])
 
     const scroll = (dir: string) => {
@@ -480,17 +486,104 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                 isOpen={modalOpen}
                 style={modalStyles}
                 onRequestClose={() => setModalOpen(false)} >
-                <div>
-                    <ul className={styles.modalBody}>
-                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>Delete</span></li>
-                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdReport size={25} /><span>Report</span></li>
-                        <li className={styles.actionItem}><MdModeEdit size={25} /><span>Edit</span></li>
-                        <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
-                        <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>Unfollow</span></li>
-                        <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
-                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
-                    </ul>
-                </div>
+                {
+                    step === "actions" && (
+                        <ul className={styles.modalBody}>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>Delete</span></li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>Report</span></li>
+                            <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>Edit</span></li>
+                            <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
+                            <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>Unfollow</span></li>
+                            <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
+                        </ul>
+                    )
+                }
+                {
+                    step === "edit" && (
+                        <div className={`${styles.modalBody} ${styles.editModal}`}>
+                            <div className={styles.editHeader}>
+                                <div className={styles.backIcon} onClick={closeModal}>
+                                    <IoMdClose size={20} color="var(--accents-6)" />
+                                </div>
+                                <p>Edit</p>
+                                <button onClick={() => console.log("done")}
+                                    className={styles.saveButton}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                            <div className={`${styles.modalContent} ${styles.captionStage}`}>
+                                <div className={styles.editItem}>
+                                    <label htmlFor="caption">Caption:</label>
+                                    <textarea
+                                        placeholder="Add caption..."
+                                        autoFocus
+                                        className={styles.textArea}
+                                        id="caption"
+                                    ></textarea>
+                                </div>
+                                <div className={styles.editItem}>
+                                    <label htmlFor="location">Location:</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Add location..."
+                                        id="location"
+                                    />
+                                </div>
+                            </div>
+
+                        </div>
+                    )
+                }
+                {
+                    step === "report" && (
+                        <div className={`${styles.modalBody} ${styles.editModal}`}>
+                            <div className={styles.editHeader}>
+                                <div className={styles.backIcon} onClick={closeModal}>
+                                    <IoMdClose size={20} color="var(--accents-6)" />
+                                </div>
+                                <p>Report post</p>
+                                <button onClick={() => console.log("done")}
+                                    className={styles.saveButton}
+                                >
+                                    Send
+                                </button>
+                            </div>
+                            <ul className={`${styles.modalContent} ${styles.report}`}>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" id="adult" value={"adult content"}
+                                        className={styles.reportInput} />
+                                    <label htmlFor="adult">Adult content</label>
+                                </li>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" value={"adult content"}
+                                        id="harassment"
+                                        className={styles.reportInput} />
+                                    <label htmlFor="harassment">Harassment or hateful speech</label>
+                                </li>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" value={"adult content"}
+                                        id="violence"
+                                        className={styles.reportInput} />
+                                    <label htmlFor="violence">Violence of physical harm</label>
+                                </li>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" value={"adult content"}
+                                        id="fake"
+                                        className={styles.reportInput} />
+                                    <label htmlFor="fake">Fake or spam</label>
+                                </li>
+                                <li className={styles.reportItem}>
+                                    <input type="checkbox" value={"adult content"}
+                                        id="intellectual"
+                                        className={styles.reportInput} />
+                                    <label htmlFor="intellectual">Intellectual property infringement</label>
+                                </li>
+                            </ul>
+                        </div>
+                    )
+                }
             </Modal>
         </div>
     )
