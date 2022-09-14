@@ -28,7 +28,13 @@
         "drb": {
             "title": "Date relationship began",
             "placeholder": "Date relationship began"
-        }
+        },
+        "nameErrs": [
+        "Must be 2 to 20 characters long", 
+        "Only letters and ' are allowed in",
+        "Must start with an upppercase letter",
+        "Only first letter should be upppercase"
+    ]
     },
     "es": {
         "editcp": "Editar perfil de pareja",
@@ -59,6 +65,12 @@
         "drb": {
             "title": "Fecha en que comenzó la relación",
             "placeholder": "Ingrese fecha en que comenzó la relación"
-        }
+        },
+         "nameErrs": [
+        "Must be 2 to 20 characters long", 
+        "Only letters and ' are allowed in",
+        "Must start with an upppercase letter",
+        "Only first letter should be upppercase"
+    ]
     }
 }

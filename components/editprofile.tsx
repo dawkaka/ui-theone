@@ -1,10 +1,11 @@
-import { FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { IoMdClose } from "react-icons/io"
 import Modal from "react-modal"
 import styles from "./styles/edit.module.css"
 import tr from "../i18n/locales/components/editprofile.json"
-import { Langs } from "../types"
+import { ErrCodes, Langs } from "../types"
 import { useRouter } from "next/router"
+import { isRealName } from "../libs/validators"
 
 const modalStyles: Modal.Styles = {
     overlay: {
@@ -88,11 +89,28 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> 
 export const EditUser: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setErrMode(true)
+        if (fNameErrs.length !== 0 || lNameErrs.length !== 0) return
         close()
     }
+
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+
+    const [fNameErrs, setFNameErrs] = useState<ErrCodes>([])
+    const [lNameErrs, setLNameErrs] = useState<ErrCodes>([])
+    const [errMode, setErrMode] = useState(false)
+
+    const handleFirst = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value
+        const errs = isRealName(value)
+        setFNameErrs(errs)
+    }
+
+    const handleLastName = (e: ChangeEvent<HTMLInputElement>) => {
+        setLNameErrs(isRealName(e.currentTarget.value))
+    }
 
     return (
         <Modal
@@ -116,24 +134,38 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                 <section className={styles.modalContent}>
                     <div className={styles.editItem}>
                         <label htmlFor="first">{localeTr.firstname.title}*</label>
-                        <input type="text" id="first" required placeholder={localeTr.firstname.placeholder} />
-
-                    </div> <div className={styles.editItem}>
+                        <input type="text" id="first" name="first_name" required placeholder={localeTr.firstname.placeholder} onChange={handleFirst} />
+                        <div className={styles.errorsContainer}>
+                            {
+                                fNameErrs.map(val => {
+                                    return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
+                                })
+                            }
+                        </div>
+                    </div>
+                    <div className={styles.editItem}>
                         <label htmlFor="last">{localeTr.lastname.title}*</label>
-                        <input type="text" id="last" required placeholder={localeTr.lastname.placeholder} />
+                        <input type="text" id="last" name="last_name" required placeholder={localeTr.lastname.placeholder} onChange={handleLastName} />
+                        <div className={styles.errorsContainer}>
+                            {
+                                lNameErrs.map(val => {
+                                    return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
+                                })
+                            }
+                        </div>
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="last">{localeTr.dob.title}*</label>
-                        <input type="date" id="last" required />
+                        <input type="date" id="last" required name="date_of_birth" />
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="bio">{localeTr.bio.title}</label>
-                        <textarea id="bio" className={styles.bio} placeholder={localeTr.bio.placeholder}>
+                        <textarea id="bio" className={styles.bio} placeholder={localeTr.bio.placeholder} name="bio">
                         </textarea>
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="contact">{localeTr.contact.title}</label>
-                        <input type="url" id="contact" placeholder="example@gmail.com" />
+                        <input type="url" id="contact" placeholder="example@gmail.com" name="contact" />
                     </div>
 
                 </section>

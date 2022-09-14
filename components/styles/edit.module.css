@@ -76,3 +76,14 @@
     resize: vertical;
     height: 100px;
 }
+
+.errorsContainer {
+    margin-left: var(--gap);
+    background-color: var(--accents-2);
+    font-size: 15px;
+}
+
+.errorsContainer p {
+    margin: var(--gap-quarter);
+    color: var(--success-dark);
+}
