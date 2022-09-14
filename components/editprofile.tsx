@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 import { IoMdClose } from "react-icons/io"
 import Modal from "react-modal"
 import styles from "./styles/edit.module.css"
@@ -101,6 +101,7 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
     const [fNameErrs, setFNameErrs] = useState<ErrCodes>([])
     const [lNameErrs, setLNameErrs] = useState<ErrCodes>([])
     const [errMode, setErrMode] = useState(false)
+    const bioRef = useRef("")
 
     const handleFirst = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.currentTarget.value
@@ -110,6 +111,17 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
 
     const handleLastName = (e: ChangeEvent<HTMLInputElement>) => {
         setLNameErrs(isRealName(e.currentTarget.value))
+    }
+
+    const handleBio = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        const target = e.currentTarget
+        const len = target.value.length
+        if (len > 255) {
+            target.value = bioRef.current
+            return
+        }
+        target.nextSibling!.textContent = len + "/255"
+        bioRef.current = target.value
     }
 
     return (
@@ -160,8 +172,14 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="bio">{localeTr.bio.title}</label>
-                        <textarea id="bio" className={styles.bio} placeholder={localeTr.bio.placeholder} name="bio">
+                        <textarea
+                            id="bio"
+                            className={styles.bio}
+                            onChange={handleBio}
+                            placeholder={localeTr.bio.placeholder}
+                            name="bio">
                         </textarea>
+                        <p id="bioCounter" style={{ alignSelf: "flex-end", fontSize: "small", color: "var(--accents-6)" }}>10/500</p>
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="contact">{localeTr.contact.title}</label>
