@@ -41,7 +41,18 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> 
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+    const bioRef = useRef("")
 
+    const handleBio = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        const target = e.currentTarget
+        const len = target.value.length
+        if (len > 255) {
+            target.value = bioRef.current
+            return
+        }
+        target.nextSibling!.textContent = len + "/255"
+        bioRef.current = target.value
+    }
     return (
         <Modal
             isOpen={open}
@@ -64,8 +75,16 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> 
                 <section className={styles.modalContent}>
                     <div className={styles.editItem}>
                         <label htmlFor="bio">{localeTr.bio.title}</label>
-                        <textarea id="bio" className={styles.bio} placeholder={localeTr.bio.placeholder}>
+                        <textarea id="bio" className={styles.bio}
+                            placeholder={localeTr.bio.placeholder}
+                            onChange={handleBio}
+                        >
                         </textarea>
+                        <p id="bioCounter" style={{
+                            alignSelf: "flex-end",
+                            fontSize: "small",
+                            color: "var(--accents-6)"
+                        }}>0/500</p>
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="status">{localeTr.status.title}</label>
@@ -179,7 +198,11 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                             placeholder={localeTr.bio.placeholder}
                             name="bio">
                         </textarea>
-                        <p id="bioCounter" style={{ alignSelf: "flex-end", fontSize: "small", color: "var(--accents-6)" }}>10/500</p>
+                        <p id="bioCounter" style={{
+                            alignSelf: "flex-end",
+                            fontSize: "small",
+                            color: "var(--accents-6)"
+                        }}>0/500</p>
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="contact">{localeTr.contact.title}</label>
