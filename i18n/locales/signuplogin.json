@@ -1,0 +1,49 @@
+{
+    "en": {
+        "singup": "Singup",
+        "login": "Login",
+        "firstname": {
+            "title": "First name",
+            "placeholder": "Enter first name"
+        },
+        "lastname": {
+            "title": "Last name",
+            "placeholder": "Enter last name"
+        },
+        "status": {
+            "title": "Status"
+        },
+        "dob": {
+            "title": "Birth date",
+            "placeholder": "Enter birth date"
+        },
+        "nameErrs": [
+            "Must be 2 to 20 characters long",
+            "Only letters and ' are allowed in",
+            "Must start with an upppercase letter",
+            "Only first letter should be upppercase"
+        ]
+    },
+    "es": {
+        "singup": "Singup",
+        "login": "Login",
+        "firstname": {
+            "title": "Nombre",
+            "placeholder": "Ingrese el nombre"
+        },
+        "lastname": {
+            "title": "Apellido",
+            "placeholder": "Ingrese el apellido"
+        },
+        "dob": {
+            "title": "Fecha de nacimiento",
+            "placeholder": "Ingrese fecha de nacimiento"
+        },
+        "nameErrs": [
+            "Must be 2 to 20 characters long",
+            "Only letters and ' are allowed in",
+            "Must start with an upppercase letter",
+            "Only first letter should be upppercase"
+        ]
+    }
+}

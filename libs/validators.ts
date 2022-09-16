@@ -33,8 +33,12 @@ function isASCII(str: string) {
     return true
 }
 
-export const isPassword = (password: string) => {
-    return password.trim().length > 7
+export const isPassword = (password: string): ErrCodes => {
+    const errors: ErrCodes = []
+    if (password.length < 6) {
+        errors.push(1)
+    }
+    return errors
 }
 
 export const isCoupleName = (name: string) => {
@@ -85,6 +89,14 @@ export const isUserName = (name: string): ErrCodes => {
                 errors.push(3)
             }
         }
+    }
+    return errors
+}
+
+export const isEmail = (email: string): ErrCodes => {
+    const errors: ErrCodes = []
+    if (email.indexOf("@") < 0) {
+        errors.push(1)
     }
     return errors
 }
