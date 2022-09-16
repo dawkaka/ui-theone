@@ -51,12 +51,23 @@
 
 .formItem input:focus {
     outline: none;
-    border: 1px solid var(--success);
+    border: 2px solid var(--success);
 }
 
 .form button {
     padding: var(--gap-quarter) var(--gap);
     font-size: 1rem;
+}
+
+.errorsContainer {
+    margin-left: var(--gap);
+    background-color: var(--accents-2);
+    font-size: 15px;
+}
+
+.errorsContainer p {
+    margin: var(--gap-quarter);
+    color: var(--success-dark);
 }
 
 @media only screen and (max-width: 750px) {

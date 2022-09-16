@@ -36,7 +36,7 @@ function isASCII(str: string) {
 export const isPassword = (password: string): ErrCodes => {
     const errors: ErrCodes = []
     if (password.length < 6) {
-        errors.push(1)
+        errors.push(0)
     }
     return errors
 }
@@ -96,7 +96,7 @@ export const isUserName = (name: string): ErrCodes => {
 export const isEmail = (email: string): ErrCodes => {
     const errors: ErrCodes = []
     if (email.indexOf("@") < 0) {
-        errors.push(1)
+        errors.push(0)
     }
     return errors
 }

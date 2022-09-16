@@ -30,11 +30,11 @@
             "placeholder": "Date relationship began"
         },
         "nameErrs": [
-        "Must be 2 to 20 characters long", 
-        "Only letters and ' are allowed in",
-        "Must start with an upppercase letter",
-        "Only first letter should be upppercase"
-    ]
+            "Must be 2 to 20 characters long",
+            "Only letters and ' are allowed in",
+            "Must start with an upppercase letter",
+            "Only first letter should be upppercase"
+        ]
     },
     "es": {
         "editcp": "Editar perfil de pareja",
@@ -45,7 +45,7 @@
             "placeholder": "Escribir biografía"
         },
         "status": {
-         "title": "Estado"
+            "title": "Estado"
         },
         "firstname": {
             "title": "Nombre",
@@ -66,11 +66,11 @@
             "title": "Fecha en que comenzó la relación",
             "placeholder": "Ingrese fecha en que comenzó la relación"
         },
-         "nameErrs": [
-        "Must be 2 to 20 characters long", 
-        "Only letters and ' are allowed in",
-        "Must start with an upppercase letter",
-        "Only first letter should be upppercase"
-    ]
+        "nameErrs": [
+            "Debe tener de 2 a 20 caracteres de largo",
+            "Solo se permiten letras y '",
+            "Debe comenzar con una letra mayúscula",
+            "Solo la primera letra debe estar en mayúsculas"
+        ]
     }
 }

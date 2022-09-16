@@ -2,6 +2,11 @@
     "en": {
         "singup": "Singup",
         "login": "Login",
+        "next": "Next",
+        "hasAccount": "Already have an account?",
+        "hasnoaccount": "Don't have an account?",
+        "forgotpassword": "Forgot password?",
+        "back": "Back",
         "firstname": {
             "title": "First name",
             "placeholder": "Enter first name"
@@ -10,12 +15,40 @@
             "title": "Last name",
             "placeholder": "Enter last name"
         },
-        "status": {
-            "title": "Status"
+        "email": {
+            "title": "Email",
+            "placeholder": "Enter email",
+            "errors": [
+                "Not a valid email"
+            ]
+        },
+        "username": {
+            "title": "User name",
+            "placeholder": "Enter user name",
+            "errors": [
+                "Must be 4 to 15 characters long",
+                "Only letters and '_ .' are allowed",
+                "Must not start with a special character",
+                "Special characters must not follow eacch other"
+            ]
         },
         "dob": {
             "title": "Birth date",
             "placeholder": "Enter birth date"
+        },
+        "password": {
+            "title": "Password",
+            "placeholder": "Enter password",
+            "errors": [
+                "Must be long than 6 characters"
+            ]
+        },
+        "repeatpassword": {
+            "title": "Repeat password",
+            "placeholder": "Repeat password",
+            "errors": [
+                "Passwords don't match"
+            ]
         },
         "nameErrs": [
             "Must be 2 to 20 characters long",
@@ -25,8 +58,13 @@
         ]
     },
     "es": {
-        "singup": "Singup",
-        "login": "Login",
+        "singup": "Regístrase",
+        "login": "Acceso",
+        "next": "Siguiente",
+        "hasAccount": "¿Ya tienes una cuenta?",
+        "hasnoaccount": "¿No tienes una cuenta?",
+        "back": "Regresa",
+        "forgotpassword": "¿Se te olvidó tu contraseña?",
         "firstname": {
             "title": "Nombre",
             "placeholder": "Ingrese el nombre"
@@ -35,15 +73,46 @@
             "title": "Apellido",
             "placeholder": "Ingrese el apellido"
         },
+        "email": {
+            "title": "Correo electrónico",
+            "placeholder": "Ingrese el correo electrónico",
+            "errors": [
+                "No es un correo electrónico válido"
+            ]
+        },
+        "username": {
+            "title": "Nombre de usuario",
+            "placeholder": "Ingrese nombre de usuario",
+            "errors": [
+                "Debe tener entre 4 y 15 caracteres",
+                "Solo letras y '_ .' están permitidos",
+                "No debe comenzar ni terminar con un carácter especial",
+                "Los caracteres especiales no deben seguirse entre sí"
+            ]
+        },
         "dob": {
             "title": "Fecha de nacimiento",
             "placeholder": "Ingrese fecha de nacimiento"
         },
+        "password": {
+            "title": "Contraseña",
+            "placeholder": "Introducir la contraseña",
+            "errors": [
+                "Debe tener más de 6 caracteres"
+            ]
+        },
+        "repeatpassword": {
+            "title": "Repita la contraseña",
+            "placeholder": "Repita la contraseña",
+            "errors": [
+                "Las contraseñas no coinciden"
+            ]
+        },
         "nameErrs": [
-            "Must be 2 to 20 characters long",
-            "Only letters and ' are allowed in",
-            "Must start with an upppercase letter",
-            "Only first letter should be upppercase"
+            "Debe tener de 2 a 20 caracteres de largo",
+            "Solo se permiten letras y '",
+            "Debe comenzar con una letra mayúscula",
+            "Solo la primera letra debe estar en mayúsculas"
         ]
     }
 }

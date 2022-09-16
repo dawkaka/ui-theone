@@ -25,6 +25,7 @@ const Signup: NextPage = () => {
         password: "",
         repeatPassword: ""
     })
+
     const errRef = useRef<{
         fNameErrs: ErrCodes,
         lNameErrs: ErrCodes,
@@ -45,7 +46,28 @@ const Signup: NextPage = () => {
 
     const next = (e: FormEvent) => {
         e.preventDefault()
+        if (hasErrors()) {
+            return
+        }
         setStep(false)
+    }
+
+    const hasErrors = () => {
+        let f = errRef.current.fNameErrs.length < 1
+        let l = errRef.current.lNameErrs.length < 1
+        let e = errRef.current.emailErrs.length < 1
+        let d = errRef.current.dobErrs.length < 1
+        if (!f || !l || !e || !d) {
+            return true
+        }
+        f = dataRef.current.fName !== ""
+        l = dataRef.current.lName !== ""
+        e = dataRef.current.email !== ""
+        d = dataRef.current.dob !== ""
+        if (!f || !l || !e || !d) {
+            return true
+        }
+        return false
     }
 
     const signup = (e: FormEvent) => {
@@ -77,8 +99,6 @@ const Signup: NextPage = () => {
                 dataRef.current.email = value
                 break;
             case "dob":
-                errs = isRealName(value)
-                errRef.current.dobErrs = errs
                 dataRef.current.dob = value
                 break;
             case "user_name":
@@ -92,9 +112,8 @@ const Signup: NextPage = () => {
                 dataRef.current.password = value
                 break;
             case "repeat_password":
-
                 if (dataRef.current.password !== value) {
-                    errRef.current.repeatPasswordErrs = [1]
+                    errRef.current.repeatPasswordErrs = [0]
                 } else {
                     errRef.current.repeatPasswordErrs = []
                 }
@@ -111,17 +130,17 @@ const Signup: NextPage = () => {
             <main className={styles.main}>
                 <div className={styles.deco}></div>
                 <div className={styles.formContainer}>
-                    <h2 style={{ textAlign: "center" }}>Signup</h2>
+                    <h2 style={{ textAlign: "center" }}>{localeTr.singup}</h2>
                     <div className={styles.indicatorsContainer}>
                         <form className={styles.form}>
                             {
                                 step ? (
                                     <>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="firstname">First name</label>
+                                            <label htmlFor="firstname">{localeTr.firstname.title}</label>
                                             <input
                                                 type="text"
-                                                placeholder="Enter first name"
+                                                placeholder={localeTr.firstname.placeholder}
                                                 name="first_name"
                                                 required
                                                 value={dataRef.current.fName}
@@ -136,10 +155,10 @@ const Signup: NextPage = () => {
                                             </div>
                                         </div>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="lastname" placeholder="Enter last name">Last name</label>
+                                            <label htmlFor="lastname">{localeTr.lastname.title}</label>
                                             <input
                                                 type="text"
-                                                placeholder="Enter last name"
+                                                placeholder={localeTr.lastname.placeholder}
                                                 name="last_name"
                                                 required
                                                 value={dataRef.current.lName}
@@ -154,28 +173,27 @@ const Signup: NextPage = () => {
                                             </div>
                                         </div>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="email">Email</label>
+                                            <label htmlFor="email">{localeTr.email.title}</label>
                                             <input
                                                 type="email"
-                                                placeholder="Enter email"
-                                                name="email" required
+                                                placeholder={localeTr.email.placeholder}
+                                                name="email"
                                                 value={dataRef.current.email}
                                                 onChange={handleInputs}
                                             />
                                             <div className={styles.errorsContainer}>
                                                 {
                                                     errRef.current.emailErrs.map(val => {
-                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
+                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.email.errors[val]}</p>
                                                     })
                                                 }
                                             </div>
                                         </div>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="dob">Birth date</label>
+                                            <label htmlFor="dob">{localeTr.dob.title}</label>
                                             <input
                                                 type="date"
-                                                name="date_of_birth"
-                                                value={dataRef.current.dob}
+                                                name="dob"
                                                 onChange={handleInputs}
                                             />
                                             <div className={styles.errorsContainer}>
@@ -193,17 +211,17 @@ const Signup: NextPage = () => {
                                             gap: "var(--gap-quarter)",
                                             marginTop: "40px"
                                         }}>
-                                            <p>Already have an account ? <Link href={"/login"} shallow><a style={{ color: "var(--success)" }}>Login</a></Link></p>
-                                            <button onClick={next}>Next</button>
+                                            <p>{localeTr.hasAccount} <Link href={"/login"} shallow><a style={{ color: "var(--success)" }}>{localeTr.login}</a></Link></p>
+                                            <button onClick={next} style={{ opacity: hasErrors() ? .5 : 1 }}>{localeTr.next}</button>
                                         </div>
                                     </>
                                 ) : (
                                     <>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="firstname">User name</label>
+                                            <label htmlFor="firstname">{localeTr.username.title}</label>
                                             <input
                                                 type="text"
-                                                placeholder="Choose user name"
+                                                placeholder={localeTr.username.placeholder}
                                                 name="user_name"
                                                 value={dataRef.current.userName}
                                                 onChange={handleInputs}
@@ -211,16 +229,16 @@ const Signup: NextPage = () => {
                                             <div className={styles.errorsContainer}>
                                                 {
                                                     errRef.current.uNameErrs.map(val => {
-                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
+                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.username.errors[val]}</p>
                                                     })
                                                 }
                                             </div>
                                         </div>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="lastname" placeholder="Enter last name">Password</label>
+                                            <label htmlFor="lastname" placeholder="Enter last name">{localeTr.password.title}</label>
                                             <input
                                                 type="password"
-                                                placeholder="Enter password"
+                                                placeholder={localeTr.password.placeholder}
                                                 name="password"
                                                 required
                                                 value={dataRef.current.password}
@@ -229,16 +247,16 @@ const Signup: NextPage = () => {
                                             <div className={styles.errorsContainer}>
                                                 {
                                                     errRef.current.passwordErrs.map(val => {
-                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
+                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.password.errors[val]}</p>
                                                     })
                                                 }
                                             </div>
                                         </div>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="email">Repeat password</label>
+                                            <label htmlFor="email">{localeTr.repeatpassword.title}</label>
                                             <input
                                                 type="password"
-                                                placeholder="Repeat password"
+                                                placeholder={localeTr.repeatpassword.placeholder}
                                                 name="repeat_password"
                                                 required
                                                 value={dataRef.current.repeatPassword}
@@ -247,7 +265,7 @@ const Signup: NextPage = () => {
                                             <div className={styles.errorsContainer}>
                                                 {
                                                     errRef.current.repeatPasswordErrs.map(val => {
-                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
+                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.repeatpassword.errors[val]}</p>
                                                     })
                                                 }
                                             </div>
@@ -260,12 +278,12 @@ const Signup: NextPage = () => {
                                                     color: "var(--success)",
                                                     backgroundColor: "transparent",
                                                     border: "var(--border)"
-                                                }}>Back</button>
+                                                }}>{localeTr.back}</button>
                                             <button
                                                 style={{ paddingBlock: "var(--gap-half)" }}
                                                 onClick={signup}
                                             >
-                                                Sign up
+                                                {localeTr.singup}
                                             </button>
                                         </div>
                                     </>
