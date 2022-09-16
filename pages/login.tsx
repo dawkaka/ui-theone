@@ -12,7 +12,7 @@ const Login: NextPage = () => {
     return (
         <div className={styles.pageMain}>
             <main className={styles.main}>
-                <div style={{ background: "url(/med.jpg)", backgroundPosition: "center" }}></div>
+                <div className={styles.deco}></div>
                 <div className={styles.formContainer}>
                     <h2 style={{ textAlign: "center" }}>Login</h2>
                     <div className={styles.indicatorsContainer}>

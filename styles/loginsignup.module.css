@@ -7,13 +7,18 @@
 }
 
 .main {
-
     width: 90%;
     box-shadow: 0 0 100px var(--accents-2);
     display: grid;
     border-radius: var(--radius-small);
     grid-template-columns: 1fr 1fr;
 }
+
+.deco {
+    background: url("/med.jpg");
+    background-size: cover;
+}
+
 
 .formContainer {
     padding: var(--gap);
@@ -22,7 +27,6 @@
 .form {
     margin: var(--gap);
     padding: var(--gap);
-    width: auto;
     border-radius: var(--radius-tiny);
     background-color: var(--accents-1);
 }
@@ -49,4 +53,26 @@
 .form button {
     padding: var(--gap-quarter) var(--gap);
     font-size: 1rem;
+}
+
+@media only screen and (max-width: 750px) {
+    .main {
+        display: block;
+    }
+
+    .deco {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .formContainer {
+        padding: 0;
+        padding-top: var(--gap-half);
+    }
+
+    .form {
+        padding: var(--gap) var(--gap-half);
+        margin: var(--gap-half);
+    }
 }

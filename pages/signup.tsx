@@ -23,7 +23,7 @@ const Signup: NextPage = () => {
     return (
         <div className={styles.pageMain}>
             <main className={styles.main}>
-                <div style={{ background: "url(/med.jpg)", backgroundPosition: "center" }}></div>
+                <div className={styles.deco}></div>
                 <div className={styles.formContainer}>
                     <h2 style={{ textAlign: "center" }}>Signup</h2>
                     <div className={styles.indicatorsContainer}>
