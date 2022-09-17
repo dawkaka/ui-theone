@@ -71,6 +71,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
             height: "1080px"
         }
     ]
+
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
@@ -88,10 +89,12 @@ export const Post: React.FunctionComponent<post> = (props) => {
         })
     }, [])
 
+
     const closeModal = useCallback(() => {
         setStep("actions")
         setModalOpen(false)
     }, [])
+
 
     const scroll = (dir: string) => {
         let width = window.getComputedStyle(slider.current!).width
@@ -110,8 +113,10 @@ export const Post: React.FunctionComponent<post> = (props) => {
         });
         setCurr(dist / widthNum)
     }
+
     const num = new Intl.NumberFormat(locale, { notation: "compact" }).format(1400)
     const comments = num, likes = num
+
     return (
         <article className={styles.container}>
             <div>
@@ -207,13 +212,13 @@ export const Post: React.FunctionComponent<post> = (props) => {
                 {
                     step === "actions" && (
                         <ul className={styles.modalBody}>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>Delete</span></li>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>Report</span></li>
-                            <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>Edit</span></li>
-                            <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
-                            <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>Unfollow</span></li>
-                            <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>{localeTr.delete}</span></li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>{localeTr.report}</span></li>
+                            <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>{localeTr.edit}</span></li>
+                            <li className={styles.actionItem}><BiCommentX size={25} /><span>{localeTr.closecomments}</span></li>
+                            <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>{localeTr.unfollow}</span></li>
+                            <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>{localeTr.copyurl}</span> </li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>{localeTr.block}</span></li>
                         </ul>
                     )
                 }
@@ -224,28 +229,28 @@ export const Post: React.FunctionComponent<post> = (props) => {
                                 <div className={styles.backIcon} onClick={closeModal}>
                                     <IoMdClose size={20} color="var(--accents-6)" />
                                 </div>
-                                <p>Edit</p>
+                                <p>{localeTr.edit}</p>
                                 <button onClick={() => console.log("done")}
                                     className={styles.saveButton}
                                 >
-                                    Save
+                                    {localeTr.save}
                                 </button>
                             </div>
                             <div className={`${styles.modalContent} ${styles.captionStage}`}>
                                 <div className={styles.editItem}>
-                                    <label htmlFor="caption">Caption:</label>
+                                    <label htmlFor="caption">{localeTr.caption.title}</label>
                                     <textarea
-                                        placeholder="Add caption..."
+                                        placeholder={localeTr.caption.placeholder}
                                         autoFocus
                                         className={styles.textArea}
                                         id="caption"
                                     ></textarea>
                                 </div>
                                 <div className={styles.editItem}>
-                                    <label htmlFor="location">Location:</label>
+                                    <label htmlFor="location">{localeTr.location.title}</label>
                                     <input
                                         type="text"
-                                        placeholder="Add location..."
+                                        placeholder={localeTr.location.placeholder}
                                         id="location"
                                     />
                                 </div>
@@ -261,42 +266,42 @@ export const Post: React.FunctionComponent<post> = (props) => {
                                 <div className={styles.backIcon} onClick={closeModal}>
                                     <IoMdClose size={20} color="var(--accents-6)" />
                                 </div>
-                                <p>Report post</p>
+                                <p>{localeTr.reportpost}</p>
                                 <button onClick={() => console.log("done")}
                                     className={styles.saveButton}
                                 >
-                                    Send
+                                    {localeTr.send}
                                 </button>
                             </div>
                             <ul className={`${styles.modalContent} ${styles.report}`}>
                                 <li className={styles.reportItem}>
                                     <input type="checkbox" id="adult" value={"adult content"}
                                         className={styles.reportInput} />
-                                    <label htmlFor="adult">Adult content</label>
+                                    <label htmlFor="adult">{localeTr.reports["1"]}</label>
                                 </li>
                                 <li className={styles.reportItem}>
                                     <input type="checkbox" value={"adult content"}
                                         id="harassment"
                                         className={styles.reportInput} />
-                                    <label htmlFor="harassment">Harassment or hateful speech</label>
+                                    <label htmlFor="harassment">{localeTr.reports["2"]}</label>
                                 </li>
                                 <li className={styles.reportItem}>
                                     <input type="checkbox" value={"adult content"}
                                         id="violence"
                                         className={styles.reportInput} />
-                                    <label htmlFor="violence">Violence of physical harm</label>
+                                    <label htmlFor="violence">{localeTr.reports["3"]}</label>
                                 </li>
                                 <li className={styles.reportItem}>
                                     <input type="checkbox" value={"adult content"}
                                         id="fake"
                                         className={styles.reportInput} />
-                                    <label htmlFor="fake">Fake or spam</label>
+                                    <label htmlFor="fake">{localeTr.reports["4"]}</label>
                                 </li>
                                 <li className={styles.reportItem}>
                                     <input type="checkbox" value={"adult content"}
                                         id="intellectual"
                                         className={styles.reportInput} />
-                                    <label htmlFor="intellectual">Intellectual property infringement</label>
+                                    <label htmlFor="intellectual">{localeTr.reports["5"]}</label>
                                 </li>
                             </ul>
                         </div>

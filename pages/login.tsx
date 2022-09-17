@@ -5,9 +5,6 @@ import React, { FormEvent, useState } from "react";
 import styles from "../styles/loginsignup.module.css"
 import { Langs } from "../types";
 import tr from "../i18n/locales/signuplogin.json"
-import { MdPassword } from "react-icons/md";
-
-
 
 const Login: NextPage = () => {
     const [emailOrUsername, setEmailOrUserName] = useState("")

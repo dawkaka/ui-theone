@@ -1,13 +1,64 @@
 {
-    "en": {
-      "addcomment": "Add a comment",
-      "post": "post",
-      "more": "more"
+  "en": {
+    "addcomment": "Add a comment",
+    "post": "post",
+    "more": "more",
+    "save": "Save",
+    "send": "Send",
+    "delete": "Delete",
+    "edit": "Edit",
+    "report": "Report",
+    "block": "Block",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "closecomments": "Close comments",
+    "reportpost": "Report post",
+    "copyurl": "Copy post url",
+    "location": {
+      "title": "Location",
+      "placeholder": "Add location..."
     },
-
-    "es": {
-      "addcomment": "Añadir un comentario",
-      "post": "publicar",
-      "more": "más"
+    "caption": {
+      "title": "Caption",
+      "placeholder": "Add caption..."
+    },
+    "reports": {
+      "1": "Adult content",
+      "2": "Harassment or hateful speech",
+      "3": "Violence or physical harm",
+      "4": "Fake or spam",
+      "5": "Intellectual property infringement"
     }
+  },
+  "es": {
+    "addcomment": "Añadir un comentario",
+    "post": "publicar",
+    "more": "más",
+    "save": "Ahorrar",
+    "send": "Enviar",
+    "delete": "Borrar",
+    "edit": "Editar",
+    "report": "Reporte",
+    "block": "Bloquear",
+    "follow": "Seguir",
+    "unfollow": "Dejar de seguir",
+    "closecomments": "Cerrar comentarios",
+    "reportpost": "Reportar publicacion",
+    "copyurl": "Copiar URL de la publicación",
+    "location": {
+      "title": "Ubicación",
+      "placeholder": "Añade una ubicación..."
+    },
+    "caption": {
+      "title": "Subtitulo",
+      "placeholder": "Añadir un subtitulo"
+    },
+    "reports": {
+      "1": "Contenido para adultos",
+      "2": "Acoso o discurso de odio",
+      "3": "Violencia o daño físico",
+      "4": "Falso o spam",
+      "5": "Infracción de propiedad intelectual"
+    }
+  }
 }
