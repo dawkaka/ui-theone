@@ -1,28 +1,36 @@
 {
-    "en": {
-       "newpost": "New post",
-       "done": "Done",
-       "share": "Share",
-       "next": "Next",
-       "preview": "Preview",
-       "crop": "Crop",
-       "selectfile": "Select image from device",
-       "caption": "Caption",
-       "typecaption": "Type caption",
-       "alttext": "Alt text",
-       "typealttext": "Type alt text"
-    },
-    "es": {
-       "newpost": "Nueva publicación",
-       "done": "Hecho",
-       "next": "Siguiente",
-       "share": "Compartir",
-       "preview": "La vista anticipada",
-       "crop": "Recortar",
-       "selectfile": "Seleccione una imagen",
-       "caption": "Subtítulo",
-       "typecaption": "Escribe un pie de foto",
-       "alttext": "Texto alternativo",
-       "typealttext": "Escribe texto alternativo"
-    }
+   "en": {
+      "newpost": "New post",
+      "done": "Done",
+      "share": "Share",
+      "next": "Next",
+      "preview": "Preview",
+      "crop": "Crop",
+      "selectfile": "Select image from device",
+      "caption": "Caption",
+      "typecaption": "Type caption",
+      "alttext": "Alt text",
+      "typealttext": "Type alt text",
+      "location": {
+         "title": "Location",
+         "placeholder": "Add location..."
+      }
+   },
+   "es": {
+      "newpost": "Nueva publicación",
+      "done": "Hecho",
+      "next": "Siguiente",
+      "share": "Compartir",
+      "preview": "La vista anticipada",
+      "crop": "Recortar",
+      "selectfile": "Seleccione una imagen",
+      "caption": "Subtítulo",
+      "typecaption": "Escribe un pie de foto",
+      "alttext": "Texto alternativo",
+      "typealttext": "Escribe texto alternativo",
+      "location": {
+         "title": "Ubicación",
+         "placeholder": "Añade una ubicación..."
+      }
+   }
 }

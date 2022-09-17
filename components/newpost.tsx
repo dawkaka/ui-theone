@@ -298,15 +298,15 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                         </div>
                         <div className={`${styles.modalContent} ${styles.captionStage}`}>
                             <div className={styles.editItem}>
-                                <label htmlFor="caption">Caption:</label>
+                                <label htmlFor="caption">{localeTr.caption}</label>
                                 <textarea placeholder={localeTr.typecaption + "..."} onChange={handleCaption}
                                     autoFocus value={caption} className={styles.textArea}></textarea>
                             </div>
                             <div className={styles.editItem}>
-                                <label htmlFor="location">Location:</label>
+                                <label htmlFor="location">{localeTr.location.title}</label>
                                 <input
                                     type="text"
-                                    placeholder="Add location..."
+                                    placeholder={localeTr.location.placeholder}
                                     id="location"
                                 />
                             </div>

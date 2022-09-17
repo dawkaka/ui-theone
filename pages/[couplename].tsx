@@ -122,12 +122,12 @@ const CoupleProfile: NextPage = () => {
                                                     className={`${styles.actionItem} ${styles.dangerAction}`}
                                                     onClick={() => setOpenReportModal(true)}>
                                                     <MdReport size={25} />
-                                                    <span>Report</span>
+                                                    <span>{localeTr.report}</span>
                                                 </li>
                                                 <li
                                                     className={`${styles.actionItem} ${styles.dangerAction}`}>
                                                     <MdBlock size={25} />
-                                                    <span>Block</span>
+                                                    <span>{localeTr.block}</span>
                                                 </li>
                                             </ul>
                                         </div>

@@ -2,6 +2,7 @@
     "en": {
         "header": "Account settings",
         "coupleheader": "Couple profile settings",
+        "send": "Send",
         "username": {
             "title": "User name",
             "placehoder": "New user name"
@@ -38,11 +39,19 @@
         "logout": "Logout",
         "deleteacount": "Delete account",
         "change": "Change",
-        "edoncast": "Deactivate couple profile"
+        "edoncast": "Deactivate couple profile",
+        "reportcouple": "Report couple",
+        "reports": {
+            "1": "Not a real couple",
+            "2": "Either partner under 18 years old",
+            "3": "Violence of physical harm",
+            "4": "Nudity or Impersonation"
+        }
     },
     "es": {
         "header": "Configuraciones de la cuenta",
         "coupleheader": "Configuraciones de perfil",
+        "send": "Enviar",
         "username": {
             "title": "Nombre de usuario",
             "placehoder": "Nuevo nombre de usuario"
@@ -79,6 +88,13 @@
         "logout": "Cerrar sesión",
         "deleteacount": "Borrar cuenta",
         "change": "Cambiar",
-        "edoncast": "Deactivate couple profile"
+        "edoncast": "Deactivate couple profile",
+        "reportcouple": "Reportar pareja",
+        "reports": {
+            "1": "No es una pareja real",
+            "2": "Cualquier pareja menor de 18 años",
+            "3": "Violencia de daño físico",
+            "4": "Desnudez o suplantación de identidad"
+        }
     }
 }

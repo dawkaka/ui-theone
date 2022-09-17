@@ -7,16 +7,22 @@
         "selectimage": "Select image",
         "edit": "Edit",
         "crop": "Crop",
-        "done": "Done"
+        "done": "Done",
+        "report": "Report",
+        "block": "Block",
+        "reportcouple": "Report couple"
     },
     "es": {
         "follow": "Seguir",
         "followers": "Seguidores",
-         "following": "Siguiendo",
+        "following": "Siguiendo",
         "started": "Empezada",
         "edit": "Editar",
         "selectimage": "Elegir una imagen",
         "crop": "Delimitar",
-        "done": "Hecho" 
+        "done": "Hecho",
+        "report": "Reporte",
+        "block": "Bloquear",
+        "reportcouple": "Reportar pareja"
     }
 }

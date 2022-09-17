@@ -61,7 +61,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         if (theme === "Dark") {
             setTheme(theme)
         }
-    })
+    }, [])
 
     const langChange = (e: ChangeEvent<HTMLInputElement>) => {
         const lang = e.currentTarget.value
@@ -129,6 +129,9 @@ export const CoupleReportModal: React.FunctionComponent<{
     open: boolean,
     close: () => void
 }> = ({ open, close }) => {
+    const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
     return (
         <Modal
             isOpen={open}
@@ -140,36 +143,36 @@ export const CoupleReportModal: React.FunctionComponent<{
                     <div className={styles.backIcon} onClick={close}>
                         <IoMdClose size={20} color="var(--accents-6)" />
                     </div>
-                    <p>Report couple</p>
+                    <p>{localeTr.reportcouple}</p>
                     <button onClick={() => console.log("done")}
                         className={styles.saveButton}
                     >
-                        Send
+                        {localeTr.send}
                     </button>
                 </div>
                 <ul className={`${styles.modalContent} ${styles.report}`}>
                     <li className={styles.reportItem}>
                         <input type="checkbox" id="adult" value={"adult content"}
                             className={styles.reportInput} />
-                        <label htmlFor="adult">Not a real couple</label>
+                        <label htmlFor="adult">{localeTr.reports["1"]}</label>
                     </li>
                     <li className={styles.reportItem}>
                         <input type="checkbox" value={"adult content"}
                             id="harassment"
                             className={styles.reportInput} />
-                        <label htmlFor="harassment">Either partner under 18 years old</label>
+                        <label htmlFor="harassment">{localeTr.reports["2"]}</label>
                     </li>
                     <li className={styles.reportItem}>
                         <input type="checkbox" value={"adult content"}
                             id="violence"
                             className={styles.reportInput} />
-                        <label htmlFor="violence">Violence of physical harm</label>
+                        <label htmlFor="violence">{localeTr.reports["3"]}</label>
                     </li>
                     <li className={styles.reportItem}>
                         <input type="checkbox" value={"adult content"}
                             id="fake"
                             className={styles.reportInput} />
-                        <label htmlFor="fake">Nudity or Impersonation</label>
+                        <label htmlFor="fake">{localeTr.reports["4"]}</label>
                     </li>
                 </ul>
             </div>

@@ -106,7 +106,6 @@
     padding: var(--gap) 0;
     background-color: var(--background);
     border: var(--border);
-    display: none;
 }
 
 .actionItem {
