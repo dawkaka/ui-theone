@@ -1,22 +1,26 @@
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import styles from "../styles/loginsignup.module.css"
 import { Langs } from "../types";
 import tr from "../i18n/locales/signuplogin.json"
+import { MdPassword } from "react-icons/md";
 
 
 
 const Login: NextPage = () => {
     const [emailOrUsername, setEmailOrUserName] = useState("")
+    const [password, setPassword] = useState("")
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
 
+    const hasErrors = password === "" || emailOrUsername === "" ? true : false
 
     const login = (e: FormEvent) => {
         e.preventDefault()
+        if (hasErrors) return
     }
 
     return (
@@ -28,18 +32,23 @@ const Login: NextPage = () => {
                     <div className={styles.indicatorsContainer}>
                         <form className={styles.form}>
                             <div className={styles.formItem}>
-                                <label>Name or email</label>
-                                <input type="text" placeholder="Enter user name or email" name="user_name" required value={emailOrUsername}
+                                <label>{localeTr.usernameoremail.title}</label>
+                                <input type="text" placeholder={localeTr.usernameoremail.placeholder} name="user_name" required value={emailOrUsername}
                                     onChange={(e) => setEmailOrUserName(e.currentTarget.value)} />
                             </div>
                             <div className={styles.formItem}>
                                 <label>{localeTr.password.title}</label>
-                                <input type="password" placeholder={localeTr.password.placeholder} name="password" required />
+                                <input
+                                    type="password"
+                                    placeholder={localeTr.password.placeholder}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.currentTarget.value)}
+                                    name="password" required />
                                 <small style={{ color: "var(--success)" }}>{localeTr.forgotpassword}</small>
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", marginTop: "40px", gap: "var(--gap)" }}>
                                 <button
-                                    style={{ paddingBlock: "var(--gap-half)" }}
+                                    style={{ paddingBlock: "var(--gap-half)", opacity: hasErrors ? .5 : 1 }}
                                     onClick={login}
                                 >
                                     {localeTr.login}

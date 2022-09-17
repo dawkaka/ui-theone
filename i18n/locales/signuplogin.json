@@ -32,6 +32,10 @@
                 "Special characters must not follow eacch other"
             ]
         },
+        "usernameoremail": {
+            "title": "User name or email",
+            "placeholder": "Enter user name or email"
+        },
         "dob": {
             "title": "Birth date",
             "placeholder": "Enter birth date"
@@ -89,6 +93,10 @@
                 "No debe comenzar ni terminar con un carácter especial",
                 "Los caracteres especiales no deben seguirse entre sí"
             ]
+        },
+        "usernameoremail": {
+            "title": "Nombre de usuario o correo electrónico",
+            "placeholder": "Ingrese el nombre de usuario o correo electrónico"
         },
         "dob": {
             "title": "Fecha de nacimiento",
