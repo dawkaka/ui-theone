@@ -236,6 +236,7 @@
     display: flex;
     -webkit-box-align: baseline;
     align-items: baseline;
+    cursor: default;
 }
 
 .countItemTitle {
@@ -292,6 +293,14 @@
     display: block;
 }
 
+.followingContent {
+    height: 80vh;
+    width: 100%;
+    padding: var(--gap);
+    overflow-y: auto;
+    display: "block"
+}
+
 @media only screen and (max-width:500px) {
 
     .profileTopContainer {
@@ -299,6 +308,10 @@
         place-items: center;
         padding-inline: var(--gap-quarter);
         padding-bottom: 0;
+    }
+
+    .followingContent {
+        padding: var(--gap) var(--gap-half);
     }
 
 

@@ -252,6 +252,7 @@
     display: flex;
     -webkit-box-align: baseline;
     align-items: baseline;
+    cursor: default;
 }
 
 .countItemTitle {
@@ -274,6 +275,20 @@
     align-items: center;
 }
 
+.followersContent {
+    height: 80vh;
+    width: 100%;
+    padding: var(--gap);
+    overflow-y: auto;
+
+}
+
+.followersContent>div {
+    width: min(100%, 300px);
+    align-self: center;
+    margin-inline: auto;
+}
+
 @media screen and (max-width: 750px) {
     .mainContainer {
         grid-template-columns: 1fr;
@@ -281,5 +296,11 @@
 
     .profileContainer {
         min-height: 0;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .followersContent {
+        padding: var(--gap) var(--gap-half);
     }
 }

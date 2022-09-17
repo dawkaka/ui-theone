@@ -7,7 +7,7 @@ import Header from "../components/pageHeader";
 import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import styles from "../styles/couple.module.css"
-import { Actions, Verified } from "../components/mis";
+import { Actions, SearchUser, Verified } from "../components/mis";
 import { Post } from "../components/post";
 import { MdBlock, MdModeEdit, MdReport } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
@@ -19,6 +19,7 @@ import EditCouple from "../components/editprofile";
 import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
 import { Langs } from "../types";
+import CouplePreview from "../components/couplepreview";
 
 Modal.setAppElement("#__next")
 
@@ -28,6 +29,9 @@ const CoupleProfile: NextPage = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [openSettings, setOpenSettings] = useState(false)
     const [openReportModal, setOpenReportModal] = useState(false)
+    const [openFollowers, setOpenFollowers] = useState(false)
+
+
     const cropperRef = useRef<any>(null)
     const newFileRef = useRef<any>("")
     const targetRef = useRef<"avatar" | "cover">("avatar")
@@ -144,7 +148,7 @@ const CoupleProfile: NextPage = () => {
                                     </p>
                                     <div style={{ display: "flex", gap: "var(--gap)", alignItems: "center" }}>
                                         <h2 className={styles.countInfo}>
-                                            <div className={styles.countItem}>
+                                            <div className={styles.countItem} onClick={() => setOpenFollowers(true)}>
                                                 <strong title="Following">830</strong>
                                                 <span className={styles.countItemTitle}>{localeTr.followers}</span>
                                             </div>
@@ -175,6 +179,7 @@ const CoupleProfile: NextPage = () => {
                     <EditCouple open={editOpen} close={() => setEditOpen(false)} />
                     <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} />
                     <CoupleReportModal open={openReportModal} close={() => setOpenReportModal(false)} />
+                    <Followers open={openFollowers} close={() => setOpenFollowers(false)} heading={localeTr.followers} />
 
                     <Modal
                         isOpen={isOpen}
@@ -280,6 +285,69 @@ const CoupleProfile: NextPage = () => {
             </Layout >
         </>
     )
+}
+
+
+const Followers: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
+    return (
+        <Modal isOpen={open} onRequestClose={close}
+
+            style={{
+                overlay: {
+                    zIndex: 1,
+                    backgroundColor: "var(--modal-overlay)",
+                    paddingInline: "var(--gap)",
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: 0
+                },
+                content: {
+                    alignSelf: "center",
+                    position: "relative",
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: "var(--background)",
+                    display: "flex",
+                    flexDirection: "column",
+                    left: 0,
+                    border: "none",
+                }
+            }}
+        >
+            <div className={styles.modalBody}>
+                <div className={styles.requestHeader}>
+                    <p>{" "}</p>
+                    <p>{heading}</p>
+                    <div onClick={() => close()}
+                        className={styles.closeContainer}
+                    >
+                        <IoMdClose color="tranparent" size={25} />
+                    </div>
+                </div>
+                <div className={styles.followersContent}>
+                    <div>
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif MohammedYUssifMohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                    </div>
+                </div>
+
+
+            </div>
+
+        </Modal>
+    )
+
 }
 
 export default CoupleProfile

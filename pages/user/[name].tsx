@@ -17,6 +17,7 @@ import { Actions } from "../../components/mis";
 import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
 import { Langs } from "../../types";
+import CouplePreview from "../../components/couplepreview";
 Modal.setAppElement("#__next")
 
 export default function Profile() {
@@ -29,6 +30,9 @@ export default function Profile() {
     const [showImage, setShowImage] = useState(0)
     const [editOpen, setEditOpen] = useState(false)
     const [openSettings, setOpenSettings] = useState(false)
+    const [openFollowing, setOpenFollowing] = useState(false)
+
+
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
@@ -123,7 +127,7 @@ export default function Profile() {
                                 </div>
                             </div>
                             <h2 className={styles.countInfo}>
-                                <div className={styles.countItem}>
+                                <div className={styles.countItem} onClick={() => setOpenFollowing(true)}>
                                     <strong title="Following">830</strong>
                                     <span className={styles.countItemTitle}>{localeTr.following}</span>
                                 </div>
@@ -154,6 +158,7 @@ export default function Profile() {
                 </div>
                 <EditUser open={editOpen} close={() => setEditOpen(false)} />
                 <UserSettings open={openSettings} close={() => setOpenSettings(false)} />
+                <Following open={openFollowing} close={() => setOpenFollowing(false)} heading={localeTr.following} />
                 <Modal
                     isOpen={isOpen}
                     onRequestClose={() => setIsOpen(false)}
@@ -289,3 +294,65 @@ const ShowPicture: React.FunctionComponent<{
             </article>
         )
     }
+
+const Following: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
+    return (
+        <Modal isOpen={open} onRequestClose={close}
+
+            style={{
+                overlay: {
+                    zIndex: 1,
+                    backgroundColor: "var(--modal-overlay)",
+                    paddingInline: "var(--gap)",
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: 0
+                },
+                content: {
+                    alignSelf: "center",
+                    position: "relative",
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: "var(--background)",
+                    display: "flex",
+                    flexDirection: "column",
+                    left: 0,
+                    border: "none",
+                }
+            }}
+        >
+            <div className={styles.modalBody}>
+                <div className={styles.requestHeader}>
+                    <p>{" "}</p>
+                    <p>{heading}</p>
+                    <div onClick={() => close()}
+                        className={styles.closeContainer}
+                    >
+                        <IoMdClose color="tranparent" size={25} />
+                    </div>
+                </div>
+                <div className={styles.followingContent}>
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
+
+                </div>
+
+
+            </div>
+
+        </Modal>
+    )
+
+}
