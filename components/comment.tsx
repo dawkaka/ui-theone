@@ -3,6 +3,7 @@ import styles from "./styles/comment.module.css";
 import Image from 'next/image';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { GoPrimitiveDot } from "react-icons/go";
+import { useRouter } from "next/router";
 interface comment {
   userName: string;
   comment: string;
@@ -15,6 +16,8 @@ interface comment {
 }
 
 const Comment: React.FunctionComponent<comment> = (props) => {
+  const { locale } = useRouter()
+  const likesCount = new Intl.NumberFormat(locale, { notation: "compact" }).format(props.likes_count)
   return (
     <article className={styles.container}>
       <div className={styles.header}>
@@ -26,14 +29,13 @@ const Comment: React.FunctionComponent<comment> = (props) => {
             <h5>{props.userName}</h5>
             <AiFillHeart color="var(--error)" size={12} title="has partner"></AiFillHeart>
           </div>
-
           <small style={{ fontSize: "11px" }}>{props.date.toLocaleDateString()}</small>
         </div>
       </div>
       <p className={styles.comment}>{props.comment}</p>
       <div className={styles.iconContainer}>
         {props.hasLiked ? <AiFillHeart size={20} color={`var(--error)`}></AiFillHeart> : <AiOutlineHeart size={20}></AiOutlineHeart>}
-        <span>{props.likes_count}</span>
+        <span style={{ fontSize: "13px" }}>{" " + likesCount}</span>
       </div>
     </article>
   )

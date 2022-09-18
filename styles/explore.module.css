@@ -32,8 +32,8 @@
     font-size: 16px;
     padding: var(--gap-quarter) var(--gap-half);
     border-radius: var(--radius-big);
-    border: 1px solid var(--accents-3);
-    background-color: var(--accents-1);
+    border: none;
+    background-color: var(--accents-2);
 }
 
 .searchContainer input:focus+.searchIcon {

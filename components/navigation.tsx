@@ -33,11 +33,14 @@ export default function Navigation() {
         if (window.screen.width < 751) {
             if (pathname !== "/r/home") setHideHeader(true)
             if (pathname === "/r/messages") setHideBottomTab(true)
+            if (pathname === "/[copulename]/[postId]") setHideBottomTab(true)
         }
+
         window.addEventListener("resize", () => {
             if (window.screen.width < 751) {
                 if (pathname !== "/r/home") setHideHeader(true)
                 if (pathname === "/r/messages") setHideBottomTab(true)
+                if (pathname === "/[couplename]/[postId]") setHideBottomTab(true)
             } else {
                 setHideHeader(false)
                 setHideBottomTab(false)

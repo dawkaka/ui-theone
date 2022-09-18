@@ -2,6 +2,7 @@ import { kMaxLength } from "buffer"
 import { useRouter } from "next/router"
 import Layout from "../../components/mainLayout"
 import { PostFullView } from "../../components/post"
+import styles from "../../styles/post.module.css"
 
 export default function Post() {
     const router = useRouter()
@@ -10,13 +11,12 @@ export default function Post() {
         <Layout>
             <div style={{
                 width: "100%",
-                padding: "0 var(--gap-quarter)",
                 height: "100vh",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center"
             }}>
-                <div style={{ height: "80%", border: "1px  solid var(--accents-2)" }}>
+                <div className={styles.container}>
                     <PostFullView couplename={couplename!} postId={postId!} />
                 </div>
 

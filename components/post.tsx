@@ -26,6 +26,7 @@ interface post {
     verified: boolean
 }
 
+
 const modalStyles: Modal.Styles = {
     overlay: {
         zIndex: 1,
@@ -342,6 +343,8 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
+
+    const [blue, setblue] = useState("red")
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {

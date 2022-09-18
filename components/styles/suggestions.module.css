@@ -26,6 +26,7 @@
     .suggestionsWrapper {
         padding-block: 0;
         padding-inline: var(--gap-half);
+        padding-bottom: var(--gap-half);
         position: inherit;
         width: 100%;
         border: none;
