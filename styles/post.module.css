@@ -4,13 +4,36 @@
     margin: 0 var(--gap-quarter);
 }
 
-
+.headerContainer {
+    display: none;
+}
 
 @media only screen and (max-width: 750px) {
     .container {
         height: 100%;
         border: none;
         margin: 0;
+        padding-top: 50px;
     }
 
+    .headerContainer {
+        top: 0;
+        position: fixed;
+        display: flex;
+        height: 50px;
+        align-items: center;
+        gap: var(--gap-quarter);
+        background-color: var(--background);
+        padding: 0 var(--gap-half);
+        width: 100%;
+        z-index: 1;
+        border-bottom: var(--border);
+    }
+
+    .backIcon {
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+
+    }
 }

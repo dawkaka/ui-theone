@@ -15,22 +15,7 @@
     display: flex;
 }
 
-@media screen and (max-width: 750px) {
-    .messagePageContainer {
-        padding: 0;
-        border-right: none;
-    }
 
-    .messagingContainer {
-        height: 100%;
-        padding-inline: 0;
-        border: none;
-    }
-
-    .usersMessagesContainer {
-        border-right: none;
-    }
-}
 
 .header {
     padding: 0 var(--gap);
@@ -47,6 +32,34 @@
 .backIcon {
     padding: var(--gap-half) var(--gap);
 }
+
+@media screen and (max-width: 750px) {
+    .messagePageContainer {
+        padding: 0;
+        border-right: none;
+    }
+
+    .messagingContainer {
+        height: 100%;
+        padding-inline: 0;
+        border: none;
+    }
+
+    .usersMessagesContainer {
+        border-right: none;
+    }
+
+    .backIcon {
+        padding-inline: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .header {
+        padding: 0 var(--gap-half);
+    }
+}
+
 
 .searchContainer {
     padding: 0 var(--gap-half);

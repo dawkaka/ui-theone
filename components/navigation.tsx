@@ -1,5 +1,4 @@
 import { CSSProperties, useEffect, useState } from 'react'
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Modal from "react-modal";
@@ -13,6 +12,7 @@ import AddPost from "./newpost";
 import messages from "../i18n/locales/navigation..json"
 import { Langs } from "../types";
 export default function Navigation() {
+
     const { pathname, locale } = useRouter()
     const [openRequest, setOpenRequest] = useState(false)
     const [hideHeader, setHideHeader] = useState(false)
@@ -27,30 +27,36 @@ export default function Navigation() {
         flexDirection: "column",
         margin: 0
     }
+
     const cMessages = locale ? messages[locale as Langs] : messages["en"]
+    console.log(pathname)
 
     useEffect(() => {
+
         if (window.screen.width < 751) {
             if (pathname !== "/r/home") setHideHeader(true)
-            if (pathname === "/r/messages") setHideBottomTab(true)
-            if (pathname === "/[copulename]/[postId]") setHideBottomTab(true)
+            if (pathname === "/r/messages" || pathname === "/[couplename]/[postId]") {
+                setHideBottomTab(true)
+            }
         }
 
         window.addEventListener("resize", () => {
             if (window.screen.width < 751) {
                 if (pathname !== "/r/home") setHideHeader(true)
-                if (pathname === "/r/messages") setHideBottomTab(true)
-                if (pathname === "/[couplename]/[postId]") setHideBottomTab(true)
+                if (pathname === "/r/messages" || pathname === "/[couplename]/[postId]") {
+                    setHideBottomTab(true)
+                }
             } else {
                 setHideHeader(false)
                 setHideBottomTab(false)
             }
         })
+
     }, [pathname])
 
     return (
         <>
-            {hideBottomTab ? null : <aside className={styles.container}>
+            {hideBottomTab ? "" : <aside className={styles.container}>
                 <nav className={styles.nav}>
                     <div className={`${styles.logoContainer}`} aria-label="company logo, el wahid">
                         <Link href={"/r/home"}>
@@ -61,7 +67,7 @@ export default function Navigation() {
                         <div className={`${styles.navItem} ${pathname === "/r/home" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to home page">
                             <div>
                                 {
-                                    pathname === "/r/home" ? <AiFillHome size={25}></AiFillHome> :
+                                    pathname === "/r/home" ? <AiFillHome size={23}></AiFillHome> :
                                         <AiOutlineHome size={25} color="var(--accents-6)"></AiOutlineHome>
                                 }
                             </div>
@@ -72,7 +78,7 @@ export default function Navigation() {
                         <div className={`${styles.navItem} ${pathname === "/r/explore" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to explore page">
                             <div>
                                 {pathname === "/r/explore" ? <FaSearch size={22}></FaSearch> :
-                                    <BsSearch size={25} color="var(--accents-6)"></BsSearch>
+                                    <BsSearch size={22} color="var(--accents-6)"></BsSearch>
                                 }
                             </div>
 
@@ -92,8 +98,8 @@ export default function Navigation() {
                     <Link href={"/r/messages"}>
                         <div className={`${styles.navItem} ${pathname === "/r/messages" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to messages page">
                             <div>
-                                {pathname === "/r/messages" ? <MdEmail size={25}></MdEmail> :
-                                    <MdOutlineMail size={25} color="var(--accents-5)"></MdOutlineMail>
+                                {pathname === "/r/messages" ? <MdEmail size={26}></MdEmail> :
+                                    <MdOutlineMail size={26} color="var(--accents-5)"></MdOutlineMail>
                                 }
                             </div>
                             <p>{cMessages.messages}</p>

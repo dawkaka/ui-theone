@@ -42,7 +42,6 @@ export default function Notifications() {
 
 
 
-
 const Notification: React.FunctionComponent<{
     type?: "like" | "comment" | "follower"
 }> = ({ type }) => {

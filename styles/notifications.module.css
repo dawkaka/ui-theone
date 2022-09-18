@@ -75,7 +75,5 @@
         min-height: 0;
     }
 
-    .ntfs {
-        padding-left: var(--gap);
-    }
+
 }
