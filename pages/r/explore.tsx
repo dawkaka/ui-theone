@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { FaSearch } from "react-icons/fa"
 import Layout from "../../components/mainLayout"
 import Suggestions from "../../components/suggestions"
@@ -14,9 +14,46 @@ import { SearchCouple, SearchUser } from "../../components/mis"
 export default function Explore() {
     const router = useRouter()
     const [query, setQuery] = useState("")
-    const [tab, setTab] = useState("users")
+    const [tab, setTab] = useState<"users" | "couples">("users")
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+    const scrollRef = useRef<HTMLDivElement>(null)
+    const tabScrollRef = useRef(false)
+
+    useEffect(() => {
+
+        const scrollFunc = () => {
+            if (tabScrollRef.current) return
+            let width = window.getComputedStyle(scrollRef.current!).width
+            width = width.substring(0, width.length - 2)
+            let scrolldiff = Number(width) - scrollRef.current!.scrollLeft
+            let scroll = scrolldiff / Number(width)
+            if (scroll > 0.5) {
+                setTab("users")
+            } else {
+                setTab("couples")
+            }
+        }
+
+        scrollRef.current?.addEventListener("scroll", scrollFunc)
+
+        return () => {
+            scrollRef.current?.removeEventListener("scroll", scrollFunc)
+        }
+    }, [])
+
+    const tabNavigation = (t: "users" | "couples") => {
+        setTab(t)
+        tabScrollRef.current = true
+        if (t === "users") {
+            scrollRef.current?.scroll({ behavior: "smooth", left: 0 })
+        } else {
+            scrollRef.current?.scroll({ behavior: "smooth", left: 1000 })
+        }
+        setTimeout(() => {
+            tabScrollRef.current = false
+        }, 500);
+    }
     return (
         <Layout>
 
@@ -34,11 +71,11 @@ export default function Explore() {
 
                         {!!query && (<div className={styles.searchModal}>
                             <div className={styles.searchHeader}>
-                                <div className={styles.tabItem} onClick={() => setTab("users")}>
+                                <div className={styles.tabItem} onClick={() => tabNavigation("users")}>
                                     <p>{localeTr.users}</p>
                                     <div className={`${styles.indicator} ${styles.indOne} ${tab === "users" ? styles.tabActive : ""}`}></div>
                                 </div>
-                                <div className={`${styles.tabItem}`} onClick={() => setTab("couples")}>
+                                <div className={`${styles.tabItem}`} onClick={() => tabNavigation("couples")}>
                                     <p>{localeTr.couples}</p>
                                     <div className={`${styles.indicator} ${styles.indTwo} ${tab !== "users" ? styles.tabActive : ""}`}></div>
                                 </div>
@@ -46,55 +83,53 @@ export default function Explore() {
                                     <AiFillCloseCircle size={30} />
                                 </div>
                             </div>
-                            <div className={styles.searchResults}>
-                                {
-                                    tab === "users" ? (
-                                        <div style={{ padding: "var(--gap)", overflowY: "auto", height: "85vh" }}>
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" hasPartner />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" hasPartner />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" hasPartner />
-                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
-                                            <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                            <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                        </div>
-                                    ) : (
-                                        <div style={{ padding: "var(--gap)", overflowY: "auto", height: "85vh" }}>
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                            <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                            <div className={styles.searchResults} ref={scrollRef}>
 
-                                        </div>
-                                    )
-                                }
+                                <div className={styles.resultsContainer}>
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" hasPartner />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" hasPartner />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" hasPartner />
+                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
+                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
+                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
+                                </div>
+
+                                <div className={styles.resultsContainer}>
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
+
+                                </div>
+
                             </div>
 
                         </div>

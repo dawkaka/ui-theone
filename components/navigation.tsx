@@ -29,7 +29,6 @@ export default function Navigation() {
     }
 
     const cMessages = locale ? messages[locale as Langs] : messages["en"]
-    console.log(pathname)
 
     useEffect(() => {
 
@@ -67,7 +66,7 @@ export default function Navigation() {
                         <div className={`${styles.navItem} ${pathname === "/r/home" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to home page">
                             <div>
                                 {
-                                    pathname === "/r/home" ? <AiFillHome size={23}></AiFillHome> :
+                                    pathname === "/r/home" ? <AiFillHome size={25}></AiFillHome> :
                                         <AiOutlineHome size={25} color="var(--accents-6)"></AiOutlineHome>
                                 }
                             </div>
@@ -77,7 +76,7 @@ export default function Navigation() {
                     <Link href={"/r/explore"}>
                         <div className={`${styles.navItem} ${pathname === "/r/explore" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to explore page">
                             <div>
-                                {pathname === "/r/explore" ? <FaSearch size={22}></FaSearch> :
+                                {pathname === "/r/explore" ? <FaSearch size={25}></FaSearch> :
                                     <BsSearch size={22} color="var(--accents-6)"></BsSearch>
                                 }
                             </div>
@@ -98,7 +97,7 @@ export default function Navigation() {
                     <Link href={"/r/messages"}>
                         <div className={`${styles.navItem} ${pathname === "/r/messages" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to messages page">
                             <div>
-                                {pathname === "/r/messages" ? <MdEmail size={26}></MdEmail> :
+                                {pathname === "/r/messages" ? <MdEmail size={25}></MdEmail> :
                                     <MdOutlineMail size={26} color="var(--accents-5)"></MdOutlineMail>
                                 }
                             </div>

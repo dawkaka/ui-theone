@@ -103,6 +103,31 @@
     padding-block: var(--gap-quarter);
     color: var(--success);
     cursor: pointer;
+    scrollbar-width: 0;
+}
+
+.searchResults {
+    display: flex;
+    scroll-snap-type: x mandatory;
+    overflow-x: scroll;
+}
+
+.searchResults::-webkit-scrollbar {
+    display: none;
+}
+
+.resultsContainer {
+    scroll-snap-align: start;
+    padding: var(--gap);
+    flex-shrink: 0;
+    width: 100%;
+    height: 85vh;
+    overflow-y: scroll;
+    scrollbar-width: 0;
+}
+
+.resultsContainer::-webkit-scrollbar {
+    display: none;
 }
 
 @media screen and (max-width: 750px) {
