@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -17,6 +17,7 @@ import tr from "../i18n/locales/components/post.json";
 import { BiCommentX } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import { useTheme } from "../hooks";
+import { EmojiStyle } from "emoji-picker-react";
 
 const Picker = dynamic(
     () => {
@@ -88,6 +89,10 @@ export const Post: React.FunctionComponent<post> = (props) => {
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
+    const theme = useTheme()
+
+    const [openEmoji, setOpenEmoji] = useState(false)
+    const [comment, setComment] = useState("")
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -98,6 +103,12 @@ export const Post: React.FunctionComponent<post> = (props) => {
             setCurr(Math.floor(scrollPos / widthNum))
         })
     }, [])
+
+    const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        e.currentTarget.style.height = "1px";
+        e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
+        setComment(e.target.value)
+    }
 
 
     const closeModal = useCallback(() => {
@@ -202,16 +213,32 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         </Link>
                     </div>
                 </div>
-                <form className={styles.commentContainer} onSubmit={(e) => e.preventDefault()}>
-                    <BsEmojiSmile />
-                    <textarea aria-label={localeTr.addcomment} placeholder={localeTr.addcomment + "..."}
+                <form className={styles.commentContainer} onSubmit={(e) => e.preventDefault()}
+                    style={{ position: "relative" }}
+                >
+                    <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
+                        <BsEmojiSmile />
+                    </div>
+                    <textarea
+                        aria-label={localeTr.addcomment}
+                        placeholder={localeTr.addcomment + "..."}
+                        onChange={handleCommentChange}
                         autoComplete="off" autoCorrect="off" onKeyUp={(e) => {
                             e.currentTarget.style.height = "1px";
                             e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
-                        }}></textarea>
+                        }}
+                        value={comment}></textarea>
                     <div>
                         <button>{localeTr.post}</button>
                     </div>
+                    {openEmoji && <div style={{ position: "absolute", bottom: "45px", left: 0, width: "100%" }}>
+                        <Picker
+                            onEmojiClick={(emojiObject) => setComment(comment + emojiObject.emoji)}
+                            lazyLoadEmojis={true}
+                            theme={theme}
+                            emojiStyle={EmojiStyle.APPLE}
+                        />
+                    </div>}
 
                 </form>
             </div>
