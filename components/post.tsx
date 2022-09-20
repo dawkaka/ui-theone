@@ -14,10 +14,11 @@ import Comment from "./comment";
 import { useRouter } from "next/router";
 import { Langs } from "../types";
 import tr from "../i18n/locales/components/post.json";
+import emTr from "../i18n/locales/components/emoji.json"
 import { BiCommentX } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import { useTheme } from "../hooks";
-import { EmojiStyle } from "emoji-picker-react";
+import { Categories, EmojiStyle } from "emoji-picker-react";
 
 const Picker = dynamic(
     () => {
@@ -87,6 +88,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
+    const emojiTr = emTr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const theme = useTheme()
@@ -236,7 +238,45 @@ export const Post: React.FunctionComponent<post> = (props) => {
                             onEmojiClick={(emojiObject) => setComment(comment + emojiObject.emoji)}
                             lazyLoadEmojis={true}
                             theme={theme}
-                            emojiStyle={EmojiStyle.APPLE}
+                            categories={[
+                                {
+                                    name: emojiTr.recently_used,
+                                    category: Categories.SUGGESTED
+                                },
+                                {
+                                    name: emojiTr.smileys_people,
+                                    category: Categories.SMILEYS_PEOPLE
+                                },
+                                {
+                                    name: emojiTr.food_drink,
+                                    category: Categories.FOOD_DRINK
+                                },
+                                {
+                                    name: emojiTr.animals_nature,
+                                    category: Categories.ANIMALS_NATURE
+                                },
+                                {
+                                    name: emojiTr.activities,
+                                    category: Categories.ACTIVITIES
+                                },
+                                {
+                                    name: emojiTr.travel_places,
+                                    category: Categories.TRAVEL_PLACES
+                                },
+                                {
+                                    name: emojiTr.objects,
+                                    category: Categories.OBJECTS
+                                },
+                                {
+                                    name: emojiTr.symbols,
+                                    category: Categories.SYMBOLS
+                                },
+
+                                {
+                                    name: emojiTr.flags,
+                                    category: Categories.FLAGS
+                                },
+                            ]}
                         />
                     </div>}
 
@@ -344,7 +384,6 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         </div>
                     )
                 }
-                <Picker onEmojiClick={() => console.log("here")} />
             </Modal>
         </article>
     )
@@ -378,6 +417,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
+    const emojiTr = emTr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const [openEmoji, setOpenEmoji] = useState(false)
@@ -546,6 +586,45 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                             onEmojiClick={(emojiObject) => setComment(comment + emojiObject.emoji)}
                             lazyLoadEmojis={true}
                             theme={theme}
+                            categories={[
+                                {
+                                    name: emojiTr.recently_used,
+                                    category: Categories.SUGGESTED
+                                },
+                                {
+                                    name: emojiTr.smileys_people,
+                                    category: Categories.SMILEYS_PEOPLE
+                                },
+                                {
+                                    name: emojiTr.food_drink,
+                                    category: Categories.FOOD_DRINK
+                                },
+                                {
+                                    name: emojiTr.animals_nature,
+                                    category: Categories.ANIMALS_NATURE
+                                },
+                                {
+                                    name: emojiTr.activities,
+                                    category: Categories.ACTIVITIES
+                                },
+                                {
+                                    name: emojiTr.travel_places,
+                                    category: Categories.TRAVEL_PLACES
+                                },
+                                {
+                                    name: emojiTr.objects,
+                                    category: Categories.OBJECTS
+                                },
+                                {
+                                    name: emojiTr.symbols,
+                                    category: Categories.SYMBOLS
+                                },
+
+                                {
+                                    name: emojiTr.flags,
+                                    category: Categories.FLAGS
+                                }
+                            ]}
                         />
                     </div>
                     }

@@ -1,0 +1,24 @@
+{
+    "en": {
+        "smileys_people": "Smileys & People",
+        "animals_nature": "Animals & Nature",
+        "food_drink": "Food & Drink",
+        "travel_places": "Travel & Places",
+        "activities": "Activities",
+        "objects": "Objects",
+        "symbols": "Symbols",
+        "flags": "Sheldon cooper's fun with flags",
+        "recently_used": "Recently used"
+    },
+    "es": {
+        "smileys_people": "Emoticonos y Personas",
+        "animals_nature": "Animales y Naturaleza",
+        "food_drink": "Comida y Bebida",
+        "travel_places": "Viajes y Lugares",
+        "activities": "Actividades",
+        "objects": "Objetos",
+        "symbols": "Simbolos",
+        "flags": "Banderas",
+        "recently_used": "Recientemente usado"
+    }
+}
