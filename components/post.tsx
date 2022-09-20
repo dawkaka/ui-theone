@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
 import { MdBlock, MdModeEdit, MdOutlineContentCopy, MdOutlineNavigateNext, MdReport } from "react-icons/md";
 import styles from "./styles/post.module.css";
@@ -15,6 +16,14 @@ import { Langs } from "../types";
 import tr from "../i18n/locales/components/post.json";
 import { BiCommentX } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
+import { useTheme } from "../hooks";
+
+const Picker = dynamic(
+    () => {
+        return import("emoji-picker-react");
+    },
+    { ssr: false }
+);
 
 
 interface post {
@@ -308,6 +317,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         </div>
                     )
                 }
+                <Picker onEmojiClick={() => console.log("here")} />
             </Modal>
         </article>
     )
@@ -343,6 +353,9 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
+    const [openEmoji, setOpenEmoji] = useState(false)
+    const [comment, setComment] = useState("")
+    const theme = useTheme()
 
     const [blue, setblue] = useState("red")
 
@@ -355,6 +368,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
             setCurr(Math.floor(scrollPos / widthNum))
         })
     }, [])
+
 
     const closeModal = useCallback(() => {
         setStep("actions")
@@ -476,20 +490,38 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                             </div>
                         </div>
                     </div>
-                    <form className={styles.commentContainer} style={{
-                        paddingBlock: "var(--gap)"
-                    }}>
-                        <BsEmojiSmile />
+                    <form
+                        onSubmit={(e) => e.preventDefault()}
+                        className={styles.commentContainer}
+                        style={{
+                            paddingBlock: "var(--gap)"
+                        }}>
+                        <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
+                            <BsEmojiSmile />
+                        </div>
                         <textarea aria-label={localeTr.addcomment} placeholder={localeTr.addcomment + "..."}
                             autoComplete="off" autoCorrect="off" onKeyUp={(e) => {
                                 e.currentTarget.style.height = "1px";
                                 e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
-                            }}></textarea>
+
+                            }}
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                        ></textarea>
+
                         <div>
                             <button>{localeTr.post}</button>
                         </div>
 
                     </form>
+                    {openEmoji && <div style={{ position: "absolute", bottom: "60px" }}>
+                        <Picker
+                            onEmojiClick={(emojiObject) => setComment(comment + emojiObject.emoji)}
+                            lazyLoadEmojis={true}
+                            theme={theme}
+                        />
+                    </div>
+                    }
                 </div>
             </div>
             <Modal

@@ -6,6 +6,7 @@ import { FaCaretDown } from "react-icons/fa";
 import { useRouter } from "next/router";
 import tr from "../i18n/locales/components/settings.json"
 import { Langs } from "../types"
+import { Theme } from "emoji-picker-react";
 Modal.setAppElement("body")
 
 const modalStyles: Modal.Styles = {
@@ -36,7 +37,7 @@ const modalStyles: Modal.Styles = {
 export const UserSettings: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
     const router = useRouter()
     const { pathname, asPath } = router
-    const [theme, setTheme] = useState("Light")
+    const [theme, setTheme] = useState<Theme>(Theme.LIGHT)
 
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
@@ -47,8 +48,8 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
 
     const themeChange = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.currentTarget.value
-        window.localStorage.setItem("Theme", val)
-        if (val == "Dark") {
+        window.localStorage.setItem("theme", val)
+        if (val == "dark") {
             document.querySelector("body")!.className = "dark"
             document.documentElement.style.colorScheme = "dark"
         } else {
@@ -57,9 +58,9 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         }
     }
     useEffect(() => {
-        const theme = window.localStorage.getItem("Theme")
-        if (theme === "Dark") {
-            setTheme(theme)
+        const theme = window.localStorage.getItem("theme")
+        if (theme === "dark") {
+            setTheme(Theme.DARK)
         }
     }, [])
 
@@ -114,7 +115,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         submit={changeUserName}
                     />
                     <SettingRadio title={localeTr.language.title} options={[{ id: "en", label: "English" }, { id: "es", label: "Español" }]} value={locale} handleChange={langChange} />
-                    <SettingRadio title={localeTr.theme.title} options={[{ id: "Light", label: localeTr.theme.light }, { id: "Dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
+                    <SettingRadio title={localeTr.theme.title} options={[{ id: "light", label: localeTr.theme.light }, { id: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
                         <button>{localeTr.logout}</button>
                         <button style={{ backgroundColor: "var(--error)", color: "white" }}>{localeTr.deleteacount}</button>
