@@ -1,11 +1,13 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, FormEventHandler, useRef, useState } from "react";
 import { isEmail, isPassword, isRealName, isUserName } from "../libs/validators";
 import styles from "../styles/loginsignup.module.css"
-import { ErrCodes, Langs } from "../types";
+import { ErrCodes, Langs, Signup } from "../types";
 import tr from "../i18n/locales/signuplogin.json"
 import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 
 const Signup: NextPage = () => {
     const router = useRouter()
@@ -16,32 +18,32 @@ const Signup: NextPage = () => {
     const [updateUi, setUpdateUi] = useState(false)
     const [errMode, setErrMode] = useState(false)
 
-    const dataRef = useRef({
-        fName: "",
-        lName: "",
+    const dataRef = useRef<Signup>({
+        first_name: "",
+        last_name: "",
         email: "",
-        dob: "",
-        userName: "",
+        date_of_birth: "",
+        user_name: "",
         password: "",
-        repeatPassword: ""
+        repeat_password: ""
     })
 
     const errRef = useRef<{
-        fNameErrs: ErrCodes,
-        lNameErrs: ErrCodes,
+        first_nameErrs: ErrCodes,
+        last_nameErrs: ErrCodes,
         emailErrs: ErrCodes,
-        dobErrs: ErrCodes,
+        date_of_birthErrs: ErrCodes,
         uNameErrs: ErrCodes,
         passwordErrs: ErrCodes,
-        repeatPasswordErrs: ErrCodes
+        repeat_passwordErrs: ErrCodes
     }>({
-        fNameErrs: [],
-        lNameErrs: [],
+        first_nameErrs: [],
+        last_nameErrs: [],
         emailErrs: [],
-        dobErrs: [],
+        date_of_birthErrs: [],
         uNameErrs: [],
         passwordErrs: [],
-        repeatPasswordErrs: []
+        repeat_passwordErrs: []
     })
 
     const next = (e: FormEvent) => {
@@ -53,25 +55,21 @@ const Signup: NextPage = () => {
     }
 
     const hasErrors = () => {
-        let f = errRef.current.fNameErrs.length < 1
-        let l = errRef.current.lNameErrs.length < 1
+        let f = errRef.current.first_nameErrs.length < 1
+        let l = errRef.current.last_nameErrs.length < 1
         let e = errRef.current.emailErrs.length < 1
-        let d = errRef.current.dobErrs.length < 1
+        let d = errRef.current.date_of_birthErrs.length < 1
         if (!f || !l || !e || !d) {
             return true
         }
-        f = dataRef.current.fName !== ""
-        l = dataRef.current.lName !== ""
+        f = dataRef.current.first_name !== ""
+        l = dataRef.current.last_name !== ""
         e = dataRef.current.email !== ""
-        d = dataRef.current.dob !== ""
+        d = dataRef.current.date_of_birth !== ""
         if (!f || !l || !e || !d) {
             return true
         }
         return false
-    }
-
-    const signup = (e: FormEvent) => {
-        e.preventDefault()
     }
 
     const back = (e: FormEvent) => {
@@ -85,26 +83,26 @@ const Signup: NextPage = () => {
         switch (targ) {
             case "first_name":
                 let errs = isRealName(value)
-                errRef.current.fNameErrs = errs
-                dataRef.current.fName = value
+                errRef.current.first_nameErrs = errs
+                dataRef.current.first_name = value
                 break;
             case "last_name":
                 errs = isRealName(value)
-                errRef.current.lNameErrs = errs
-                dataRef.current.lName = value
+                errRef.current.last_nameErrs = errs
+                dataRef.current.last_name = value
                 break;
             case "email":
                 errs = isEmail(value)
                 errRef.current.emailErrs = errs
                 dataRef.current.email = value
                 break;
-            case "dob":
-                dataRef.current.dob = value
+            case "date_of_birth":
+                dataRef.current.date_of_birth = value + "T00:00:00Z"
                 break;
             case "user_name":
                 errs = isUserName(value)
                 errRef.current.uNameErrs = errs
-                dataRef.current.userName = value
+                dataRef.current.user_name = value
                 break;
             case "password":
                 errs = isPassword(value)
@@ -113,16 +111,27 @@ const Signup: NextPage = () => {
                 break;
             case "repeat_password":
                 if (dataRef.current.password !== value) {
-                    errRef.current.repeatPasswordErrs = [0]
+                    errRef.current.repeat_passwordErrs = [0]
                 } else {
-                    errRef.current.repeatPasswordErrs = []
+                    errRef.current.repeat_passwordErrs = []
                 }
-                dataRef.current.repeatPassword = value
+                dataRef.current.repeat_password = value
                 break;
             default:
                 break;
         }
         setUpdateUi(!updateUi)
+    }
+
+    const mutation = useMutation((data: Signup) => {
+        const dataJSON = JSON.stringify(data)
+        console.log(dataJSON)
+        return axios.post("http://localhost:8080/user/u/signup", dataJSON)
+    })
+
+    const signup = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        mutation.mutate(dataRef.current)
     }
 
     return (
@@ -132,7 +141,13 @@ const Signup: NextPage = () => {
                 <div className={styles.formContainer}>
                     <h2 style={{ textAlign: "center" }}>{localeTr.singup}</h2>
                     <div className={styles.indicatorsContainer}>
-                        <form className={styles.form}>
+                        {mutation.isLoading && <p>shipping</p>}
+                        <form className={styles.form} onSubmit={signup}>
+                            {mutation.isError && (
+                                <div>
+                                    {mutation.error instanceof AxiosError ? mutation.error.response?.data.errors?.map((err: string) => <p style={{ fontSize: 12, color: "red" }}>{err}</p>) : null}
+                                </div>
+                            )}
                             {
                                 step ? (
                                     <>
@@ -143,12 +158,12 @@ const Signup: NextPage = () => {
                                                 placeholder={localeTr.firstname.placeholder}
                                                 name="first_name"
                                                 required
-                                                value={dataRef.current.fName}
+                                                value={dataRef.current.first_name}
                                                 onChange={handleInputs}
                                             />
                                             <div className={styles.errorsContainer}>
                                                 {
-                                                    errRef.current.fNameErrs.map(val => {
+                                                    errRef.current.first_nameErrs.map(val => {
                                                         return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
                                                     })
                                                 }
@@ -161,12 +176,12 @@ const Signup: NextPage = () => {
                                                 placeholder={localeTr.lastname.placeholder}
                                                 name="last_name"
                                                 required
-                                                value={dataRef.current.lName}
+                                                value={dataRef.current.last_name}
                                                 onChange={handleInputs}
                                             />
                                             <div className={styles.errorsContainer}>
                                                 {
-                                                    errRef.current.lNameErrs.map(val => {
+                                                    errRef.current.last_nameErrs.map(val => {
                                                         return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
                                                     })
                                                 }
@@ -190,15 +205,15 @@ const Signup: NextPage = () => {
                                             </div>
                                         </div>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="dob">{localeTr.dob.title}</label>
+                                            <label htmlFor="date_of_birth">{localeTr.dob.title}</label>
                                             <input
                                                 type="date"
-                                                name="dob"
+                                                name="date_of_birth"
                                                 onChange={handleInputs}
                                             />
                                             <div className={styles.errorsContainer}>
                                                 {
-                                                    errRef.current.dobErrs.map(val => {
+                                                    errRef.current.date_of_birthErrs.map(val => {
                                                         return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.nameErrs[val]}</p>
                                                     })
                                                 }
@@ -223,7 +238,7 @@ const Signup: NextPage = () => {
                                                 type="text"
                                                 placeholder={localeTr.username.placeholder}
                                                 name="user_name"
-                                                value={dataRef.current.userName}
+                                                value={dataRef.current.user_name}
                                                 onChange={handleInputs}
                                             />
                                             <div className={styles.errorsContainer}>
@@ -259,12 +274,12 @@ const Signup: NextPage = () => {
                                                 placeholder={localeTr.repeatpassword.placeholder}
                                                 name="repeat_password"
                                                 required
-                                                value={dataRef.current.repeatPassword}
+                                                value={dataRef.current.repeat_password}
                                                 onChange={handleInputs}
                                             />
                                             <div className={styles.errorsContainer}>
                                                 {
-                                                    errRef.current.repeatPasswordErrs.map(val => {
+                                                    errRef.current.repeat_passwordErrs.map(val => {
                                                         return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.repeatpassword.errors[val]}</p>
                                                     })
                                                 }
@@ -281,7 +296,6 @@ const Signup: NextPage = () => {
                                                 }}>{localeTr.back}</button>
                                             <button
                                                 style={{ paddingBlock: "var(--gap-half)" }}
-                                                onClick={signup}
                                             >
                                                 {localeTr.singup}
                                             </button>

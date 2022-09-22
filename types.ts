@@ -7,3 +7,13 @@ export const enum Theme {
     LIGHT = "light",
     AUTO = "auto"
 }
+
+export interface Signup {
+    first_name: string;
+    last_name: string;
+    user_name: string;
+    email: string;
+    date_of_birth: string;
+    password: string;
+    repeat_password: string
+}
