@@ -2,9 +2,10 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useEffect } from "react"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 const queryClient = new QueryClient()
-
+axios.defaults.withCredentials = true
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const val = window.localStorage.getItem("Theme")

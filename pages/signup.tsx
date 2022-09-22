@@ -8,6 +8,7 @@ import tr from "../i18n/locales/signuplogin.json"
 import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { BASEURL } from "../constants";
 
 const Signup: NextPage = () => {
     const router = useRouter()
@@ -125,13 +126,16 @@ const Signup: NextPage = () => {
 
     const mutation = useMutation((data: Signup) => {
         const dataJSON = JSON.stringify(data)
-        console.log(dataJSON)
-        return axios.post("http://localhost:8080/user/u/signup", dataJSON)
+        return axios.post(`${BASEURL}/user/u/signup`, dataJSON)
     })
 
     const signup = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if (hasErrors()) return
         mutation.mutate(dataRef.current)
+    }
+    if (mutation.isError) {
+        console.log(mutation.error)
     }
 
     return (
@@ -141,11 +145,10 @@ const Signup: NextPage = () => {
                 <div className={styles.formContainer}>
                     <h2 style={{ textAlign: "center" }}>{localeTr.singup}</h2>
                     <div className={styles.indicatorsContainer}>
-                        {mutation.isLoading && <p>shipping</p>}
                         <form className={styles.form} onSubmit={signup}>
                             {mutation.isError && (
                                 <div>
-                                    {mutation.error instanceof AxiosError ? mutation.error.response?.data.errors?.map((err: string) => <p style={{ fontSize: 12, color: "red" }}>{err}</p>) : null}
+                                    {mutation.error instanceof AxiosError ? mutation.error.response?.data?.errors?.map((err: string) => <p style={{ fontSize: 12, color: "red" }}>{err}</p>) : null}
                                 </div>
                             )}
                             {
