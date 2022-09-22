@@ -8,11 +8,11 @@ const queryClient = new QueryClient()
 axios.defaults.withCredentials = true
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    const val = window.localStorage.getItem("Theme")
-    if (val === "Dark") {
+    const val = window.localStorage.getItem("theme")
+    if (val === "dark") {
       document.querySelector("body")!.className = "dark"
       document.documentElement.style.colorScheme = "dark"
-    } else if (val === "Light") {
+    } else {
       document.querySelector("body")!.className = "light"
       document.documentElement.style.colorScheme = "light"
     }

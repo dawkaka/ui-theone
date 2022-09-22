@@ -49,7 +49,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const themeChange = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.currentTarget.value
         window.localStorage.setItem("theme", val)
-        if (val == "dark") {
+        if (val === "dark") {
             document.querySelector("body")!.className = "dark"
             document.documentElement.style.colorScheme = "dark"
         } else {

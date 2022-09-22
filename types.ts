@@ -17,3 +17,11 @@ export interface Signup {
     password: string;
     repeat_password: string
 }
+
+export interface EditUser {
+    first_name: string,
+    last_name: string,
+    bio: string,
+    website: string,
+    date_of_birth: string
+}

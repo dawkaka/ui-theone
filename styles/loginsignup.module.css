@@ -8,7 +8,7 @@
 
 .main {
     width: 90%;
-    box-shadow: 0 0 100px var(--accents-2);
+    box-shadow: 0 0 10px var(--accents-2);
     height: 80%;
     display: grid;
     border-radius: var(--radius-small);
