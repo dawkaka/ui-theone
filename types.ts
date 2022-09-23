@@ -25,3 +25,9 @@ export interface EditUser {
     website: string,
     date_of_birth: string
 }
+
+export interface EditCouple {
+    bio: string,
+    website: string,
+    date_commenced: string;
+}

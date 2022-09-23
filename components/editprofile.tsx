@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io"
 import Modal from "react-modal"
 import styles from "./styles/edit.module.css"
 import tr from "../i18n/locales/components/editprofile.json"
-import { EditUser as EditU, ErrCodes, Langs } from "../types"
+import { EditCouple, EditUser as EditU, ErrCodes, Langs } from "../types"
 import { useRouter } from "next/router"
 import { isRealName } from "../libs/validators"
 import { useMutation } from "@tanstack/react-query"
@@ -36,26 +36,37 @@ const modalStyles: Modal.Styles = {
 }
 const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
 
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        close()
-    }
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-    const bioRef = useRef("")
+
+    const website = useRef("")
+    const drb = useRef("")
+    const [bio, setBio] = useState("")
+
+    const mutation = useMutation(
+        (data: EditCouple) => {
+            return axios.put(`${BASEURL}/couple`, JSON.stringify(data))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data.data)
+                close()
+            }
+        }
+    )
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        mutation.mutate({ bio: bio, website: website.current, date_commenced: drb.current })
+    }
 
     const handleBio = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const target = e.currentTarget
-        const len = target.value.length
-        if (len > 255) {
-            target.value = bioRef.current
-            return
-        }
-        target.nextSibling!.textContent = len + "/255"
-        bioRef.current = target.value
+        const value = e.target.value
+        if (value.length > 255) return
+        setBio(value)
     }
+
     return (
         <Modal
             isOpen={open}
@@ -69,7 +80,6 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> 
                     </div>
                     <p>{localeTr.editcp}</p>
                     <div
-                        onClick={() => { }}
                         className={styles.nextContainer}
                     >
                         <button>{localeTr.done}</button>
@@ -81,25 +91,22 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> 
                         <textarea id="bio" className={styles.bio}
                             placeholder={localeTr.bio.placeholder}
                             onChange={handleBio}
+                            value={bio}
                         >
                         </textarea>
                         <p id="bioCounter" style={{
                             alignSelf: "flex-end",
                             fontSize: "small",
                             color: "var(--accents-6)"
-                        }}>0/500</p>
-                    </div>
-                    <div className={styles.editItem}>
-                        <label htmlFor="status">{localeTr.status.title}</label>
-                        <input type="text" id="status" />
+                        }}>{bio.length}/255</p>
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="date">{localeTr.drb.title}</label>
-                        <input type="date" id="date" pattern="yyy-mm-d" />
+                        <input type="date" id="date" pattern="yyy-mm-d" name="date_relationship_begun" onChange={(e) => drb.current = e.target.value + "T00:00:00Z"} />
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="contact">{localeTr.contact.title}</label>
-                        <input type="url" id="contact" placeholder="example@gmail.com" />
+                        <input type="url" id="contact" placeholder="example@gmail.com" name="website" onChange={(e) => website.current = e.target.value} />
                     </div>
 
                 </section>
@@ -110,14 +117,17 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> 
 
 export const EditUser: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
 
-    const mutation = useMutation((data: EditU) => {
-        return axios.put(`${BASEURL}/user`, JSON.stringify(data))
-    }, {
-        onSuccess: (data) => {
-            console.log(data.data)
-            close()
+    const mutation = useMutation(
+        (data: EditU) => {
+            return axios.put(`${BASEURL}/user`, JSON.stringify(data))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data.data)
+                close()
+            }
         }
-    })
+    )
 
     const router = useRouter()
     const locale = router.locale || "en"
@@ -178,7 +188,6 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                     </div>
                     <p>{localeTr.editup}</p>
                     <div
-                        onClick={() => { }}
                         className={styles.nextContainer}
                     >
                         <button>{localeTr.done}</button>
