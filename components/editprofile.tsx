@@ -7,7 +7,7 @@ import { EditCouple, EditUser as EditU, ErrCodes, Langs } from "../types"
 import { useRouter } from "next/router"
 import { isRealName } from "../libs/validators"
 import { useMutation } from "@tanstack/react-query"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { BASEURL } from "../constants"
 
 const modalStyles: Modal.Styles = {
@@ -34,6 +34,7 @@ const modalStyles: Modal.Styles = {
         border: "none",
     }
 }
+
 const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
 
     const router = useRouter()
@@ -52,6 +53,9 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> 
             onSuccess: (data) => {
                 console.log(data.data)
                 close()
+            },
+            onError: (err: AxiosError) => {
+                console.log(err.response)
             }
         }
     )

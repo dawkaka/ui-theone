@@ -68,6 +68,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         const lang = e.currentTarget.value
         document.cookie = `NEXT_LOCALE=${lang};${1000 * 60 * 60 * 24 * 40};path=/`
         router.replace("/user/[name]", asPath, { locale: lang })
+
     }
 
     return (
@@ -239,6 +240,7 @@ export const CoupleSettings: React.FunctionComponent<{
         </Modal>
     )
 }
+
 const SettingInputItem: React.FunctionComponent<{
     type: string, title: string,
     submit: (val: string) => void,
