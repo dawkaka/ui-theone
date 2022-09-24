@@ -24,7 +24,7 @@
 .comment {
     margin-block: var(--gap-quarter);
     color: var(--accents-7);
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .profileImage {
@@ -34,10 +34,34 @@
 
 .iconContainer {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    align-self: flex-end;
+    gap: 3px
 }
 
 .iconContainer span {
     color: var(--accents-5);
+}
+
+.commentBody {
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+}
+
+@media screen and (max-width: 400px) {
+    .container {
+        padding-inline: var(--gap-quarter);
+    }
+
+    .commentBody {
+        flex-direction: column;
+        gap: 3px
+    }
+
+    .iconContainer {
+        flex-direction: row;
+        align-self: flex-end;
+    }
+
 }

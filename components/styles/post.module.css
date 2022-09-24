@@ -19,6 +19,16 @@
     justify-content: center;
 }
 
+@media screen and (max-width: 500px) {
+    .modalBody {
+        width: 90vw;
+        margin-top: calc(10vh - 45px);
+        height: 80vh;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+}
+
 .actionItem {
     width: 100%;
     padding: var(--gap-half);
@@ -283,7 +293,7 @@
     color: var(--accents-7);
     padding: var(--gap-half);
     padding-top: var(--gap-quarter);
-    font-size: 15px;
+    font-size: 1rem;
 }
 
 .commentContainer {
@@ -376,10 +386,6 @@
         width: 100%;
         height: auto;
         padding-bottom: 70px;
-    }
-
-    .postStats {
-        display: none;
     }
 
     .viewFixedBottom {

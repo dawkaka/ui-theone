@@ -189,11 +189,11 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     <div className={styles.postStats}>
                         <div className={styles.postIcons}>
                             <div className={styles.postIcon}>
-                                <AiOutlineHeart size={30} />
+                                <AiOutlineHeart size={25} />
                                 <p>{likes}</p>
                             </div>
                             <div className={styles.postIcon}>
-                                <AiOutlineComment size={30} />
+                                <AiOutlineComment size={25} />
                                 <p>{comments}</p>
                             </div>
                         </div>
@@ -203,15 +203,12 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     </div>
                     <div className={styles.captionContainer}>
                         <Link
-                            shallow
-                            href={{ pathname: "/[couplename]/[something]" }}
-                            as={`/whatever/${encodeURIComponent("something")}`}
+                            href={"/[couplename]/[something]"}
+                            as={`/whatever/something`}
                         >
-                            <a>
-                                <p>
-                                    Mr. Frimpong
-                                </p>
-                            </a>
+                            <p>
+                                Mr. Frimpong
+                            </p>
                         </Link>
                     </div>
                 </div>
@@ -522,6 +519,18 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                         tha from ghana we are the best couple in the world
                         I know so and I feel so.
                     </p>
+                    <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
+                        <div className={styles.postIcons}>
+                            <div className={styles.postIcon}>
+                                <AiOutlineHeart size={20} />
+                                <p>100000</p>
+                            </div>
+                            <div className={styles.postIcon}>
+                                <AiOutlineComment size={20} />
+                                <p>100000</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.commentsContainer}>
                     {
@@ -545,18 +554,6 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
 
                 </div>
                 <div className={styles.viewFixedBottom}>
-                    <div className={styles.postStats} style={{ borderTop: "var(--border)", paddingBottom: "var(--gap-half)" }}>
-                        <div className={styles.postIcons}>
-                            <div className={styles.postIcon}>
-                                <AiOutlineHeart size={30} />
-                                <p>100000</p>
-                            </div>
-                            <div className={styles.postIcon}>
-                                <AiOutlineComment size={30} />
-                                <p>100000</p>
-                            </div>
-                        </div>
-                    </div>
                     <form
                         onSubmit={(e) => e.preventDefault()}
                         className={styles.commentContainer}
@@ -567,13 +564,15 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                             <BsEmojiSmile />
                         </div>
                         <textarea aria-label={localeTr.addcomment} placeholder={localeTr.addcomment + "..."}
-                            autoComplete="off" autoCorrect="off" onKeyUp={(e) => {
+                            autoComplete="off" autoCorrect="off"
+                            onKeyUp={(e) => {
                                 e.currentTarget.style.height = "1px";
-                                e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
+                                e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
 
                             }}
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
+                            onFocus={() => setOpenEmoji(false)}
                         ></textarea>
 
                         <div>

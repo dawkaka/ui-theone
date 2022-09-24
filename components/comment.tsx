@@ -32,10 +32,12 @@ const Comment: React.FunctionComponent<comment> = (props) => {
           <small style={{ fontSize: "11px" }}>{props.date.toLocaleDateString()}</small>
         </div>
       </div>
-      <p className={styles.comment}>{props.comment}</p>
-      <div className={styles.iconContainer}>
-        {props.hasLiked ? <AiFillHeart size={20} color={`var(--error)`}></AiFillHeart> : <AiOutlineHeart size={20}></AiOutlineHeart>}
-        <span style={{ fontSize: "13px" }}>{" " + likesCount}</span>
+      <div className={styles.commentBody}>
+        <p className={styles.comment}>{props.comment}</p>
+        <div className={styles.iconContainer}>
+          {props.hasLiked ? <AiFillHeart size={20} color={`var(--error)`}></AiFillHeart> : <AiOutlineHeart size={20}></AiOutlineHeart>}
+          <span style={{ fontSize: "13px" }}>{" " + likesCount}</span>
+        </div>
       </div>
     </article>
   )
