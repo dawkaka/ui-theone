@@ -299,7 +299,6 @@
     padding-inline: var(--gap-half);
     padding-block: var(--gap-half);
     gap: var(--gap-quarter);
-    border-top: var(--border);
 }
 
 .commentContainer textarea {
@@ -363,6 +362,7 @@
 
 .viewFixedBottom {
     background-color: var(--background);
+    border-top: 5px solid var(--accents-3);
     width: 100%;
     position: sticky;
     bottom: 0;

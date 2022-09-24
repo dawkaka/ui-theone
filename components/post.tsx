@@ -256,7 +256,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     </div>
                 </div>
                 <div
-                    style={{ position: "relative" }}
+                    style={{ position: "relative", borderTop: "var(--border)" }}
                 >
                     <CommentArea isCard={true} />
                 </div>
