@@ -19,6 +19,9 @@ import { BiCommentX } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import { useTheme } from "../hooks";
 import { Categories, EmojiStyle } from "emoji-picker-react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../constants";
 
 const Picker = dynamic(
     () => {
@@ -89,6 +92,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const theme = useTheme()
+    const report = useRef<HTMLUListElement>(null)
 
     const [openEmoji, setOpenEmoji] = useState(false)
     const [comment, setComment] = useState("")
@@ -136,6 +140,29 @@ export const Post: React.FunctionComponent<post> = (props) => {
 
     const num = new Intl.NumberFormat(locale, { notation: "compact" }).format(1400)
     const comments = num, likes = num
+
+    const reportMutation = useMutation(
+        (reports: { reports: number[] }) => {
+            return axios.post(`${BASEURL}/post/report/62fbf97e836fcdaaf88b9a94`, JSON.stringify(reports))
+        },
+        {
+            onSuccess: (data) => console.log(data),
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
+    const reportPost = () => {
+        const reports = []
+        for (let list of Array.from(report.current!.childNodes)) {
+            const inp = list.firstChild as HTMLInputElement
+            if (inp.checked) {
+                reports.push(Number(inp.value))
+            }
+        }
+        reportMutation.mutate({ reports })
+    }
 
     return (
         <article className={styles.container}>
@@ -340,38 +367,38 @@ export const Post: React.FunctionComponent<post> = (props) => {
                                     <IoMdClose size={20} color="var(--accents-6)" />
                                 </div>
                                 <p>{localeTr.reportpost}</p>
-                                <button onClick={() => console.log("done")}
+                                <button onClick={reportPost}
                                     className={styles.saveButton}
                                 >
                                     {localeTr.send}
                                 </button>
                             </div>
-                            <ul className={`${styles.modalContent} ${styles.report}`}>
+                            <ul className={`${styles.modalContent} ${styles.report}`} ref={report}>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" id="adult" value={"adult content"}
+                                    <input type="checkbox" id="adult" value={5}
                                         className={styles.reportInput} />
                                     <label htmlFor="adult">{localeTr.reports["1"]}</label>
                                 </li>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" value={"adult content"}
+                                    <input type="checkbox" value={4}
                                         id="harassment"
                                         className={styles.reportInput} />
                                     <label htmlFor="harassment">{localeTr.reports["2"]}</label>
                                 </li>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" value={"adult content"}
+                                    <input type="checkbox"
                                         id="violence"
-                                        className={styles.reportInput} />
+                                        className={styles.reportInput} value={3} />
                                     <label htmlFor="violence">{localeTr.reports["3"]}</label>
                                 </li>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" value={"adult content"}
+                                    <input type="checkbox" value={2}
                                         id="fake"
                                         className={styles.reportInput} />
                                     <label htmlFor="fake">{localeTr.reports["4"]}</label>
                                 </li>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" value={"adult content"}
+                                    <input type="checkbox" value={1}
                                         id="intellectual"
                                         className={styles.reportInput} />
                                     <label htmlFor="intellectual">{localeTr.reports["5"]}</label>
@@ -419,6 +446,8 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const [openEmoji, setOpenEmoji] = useState(false)
     const [comment, setComment] = useState("")
     const theme = useTheme()
+    const report = useRef<HTMLUListElement>(null)
+
 
     const [blue, setblue] = useState("red")
 
@@ -454,6 +483,29 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
             behavior: 'smooth'
         });
         setCurr(dist / widthNum)
+    }
+
+    const reportMutation = useMutation(
+        (reports: { reports: number[] }) => {
+            return axios.post(`${BASEURL}/post/report/62fbf97e836fcdaaf88b9a94`, JSON.stringify(reports))
+        },
+        {
+            onSuccess: (data) => console.log(data),
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
+    const reportPost = () => {
+        const reports = []
+        for (let list of Array.from(report.current!.childNodes)) {
+            const inp = list.firstChild as HTMLInputElement
+            if (inp.checked) {
+                reports.push(Number(inp.value))
+            }
+        }
+        reportMutation.mutate({ reports })
     }
     return (
         <div className={styles.viewContent}>
@@ -690,38 +742,38 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                                     <IoMdClose size={20} color="var(--accents-6)" />
                                 </div>
                                 <p>Report post</p>
-                                <button onClick={() => console.log("done")}
+                                <button onClick={reportPost}
                                     className={styles.saveButton}
                                 >
                                     Send
                                 </button>
                             </div>
-                            <ul className={`${styles.modalContent} ${styles.report}`}>
+                            <ul className={`${styles.modalContent} ${styles.report}`} ref={report}>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" id="adult" value={"adult content"}
+                                    <input type="checkbox" id="adult" value={5}
                                         className={styles.reportInput} />
                                     <label htmlFor="adult">Adult content</label>
                                 </li>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" value={"adult content"}
+                                    <input type="checkbox" value={4}
                                         id="harassment"
                                         className={styles.reportInput} />
                                     <label htmlFor="harassment">Harassment or hateful speech</label>
                                 </li>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" value={"adult content"}
+                                    <input type="checkbox" value={3}
                                         id="violence"
                                         className={styles.reportInput} />
                                     <label htmlFor="violence">Violence of physical harm</label>
                                 </li>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" value={"adult content"}
+                                    <input type="checkbox" value={2}
                                         id="fake"
                                         className={styles.reportInput} />
                                     <label htmlFor="fake">Fake or spam</label>
                                 </li>
                                 <li className={styles.reportItem}>
-                                    <input type="checkbox" value={"adult content"}
+                                    <input type="checkbox" value={1}
                                         id="intellectual"
                                         className={styles.reportInput} />
                                     <label htmlFor="intellectual">Intellectual property infringement</label>
