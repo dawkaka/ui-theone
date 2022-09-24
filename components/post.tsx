@@ -219,10 +219,12 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         aria-label={localeTr.addcomment}
                         placeholder={localeTr.addcomment + "..."}
                         onChange={handleCommentChange}
-                        autoComplete="off" autoCorrect="off" onKeyUp={(e) => {
+                        autoComplete="off" autoCorrect="off"
+                        onKeyUp={(e) => {
                             e.currentTarget.style.height = "1px";
                             e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
                         }}
+                        onFocus={() => setOpenEmoji(false)}
                         value={comment}></textarea>
                     <div>
                         <button>{localeTr.post}</button>
