@@ -127,6 +127,15 @@ export const Post: React.FunctionComponent<post> = (props) => {
         setCurr(dist / widthNum)
     }
 
+    const deletePost = useMutation(
+        () => {
+            return axios.delete(`${BASEURL}/post/62f932264727d8bef5da706f`)
+        },
+        {
+            onSuccess: (data) => console.log(data),
+            onError: (err) => console.log(err)
+        }
+    )
 
     return (
         <article className={styles.container}>
@@ -205,7 +214,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                 {
                     step === "actions" && (
                         <ul className={styles.modalBody}>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>{localeTr.delete}</span></li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => deletePost.mutate()}><AiOutlineDelete size={25} /><span>{localeTr.delete}</span></li>
                             <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>{localeTr.report}</span></li>
                             <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>{localeTr.edit}</span></li>
                             <li className={styles.actionItem}><BiCommentX size={25} /><span>{localeTr.closecomments}</span></li>
