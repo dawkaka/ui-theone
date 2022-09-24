@@ -89,15 +89,8 @@ export const Post: React.FunctionComponent<post> = (props) => {
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
-    const emojiTr = emTr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
-    const theme = useTheme()
-    const report = useRef<HTMLUListElement>(null)
-    const editRef = useRef({ caption: "", location: "" })
-
-    const [openEmoji, setOpenEmoji] = useState(false)
-    const [comment, setComment] = useState("")
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -108,12 +101,6 @@ export const Post: React.FunctionComponent<post> = (props) => {
             setCurr(Math.floor(scrollPos / widthNum))
         })
     }, [])
-
-    const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        e.currentTarget.style.height = "1px";
-        e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
-        setComment(e.target.value)
-    }
 
 
     const closeModal = useCallback(() => {
@@ -140,47 +127,6 @@ export const Post: React.FunctionComponent<post> = (props) => {
         setCurr(dist / widthNum)
     }
 
-
-    const reportMutation = useMutation(
-        (reports: { reports: number[] }) => {
-            return axios.post(`${BASEURL}/post/report/62fbf97e836fcdaaf88b9a94`, JSON.stringify(reports))
-        },
-        {
-            onSuccess: (data) => console.log(data),
-            onError: (err) => {
-                console.log(err)
-            }
-        }
-    )
-
-    const reportPost = () => {
-        const reports = []
-        for (let list of Array.from(report.current!.childNodes)) {
-            const inp = list.firstChild as HTMLInputElement
-            if (inp.checked) {
-                reports.push(Number(inp.value))
-            }
-        }
-        reportMutation.mutate({ reports })
-    }
-
-
-    const editMutation = useMutation(
-        (edit: { caption: string, location: string }) => {
-            return axios.put(`${BASEURL}/post/62fbf97e836fcdaaf88b9a94`, JSON.stringify(edit))
-        },
-        {
-            onSuccess: (data) => {
-                console.log(data)
-            },
-            onError: (err) => {
-                console.log(err)
-            }
-        })
-
-    const editPost = () => {
-        editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
-    }
 
     return (
         <article className={styles.container}>
@@ -271,89 +217,12 @@ export const Post: React.FunctionComponent<post> = (props) => {
                 }
                 {
                     step === "edit" && (
-                        <div className={`${styles.modalBody} ${styles.editModal}`}>
-                            <div className={styles.editHeader}>
-                                <div className={styles.backIcon} onClick={closeModal}>
-                                    <IoMdClose size={20} color="var(--accents-6)" />
-                                </div>
-                                <p>{localeTr.edit}</p>
-                                <button onClick={editPost}
-                                    className={styles.saveButton}
-                                >
-                                    {localeTr.save}
-                                </button>
-                            </div>
-                            <div className={`${styles.modalContent} ${styles.captionStage}`}>
-                                <div className={styles.editItem}>
-                                    <label htmlFor="caption">{localeTr.caption.title}</label>
-                                    <textarea
-                                        placeholder={localeTr.caption.placeholder}
-                                        autoFocus
-                                        className={styles.textArea}
-                                        id="caption"
-                                        onChange={(e) => editRef.current.caption = e.target.value}
-                                    ></textarea>
-                                </div>
-                                <div className={styles.editItem}>
-                                    <label htmlFor="location">{localeTr.location.title}</label>
-                                    <input
-                                        type="text"
-                                        placeholder={localeTr.location.placeholder}
-                                        id="location"
-                                        onChange={(e) => editRef.current.location = e.target.value}
-                                    />
-                                </div>
-                            </div>
-
-                        </div>
+                        <EditPost closeModal={closeModal} />
                     )
                 }
                 {
                     step === "report" && (
-                        <div className={`${styles.modalBody} ${styles.editModal}`}>
-                            <div className={styles.editHeader}>
-                                <div className={styles.backIcon} onClick={closeModal}>
-                                    <IoMdClose size={20} color="var(--accents-6)" />
-                                </div>
-                                <p>{localeTr.reportpost}</p>
-                                <button onClick={reportPost}
-                                    className={styles.saveButton}
-                                >
-                                    {localeTr.send}
-                                </button>
-                            </div>
-                            <ul className={`${styles.modalContent} ${styles.report}`} ref={report}>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" id="adult" value={5}
-                                        className={styles.reportInput} />
-                                    <label htmlFor="adult">{localeTr.reports["1"]}</label>
-                                </li>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" value={4}
-                                        id="harassment"
-                                        className={styles.reportInput} />
-                                    <label htmlFor="harassment">{localeTr.reports["2"]}</label>
-                                </li>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox"
-                                        id="violence"
-                                        className={styles.reportInput} value={3} />
-                                    <label htmlFor="violence">{localeTr.reports["3"]}</label>
-                                </li>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" value={2}
-                                        id="fake"
-                                        className={styles.reportInput} />
-                                    <label htmlFor="fake">{localeTr.reports["4"]}</label>
-                                </li>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" value={1}
-                                        id="intellectual"
-                                        className={styles.reportInput} />
-                                    <label htmlFor="intellectual">{localeTr.reports["5"]}</label>
-                                </li>
-                            </ul>
-                        </div>
+                        <ReportPost closeModal={closeModal} />
                     )
                 }
             </Modal>
@@ -391,8 +260,6 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
-    const report = useRef<HTMLUListElement>(null)
-    const editRef = useRef({ caption: "", location: "" })
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -426,47 +293,6 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
             behavior: 'smooth'
         });
         setCurr(dist / widthNum)
-    }
-
-    const reportMutation = useMutation(
-        (reports: { reports: number[] }) => {
-            return axios.post(`${BASEURL}/post/report/62fbf97e836fcdaaf88b9a94`, JSON.stringify(reports))
-        },
-        {
-            onSuccess: (data) => console.log(data),
-            onError: (err) => {
-                console.log(err)
-            }
-        }
-    )
-
-    const editMutation = useMutation(
-        (edit: { caption: string, location: string }) => {
-            return axios.put(`${BASEURL}/post/62fbf97e836fcdaaf88b9a94`, JSON.stringify(edit))
-        },
-        {
-            onSuccess: (data) => {
-                console.log(data)
-            },
-            onError: (err) => {
-                console.log(err)
-            }
-        })
-
-    const reportPost = () => {
-        const reports = []
-        for (let list of Array.from(report.current!.childNodes)) {
-            const inp = list.firstChild as HTMLInputElement
-            if (inp.checked) {
-                reports.push(Number(inp.value))
-            }
-        }
-        reportMutation.mutate({ reports })
-    }
-
-
-    const editPost = () => {
-        editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
     }
 
     return (
@@ -580,89 +406,12 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                 }
                 {
                     step === "edit" && (
-                        <div className={`${styles.modalBody} ${styles.editModal}`}>
-                            <div className={styles.editHeader}>
-                                <div className={styles.backIcon} onClick={closeModal}>
-                                    <IoMdClose size={20} color="var(--accents-6)" />
-                                </div>
-                                <p>Edit</p>
-                                <button onClick={editPost}
-                                    className={styles.saveButton}
-                                >
-                                    Save
-                                </button>
-                            </div>
-                            <div className={`${styles.modalContent} ${styles.captionStage}`}>
-                                <div className={styles.editItem}>
-                                    <label htmlFor="caption">Caption:</label>
-                                    <textarea
-                                        placeholder="Add caption..."
-                                        autoFocus
-                                        className={styles.textArea}
-                                        id="caption"
-                                        onChange={(e) => editRef.current.caption = e.target.value}
-                                    ></textarea>
-                                </div>
-                                <div className={styles.editItem}>
-                                    <label htmlFor="location">Location:</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Add location..."
-                                        id="location"
-                                        onChange={(e) => editRef.current.location = e.target.value}
-                                    />
-                                </div>
-                            </div>
-
-                        </div>
+                        <EditPost closeModal={closeModal} />
                     )
                 }
                 {
                     step === "report" && (
-                        <div className={`${styles.modalBody} ${styles.editModal}`}>
-                            <div className={styles.editHeader}>
-                                <div className={styles.backIcon} onClick={closeModal}>
-                                    <IoMdClose size={20} color="var(--accents-6)" />
-                                </div>
-                                <p>Report post</p>
-                                <button onClick={reportPost}
-                                    className={styles.saveButton}
-                                >
-                                    Send
-                                </button>
-                            </div>
-                            <ul className={`${styles.modalContent} ${styles.report}`} ref={report}>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" id="adult" value={5}
-                                        className={styles.reportInput} />
-                                    <label htmlFor="adult">Adult content</label>
-                                </li>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" value={4}
-                                        id="harassment"
-                                        className={styles.reportInput} />
-                                    <label htmlFor="harassment">Harassment or hateful speech</label>
-                                </li>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" value={3}
-                                        id="violence"
-                                        className={styles.reportInput} />
-                                    <label htmlFor="violence">Violence of physical harm</label>
-                                </li>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" value={2}
-                                        id="fake"
-                                        className={styles.reportInput} />
-                                    <label htmlFor="fake">Fake or spam</label>
-                                </li>
-                                <li className={styles.reportItem}>
-                                    <input type="checkbox" value={1}
-                                        id="intellectual"
-                                        className={styles.reportInput} />
-                                    <label htmlFor="intellectual">Intellectual property infringement</label>
-                                </li>
-                            </ul>
-                        </div>
+                        <ReportPost closeModal={closeModal} />
                     )
                 }
             </Modal>
@@ -783,11 +532,7 @@ const PostIcons: React.FunctionComponent = () => {
             return axios.patch(`${BASEURL}/post/${liked ? "unlike" : "like"}/62fbf97e836fcdaaf88b9a94`)
         },
         {
-            onSuccess: data => {
-                console.log(data)
-            },
             onError: err => {
-                console.log(err)
                 setLiked(!liked)
             }
         }
@@ -811,5 +556,142 @@ const PostIcons: React.FunctionComponent = () => {
         </div>
     )
 }
+
+const ReportPost: React.FunctionComponent<{ closeModal: () => void }> = ({ closeModal }) => {
+
+    const locale = useRouter().locale || "en"
+    const localeTr = tr[locale as Langs]
+
+    const report = useRef<HTMLUListElement>(null)
+
+    const reportMutation = useMutation(
+        (reports: { reports: number[] }) => {
+            return axios.post(`${BASEURL}/post/report/62fbf97e836fcdaaf88b9a94`, JSON.stringify(reports))
+        },
+        {
+            onSuccess: (data) => console.log(data),
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+    const reportPost = () => {
+        const reports = []
+        for (let list of Array.from(report.current!.childNodes)) {
+            const inp = list.firstChild as HTMLInputElement
+            if (inp.checked) {
+                reports.push(Number(inp.value))
+            }
+        }
+        reportMutation.mutate({ reports })
+    }
+    return (
+        <div className={`${styles.modalBody} ${styles.editModal}`}>
+            <div className={styles.editHeader}>
+                <div className={styles.backIcon} onClick={closeModal}>
+                    <IoMdClose size={20} color="var(--accents-6)" />
+                </div>
+                <p>{localeTr.reportpost}</p>
+                <button onClick={reportPost}
+                    className={styles.saveButton}
+                >
+                    Send
+                </button>
+            </div>
+            <ul className={`${styles.modalContent} ${styles.report}`} ref={report}>
+                <li className={styles.reportItem}>
+                    <input type="checkbox" id="adult" value={5}
+                        className={styles.reportInput} />
+                    <label htmlFor="adult">{localeTr.reports["1"]}</label>
+                </li>
+                <li className={styles.reportItem}>
+                    <input type="checkbox" value={4}
+                        id="harassment"
+                        className={styles.reportInput} />
+                    <label htmlFor="harassment">{localeTr.reports["2"]}</label>
+                </li>
+                <li className={styles.reportItem}>
+                    <input type="checkbox" value={3}
+                        id="violence"
+                        className={styles.reportInput} />
+                    <label htmlFor="violence">{localeTr.reports["3"]}</label>
+                </li>
+                <li className={styles.reportItem}>
+                    <input type="checkbox" value={2}
+                        id="fake"
+                        className={styles.reportInput} />
+                    <label htmlFor="fake">{localeTr.reports["4"]}</label>
+                </li>
+                <li className={styles.reportItem}>
+                    <input type="checkbox" value={1}
+                        id="intellectual"
+                        className={styles.reportInput} />
+                    <label htmlFor="intellectual">{localeTr.reports["5"]}</label>
+                </li>
+            </ul>
+        </div>
+    )
+}
+
+const EditPost: React.FunctionComponent<{ closeModal: () => void }> = ({ closeModal }) => {
+    const locale = useRouter().locale || "en"
+    const localeTr = tr[locale as Langs]
+    const editRef = useRef({ caption: "", location: "" })
+    const editMutation = useMutation(
+        (edit: { caption: string, location: string }) => {
+            return axios.put(`${BASEURL}/post/62fbf97e836fcdaaf88b9a94`, JSON.stringify(edit))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        })
+
+    const editPost = () => {
+        editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
+    }
+
+    return (
+        <div className={`${styles.modalBody} ${styles.editModal}`}>
+            <div className={styles.editHeader}>
+                <div className={styles.backIcon} onClick={closeModal}>
+                    <IoMdClose size={20} color="var(--accents-6)" />
+                </div>
+                <p>{localeTr.edit}</p>
+                <button onClick={editPost}
+                    className={styles.saveButton}
+                >
+                    {localeTr.save}
+                </button>
+            </div>
+            <div className={`${styles.modalContent} ${styles.captionStage}`}>
+                <div className={styles.editItem}>
+                    <label htmlFor="caption">{localeTr.caption.title}</label>
+                    <textarea
+                        placeholder={localeTr.caption.placeholder}
+                        autoFocus
+                        className={styles.textArea}
+                        id="caption"
+                        onChange={(e) => editRef.current.caption = e.target.value}
+                    ></textarea>
+                </div>
+                <div className={styles.editItem}>
+                    <label htmlFor="location">{localeTr.location.title}</label>
+                    <input
+                        type="text"
+                        placeholder={localeTr.location.placeholder}
+                        id="location"
+                        onChange={(e) => editRef.current.location = e.target.value}
+                    />
+                </div>
+            </div>
+
+        </div>
+    )
+}
+
 
 export default PostFullView
