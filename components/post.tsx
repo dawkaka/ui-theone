@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -255,74 +255,12 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         </Link>
                     </div>
                 </div>
-                <form className={styles.commentContainer} onSubmit={(e) => e.preventDefault()}
+                <div
                     style={{ position: "relative" }}
                 >
-                    <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
-                        <BsEmojiSmile />
-                    </div>
-                    <textarea
-                        aria-label={localeTr.addcomment}
-                        placeholder={localeTr.addcomment + "..."}
-                        onChange={handleCommentChange}
-                        autoComplete="off" autoCorrect="off"
-                        onKeyUp={(e) => {
-                            e.currentTarget.style.height = "1px";
-                            e.currentTarget.style.height = (e.currentTarget.scrollHeight) + "px";
-                        }}
-                        onFocus={() => setOpenEmoji(false)}
-                        value={comment}></textarea>
-                    <div>
-                        <button>{localeTr.post}</button>
-                    </div>
-                    {openEmoji && <div style={{ position: "absolute", bottom: "45px", left: 0, width: "100%" }}>
-                        <Picker
-                            onEmojiClick={(emojiObject) => setComment(comment + emojiObject.emoji)}
-                            lazyLoadEmojis={true}
-                            theme={theme}
-                            categories={[
-                                {
-                                    name: emojiTr.recently_used,
-                                    category: Categories.SUGGESTED
-                                },
-                                {
-                                    name: emojiTr.smileys_people,
-                                    category: Categories.SMILEYS_PEOPLE
-                                },
-                                {
-                                    name: emojiTr.food_drink,
-                                    category: Categories.FOOD_DRINK
-                                },
-                                {
-                                    name: emojiTr.animals_nature,
-                                    category: Categories.ANIMALS_NATURE
-                                },
-                                {
-                                    name: emojiTr.activities,
-                                    category: Categories.ACTIVITIES
-                                },
-                                {
-                                    name: emojiTr.travel_places,
-                                    category: Categories.TRAVEL_PLACES
-                                },
-                                {
-                                    name: emojiTr.objects,
-                                    category: Categories.OBJECTS
-                                },
-                                {
-                                    name: emojiTr.symbols,
-                                    category: Categories.SYMBOLS
-                                },
+                    <CommentArea isCard={true} />
+                </div>
 
-                                {
-                                    name: emojiTr.flags,
-                                    category: Categories.FLAGS
-                                },
-                            ]}
-                        />
-                    </div>}
-
-                </form>
             </div>
             <Modal
                 isOpen={modalOpen}
@@ -461,17 +399,10 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
-    const emojiTr = emTr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
-    const [openEmoji, setOpenEmoji] = useState(false)
-    const [comment, setComment] = useState("")
-    const theme = useTheme()
     const report = useRef<HTMLUListElement>(null)
     const editRef = useRef({ caption: "", location: "" })
-
-
-    const [blue, setblue] = useState("red")
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -519,18 +450,6 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
         }
     )
 
-    const reportPost = () => {
-        const reports = []
-        for (let list of Array.from(report.current!.childNodes)) {
-            const inp = list.firstChild as HTMLInputElement
-            if (inp.checked) {
-                reports.push(Number(inp.value))
-            }
-        }
-        reportMutation.mutate({ reports })
-    }
-
-
     const editMutation = useMutation(
         (edit: { caption: string, location: string }) => {
             return axios.put(`${BASEURL}/post/62fbf97e836fcdaaf88b9a94`, JSON.stringify(edit))
@@ -543,6 +462,18 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                 console.log(err)
             }
         })
+
+    const reportPost = () => {
+        const reports = []
+        for (let list of Array.from(report.current!.childNodes)) {
+            const inp = list.firstChild as HTMLInputElement
+            if (inp.checked) {
+                reports.push(Number(inp.value))
+            }
+        }
+        reportMutation.mutate({ reports })
+    }
+
 
     const editPost = () => {
         editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
@@ -646,79 +577,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
 
                 </div>
                 <div className={styles.viewFixedBottom}>
-                    <form
-                        onSubmit={(e) => e.preventDefault()}
-                        className={styles.commentContainer}
-                        style={{
-                            paddingBlock: "var(--gap)"
-                        }}>
-                        <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
-                            <BsEmojiSmile />
-                        </div>
-                        <textarea aria-label={localeTr.addcomment} placeholder={localeTr.addcomment + "..."}
-                            autoComplete="off" autoCorrect="off"
-                            onKeyUp={(e) => {
-                                e.currentTarget.style.height = "1px";
-                                e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
-
-                            }}
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                            onFocus={() => setOpenEmoji(false)}
-                        ></textarea>
-
-                        <div>
-                            <button>{localeTr.post}</button>
-                        </div>
-
-                    </form>
-                    {openEmoji && <div style={{ position: "absolute", bottom: "60px" }}>
-                        <Picker
-                            onEmojiClick={(emojiObject) => setComment(comment + emojiObject.emoji)}
-                            lazyLoadEmojis={true}
-                            theme={theme}
-                            categories={[
-                                {
-                                    name: emojiTr.recently_used,
-                                    category: Categories.SUGGESTED
-                                },
-                                {
-                                    name: emojiTr.smileys_people,
-                                    category: Categories.SMILEYS_PEOPLE
-                                },
-                                {
-                                    name: emojiTr.food_drink,
-                                    category: Categories.FOOD_DRINK
-                                },
-                                {
-                                    name: emojiTr.animals_nature,
-                                    category: Categories.ANIMALS_NATURE
-                                },
-                                {
-                                    name: emojiTr.activities,
-                                    category: Categories.ACTIVITIES
-                                },
-                                {
-                                    name: emojiTr.travel_places,
-                                    category: Categories.TRAVEL_PLACES
-                                },
-                                {
-                                    name: emojiTr.objects,
-                                    category: Categories.OBJECTS
-                                },
-                                {
-                                    name: emojiTr.symbols,
-                                    category: Categories.SYMBOLS
-                                },
-
-                                {
-                                    name: emojiTr.flags,
-                                    category: Categories.FLAGS
-                                }
-                            ]}
-                        />
-                    </div>
-                    }
+                    <CommentArea isCard={false} />
                 </div>
             </div>
             <Modal
@@ -830,6 +689,107 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     )
 }
 
+
+const CommentArea: React.FunctionComponent<{ isCard: boolean }> = ({ isCard }) => {
+    const locale = useRouter().locale || "en"
+    const localeTr = tr[locale as Langs]
+    const emojiTr = emTr[locale as Langs]
+    const [openEmoji, setOpenEmoji] = useState(false)
+    const [comment, setComment] = useState("")
+    const theme = useTheme()
+
+    const commentMutation = useMutation(
+        (comment: string) => {
+            return axios.post(`${BASEURL}/post/comment/62fbf97e836fcdaaf88b9a94`, JSON.stringify({ comment }))
+        },
+        {
+            onSuccess: data => console.log(data),
+            onError: err => console.log(err)
+        }
+    )
+
+    const postComment = (e: FormEvent) => {
+        e.preventDefault()
+        commentMutation.mutate(comment)
+    }
+
+    return (
+        <>
+            <form
+                onSubmit={postComment}
+                className={styles.commentContainer}
+            >
+                <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
+                    <BsEmojiSmile />
+                </div>
+                <textarea aria-label={localeTr.addcomment} placeholder={localeTr.addcomment + "..."}
+                    autoComplete="off" autoCorrect="off"
+                    onKeyUp={(e) => {
+                        e.currentTarget.style.height = "1px";
+                        e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
+
+                    }}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    onFocus={() => setOpenEmoji(false)}
+                ></textarea>
+
+                <div>
+                    <button>{localeTr.post}</button>
+                </div>
+
+            </form>
+            {
+                openEmoji && <div style={{ position: "absolute", bottom: isCard ? "35px" : "60px" }}>
+                    <Picker
+                        onEmojiClick={(emojiObject) => setComment(comment + emojiObject.emoji)}
+                        lazyLoadEmojis={true}
+                        theme={theme}
+                        categories={[
+                            {
+                                name: emojiTr.recently_used,
+                                category: Categories.SUGGESTED
+                            },
+                            {
+                                name: emojiTr.smileys_people,
+                                category: Categories.SMILEYS_PEOPLE
+                            },
+                            {
+                                name: emojiTr.food_drink,
+                                category: Categories.FOOD_DRINK
+                            },
+                            {
+                                name: emojiTr.animals_nature,
+                                category: Categories.ANIMALS_NATURE
+                            },
+                            {
+                                name: emojiTr.activities,
+                                category: Categories.ACTIVITIES
+                            },
+                            {
+                                name: emojiTr.travel_places,
+                                category: Categories.TRAVEL_PLACES
+                            },
+                            {
+                                name: emojiTr.objects,
+                                category: Categories.OBJECTS
+                            },
+                            {
+                                name: emojiTr.symbols,
+                                category: Categories.SYMBOLS
+                            },
+
+                            {
+                                name: emojiTr.flags,
+                                category: Categories.FLAGS
+                            }
+                        ]}
+                    />
+                </div>
+            }
+        </>
+    )
+}
 
 
 export default PostFullView
