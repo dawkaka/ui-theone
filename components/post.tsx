@@ -139,8 +139,6 @@ export const Post: React.FunctionComponent<post> = (props) => {
         setCurr(dist / widthNum)
     }
 
-    const num = new Intl.NumberFormat(locale, { notation: "compact" }).format(1400)
-    const comments = num, likes = num
 
     const reportMutation = useMutation(
         (reports: { reports: number[] }) => {
@@ -230,16 +228,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         }
                     </div>
                     <div className={styles.postStats}>
-                        <div className={styles.postIcons}>
-                            <div className={styles.postIcon}>
-                                <AiOutlineHeart size={25} />
-                                <p>{likes}</p>
-                            </div>
-                            <div className={styles.postIcon}>
-                                <AiOutlineComment size={25} />
-                                <p>{comments}</p>
-                            </div>
-                        </div>
+                        <PostIcons />
                         <div className={styles.sliderPos}>
                             <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} ${localeTr.more}` : ""}</small>
                         </div>
@@ -543,16 +532,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                         I know so and I feel so.
                     </p>
                     <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
-                        <div className={styles.postIcons}>
-                            <div className={styles.postIcon}>
-                                <AiOutlineHeart size={20} />
-                                <p>100000</p>
-                            </div>
-                            <div className={styles.postIcon}>
-                                <AiOutlineComment size={20} />
-                                <p>100000</p>
-                            </div>
-                        </div>
+                        <PostIcons />
                     </div>
                 </div>
                 <div className={styles.commentsContainer}>
@@ -791,5 +771,24 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean }> = ({ isCard }) =
     )
 }
 
+const PostIcons: React.FunctionComponent = () => {
+    const { locale } = useRouter()
+    const num = new Intl.NumberFormat(locale, { notation: "compact" }).format(1400)
+    const comments = num, likes = num
+    return (
+        <div className={styles.postIcons}>
+            <div className={styles.postIcon}>
+                <div>
+                    <AiOutlineHeart size={20} />
+                </div>
+                <p>{likes}</p>
+            </div>
+            <div className={styles.postIcon}>
+                <AiOutlineComment size={20} />
+                <p>{comments}</p>
+            </div>
+        </div>
+    )
+}
 
 export default PostFullView
