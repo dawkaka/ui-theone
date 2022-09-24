@@ -93,6 +93,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const theme = useTheme()
     const report = useRef<HTMLUListElement>(null)
+    const editRef = useRef({ caption: "", location: "" })
 
     const [openEmoji, setOpenEmoji] = useState(false)
     const [comment, setComment] = useState("")
@@ -162,6 +163,24 @@ export const Post: React.FunctionComponent<post> = (props) => {
             }
         }
         reportMutation.mutate({ reports })
+    }
+
+
+    const editMutation = useMutation(
+        (edit: { caption: string, location: string }) => {
+            return axios.put(`${BASEURL}/post/62fbf97e836fcdaaf88b9a94`, JSON.stringify(edit))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        })
+
+    const editPost = () => {
+        editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
     }
 
     return (
@@ -330,7 +349,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                                     <IoMdClose size={20} color="var(--accents-6)" />
                                 </div>
                                 <p>{localeTr.edit}</p>
-                                <button onClick={() => console.log("done")}
+                                <button onClick={editPost}
                                     className={styles.saveButton}
                                 >
                                     {localeTr.save}
@@ -344,6 +363,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                                         autoFocus
                                         className={styles.textArea}
                                         id="caption"
+                                        onChange={(e) => editRef.current.caption = e.target.value}
                                     ></textarea>
                                 </div>
                                 <div className={styles.editItem}>
@@ -352,6 +372,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                                         type="text"
                                         placeholder={localeTr.location.placeholder}
                                         id="location"
+                                        onChange={(e) => editRef.current.location = e.target.value}
                                     />
                                 </div>
                             </div>
@@ -447,6 +468,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const [comment, setComment] = useState("")
     const theme = useTheme()
     const report = useRef<HTMLUListElement>(null)
+    const editRef = useRef({ caption: "", location: "" })
 
 
     const [blue, setblue] = useState("red")
@@ -507,6 +529,25 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
         }
         reportMutation.mutate({ reports })
     }
+
+
+    const editMutation = useMutation(
+        (edit: { caption: string, location: string }) => {
+            return axios.put(`${BASEURL}/post/62fbf97e836fcdaaf88b9a94`, JSON.stringify(edit))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        })
+
+    const editPost = () => {
+        editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
+    }
+
     return (
         <div className={styles.viewContent}>
 
@@ -705,7 +746,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                                     <IoMdClose size={20} color="var(--accents-6)" />
                                 </div>
                                 <p>Edit</p>
-                                <button onClick={() => console.log("done")}
+                                <button onClick={editPost}
                                     className={styles.saveButton}
                                 >
                                     Save
@@ -719,6 +760,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                                         autoFocus
                                         className={styles.textArea}
                                         id="caption"
+                                        onChange={(e) => editRef.current.caption = e.target.value}
                                     ></textarea>
                                 </div>
                                 <div className={styles.editItem}>
@@ -727,6 +769,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                                         type="text"
                                         placeholder="Add location..."
                                         id="location"
+                                        onChange={(e) => editRef.current.location = e.target.value}
                                     />
                                 </div>
                             </div>
