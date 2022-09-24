@@ -10,22 +10,17 @@
     width: min(95vw, 400px);
     background-color: var(--background);
     border-radius: var(--radius-small);
-    height: 60vh;
-    margin-top: calc(20vh - 45px);
+    max-height: 60vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: auto;
-    justify-content: center;
 }
 
 @media screen and (max-width: 500px) {
     .modalBody {
         width: 90vw;
-        margin-top: calc(10vh - 45px);
-        height: 80vh;
-        justify-content: flex-start;
-        align-items: flex-start;
+        max-height: 80vh;
     }
 }
 
