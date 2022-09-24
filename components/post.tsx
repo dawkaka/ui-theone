@@ -22,6 +22,7 @@ import { Categories, EmojiStyle } from "emoji-picker-react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../constants";
+import { FaHeart } from "react-icons/fa";
 
 const Picker = dynamic(
     () => {
@@ -775,11 +776,31 @@ const PostIcons: React.FunctionComponent = () => {
     const { locale } = useRouter()
     const num = new Intl.NumberFormat(locale, { notation: "compact" }).format(1400)
     const comments = num, likes = num
+    const [liked, setLiked] = useState(false)
+
+    const likePost = useMutation(
+        () => {
+            return axios.patch(`${BASEURL}/post/${liked ? "unlike" : "like"}/62fbf97e836fcdaaf88b9a94`)
+        },
+        {
+            onSuccess: data => {
+                console.log(data)
+            },
+            onError: err => {
+                console.log(err)
+                setLiked(!liked)
+            }
+        }
+    )
+
     return (
         <div className={styles.postIcons}>
             <div className={styles.postIcon}>
-                <div>
-                    <AiOutlineHeart size={20} />
+                <div onClick={() => {
+                    likePost.mutate()
+                    setLiked(!liked)
+                }} style={{ cursor: "pointer" }}>
+                    {liked ? <FaHeart size={20} color="var(--error)" /> : <AiOutlineHeart size={20} />}
                 </div>
                 <p>{likes}</p>
             </div>
