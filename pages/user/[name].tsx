@@ -18,6 +18,9 @@ import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
 import { Langs } from "../../types";
 import CouplePreview from "../../components/couplepreview";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../../constants";
 Modal.setAppElement("#__next")
 
 export default function Profile() {
@@ -42,23 +45,51 @@ export default function Profile() {
         setIsOpen(true)
     }
 
-    const onCrop = (e: any) => {
-
-    }
-
-    const onDone = () => {
-        newFileRef.current = cropperRef.current?.cropper.getCroppedCanvas().toDataURL()
-        if (targetRef.current === "avatar") {
-            avatarImgRef.current!.src = newFileRef.current
-        } else {
-            const imgTarget = document.querySelector<HTMLImageElement>("#show-image-" + showImage)
-            if (imgTarget) {
-                console.log(imgTarget.srcset)
-                imgTarget.srcset = newFileRef.current
+    const updatePicMutation = useMutation(
+        (data: FormData) => {
+            return axios.post(`${BASEURL}/user/profile-pic`, data)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+                setIsOpen(false)
+            },
+            onError: (err) => {
+                console.log(err)
             }
         }
-
-        setIsOpen(false)
+    )
+    const updateShowPicMutation = useMutation(
+        (data: FormData) => {
+            return axios.post(`${BASEURL}/user/show-pictures/${showImage}`, data)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+                setIsOpen(false)
+                const imgTarget = document.querySelector<HTMLImageElement>("#show-image-" + showImage)
+                if (imgTarget) {
+                    imgTarget.srcset = newFileRef.current
+                }
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+    const onDone = async () => {
+        newFileRef.current = cropperRef.current?.cropper.getCroppedCanvas().toDataURL("image/jpeg")
+        const formData = new FormData()
+        if (targetRef.current === "avatar") {
+            const blob = await (await fetch(newFileRef.current)).blob()
+            formData.append("profile-picture", blob, "profile.jpeg")
+            updatePicMutation.mutate(formData)
+            avatarImgRef.current!.src = newFileRef.current
+        } else {
+            const blob = await (await fetch(newFileRef.current)).blob()
+            formData.append("show_picture", blob, "show.jpeg")
+            updateShowPicMutation.mutate(formData)
+        }
     }
 
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -250,7 +281,6 @@ export default function Profile() {
                                         guides={false}
                                         highlight={false}
                                         zoomTo={0}
-                                        crop={onCrop}
                                         ref={cropperRef}
                                     />
 
