@@ -1,10 +1,13 @@
-import React from "react"
+import React, { useState } from "react"
 import Image from "next/image"
 import styles from "./styles/couplepreview.module.css"
 import { Verified } from "./mis";
 import tr from "../i18n/locales/components/couplepreview.json"
 import { useRouter } from "next/router";
 import { Langs } from "../types";
+import { Mutation, useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../constants";
 
 
 interface couple {
@@ -20,6 +23,28 @@ const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, sta
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+    const [following, setFollowing] = useState(isFollowing)
+
+    const mutation = useMutation(
+        () => {
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/yousiph.and.lana`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+                setFollowing(!following)
+            }
+        }
+    )
+
+    const followUnfollow = () => {
+        mutation.mutate()
+        setFollowing(!following)
+    }
+
     return (
         <article className={styles.container}>
             <div className={styles.infoContainer}>
@@ -31,7 +56,7 @@ const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, sta
                     <p className={styles.status}>{status}</p>
                 </div>
             </div>
-            <button className={`${styles.button} ${isFollowing ? styles.buttonDull : ""}`}>{isFollowing ? localeTr.following : localeTr.follow}</button>
+            <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
         </article>
     )
 }

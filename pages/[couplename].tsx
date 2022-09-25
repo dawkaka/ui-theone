@@ -33,6 +33,7 @@ const CoupleProfile: NextPage = () => {
     const [openSettings, setOpenSettings] = useState(false)
     const [openReportModal, setOpenReportModal] = useState(false)
     const [openFollowers, setOpenFollowers] = useState(false)
+    const [following, setFollowing] = useState(false)
 
 
     const cropperRef = useRef<any>(null)
@@ -102,6 +103,25 @@ const CoupleProfile: NextPage = () => {
         }
     }, [step])
 
+    const followMutation = useMutation(
+        () => {
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/yousiph.and.lana`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+                setFollowing(!following)
+            }
+        }
+    )
+    const followUnfollow = () => {
+        followMutation.mutate()
+        setFollowing(!following)
+    }
+
     return (
         <>
             <Layout>
@@ -159,7 +179,8 @@ const CoupleProfile: NextPage = () => {
                                                 </li>
                                             </ul>
                                         </div>
-                                        {true ? <button>{localeTr.follow}</button> :
+                                        {true ? <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
+                                            :
                                             <button className={styles.editButton} onClick={() => setEditOpen(true)}>{localeTr.edit}</button>}
                                     </div>
                                 </div>
