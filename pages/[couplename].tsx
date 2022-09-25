@@ -159,7 +159,7 @@ const CoupleProfile: NextPage = () => {
                                                 </li>
                                             </ul>
                                         </div>
-                                        {false ? <button>{localeTr.follow}</button> :
+                                        {true ? <button>{localeTr.follow}</button> :
                                             <button className={styles.editButton} onClick={() => setEditOpen(true)}>{localeTr.edit}</button>}
                                     </div>
                                 </div>

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, MouseEventHandler, useEffect, useRef, useState } from "react"
+import { ChangeEvent, FormEvent, MouseEventHandler, useEffect, useMemo, useRef, useState } from "react"
 import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
 import styles from "./styles/settings.module.css"
@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import tr from "../i18n/locales/components/settings.json"
 import { Langs } from "../types"
 import { Theme } from "emoji-picker-react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../constants";
 Modal.setAppElement("body")
 
 const modalStyles: Modal.Styles = {
@@ -190,9 +193,24 @@ export const CoupleSettings: React.FunctionComponent<{
     const localeTr = tr[locale as Langs]
     const visibility = "public"
 
+    const changeNameMutation = useMutation(
+        (data: { couple_name: string }) => {
+            return axios.post(`${BASEURL}/couple/name`, JSON.stringify(data))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
     const changeCoupleName = (newName: string) => {
-        console.log(newName)
+        changeNameMutation.mutate({ couple_name: newName })
     }
+
     const visibilityChange = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.currentTarget.value);
     }
@@ -253,16 +271,13 @@ const SettingInputItem: React.FunctionComponent<{
     const [rNewPassword, setRNewPassword] = useState("")
     const iconRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
-    const change = (e: FormEvent) => {
-        e.preventDefault()
-        submit(val)
-    }
+
     const showInputs = () => {
         iconRef.current!.classList.toggle(`${styles.show}`)
         containerRef.current!.classList.toggle(`${styles.expand}`)
     }
     return (
-        <form onSubmit={change} className={styles.itemContainer}>
+        <form onSubmit={(e) => e.preventDefault()} className={styles.itemContainer}>
             <button className={styles.settingItemHeader} onClick={showInputs}>
                 <p>{title}</p>
                 <div ref={iconRef}>
@@ -283,7 +298,7 @@ const SettingInputItem: React.FunctionComponent<{
                         :
                         null
                 }
-                <button>{actionTitle}</button>
+                <button onClick={() => submit(val)}>{actionTitle}</button>
             </div>
         </form>
     )
