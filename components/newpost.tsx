@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useRef, useEffect } from "react";
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import Modal from "react-modal";
@@ -176,6 +176,21 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         setStep(4)
     }
 
+    const closeModal = () => {
+        close()
+        setStep(0)
+        setCaption("")
+        setAspectRatio(1)
+        setLockAsRatio(false)
+        setFlash(true)
+        setAlt(new Array(10).fill(""))
+        setCarouselCurrent(0)
+        files.current = []
+        blobs.current = []
+        blob.current = ""
+
+    }
+
     return (
         <Modal
             isOpen={isOpen}
@@ -211,7 +226,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                     <div className={styles.modalBody}>
                         <div className={styles.requestHeader}>
                             <p>{localeTr.newpost}</p>
-                            <div onClick={() => close()}
+                            <div onClick={closeModal}
                                 className={styles.closeContainer}
                             >
                                 <IoMdClose color="tranparent" size={25} />
@@ -401,7 +416,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
                             </div>
                             <p>{sharePostMutation.isLoading ? "Shipping..." : "Shipped"}</p>
-                            <div onClick={() => close()}
+                            <div onClick={closeModal}
                                 className={styles.nextContainer}
                             >
                                 <IoMdClose size={20} color="var(--accents-6)" />
