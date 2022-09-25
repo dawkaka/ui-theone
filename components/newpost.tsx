@@ -11,6 +11,9 @@ import { Carousel, CheckMark } from "./mis";
 import tr from "../i18n/locales/components/newpost.json"
 import { useRouter } from "next/router";
 import { Langs } from "../types";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../constants";
 
 Modal.setAppElement("body")
 
@@ -109,7 +112,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     }, [step])
 
     const onCrop = () => {
-        const data = cropperRef.current?.cropper.getCroppedCanvas().toDataURL() as string
+        const data = cropperRef.current?.cropper.getCroppedCanvas().toDataURL("image/jpeg") as string
         blob.current = data
         blobs.current[blobs.current.length - 1] = data
     }
@@ -145,6 +148,33 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     useEffect(() => {
         setCurrentAlt(alt[carouselCurrent])
     }, [carouselCurrent, alt])
+
+    const sharePostMutation = useMutation(
+        (data: FormData) => {
+            console.log(data.get("couple_name"), data.get("files"), data.get("caption"))
+            return axios.post(`${BASEURL}/post`, data)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        })
+
+
+    const sharePost = async () => {
+        const formData = new FormData()
+        formData.append("caption", caption)
+        formData.append("couple_name", "yousiph")
+        for (let file of blobs.current) {
+            const blob = await (await fetch(file)).blob();
+            formData.append("files", blob, "image.jpg")
+        }
+        sharePostMutation.mutate(formData)
+        setStep(4)
+    }
 
     return (
         <Modal
@@ -322,7 +352,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 <BiArrowBack size={20} color="var(--accents-6)" />
                             </div>
                             <p>{localeTr.preview}</p>
-                            <div onClick={() => setStep(4)}
+                            <div onClick={sharePost}
                                 className={styles.nextContainer}
                             >
                                 <p>{localeTr.share}</p>
@@ -353,8 +383,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                     ></textarea>
                                     <button onClick={handleAltText}>{localeTr.done}</button>
                                 </div>
-                                <Carousel files={blobs.current}
-                                    currFunc={(a: number) => setCarouselCurrent(a)} />
+                                <Carousel files={blobs.current} currFunc={(a: number) => setCarouselCurrent(a)} />
                             </div>
                             <div className={styles.previewCaption}>
                                 <p>{caption}</p>
@@ -371,7 +400,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             <div className={styles.backIcon} onClick={() => setStep(2)}>
 
                             </div>
-                            <p>Shiping</p>
+                            <p>{sharePostMutation.isLoading ? "Shipping..." : "Shipped"}</p>
                             <div onClick={() => close()}
                                 className={styles.nextContainer}
                             >
@@ -386,7 +415,6 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                     </div>
                 )
             }
-
         </Modal >
 
     )
