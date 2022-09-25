@@ -20,6 +20,9 @@ import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
 import { Langs } from "../types";
 import CouplePreview from "../components/couplepreview";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../constants";
 
 Modal.setAppElement("#__next")
 
@@ -61,15 +64,36 @@ const CoupleProfile: NextPage = () => {
         targetRef.current = "cover"
         setIsOpen(true)
     }
-
-    const onDone = () => {
-        newFileRef.current = cropperRef.current?.cropper.getCroppedCanvas().toDataURL()
-        if (targetRef.current === "avatar") {
-            document.querySelector<HTMLImageElement>("#avatar")!.srcset = newFileRef.current
-        } else {
-            document.querySelector<HTMLImageElement>("#cover")!.srcset = newFileRef.current
+    const updatePicMutation = useMutation(
+        (data: FormData) => {
+            return axios.post(`${BASEURL}/couple/${targetRef.current === "avatar" ? "profile" : "cover"}-picture`, data)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+                if (targetRef.current === "avatar") {
+                    document.querySelector<HTMLImageElement>("#avatar")!.srcset = newFileRef.current
+                } else {
+                    document.querySelector<HTMLImageElement>("#cover")!.srcset = newFileRef.current
+                }
+                setIsOpen(false)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
         }
-        setIsOpen(false)
+    )
+
+    const onDone = async () => {
+        newFileRef.current = cropperRef.current?.cropper.getCroppedCanvas().toDataURL("image/jpeg")
+        const formData = new FormData()
+        const blob = await (await fetch(newFileRef.current)).blob()
+        if (targetRef.current === "avatar") {
+            formData.append("profile-picture", blob, "avatar.jpeg")
+        } else {
+            formData.append("cover-picture", blob, "cover.jpg")
+        }
+        updatePicMutation.mutate(formData)
     }
 
     useEffect(() => {

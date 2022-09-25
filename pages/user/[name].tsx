@@ -52,6 +52,7 @@ export default function Profile() {
         {
             onSuccess: (data) => {
                 console.log(data)
+                avatarImgRef.current!.src = newFileRef.current
                 setIsOpen(false)
             },
             onError: (err) => {
@@ -80,13 +81,12 @@ export default function Profile() {
     const onDone = async () => {
         newFileRef.current = cropperRef.current?.cropper.getCroppedCanvas().toDataURL("image/jpeg")
         const formData = new FormData()
+        const blob = await (await fetch(newFileRef.current)).blob()
         if (targetRef.current === "avatar") {
-            const blob = await (await fetch(newFileRef.current)).blob()
             formData.append("profile-picture", blob, "profile.jpeg")
             updatePicMutation.mutate(formData)
-            avatarImgRef.current!.src = newFileRef.current
+
         } else {
-            const blob = await (await fetch(newFileRef.current)).blob()
             formData.append("show_picture", blob, "show.jpeg")
             updateShowPicMutation.mutate(formData)
         }

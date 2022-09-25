@@ -43,7 +43,6 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const localeTr = tr[locale as Langs]
 
     const changeUserName = (newName: string) => {
-        console.log(newName)
     }
 
     const themeChange = (e: ChangeEvent<HTMLInputElement>) => {
