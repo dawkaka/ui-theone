@@ -42,7 +42,7 @@
     justify-content: space-between;
     min-height: 130px;
     height: max-content;
-    gap: var(--gap);
+
 }
 
 .imageContainer {
@@ -56,6 +56,7 @@
 
 .profileImage {
     border-radius: 50%;
+    width: 120px
 }
 
 .avatarContainer {
@@ -298,6 +299,10 @@
 @media screen and (max-width: 750px) {
     .mainContainer {
         grid-template-columns: 1fr;
+    }
+
+    .profileImage {
+        width: 100px
     }
 
     .profileContainer {

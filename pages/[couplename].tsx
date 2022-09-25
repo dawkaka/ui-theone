@@ -144,10 +144,7 @@ const CoupleProfile: NextPage = () => {
                             <div className={styles.profile}>
                                 <div className={styles.flex}>
                                     <div className={styles.imageContainer}>
-
                                         <img
-                                            height={"120px"}
-                                            width={"120px"}
                                             src={"/med.jpg"}
                                             className={styles.profileImage}
                                             id="avatar"
