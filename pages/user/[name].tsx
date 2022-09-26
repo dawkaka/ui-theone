@@ -21,6 +21,7 @@ import CouplePreview from "../../components/couplepreview";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../../constants";
+import { Prompt } from "../../components/prompt";
 Modal.setAppElement("#__next")
 
 export default function Profile() {
@@ -34,6 +35,7 @@ export default function Profile() {
     const [editOpen, setEditOpen] = useState(false)
     const [openSettings, setOpenSettings] = useState(false)
     const [openFollowing, setOpenFollowing] = useState(false)
+    const [prOpen, setPrOpen] = useState(false)
 
 
     const router = useRouter()
@@ -119,6 +121,20 @@ export default function Profile() {
         targetRef.current = "show"
     }
 
+    const sendRequestMutation = useMutation(
+        () => {
+            return axios.post(`${BASEURL}/user/couple-request/takum_abdul`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
     const showImages = ["/med.jpg", "/med2.jpg", "/me.jpg", "/me3.jpg", "/me2.jpg", "/me5.jpg"]
 
     return (
@@ -150,7 +166,7 @@ export default function Profile() {
                                         <div className={styles.requestButtonWrapper}>
                                             {
                                                 true ?
-                                                    <button type="button" className={styles.requestButton}>{localeTr.sendrequest}</button>
+                                                    <button type="button" className={styles.requestButton} onClick={() => setPrOpen(true)}>{localeTr.sendrequest}</button>
                                                     :
                                                     <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>
                                                         {localeTr.edit}
@@ -190,6 +206,13 @@ export default function Profile() {
 
                     </div>
                 </div>
+                <Prompt
+                    open={prOpen}
+                    close={() => setPrOpen(false)}
+                    acceptFun={sendRequestMutation.mutate}
+                    dangerAction={false}
+                    message={"So you are fucking this person right?"}
+                />
                 <EditUser open={editOpen} close={() => setEditOpen(false)} />
                 <UserSettings open={openSettings} close={() => setOpenSettings(false)} />
                 <Following open={openFollowing} close={() => setOpenFollowing(false)} heading={localeTr.following} />
