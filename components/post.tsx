@@ -91,6 +91,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
+    const [following, setFollowing] = useState(false)
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -136,6 +137,26 @@ export const Post: React.FunctionComponent<post> = (props) => {
             onError: (err) => console.log(err)
         }
     )
+
+
+    const followMutation = useMutation(
+        () => {
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/yousiph.and.lana`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+                setFollowing(!following)
+            }
+        }
+    )
+    const followUnfollow = () => {
+        followMutation.mutate()
+        setFollowing(!following)
+    }
 
     return (
         <article className={styles.container}>
@@ -218,7 +239,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                             <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>{localeTr.report}</span></li>
                             <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>{localeTr.edit}</span></li>
                             <li className={styles.actionItem}><BiCommentX size={25} /><span>{localeTr.closecomments}</span></li>
-                            <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>{localeTr.unfollow}</span></li>
+                            <li className={styles.actionItem} onClick={followUnfollow}><RiUserUnfollowLine size={25} /><span>{following ? localeTr.unfollow : localeTr.follow}</span></li>
                             <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>{localeTr.copyurl}</span> </li>
                             <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>{localeTr.block}</span></li>
                         </ul>
@@ -269,6 +290,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
+    const [following, setFollowing] = useState(false)
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -302,6 +324,25 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
             behavior: 'smooth'
         });
         setCurr(dist / widthNum)
+    }
+
+    const followMutation = useMutation(
+        () => {
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/yousiph.and.lana`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+                setFollowing(!following)
+            }
+        }
+    )
+    const followUnfollow = () => {
+        followMutation.mutate()
+        setFollowing(!following)
     }
 
     return (
@@ -407,7 +448,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                             <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>Report</span></li>
                             <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>Edit</span></li>
                             <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
-                            <li className={styles.actionItem}><RiUserUnfollowLine size={25} /><span>Unfollow</span></li>
+                            <li className={styles.actionItem} onClick={followUnfollow}><RiUserUnfollowLine size={25} /><span>{following ? localeTr.unfollow : localeTr.follow}</span></li>
                             <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
                             <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
                         </ul>
