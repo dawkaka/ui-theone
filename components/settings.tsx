@@ -10,6 +10,7 @@ import { Theme } from "emoji-picker-react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../constants";
+import { isPassword } from "../libs/validators";
 Modal.setAppElement("body")
 
 const modalStyles: Modal.Styles = {
@@ -105,6 +106,27 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         langMutation.mutate(lang)
     }
 
+    const passwordMutation = useMutation(
+        (data: { current: string, new: string, repeat: string }) => {
+            return axios.put(`${BASEURL}/user/password`, JSON.stringify(data))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
+    const changePassword = (current: string, newP?: string, repeat?: string) => {
+        if (!newP || !repeat) return
+        passwordMutation.mutate({ current, repeat, new: newP })
+    }
+
+
+
     return (
         <Modal
             isOpen={open}
@@ -140,7 +162,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         actionTitle={localeTr.change}
                         placeholderCurrent={localeTr.password.current}
                         placeholderRepeat={localeTr.password.repeat}
-                        submit={() => { }}
+                        submit={changePassword}
                     />
                     <SettingInputItem
                         type="email"
@@ -290,9 +312,11 @@ export const CoupleSettings: React.FunctionComponent<{
     )
 }
 
+
+
 const SettingInputItem: React.FunctionComponent<{
     type: string, title: string,
-    submit: (val: string) => void,
+    submit: (val: string, val2?: string, val3?: string) => void,
     placeholderCurrent?: string,
     placeholderRepeat?: string
     placeholder: string,
@@ -307,6 +331,14 @@ const SettingInputItem: React.FunctionComponent<{
     const showInputs = () => {
         iconRef.current!.classList.toggle(`${styles.show}`)
         containerRef.current!.classList.toggle(`${styles.expand}`)
+    }
+
+    const change = () => {
+        if (type === "password") {
+            submit(currentPassword, val, rNewPassword)
+            return
+        }
+        submit(val)
     }
     return (
         <form onSubmit={(e) => e.preventDefault()} className={styles.itemContainer}>
@@ -330,7 +362,7 @@ const SettingInputItem: React.FunctionComponent<{
                         :
                         null
                 }
-                <button onClick={() => submit(val)}>{actionTitle}</button>
+                <button onClick={change}>{actionTitle}</button>
             </div>
         </form>
     )
