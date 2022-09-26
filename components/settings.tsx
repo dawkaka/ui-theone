@@ -125,6 +125,24 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         passwordMutation.mutate({ current, repeat, new: newP })
     }
 
+    const emailMutation = useMutation(
+        (data: { email: string }) => {
+            return axios.put(`${BASEURL}/user/email`, JSON.stringify(data))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
+    const changeEmail = (email: string) => {
+        emailMutation.mutate({ email })
+    }
+
 
 
     return (
@@ -169,7 +187,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         title={localeTr.email.title}
                         placeholder={localeTr.email.placehoder}
                         actionTitle={localeTr.change}
-                        submit={() => { }}
+                        submit={changeEmail}
                     />
                     <SettingRadio title={localeTr.language.title} options={[{ id: "en", label: "English" }, { id: "es", label: "Español" }]} value={locale} handleChange={langChange} />
                     <SettingRadio title={localeTr.theme.title} options={[{ id: "light", label: localeTr.theme.light }, { id: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
