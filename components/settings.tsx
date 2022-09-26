@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../constants";
 import { isPassword } from "../libs/validators";
+import { Prompt } from "./prompt";
 Modal.setAppElement("body")
 
 const modalStyles: Modal.Styles = {
@@ -264,6 +265,7 @@ export const CoupleSettings: React.FunctionComponent<{
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const visibility = "public"
+    const [prOpen, setPrOpen] = useState(false)
 
     const changeNameMutation = useMutation(
         (data: { couple_name: string }) => {
@@ -286,6 +288,20 @@ export const CoupleSettings: React.FunctionComponent<{
     const visibilityChange = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.currentTarget.value);
     }
+
+    const breakFastMutation = useMutation(
+        () => {
+            return axios.post(`${BASEURL}/couple/break-up`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
 
     return (
         <Modal
@@ -322,7 +338,7 @@ export const CoupleSettings: React.FunctionComponent<{
                     />
 
                     <div className={styles.dangerousActionContainer}>
-                        <button style={{ backgroundColor: "var(--error)", color: "white" }}>{localeTr.edoncast}</button>
+                        <button style={{ backgroundColor: "var(--error)", color: "white" }} onClick={() => setPrOpen(true)}>{localeTr.edoncast}</button>
                     </div>
                 </section>
             </div>
