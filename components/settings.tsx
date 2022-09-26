@@ -45,7 +45,22 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
 
-    const changeUserName = (newName: string) => {
+    const changeNameMutation = useMutation(
+        (data: { user_name: string }) => {
+            return axios.put(`${BASEURL}/user/name`, JSON.stringify(data))
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
+    const changeName = (newName: string) => {
+        changeNameMutation.mutate({ user_name: newName })
     }
 
     const themeChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +74,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
             document.documentElement.style.colorScheme = "light"
         }
     }
+
     useEffect(() => {
         const theme = window.localStorage.getItem("theme")
         if (theme === "dark") {
@@ -66,11 +82,27 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         }
     }, [])
 
+
+
+    const langMutation = useMutation(
+        (lang: string) => {
+            return axios.patch(`${BASEURL}/user/settings/language/${lang}`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
     const langChange = (e: ChangeEvent<HTMLInputElement>) => {
         const lang = e.currentTarget.value
         document.cookie = `NEXT_LOCALE=${lang};${1000 * 60 * 60 * 24 * 40};path=/`
         router.replace("/user/[name]", asPath, { locale: lang })
-
+        langMutation.mutate(lang)
     }
 
     return (
@@ -97,7 +129,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     <SettingInputItem
                         type="text"
                         title={localeTr.username.title}
-                        submit={changeUserName}
+                        submit={changeName}
                         placeholder={localeTr.username.placehoder}
                         actionTitle={localeTr.change}
                     />
@@ -108,14 +140,14 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         actionTitle={localeTr.change}
                         placeholderCurrent={localeTr.password.current}
                         placeholderRepeat={localeTr.password.repeat}
-                        submit={changeUserName}
+                        submit={() => { }}
                     />
                     <SettingInputItem
                         type="email"
                         title={localeTr.email.title}
                         placeholder={localeTr.email.placehoder}
                         actionTitle={localeTr.change}
-                        submit={changeUserName}
+                        submit={() => { }}
                     />
                     <SettingRadio title={localeTr.language.title} options={[{ id: "en", label: "English" }, { id: "es", label: "Español" }]} value={locale} handleChange={langChange} />
                     <SettingRadio title={localeTr.theme.title} options={[{ id: "light", label: localeTr.theme.light }, { id: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />

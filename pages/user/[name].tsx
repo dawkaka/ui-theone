@@ -78,6 +78,7 @@ export default function Profile() {
             }
         }
     )
+
     const onDone = async () => {
         newFileRef.current = cropperRef.current?.cropper.getCroppedCanvas().toDataURL("image/jpeg")
         const formData = new FormData()
