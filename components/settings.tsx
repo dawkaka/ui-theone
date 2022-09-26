@@ -341,6 +341,12 @@ export const CoupleSettings: React.FunctionComponent<{
                         <button style={{ backgroundColor: "var(--error)", color: "white" }} onClick={() => setPrOpen(true)}>{localeTr.edoncast}</button>
                     </div>
                 </section>
+                <Prompt
+                    message="Are you sure you want to deactivate couple profile"
+                    dangerAction={true} open={prOpen}
+                    acceptFun={breakFastMutation.mutate}
+                    close={() => setPrOpen(false)}
+                />
             </div>
         </Modal>
     )
