@@ -29,11 +29,12 @@
 
 .searchContainer input {
     width: 80%;
-    font-size: 16px;
+    font-size: 15px;
     padding: var(--gap-quarter) var(--gap-half);
-    border-radius: var(--radius-big);
+    border-radius: 7px;
     border: none;
     background-color: var(--accents-2);
+    border: var(--border);
 }
 
 .searchContainer input:focus+.searchIcon {

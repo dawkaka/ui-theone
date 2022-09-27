@@ -43,6 +43,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const router = useRouter()
     const { pathname, asPath } = router
     const [theme, setTheme] = useState<Theme>(Theme.LIGHT)
+    const [prOpen, setPrOpen] = useState(false)
 
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
@@ -194,9 +195,15 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     <SettingRadio title={localeTr.theme.title} options={[{ id: "light", label: localeTr.theme.light }, { id: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
                         <button>{localeTr.logout}</button>
-                        <button style={{ backgroundColor: "var(--error)", color: "white" }}>{localeTr.deleteacount}</button>
+                        <button style={{ backgroundColor: "var(--error)", color: "white" }} onClick={() => setPrOpen(true)}>{localeTr.deleteacount}</button>
                     </div>
                 </section>
+                <Prompt
+                    message="This action can't be reversed, Are you sure you want to delete your account"
+                    dangerAction={true} open={prOpen}
+                    acceptFun={() => { }}
+                    close={() => setPrOpen(false)}
+                />
             </div>
         </Modal>
     )
