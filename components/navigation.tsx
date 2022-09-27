@@ -189,7 +189,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
             return axios.post(`${BASEURL}/user/u/${action}-request`)
         }, {
         onSuccess: () => {
-            queryClient.invalidateQueries(['todos'])
+            queryClient.invalidateQueries(['pending-request'])
 
         },
         onError: (err) => console.log(err)
