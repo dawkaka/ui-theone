@@ -9,7 +9,8 @@
         "post": "Post",
         "couplerequest": "Couple request",
         "accept": "Accept",
-        "decline": "Decline"
+        "decline": "Decline",
+        "cancel": "Cancel"
     },
     "es": {
         "home": "Casa",
@@ -21,6 +22,7 @@
         "post": "Publicar",
         "couplerequest": "Petición de pareja",
         "accept": "Aceptar",
-        "decline": "Rechazar"
+        "decline": "Rechazar",
+        "cancel": "Cancelar"
     }
 }

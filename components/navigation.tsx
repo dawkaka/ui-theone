@@ -11,6 +11,9 @@ import { IoMdClose } from "react-icons/io"
 import AddPost from "./newpost";
 import messages from "../i18n/locales/navigation..json"
 import { Langs } from "../types";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../constants";
 export default function Navigation() {
 
     const { pathname, locale } = useRouter()
@@ -175,6 +178,24 @@ export default function Navigation() {
 const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
     const { locale } = useRouter()
     const tr = locale ? messages[locale as Langs] : messages["en"]
+    const queryClient = useQueryClient()
+
+    const { isLoading, data } = useQuery(["pending-request"], () => {
+        return axios.get(`${BASEURL}/user/u/pending-request`)
+    }, { staleTime: Infinity })
+
+    const requestMutation = useMutation(
+        (action: string) => {
+            return axios.post(`${BASEURL}/user/u/${action}-request`)
+        }, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['todos'])
+
+        },
+        onError: (err) => console.log(err)
+
+    })
+
     return (
         <div className={styles.requestModal} aria-label="couple request modal">
             <div className={styles.requestHeader} id="full_description">
@@ -186,22 +207,48 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                 </div>
             </div>
             <div className={styles.requestContainer}>
-                <div className={styles.imageContainer}>
-                    <img
-                        src={"/med.jpg"}
-                        className={styles.profileImage}
-                    />
-                </div>
-                <div className={styles.titleContainer}>
-                    <h2 tabIndex={0} aria-label="Name of the person that sent you the couple request is Yussif Mohammed" className={styles.realName}>Yussif Mohammed</h2>
-                    <h3 tabIndex={0} aria-label="Their unique user name is ant.man" className={styles.userName}>@ant.man</h3>
-                </div>
-                <div className={styles.requestButtons}>
-                    <button aria-label={tr.accept + tr.couplerequest} className={styles.acceptBtn}>{tr.accept}</button>
-                    <button aria-label={tr.decline + tr.couplerequest} className={styles.declineBtn}>{tr.decline}</button>
-                </div>
+                {isLoading ? <h1>loading...</h1> :
+                    data?.data.request == null ? <h1>No pending requests</h1> :
+                        <>
+                            <div className={styles.imageContainer}>
+                                <img
+                                    src={"https://d2xi011jjczziv.cloudfront.net/81836a4e-8c15-48f4-8cc9-116e0bc2e503.jpeg"}
+                                    className={styles.profileImage}
+                                />
+                            </div>
+                            <div className={styles.titleContainer}>
+                                <h2 tabIndex={0} aria-label="Name of the person that sent you the couple request is Yussif Mohammed" className={styles.realName}>
+                                    {data?.data.request.first_name} {data?.data.request.Last_naem}
+                                </h2>
+                                <h3 tabIndex={0} aria-label="Their unique user name is ant.man" className={styles.userName}>@{data?.data.request.user_naame}</h3>
+                            </div>
+                            <div className={styles.requestButtons}>
+                                {
+                                    data?.data.request.pending_request === 2 ?
+                                        <button aria-label={tr.decline + tr.couplerequest}
+                                            className={styles.declineBtn}
+                                            onClick={() => requestMutation.mutate("cancel")}
+                                        >
+                                            {tr.cancel}
+                                        </button>
+                                        :
+                                        <>
+                                            < button
+                                                aria-label={tr.accept + tr.couplerequest}
+                                                className={styles.acceptBtn}
+                                                onClick={() => requestMutation.mutate("reject")}
+                                            >
+                                                {tr.accept}
+                                            </button>
+                                            <button aria-label={tr.decline + tr.couplerequest} className={styles.declineBtn}>{tr.decline}</button>
+                                        </>
+                                }
+
+                            </div>
+                        </>
+                }
             </div>
 
-        </div>
+        </div >
     )
 }
