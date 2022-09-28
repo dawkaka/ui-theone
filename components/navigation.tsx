@@ -236,11 +236,14 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                                             < button
                                                 aria-label={tr.accept + tr.couplerequest}
                                                 className={styles.acceptBtn}
-                                                onClick={() => requestMutation.mutate("reject")}
                                             >
                                                 {tr.accept}
                                             </button>
-                                            <button aria-label={tr.decline + tr.couplerequest} className={styles.declineBtn}>{tr.decline}</button>
+                                            <button
+                                                aria-label={tr.decline + tr.couplerequest}
+                                                className={styles.declineBtn}
+                                                onClick={() => requestMutation.mutate("reject")}
+                                            >{tr.decline}</button>
                                         </>
                                 }
 

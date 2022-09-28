@@ -18,7 +18,7 @@ import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
 import { Langs } from "../../types";
 import CouplePreview from "../../components/couplepreview";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../../constants";
 import { Prompt } from "../../components/prompt";
@@ -36,6 +36,7 @@ export default function Profile() {
     const [openSettings, setOpenSettings] = useState(false)
     const [openFollowing, setOpenFollowing] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
+    const queryClient = useQueryClient()
 
 
     const router = useRouter()
@@ -128,6 +129,7 @@ export default function Profile() {
         {
             onSuccess: (data) => {
                 console.log(data)
+                queryClient.invalidateQueries(['pending-request'])
             },
             onError: (err) => {
                 console.log(err)
