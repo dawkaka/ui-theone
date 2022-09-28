@@ -124,7 +124,7 @@ export default function Profile() {
 
     const sendRequestMutation = useMutation(
         () => {
-            return axios.post(`${BASEURL}/user/couple-request/takum_abdul`)
+            return axios.post(`${BASEURL}/user/couple-request/user_name`)
         },
         {
             onSuccess: (data) => {

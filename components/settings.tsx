@@ -66,8 +66,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         changeNameMutation.mutate({ user_name: newName })
     }
 
-    const themeChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const val = e.currentTarget.value
+    const themeChange = (val: string) => {
         window.localStorage.setItem("theme", val)
         if (val === "dark") {
             document.querySelector("body")!.className = "dark"
@@ -101,8 +100,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         }
     )
 
-    const langChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const lang = e.currentTarget.value
+    const langChange = (lang: string) => {
         document.cookie = `NEXT_LOCALE=${lang};${1000 * 60 * 60 * 24 * 40};path=/`
         router.replace("/user/[name]", asPath, { locale: lang })
         langMutation.mutate(lang)
@@ -145,8 +143,19 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         emailMutation.mutate({ email })
     }
 
-
-
+    const statusMutation = useMutation(
+        (status: string) => {
+            return axios.put(`${BASEURL}/user/request-status/${status}`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
     return (
         <Modal
             isOpen={open}
@@ -191,8 +200,9 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         actionTitle={localeTr.change}
                         submit={changeEmail}
                     />
-                    <SettingRadio title={localeTr.language.title} options={[{ id: "en", label: "English" }, { id: "es", label: "Español" }]} value={locale} handleChange={langChange} />
-                    <SettingRadio title={localeTr.theme.title} options={[{ id: "light", label: localeTr.theme.light }, { id: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
+                    <SettingRadio title={"Open to requests ?"} options={[{ value: "ON", label: "Yes" }, { value: "OFF", label: "No" }]} value={"ON"} handleChange={statusMutation.mutate} />
+                    <SettingRadio title={localeTr.language.title} options={[{ value: "en", label: "English" }, { value: "es", label: "Español" }]} value={locale} handleChange={langChange} />
+                    <SettingRadio title={localeTr.theme.title} options={[{ value: "light", label: localeTr.theme.light }, { value: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
                         <button>{localeTr.logout}</button>
                         <button style={{ backgroundColor: "var(--error)", color: "white" }} onClick={() => setPrOpen(true)}>{localeTr.deleteacount}</button>
@@ -292,8 +302,8 @@ export const CoupleSettings: React.FunctionComponent<{
         changeNameMutation.mutate({ couple_name: newName })
     }
 
-    const visibilityChange = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.currentTarget.value);
+    const visibilityChange = (val: string) => {
+        console.log(val);
     }
 
     const breakFastMutation = useMutation(
@@ -340,7 +350,7 @@ export const CoupleSettings: React.FunctionComponent<{
                     />
                     <SettingRadio
                         title={localeTr.visibility.title}
-                        options={[{ id: "public", label: localeTr.visibility.public }, { id: "private", label: localeTr.visibility.private }]}
+                        options={[{ value: "public", label: localeTr.visibility.public }, { value: "private", label: localeTr.visibility.private }]}
                         value={visibility} handleChange={visibilityChange}
                     />
 
@@ -417,9 +427,9 @@ const SettingInputItem: React.FunctionComponent<{
 
 const SettingRadio: React.FunctionComponent<{
     title: string,
-    options: { id: string, label: string }[],
+    options: { value: string, label: string }[],
     value: string,
-    handleChange: (e: ChangeEvent<HTMLInputElement>) => void
+    handleChange: (val: string) => void
 }> = ({ title, options, value, handleChange }) => {
     const [val, setVal] = useState(value)
     const iconRef = useRef<HTMLDivElement>(null)
@@ -427,7 +437,7 @@ const SettingRadio: React.FunctionComponent<{
 
     const change = (e: ChangeEvent<HTMLInputElement>) => {
         setVal(e.currentTarget.value)
-        handleChange(e)
+        handleChange(e.currentTarget.value)
     }
 
     const showInputs = () => {
@@ -447,11 +457,10 @@ const SettingRadio: React.FunctionComponent<{
             <div ref={containerRef} className={styles.inputContainer}>
                 {
                     options.map((option, indx) => {
-
                         return (
-                            <div key={option.id} className={styles.inputContainerInner}>
-                                <input type="radio" id={option.id} value={option.id} name={title} onChange={change} checked={val === option.id} />
-                                <label htmlFor={option.id} style={{ background: `var(--${indx})` }}>{option.label}</label>
+                            <div key={option.value} className={styles.inputContainerInner}>
+                                <input type="radio" id={option.value} value={option.value} name={title} onChange={change} checked={val === option.value} />
+                                <label htmlFor={option.value} style={{ background: `var(--${indx})` }}>{option.label}</label>
                             </div>
                         )
                     })
