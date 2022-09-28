@@ -28,12 +28,12 @@
 }
 
 .searchContainer input {
-    width: 80%;
+    width: 90%;
     font-size: 15px;
     padding: var(--gap-quarter) var(--gap-half);
     border-radius: 7px;
     border: none;
-    background-color: var(--accents-2);
+    background-color: var(--accents-1);
     border: var(--border);
 }
 
@@ -43,7 +43,7 @@
 
 .searchIcon {
     position: absolute;
-    right: calc(10% + var(--gap-half));
+    right: calc(5% + var(--gap-half));
 }
 
 .searchModal {

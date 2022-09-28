@@ -200,7 +200,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         actionTitle={localeTr.change}
                         submit={changeEmail}
                     />
-                    <SettingRadio title={"Open to requests ?"} options={[{ value: "ON", label: "Yes" }, { value: "OFF", label: "No" }]} value={"ON"} handleChange={statusMutation.mutate} />
+                    <SettingRadio title={localeTr.opentorequest.title} options={[{ value: "ON", label: localeTr.opentorequest.yes }, { value: "OFF", label: localeTr.opentorequest.no }]} value={"ON"} handleChange={statusMutation.mutate} />
                     <SettingRadio title={localeTr.language.title} options={[{ value: "en", label: "English" }, { value: "es", label: "Español" }]} value={locale} handleChange={langChange} />
                     <SettingRadio title={localeTr.theme.title} options={[{ value: "light", label: localeTr.theme.light }, { value: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
