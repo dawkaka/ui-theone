@@ -579,7 +579,7 @@ const PostIcons: React.FunctionComponent = () => {
 
     const likePost = useMutation(
         () => {
-            return axios.patch(`${BASEURL}/post/${liked ? "unlike" : "like"}/62fbf97e836fcdaaf88b9a94`)
+            return axios.patch(`${BASEURL}/post/${liked ? "unlike" : "like"}/6334d515dd214f3d00b2c656`)
         },
         {
             onError: err => {
