@@ -151,7 +151,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     const sharePostMutation = useMutation(
         (data: FormData) => {
-            console.log(data.get("couple_name"), data.get("files"), data.get("caption"))
+            console.log(data.get("alts"))
             return axios.post(`${BASEURL}/post`, data)
         },
         {
@@ -171,6 +171,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         for (let file of blobs.current) {
             const blob = await (await fetch(file)).blob();
             formData.append("files", blob, "image.jpg")
+        }
+        for (let al of alt) {
+            formData.append("alts", al)
         }
         sharePostMutation.mutate(formData)
         setStep(4)

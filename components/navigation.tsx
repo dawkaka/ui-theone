@@ -186,7 +186,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
 
     const requestMutation = useMutation(
         (action: string) => {
-            return axios.post(`${BASEURL}/user/u/${action}-request`)
+            return axios.post(`${BASEURL}/${action}`)
         }, {
         onSuccess: () => {
             queryClient.invalidateQueries(['pending-request'])
@@ -196,6 +196,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
 
     })
 
+    console.log(data)
     return (
         <div className={styles.requestModal} aria-label="couple request modal">
             <div className={styles.requestHeader} id="full_description">
@@ -212,7 +213,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                         <>
                             <div className={styles.imageContainer}>
                                 <img
-                                    src={"https://d2xi011jjczziv.cloudfront.net/81836a4e-8c15-48f4-8cc9-116e0bc2e503.jpeg"}
+                                    src={"https://d2xi011jjczziv.cloudfront.net/" + data?.data.request.profile_picture}
                                     className={styles.profileImage}
                                 />
                             </div>
@@ -227,7 +228,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                                     data?.data.request.pending_request === 2 ?
                                         <button aria-label={tr.decline + tr.couplerequest}
                                             className={styles.declineBtn}
-                                            onClick={() => requestMutation.mutate("cancel")}
+                                            onClick={() => requestMutation.mutate("user/u/cancel-request")}
                                         >
                                             {tr.cancel}
                                         </button>
@@ -236,13 +237,14 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                                             < button
                                                 aria-label={tr.accept + tr.couplerequest}
                                                 className={styles.acceptBtn}
+                                                onClick={() => requestMutation.mutate(`couple/new/${data.data.request.id}`)}
                                             >
                                                 {tr.accept}
                                             </button>
                                             <button
                                                 aria-label={tr.decline + tr.couplerequest}
                                                 className={styles.declineBtn}
-                                                onClick={() => requestMutation.mutate("reject")}
+                                                onClick={() => requestMutation.mutate("user/u/reject-request")}
                                             >{tr.decline}</button>
                                         </>
                                 }

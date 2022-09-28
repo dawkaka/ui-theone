@@ -156,6 +156,21 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
             }
         }
     )
+    const logout = useMutation(
+        () => {
+            return axios.post(`${BASEURL}/user/logout`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data);
+
+            },
+            onError: (err) => {
+                console.log(err);
+
+            }
+        }
+    )
     return (
         <Modal
             isOpen={open}
@@ -204,7 +219,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     <SettingRadio title={localeTr.language.title} options={[{ value: "en", label: "English" }, { value: "es", label: "Español" }]} value={locale} handleChange={langChange} />
                     <SettingRadio title={localeTr.theme.title} options={[{ value: "light", label: localeTr.theme.light }, { value: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
                     <div className={styles.dangerousActionContainer}>
-                        <button>{localeTr.logout}</button>
+                        <button onClick={() => logout.mutate()}>{localeTr.logout}</button>
                         <button style={{ backgroundColor: "var(--error)", color: "white" }} onClick={() => setPrOpen(true)}>{localeTr.deleteacount}</button>
                     </div>
                 </section>
