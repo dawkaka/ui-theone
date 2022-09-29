@@ -23,6 +23,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../constants";
 import { FaHeart } from "react-icons/fa";
+import { Prompt } from "./prompt";
 
 const Picker = dynamic(
     () => {
@@ -92,6 +93,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const [following, setFollowing] = useState(false)
+    const [prOpen, setPrOpen] = useState(false)
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -129,8 +131,8 @@ export const Post: React.FunctionComponent<post> = (props) => {
     }
 
     const deletePost = useMutation(
-        () => {
-            return axios.delete(`${BASEURL}/post/62f932264727d8bef5da706f`)
+        (id: string) => {
+            return axios.delete(`${BASEURL}/post/${id}`)
         },
         {
             onSuccess: (data) => console.log(data),
@@ -235,13 +237,14 @@ export const Post: React.FunctionComponent<post> = (props) => {
                 {
                     step === "actions" && (
                         <ul className={styles.modalBody}>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => deletePost.mutate()}><AiOutlineDelete size={25} /><span>{localeTr.delete}</span></li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><AiOutlineDelete size={25} /><span>{localeTr.delete}</span></li>
                             <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>{localeTr.report}</span></li>
                             <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>{localeTr.edit}</span></li>
                             <li className={styles.actionItem}><BiCommentX size={25} /><span>{localeTr.closecomments}</span></li>
                             <li className={styles.actionItem} onClick={followUnfollow}><RiUserUnfollowLine size={25} /><span>{following ? localeTr.unfollow : localeTr.follow}</span></li>
                             <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>{localeTr.copyurl}</span> </li>
                             <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>{localeTr.block}</span></li>
+                            <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
                         </ul>
                     )
                 }
@@ -255,8 +258,15 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         <ReportPost closeModal={closeModal} />
                     )
                 }
+                <Prompt
+                    open={prOpen}
+                    close={() => setPrOpen(false)}
+                    message="Delete post?"
+                    dangerAction
+                    acceptFun={() => deletePost.mutate("62fbb634c079cdc660fa03de")}
+                />
             </Modal>
-        </article>
+        </article >
     )
 }
 
@@ -284,6 +294,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
         height: "1350px"
     }
     ]
+
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
@@ -291,15 +302,20 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const [following, setFollowing] = useState(false)
+    const [prOpen, setPrOpen] = useState(false)
 
     useEffect(() => {
-        slider.current!.addEventListener("scroll", () => {
+        const scrollHandler = () => {
             let width = window.getComputedStyle(slider.current!).width
             width = width.substring(0, width.length - 2)
             let scrollPos = slider.current!.scrollLeft
             const widthNum = Math.floor(Number(width))
             setCurr(Math.floor(scrollPos / widthNum))
-        })
+        }
+        slider.current!.addEventListener("scroll", scrollHandler)
+        return () => {
+            slider.current?.removeEventListener("scroll", scrollHandler)
+        }
     }, [])
 
 
@@ -344,6 +360,17 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
         followMutation.mutate()
         setFollowing(!following)
     }
+
+    const deletePost = useMutation(
+        (id: string) => {
+            return axios.delete(`${BASEURL}/post/${id}`)
+        },
+        {
+            onSuccess: (data) => console.log(data),
+            onError: (err) => console.log(err)
+        }
+    )
+
 
     return (
         <div className={styles.viewContent}>
@@ -444,13 +471,14 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                 {
                     step === "actions" && (
                         <ul className={styles.modalBody}>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><AiOutlineDelete size={25} /><span>Delete</span></li>
+                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><AiOutlineDelete size={25} /><span>Delete</span></li>
                             <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>Report</span></li>
                             <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>Edit</span></li>
                             <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
                             <li className={styles.actionItem} onClick={followUnfollow}><RiUserUnfollowLine size={25} /><span>{following ? localeTr.unfollow : localeTr.follow}</span></li>
                             <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
                             <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
+                            <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
                         </ul>
                     )
                 }
@@ -464,6 +492,13 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                         <ReportPost closeModal={closeModal} />
                     )
                 }
+                <Prompt
+                    open={prOpen}
+                    close={() => setPrOpen(false)}
+                    message="Delete post?"
+                    dangerAction
+                    acceptFun={() => deletePost.mutate("62f932264727d8bef5da706f")}
+                />
             </Modal>
         </div>
     )

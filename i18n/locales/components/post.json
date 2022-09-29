@@ -14,6 +14,7 @@
     "closecomments": "Close comments",
     "reportpost": "Report post",
     "copyurl": "Copy post url",
+    "close": "Close",
     "location": {
       "title": "Location",
       "placeholder": "Add location..."
@@ -45,6 +46,7 @@
     "closecomments": "Cerrar comentarios",
     "reportpost": "Reportar publicacion",
     "copyurl": "Copiar URL de la publicación",
+    "close": "Cerrar",
     "location": {
       "title": "Ubicación",
       "placeholder": "Añade una ubicación..."
