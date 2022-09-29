@@ -13,7 +13,7 @@ import messages from "../i18n/locales/navigation..json"
 import { Langs } from "../types";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { BASEURL } from "../constants";
+import { BASEURL, IMAGEURL } from "../constants";
 export default function Navigation() {
 
     const { pathname, locale } = useRouter()
@@ -107,7 +107,7 @@ export default function Navigation() {
                             <p>{cMessages.messages}</p>
                         </div>
                     </Link>
-                    <Link href={"/user/yussif"}>
+                    <Link href={"/user/yousiph"}>
                         <div className={`${styles.navItem} ${pathname === "/user/[name]" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to your profile page">
                             <div>
                                 {pathname === "/user/[name]" ? <FaUser size={25}></FaUser> :
@@ -182,7 +182,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
 
     const { isLoading, data } = useQuery(["pending-request"], () => {
         return axios.get(`${BASEURL}/user/u/pending-request`)
-    }, { staleTime: Infinity })
+    })
 
     const requestMutation = useMutation(
         (action: string) => {
@@ -213,7 +213,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                         <>
                             <div className={styles.imageContainer}>
                                 <img
-                                    src={"https://d2xi011jjczziv.cloudfront.net/" + data?.data.request.profile_picture}
+                                    src={`${IMAGEURL}/${data?.data.request.profile_picture}`}
                                     className={styles.profileImage}
                                 />
                             </div>

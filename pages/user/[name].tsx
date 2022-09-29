@@ -5,7 +5,6 @@ import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import Layout from "../../components/mainLayout";
 import styles from "../../styles/profile.module.css"
-import Link from "next/link";
 import { MdModeEdit } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
@@ -18,13 +17,15 @@ import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
 import { Langs } from "../../types";
 import CouplePreview from "../../components/couplepreview";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { BASEURL } from "../../constants";
+import { BASEURL, IMAGEURL } from "../../constants";
 import { Prompt } from "../../components/prompt";
+import { getUser } from "../../api/queries";
+import { GetServerSideProps } from "next";
 Modal.setAppElement("#__next")
 
-export default function Profile() {
+export default function Profile(props: any) {
     const [step, setStep] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
     const cropperRef = useRef<any>(null)
@@ -37,7 +38,6 @@ export default function Profile() {
     const [openFollowing, setOpenFollowing] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
     const queryClient = useQueryClient()
-
 
     const router = useRouter()
     const locale = router.locale || "en"
@@ -54,7 +54,7 @@ export default function Profile() {
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                queryClient.invalidateQueries(["profile", { name: router.query.name }])
                 avatarImgRef.current!.src = newFileRef.current
                 setIsOpen(false)
             },
@@ -68,8 +68,8 @@ export default function Profile() {
             return axios.post(`${BASEURL}/user/show-pictures/${showImage}`, data)
         },
         {
-            onSuccess: (data) => {
-                console.log(data)
+            onSuccess: () => {
+                queryClient.invalidateQueries(["profile", { name: router.query.name }])
                 setIsOpen(false)
                 const imgTarget = document.querySelector<HTMLImageElement>("#show-image-" + showImage)
                 if (imgTarget) {
@@ -138,6 +138,9 @@ export default function Profile() {
     )
 
     const showImages = ["/med.jpg", "/med2.jpg", "/me.jpg", "/me3.jpg", "/me2.jpg", "/me5.jpg"]
+    const { isLoading, data } = useQuery(["profile", { name: router.query.name }],
+        () => axios.get(`${BASEURL}/user/${router.query.name}`),
+        { initialData: props.user, staleTime: Infinity })
 
     return (
         <Layout>
@@ -150,7 +153,7 @@ export default function Profile() {
                                     <img
                                         ref={avatarImgRef}
                                         style={{ objectFit: "cover", position: "absolute", borderRadius: "50%" }}
-                                        src={"/me.jpg"}
+                                        src={`${IMAGEURL}/${data?.data.profile_picture}`}
                                         className={styles.profileImage}
                                     />
                                     <span
@@ -162,13 +165,18 @@ export default function Profile() {
                                     </span>
                                 </div>
                                 <div className={styles.titleContainer}>
-                                    <h3 className={styles.userName}>@ant.man</h3>
-                                    <h2 data-e2e="user-subtitle" className={styles.realName}>Yussif Mohammed</h2>
+                                    <h3 className={styles.userName}>@{data.data.user_name}</h3>
+                                    <h2 data-e2e="user-subtitle" className={styles.realName}>{data.data.first_name} {data.data.last_name}</h2>
                                     <div className={styles.requestContainer}>
                                         <div className={styles.requestButtonWrapper}>
                                             {
-                                                true ?
-                                                    <button type="button" className={styles.requestButton} onClick={() => setPrOpen(true)}>{localeTr.sendrequest}</button>
+                                                !data.data.is_this_user ?
+                                                    <button type="button" className={styles.requestButton}
+                                                        style={{ opacity: data.data.has_partner ? 0.5 : 1 }}
+                                                        onClick={() => {
+                                                            if (data.data.has_partner) return
+                                                            setPrOpen(true)
+                                                        }}>{localeTr.sendrequest}</button>
                                                     :
                                                     <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>
                                                         {localeTr.edit}
@@ -180,14 +188,12 @@ export default function Profile() {
                             </div>
                             <h2 className={styles.countInfo}>
                                 <div className={styles.countItem} onClick={() => setOpenFollowing(true)}>
-                                    <strong title="Following">830</strong>
+                                    <strong title="Following">{data.data.following_count}</strong>
                                     <span className={styles.countItemTitle}>{localeTr.following}</span>
                                 </div>
                             </h2>
                             <h2 className={styles.bio}>
-                                {`Acting and comedy
-                    🇬🇭
-                    Dm on Instagram @fatimazawwa for promo`}
+                                {data.data.bio}
                             </h2>
                         </div>
                         <div className={styles.actions} onClick={() => setOpenSettings(true)}>
@@ -413,4 +419,15 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
         </Modal>
     )
 
+}
+
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const name = ctx.query.name as string
+    const res = await axios.get(`${BASEURL}/user/${name}`, {
+        headers: {
+            Cookie: `session=${ctx.req.cookies.session}`
+        }
+    })
+    return { props: { user: { data: res.data } } }
 }
