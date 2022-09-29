@@ -1,6 +1,6 @@
 import { ChangeEvent, useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Layout from "../components/mainLayout";
 import Suggestions from "../components/suggestions";
 import Header from "../components/pageHeader";
@@ -20,13 +20,13 @@ import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
 import { Langs } from "../types";
 import CouplePreview from "../components/couplepreview";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { BASEURL } from "../constants";
+import { BASEURL, IMAGEURL } from "../constants";
 
 Modal.setAppElement("#__next")
 
-const CoupleProfile: NextPage = () => {
+const CoupleProfile: NextPage = (props: any) => {
     const [step, setStep] = useState(0)
     const [editOpen, setEditOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
@@ -122,16 +122,20 @@ const CoupleProfile: NextPage = () => {
         setFollowing(!following)
     }
 
+    const { isLoading, data } = useQuery(["profile", { coulename: router.query.couplename }],
+        () => axios.get(`${BASEURL}/user/${router.query.name}`),
+        { initialData: props.couple, staleTime: Infinity })
+    console.log(data)
     return (
         <>
             <Layout>
                 <div className={styles.mainContainer}>
                     <div className={styles.profileContainer}>
-                        <Header title="john.and.jane" arrow />
+                        <Header title={data?.data.couple_name} arrow />
                         <section className={styles.profileInfo}>
                             <div className={styles.coverPicContainer}>
                                 <div className={styles.cover} >
-                                    <Image src="/me7.jpg" height={"300px"} width={"900px"} objectFit="cover" id="cover" />
+                                    <Image src={`${IMAGEURL}/${data?.data.cover_picture}`} height={"300px"} width={"900px"} objectFit="cover" id="cover" />
                                 </div>
                                 <span
                                     className={styles.editCover}
@@ -145,7 +149,7 @@ const CoupleProfile: NextPage = () => {
                                 <div className={styles.flex}>
                                     <div className={styles.imageContainer}>
                                         <img
-                                            src={"/med.jpg"}
+                                            src={`${IMAGEURL}/${data?.data.profile_picture}`}
                                             className={styles.profileImage}
                                             id="avatar"
                                         />
@@ -182,16 +186,13 @@ const CoupleProfile: NextPage = () => {
                                     </div>
                                 </div>
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>
-                                    <p className={styles.userName}>john.and.jane <Verified size={15} /></p>
-                                    <p className={styles.bio}>{`
-                                       this is my bio and I am telling you it's the best thing to happen
-                                        to anyone bro and
-                                        git like wire my gee`}
+                                    <p className={styles.userName}>{data?.data.couple_name} {data?.data.verified ? <Verified size={15} /> : ""}</p>
+                                    <p className={styles.bio}>{data?.data.bio}
                                     </p>
                                     <div style={{ display: "flex", gap: "var(--gap)", alignItems: "center" }}>
                                         <h2 className={styles.countInfo}>
                                             <div className={styles.countItem} onClick={() => setOpenFollowers(true)}>
-                                                <strong title="Following">830</strong>
+                                                <strong title="Followers">{data?.data.followers_count}</strong>
                                                 <span className={styles.countItemTitle}>{localeTr.followers}</span>
                                             </div>
                                         </h2>
@@ -393,3 +394,14 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
 }
 
 export default CoupleProfile
+
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const name = ctx.query.couplename as string
+    const res = await axios.get(`${BASEURL}/${name}`, {
+        headers: {
+            Cookie: `session=${ctx.req.cookies.session}`
+        }
+    })
+    return { props: { couple: { data: res.data } } }
+}

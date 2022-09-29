@@ -6,6 +6,9 @@ const nextConfig = {
     locales: ['en', 'es', 'fr'],
     defaultLocale: 'en',
   },
+  images: {
+   domains:["d2xi011jjczziv.cloudfront.net"]
+  },
 }
 
 module.exports = nextConfig
