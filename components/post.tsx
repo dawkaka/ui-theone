@@ -19,9 +19,9 @@ import { BiCommentX } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import { useTheme } from "../hooks";
 import { Categories, EmojiStyle } from "emoji-picker-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { BASEURL } from "../constants";
+import { BASEURL, IMAGEURL } from "../constants";
 import { FaHeart } from "react-icons/fa";
 import { Prompt } from "./prompt";
 
@@ -207,7 +207,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                         }
                     </div>
                     <div className={styles.postStats}>
-                        <PostIcons />
+                        <PostIcons likes={2222} comments={323232} id={"sdafldsfasdfsadfskdf"} />
                         <div className={styles.sliderPos}>
                             <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} ${localeTr.more}` : ""}</small>
                         </div>
@@ -215,7 +215,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     <div className={styles.captionContainer}>
                         <Link
                             href={"/[couplename]/[something]"}
-                            as={`/whatever/something`}
+                            as={`/yousiph.and.lana/gsJOvJIVk3gY`}
                         >
                             <p>
                                 Mr. Frimpong
@@ -271,30 +271,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
 }
 
 
-export function PostFullView({ couplename, postId }: { couplename: string | string[] | undefined; postId: string | string[] | undefined }) {
-
-    const files = [{
-        name: "/me7.jpg",
-        width: "1080px",
-        height: "608px"
-    },
-    {
-        name: "/me.jpg",
-        width: "1080px",
-        height: "1350px"
-    },
-    {
-        name: "/me2.jpg",
-        width: "1080px",
-        height: "1080px"
-    },
-    {
-        name: "/me3.jpg",
-        width: "1080px",
-        height: "1350px"
-    }
-    ]
-
+export function PostFullView({ couplename, postId, initialData }: { couplename: string; postId: string; initialData: any }) {
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
@@ -312,7 +289,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
             const widthNum = Math.floor(Number(width))
             setCurr(Math.floor(scrollPos / widthNum))
         }
-        slider.current!.addEventListener("scroll", scrollHandler)
+        slider.current?.addEventListener("scroll", scrollHandler)
         return () => {
             slider.current?.removeEventListener("scroll", scrollHandler)
         }
@@ -344,7 +321,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
 
     const followMutation = useMutation(
         () => {
-            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/yousiph.and.lana`)
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${post.couple_name}`)
         },
         {
             onSuccess: (data) => {
@@ -371,6 +348,20 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
         }
     )
 
+    const { data } = useQuery(["post", { postId }],
+        () => axios.get(`${BASEURL}/post/${couplename}/${postId}`),
+        { initialData, staleTime: Infinity })
+
+    if (data.data === null) {
+        return (
+
+            <div>
+                <h2>Post not found</h2>
+            </div>
+
+        )
+    }
+    const post = data.data
 
     return (
         <div className={styles.viewContent}>
@@ -379,12 +370,10 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                 <div className={styles.filesContainer}>
                     <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent" }}>
                         {
-                            files.map(file => (<div className={styles.fileContainer} key={file.name}>
-                                <Image
-                                    src={file.name}
-                                    objectFit="cover"
-                                    width={file.width}
-                                    height={file.height}
+                            post.files.map((file: any) => (<div className={styles.fileContainer} key={file.name}>
+                                <img
+                                    src={`${IMAGEURL}/${file.name}`}
+                                    style={{ width: "100%" }}
                                 />
                             </div>))
                         }
@@ -393,13 +382,13 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                         <MdOutlineNavigateNext size={20} className={styles.aIcon} />
                     </div>
                     }
-                    {curr < files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
+                    {curr < post.files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
                         <MdOutlineNavigateNext size={20} className={styles.aIcon} />
                     </div>
                     }
                 </div>
                 <div className={styles.viewSliderPos}>
-                    <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} ${localeTr.more}` : ""}</small>
+                    <small>{post.files.length - curr - 1 > 0 ? `+${post.files.length - 1 - curr} ${localeTr.more}` : ""}</small>
                 </div>
             </div>
 
@@ -410,15 +399,15 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                             <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
                                 <Image
                                     layout="fill"
-                                    objectFit="cover"
-                                    src={"/me.jpg"}
+
+                                    src={`${IMAGEURL}/${post.profile_picture}`}
                                     className={styles.profileImage}
                                 />
                             </span>
                         </div>
                         <div>
-                            <h4>John.Doe{" "}<Verified size={13} /></h4>
-                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>Zambiza, Tanzania</p>
+                            <h4>{post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}</h4>
+                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{post.location}</p>
                         </div>
                     </div>
                     <div onClick={() => setModalOpen(true)}>
@@ -430,13 +419,11 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                     borderBottom: "var(--border)"
 
                 }}>
-                    <p>
-                        something caption that is very long and I do not want to know why it is like
-                        tha from ghana we are the best couple in the world
-                        I know so and I feel so.
+                    <p style={{ whiteSpace: "pre-line" }}>
+                        {post.caption}
                     </p>
                     <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
-                        <PostIcons />
+                        <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} />
                     </div>
                 </div>
                 <div className={styles.commentsContainer}>
@@ -461,7 +448,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
 
                 </div>
                 <div className={styles.viewFixedBottom}>
-                    <CommentArea isCard={false} />
+                    <CommentArea isCard={false} id={post.id} />
                 </div>
             </div>
             <Modal
@@ -471,25 +458,38 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                 {
                     step === "actions" && (
                         <ul className={styles.modalBody}>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><AiOutlineDelete size={25} /><span>Delete</span></li>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>Report</span></li>
-                            <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>Edit</span></li>
-                            <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
-                            <li className={styles.actionItem} onClick={followUnfollow}><RiUserUnfollowLine size={25} /><span>{following ? localeTr.unfollow : localeTr.follow}</span></li>
-                            <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block</span></li>
-                            <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
+                            {
+                                post.is_this_couple ? (
+                                    <>
+                                        <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>Edit</span></li>
+                                        <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
+                                        <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                                        <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><AiOutlineDelete size={25} /><span>Delete</span></li>
+                                        <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
+                                    </>
+                                ) :
+                                    (
+                                        <>
+                                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block @{post.couple_name}</span></li>
+                                            <li className={styles.actionItem} onClick={followUnfollow}><RiUserUnfollowLine size={25} /><span>{following ? localeTr.unfollow : localeTr.follow} @{post.couple_name}</span></li>
+                                            <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>Report</span></li>
+                                            <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
+                                        </>
+                                    )
+                            }
+
                         </ul>
                     )
                 }
                 {
                     step === "edit" && (
-                        <EditPost closeModal={closeModal} />
+                        <EditPost closeModal={closeModal} caption={post.caption} location={post.location} id={post.id} pId={postId} />
                     )
                 }
                 {
                     step === "report" && (
-                        <ReportPost closeModal={closeModal} />
+                        <ReportPost closeModal={closeModal} id={post.id} />
                     )
                 }
                 <Prompt
@@ -497,7 +497,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
                     close={() => setPrOpen(false)}
                     message="Delete post?"
                     dangerAction
-                    acceptFun={() => deletePost.mutate("62f932264727d8bef5da706f")}
+                    acceptFun={() => deletePost.mutate(post.id)}
                 />
             </Modal>
         </div>
@@ -505,7 +505,7 @@ export function PostFullView({ couplename, postId }: { couplename: string | stri
 }
 
 
-const CommentArea: React.FunctionComponent<{ isCard: boolean }> = ({ isCard }) => {
+const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({ isCard, id }) => {
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
     const emojiTr = emTr[locale as Langs]
@@ -515,7 +515,7 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean }> = ({ isCard }) =
 
     const commentMutation = useMutation(
         (comment: string) => {
-            return axios.post(`${BASEURL}/post/comment/62fbf97e836fcdaaf88b9a94`, JSON.stringify({ comment }))
+            return axios.post(`${BASEURL}/post/comment/${id}`, JSON.stringify({ comment }))
         },
         {
             onSuccess: data => console.log(data),
@@ -606,15 +606,15 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean }> = ({ isCard }) =
     )
 }
 
-const PostIcons: React.FunctionComponent = () => {
+const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: string }> = ({ likes, comments, id }) => {
     const { locale } = useRouter()
-    const num = new Intl.NumberFormat(locale, { notation: "compact" }).format(1400)
-    const comments = num, likes = num
+    const l = new Intl.NumberFormat(locale, { notation: "compact" }).format(likes)
+    const c = new Intl.NumberFormat(locale, { notation: "compact" }).format(comments)
     const [liked, setLiked] = useState(false)
 
     const likePost = useMutation(
         () => {
-            return axios.patch(`${BASEURL}/post/${liked ? "unlike" : "like"}/6334d515dd214f3d00b2c656`)
+            return axios.patch(`${BASEURL}/post/${liked ? "unlike" : "like"}/${id}`)
         },
         {
             onError: err => {
@@ -629,20 +629,22 @@ const PostIcons: React.FunctionComponent = () => {
                 <div onClick={() => {
                     likePost.mutate()
                     setLiked(!liked)
-                }} style={{ cursor: "pointer" }}>
-                    {liked ? <FaHeart size={20} color="var(--error)" /> : <AiOutlineHeart size={20} />}
+                }} style={{ cursor: "pointer" }} >
+                    {liked ? <FaHeart size={25} color="var(--error)" /> : <AiOutlineHeart size={25} />}
                 </div>
-                <p>{likes}</p>
+                <p>{l}</p>
             </div>
             <div className={styles.postIcon}>
-                <AiOutlineComment size={20} />
-                <p>{comments}</p>
+                <div>
+                    <AiOutlineComment size={25} />
+                </div>
+                <p>{c}</p>
             </div>
         </div>
     )
 }
 
-const ReportPost: React.FunctionComponent<{ closeModal: () => void }> = ({ closeModal }) => {
+const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }> = ({ closeModal, id }) => {
 
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
@@ -651,7 +653,7 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void }> = ({ close
 
     const reportMutation = useMutation(
         (reports: { reports: number[] }) => {
-            return axios.post(`${BASEURL}/post/report/62fbf97e836fcdaaf88b9a94`, JSON.stringify(reports))
+            return axios.post(`${BASEURL}/post/report/${id}`, JSON.stringify(reports))
         },
         {
             onSuccess: (data) => console.log(data),
@@ -718,65 +720,69 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void }> = ({ close
     )
 }
 
-const EditPost: React.FunctionComponent<{ closeModal: () => void }> = ({ closeModal }) => {
-    const locale = useRouter().locale || "en"
-    const localeTr = tr[locale as Langs]
-    const editRef = useRef({ caption: "", location: "" })
-    const editMutation = useMutation(
-        (edit: { caption: string, location: string }) => {
-            return axios.put(`${BASEURL}/post/62fbf97e836fcdaaf88b9a94`, JSON.stringify(edit))
-        },
-        {
-            onSuccess: (data) => {
-                console.log(data)
+const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: string, location: string, id: string, pId: string }> =
+    ({ closeModal, caption, location, id, pId }) => {
+        const locale = useRouter().locale || "en"
+        const localeTr = tr[locale as Langs]
+        const editRef = useRef({ caption: "", location: "" })
+        const editMutation = useMutation(
+            (edit: { caption: string, location: string }) => {
+                return axios.put(`${BASEURL}/post/${id}`, JSON.stringify(edit))
             },
-            onError: (err) => {
-                console.log(err)
-            }
-        })
+            {
+                onSuccess: (data) => {
+                    useQueryClient().invalidateQueries(["post", { postId: pId }])
+                    closeModal()
+                },
+                onError: (err) => {
+                    console.log(err)
+                }
+            })
 
-    const editPost = () => {
-        editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
+        const editPost = () => {
+            editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
+        }
+
+        return (
+            <div className={`${styles.modalBody} ${styles.editModal}`}>
+                <div className={styles.editHeader}>
+                    <div className={styles.backIcon} onClick={closeModal}>
+                        <IoMdClose size={20} color="var(--accents-6)" />
+                    </div>
+                    <p>{localeTr.edit}</p>
+                    <button onClick={editPost}
+                        className={styles.saveButton}
+                    >
+                        {localeTr.save}
+                    </button>
+                </div>
+                <div className={`${styles.modalContent} ${styles.captionStage}`}>
+                    <div className={styles.editItem}>
+                        <label htmlFor="caption">{localeTr.caption.title}</label>
+                        <textarea
+                            placeholder={localeTr.caption.placeholder}
+                            autoFocus
+                            className={styles.textArea}
+                            id="caption"
+                            defaultValue={caption}
+                            onChange={(e) => editRef.current.caption = e.target.value}
+                        ></textarea>
+                    </div>
+                    <div className={styles.editItem}>
+                        <label htmlFor="location">{localeTr.location.title}</label>
+                        <input
+                            type="text"
+                            placeholder={localeTr.location.placeholder}
+                            id="location"
+                            defaultValue={location}
+                            onChange={(e) => editRef.current.location = e.target.value}
+                        />
+                    </div>
+                </div>
+
+            </div>
+        )
     }
-
-    return (
-        <div className={`${styles.modalBody} ${styles.editModal}`}>
-            <div className={styles.editHeader}>
-                <div className={styles.backIcon} onClick={closeModal}>
-                    <IoMdClose size={20} color="var(--accents-6)" />
-                </div>
-                <p>{localeTr.edit}</p>
-                <button onClick={editPost}
-                    className={styles.saveButton}
-                >
-                    {localeTr.save}
-                </button>
-            </div>
-            <div className={`${styles.modalContent} ${styles.captionStage}`}>
-                <div className={styles.editItem}>
-                    <label htmlFor="caption">{localeTr.caption.title}</label>
-                    <textarea
-                        placeholder={localeTr.caption.placeholder}
-                        autoFocus
-                        className={styles.textArea}
-                        id="caption"
-                        onChange={(e) => editRef.current.caption = e.target.value}
-                    ></textarea>
-                </div>
-                <div className={styles.editItem}>
-                    <label htmlFor="location">{localeTr.location.title}</label>
-                    <input
-                        type="text"
-                        placeholder={localeTr.location.placeholder}
-                        id="location"
-                        onChange={(e) => editRef.current.location = e.target.value}
-                    />
-                </div>
-            </div>
-
-        </div>
-    )
-}
 
 
 export default PostFullView

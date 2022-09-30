@@ -1,11 +1,14 @@
+import axios from "axios"
 import { kMaxLength } from "buffer"
+import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { BiArrowBack } from "react-icons/bi"
 import Layout from "../../components/mainLayout"
 import { PostFullView } from "../../components/post"
+import { BASEURL } from "../../constants"
 import styles from "../../styles/post.module.css"
 
-export default function Post() {
+export default function Post(props: any) {
     const router = useRouter()
     const { postId, couplename } = router.query
     return (
@@ -25,10 +28,25 @@ export default function Post() {
                         <h3>Post</h3>
                     </div>
 
-                    <PostFullView couplename={couplename!} postId={postId!} />
+                    <PostFullView couplename={couplename as string} postId={postId as string} initialData={props.post} />
                 </div>
 
             </div>
         </Layout >
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const name = ctx.query.couplename as string
+    const id = ctx.query.postId as string
+    try {
+        const res = await axios.get(`${BASEURL}/post/${name}/${id}`, {
+            headers: {
+                Cookie: `session=${ctx.req.cookies.session}`
+            }
+        })
+        return { props: { post: { data: res.data } } }
+    } catch (err) {
+        return { props: { post: { data: null } } }
+    }
 }
