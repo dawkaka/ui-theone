@@ -347,7 +347,14 @@
 }
 
 .viewComments {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-shrink: 1;
+    height: 100%;
+}
+
+.scrollContainer {
     overflow-y: scroll;
     position: relative;
     width: 100%;
@@ -356,7 +363,7 @@
     scrollbar-width: none;
 }
 
-.viewComments::-webkit-scrollbar {
+.scrollContainer::-webkit-scrollbar {
     display: none
 }
 
@@ -364,6 +371,7 @@
     background-color: var(--background);
     border-top: 5px solid var(--accents-3);
     width: 100%;
+    display: block;
     position: sticky;
     bottom: 0;
 }

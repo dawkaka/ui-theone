@@ -42,5 +42,30 @@ const Comment: React.FunctionComponent<comment> = (props) => {
     </article>
   )
 }
+export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
+  return (
+    <div className={styles.commentsContainer}>
+      {
+        new Array(15).fill(1).map((val, ind) => {
+          return (
+            <Comment
+              key={ind}
+              userName="cristiano"
+              profile_url="/me3.jpg"
+              hasPartner
+              hasLiked
+              isThisUser
+              comment={`we are dad bfor abeo before you come here talking the bewt other here and
+                                     no dkiiings`}
+              date={new Date}
+              likes_count={3232}
+            />
+          )
+        })
+      }
+
+    </div>
+  )
+}
 
 export default Comment

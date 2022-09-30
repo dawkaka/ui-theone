@@ -10,7 +10,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiUserUnfollowLine } from "react-icons/ri";
 import Modal from 'react-modal';
-import Comment from "./comment";
+import Comment, { Comments } from "./comment";
 import { useRouter } from "next/router";
 import { Langs } from "../types";
 import tr from "../i18n/locales/components/post.json";
@@ -393,59 +393,41 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
             </div>
 
             <div className={styles.viewComments}>
-                <div className={styles.userInfoContainer}>
-                    <div className={styles.infoWrapper}>
-                        <div className={styles.imageContainer} style={{ width: "40px", height: "40px" }}>
-                            <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
-                                <Image
-                                    layout="fill"
+                <div className={styles.scrollContainer}>
+                    <div className={styles.userInfoContainer}>
+                        <div className={styles.infoWrapper}>
+                            <div className={styles.imageContainer} style={{ width: "40px", height: "40px" }}>
+                                <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
+                                    <Image
+                                        layout="fill"
 
-                                    src={`${IMAGEURL}/${post.profile_picture}`}
-                                    className={styles.profileImage}
-                                />
-                            </span>
+                                        src={`${IMAGEURL}/${post.profile_picture}`}
+                                        className={styles.profileImage}
+                                    />
+                                </span>
+                            </div>
+                            <div>
+                                <h4>{post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}</h4>
+                                <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{post.location}</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4>{post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}</h4>
-                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{post.location}</p>
+                        <div onClick={() => setModalOpen(true)}>
+                            <Actions size={24} orientation="potrait" />
                         </div>
                     </div>
-                    <div onClick={() => setModalOpen(true)}>
-                        <Actions size={24} orientation="potrait" />
-                    </div>
-                </div>
-                <div className={styles.captionContainer} style={{
-                    paddingTop: 0,
-                    borderBottom: "var(--border)"
+                    <div className={styles.captionContainer} style={{
+                        paddingTop: 0,
+                        borderBottom: "var(--border)"
 
-                }}>
-                    <p style={{ whiteSpace: "pre-line" }}>
-                        {post.caption}
-                    </p>
-                    <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
-                        <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} />
+                    }}>
+                        <p style={{ whiteSpace: "pre-line" }}>
+                            {post.caption}
+                        </p>
+                        <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
+                            <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} />
+                        </div>
                     </div>
-                </div>
-                <div className={styles.commentsContainer}>
-                    {
-                        new Array(15).fill(1).map((val, ind) => {
-                            return (
-                                <Comment
-                                    key={ind}
-                                    userName="cristiano"
-                                    profile_url="/me3.jpg"
-                                    hasPartner
-                                    hasLiked
-                                    isThisUser
-                                    comment={`we are dad bfor abeo before you come here talking the bewt other here and
-                                     no dkiiings`}
-                                    date={new Date}
-                                    likes_count={3232}
-                                />
-                            )
-                        })
-                    }
-
+                    <Comments id={post.id} />
                 </div>
                 <div className={styles.viewFixedBottom}>
                     <CommentArea isCard={false} id={post.id} />
