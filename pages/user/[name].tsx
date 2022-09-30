@@ -229,7 +229,13 @@ export default function Profile(props: any) {
                     dangerAction={false}
                     message={"So you are fucking this person right?"}
                 />
-                <EditUser open={editOpen} close={() => setEditOpen(false)} />
+                <EditUser open={editOpen} close={() => setEditOpen(false)}
+                    first_name={data.data.first_name}
+                    last_name={data.data.last_name}
+                    bio={data.data.bio}
+                    website={data.data.website}
+                    dob={data.data.date_of_birth}
+                />
                 <UserSettings open={openSettings} close={() => setOpenSettings(false)} />
                 <Following open={openFollowing} close={() => setOpenFollowing(false)} heading={localeTr.following} />
                 <Modal

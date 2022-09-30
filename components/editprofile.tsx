@@ -3,10 +3,10 @@ import { IoMdClose } from "react-icons/io"
 import Modal from "react-modal"
 import styles from "./styles/edit.module.css"
 import tr from "../i18n/locales/components/editprofile.json"
-import { EditCouple, EditUser as EditU, ErrCodes, Langs } from "../types"
+import { EditCouple, EditUser as EditU, EditUserT, ErrCodes, Langs } from "../types"
 import { useRouter } from "next/router"
 import { isRealName } from "../libs/validators"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios, { AxiosError } from "axios"
 import { BASEURL } from "../constants"
 
@@ -119,34 +119,34 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> 
     )
 }
 
-export const EditUser: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
+export const EditUser: React.FunctionComponent<EditUserT> = ({ open, close, first_name, last_name, website, bio, dob }) => {
+    const queryClient = useQueryClient()
+    const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
+
+    const [firstName, setFirstName] = useState(first_name)
+    const [lastName, setLastName] = useState(last_name)
+    const [fNameErrs, setFNameErrs] = useState<ErrCodes>([])
+    const [lNameErrs, setLNameErrs] = useState<ErrCodes>([])
+    const [errMode, setErrMode] = useState(false)
+
+    dob = new Date(dob).toLocaleString('en-CA').substring(0, 10)
+    const bioRef = useRef(bio)
+    const dateRef = useRef(dob)
+    const webRef = useRef(website)
 
     const mutation = useMutation(
         (data: EditU) => {
             return axios.put(`${BASEURL}/user`, JSON.stringify(data))
         },
         {
-            onSuccess: (data) => {
-                console.log(data.data)
+            onSuccess: () => {
+                queryClient.invalidateQueries(["profile", { name: router.query.name }])
                 close()
             }
         }
     )
-
-    const router = useRouter()
-    const locale = router.locale || "en"
-    const localeTr = tr[locale as Langs]
-
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [website, setWebsite] = useState("")
-
-    const [fNameErrs, setFNameErrs] = useState<ErrCodes>([])
-    const [lNameErrs, setLNameErrs] = useState<ErrCodes>([])
-    const [errMode, setErrMode] = useState(false)
-    const bioRef = useRef("")
-    const dateRef = useRef("")
-    const webRef = useRef("")
 
     const handleFirst = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.currentTarget.value
@@ -178,7 +178,6 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
         mutation.mutate({ first_name: firstName, last_name: lastName, bio: bioRef.current, date_of_birth: dateRef.current + "T00:00:00Z", website: webRef.current })
     }
 
-
     return (
         <Modal
             isOpen={open}
@@ -200,7 +199,10 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                 <section className={styles.modalContent}>
                     <div className={styles.editItem}>
                         <label htmlFor="first">{localeTr.firstname.title}*</label>
-                        <input type="text" id="first" name="first_name" required placeholder={localeTr.firstname.placeholder} onChange={handleFirst} />
+                        <input type="text" id="first" name="first_name" required
+                            placeholder={localeTr.firstname.placeholder} onChange={handleFirst}
+                            defaultValue={first_name}
+                        />
                         <div className={styles.errorsContainer}>
                             {
                                 fNameErrs.map(val => {
@@ -211,7 +213,11 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="last">{localeTr.lastname.title}*</label>
-                        <input type="text" id="last" name="last_name" required placeholder={localeTr.lastname.placeholder} onChange={handleLastName} />
+                        <input type="text" id="last" name="last_name"
+                            required placeholder={localeTr.lastname.placeholder}
+                            onChange={handleLastName}
+                            defaultValue={last_name}
+                        />
                         <div className={styles.errorsContainer}>
                             {
                                 lNameErrs.map(val => {
@@ -222,7 +228,10 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="last">{localeTr.dob.title}*</label>
-                        <input type="date" id="last" required name="date_of_birth" onChange={(e) => dateRef.current = e.target.value} />
+                        <input type="date" id="last" required name="date_of_birth"
+                            onChange={(e) => dateRef.current = e.target.value}
+                            defaultValue={dob}
+                        />
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="bio">{localeTr.bio.title}</label>
@@ -231,17 +240,24 @@ export const EditUser: React.FunctionComponent<{ open: boolean, close: () => voi
                             className={styles.bio}
                             onChange={handleBio}
                             placeholder={localeTr.bio.placeholder}
-                            name="bio">
+                            name="bio"
+                            defaultValue={bio}
+                        >
                         </textarea>
                         <p id="bioCounter" style={{
                             alignSelf: "flex-end",
                             fontSize: "small",
                             color: "var(--accents-6)"
-                        }}>0/500</p>
+                        }}>0/255</p>
                     </div>
                     <div className={styles.editItem}>
                         <label htmlFor="contact">{localeTr.contact.title}</label>
-                        <input type="url" id="contact" placeholder="example@gmail.com" name="website" onChange={(e) => webRef.current = e.target.value} />
+                        <input
+                            type="url" id="contact" placeholder="example@gmail.com"
+                            name="website"
+                            onChange={(e) => webRef.current = e.target.value}
+                            defaultValue={website}
+                        />
                     </div>
 
                 </section>

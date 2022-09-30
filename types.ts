@@ -27,7 +27,17 @@ export interface EditUser {
 }
 
 export interface EditCouple {
-    bio: string,
-    website: string,
+    bio: string;
+    website: string;
     date_commenced: string;
+}
+
+export interface EditUserT {
+    open: boolean;
+    close: () => void;
+    first_name: string;
+    last_name: string;
+    dob: string;
+    bio: string;
+    website: string;
 }
