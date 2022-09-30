@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./styles/comment.module.css";
 import Image from 'next/image';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { GoPrimitiveDot } from "react-icons/go";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../constants";
 interface comment {
@@ -49,22 +49,38 @@ const Comment: React.FunctionComponent<comment> = (props) => {
 
 
 export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
-  const [skip, setSkip] = useState(0)
-  const { isLoading, data } = useQuery(["comments", { id }],
-    () => axios.get(`${BASEURL}/post/comments/${id}/${skip}`),
-    { staleTime: Infinity, keepPreviousData: true })
-  console.log(data)
+  const fetchComments = ({ pageParam = 0 }) => axios.get(`${BASEURL}/post/comments/${id}/${pageParam}`)
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery(["comments", { id }], fetchComments,
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.data.pagination.end) {
+          return undefined
+        }
+        return lastPage.data.pagination.next
+      }
+    })
+
+  let comments: any[] = []
+  if (data?.pages) {
+    for (let page of data?.pages) {
+      comments = comments.concat(page.data.comments)
+    }
+  }
+
 
   return (
     <div className={styles.commentsContainer}>
       {
-        isLoading && <h5>Loading...</h5>
-      }
-      {
-        data?.data.comments.map((comment: any) => {
+        comments.map((comment: any) => {
           return (
-            < Comment
-
+            <Comment
+              key={comment.id}
               userName={comment.user_name}
               profile_url="/me3.jpg"
               hasPartner={comment.has_partner}
@@ -77,7 +93,10 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
           )
         })
       }
-      {!data?.data.pagination.has_next && <button onClick={() => setSkip(data?.data.pagination.next)}>load more...</button>}
+      {
+        (isFetching || isFetchingNextPage) && <h5>Loading...</h5>
+      }
+      {hasNextPage && <button onClick={() => fetchNextPage()}>load more...</button>}
 
     </div>
   )
