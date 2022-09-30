@@ -21,7 +21,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../../constants";
 import { Prompt } from "../../components/prompt";
-import { getUser } from "../../api/queries";
 import { GetServerSideProps } from "next";
 Modal.setAppElement("#__next")
 
@@ -213,9 +212,9 @@ export default function Profile(props: any) {
                 <div className={styles.profileBottom}>
                     <div className={styles.showImagesWrapper}>
                         {
-                            showImages.map((file, indx) => {
+                            data.data.show_pictures.map((file: string, indx: number) => {
                                 return (
-                                    <ShowPicture file={file} position={indx} editProfileImage={editShowImage} key={indx} />
+                                    <ShowPicture file={`${IMAGEURL}/${file}`} position={indx} editProfileImage={editShowImage} key={indx} />
                                 )
                             })
                         }
