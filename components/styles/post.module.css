@@ -349,6 +349,7 @@
 .viewComments {
     display: flex;
     flex-direction: column;
+    position: relative;
     width: 100%;
     flex-shrink: 1;
     height: 100%;
@@ -356,7 +357,7 @@
 
 .scrollContainer {
     overflow-y: scroll;
-    position: relative;
+
     width: 100%;
     flex-shrink: 1;
     height: 100%;
@@ -388,11 +389,12 @@
     .viewComments {
         width: 100%;
         height: auto;
-
+        padding-bottom: 50px;
     }
 
     .viewFixedBottom {
         bottom: 0;
+        left: 0;
         position: fixed
     }
 
