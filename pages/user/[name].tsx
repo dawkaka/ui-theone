@@ -141,6 +141,15 @@ export default function Profile(props: any) {
     const { isLoading, data } = useQuery(["profile", { name: router.query.name }],
         () => axios.get(`${BASEURL}/user/${router.query.name}`),
         { initialData: props.user, staleTime: Infinity })
+    if (data.data === null) {
+        return (
+            <Layout>
+                <div>
+                    <h2>User not found</h2>
+                </div>
+            </Layout>
+        )
+    }
 
     return (
         <Layout>
@@ -424,10 +433,14 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const name = ctx.query.name as string
-    const res = await axios.get(`${BASEURL}/user/${name}`, {
-        headers: {
-            Cookie: `session=${ctx.req.cookies.session}`
-        }
-    })
-    return { props: { user: { data: res.data } } }
+    try {
+        const res = await axios.get(`${BASEURL}/user/${name}`, {
+            headers: {
+                Cookie: `session=${ctx.req.cookies.session}`
+            }
+        })
+        return { props: { user: { data: res.data } } }
+    } catch (err) {
+        return { props: { user: { data: null } } }
+    }
 }
