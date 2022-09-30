@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./styles/comment.module.css";
 import Image from 'next/image';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { GoPrimitiveDot } from "react-icons/go";
 import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../constants";
 interface comment {
   userName: string;
   comment: string;
@@ -42,27 +45,39 @@ const Comment: React.FunctionComponent<comment> = (props) => {
     </article>
   )
 }
+
+
+
 export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
+  const [skip, setSkip] = useState(0)
+  const { isLoading, data } = useQuery(["comments", { id }],
+    () => axios.get(`${BASEURL}/post/comments/${id}/${skip}`),
+    { staleTime: Infinity, keepPreviousData: true })
+  console.log(data)
+
   return (
     <div className={styles.commentsContainer}>
       {
-        new Array(15).fill(1).map((val, ind) => {
+        isLoading && <h5>Loading...</h5>
+      }
+      {
+        data?.data.comments.map((comment: any) => {
           return (
-            <Comment
-              key={ind}
-              userName="cristiano"
+            < Comment
+
+              userName={comment.user_name}
               profile_url="/me3.jpg"
-              hasPartner
-              hasLiked
+              hasPartner={comment.has_partner}
+              hasLiked={false}
               isThisUser
-              comment={`we are dad bfor abeo before you come here talking the bewt other here and
-                                     no dkiiings`}
-              date={new Date}
-              likes_count={3232}
+              comment={comment.comment}
+              date={new Date(comment.created_at)}
+              likes_count={comment.likes_count}
             />
           )
         })
       }
+      {!data?.data.pagination.has_next && <button onClick={() => setSkip(data?.data.pagination.next)}>load more...</button>}
 
     </div>
   )
