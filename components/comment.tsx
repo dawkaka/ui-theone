@@ -6,7 +6,7 @@ import { GoPrimitiveDot } from "react-icons/go";
 import { useRouter } from "next/router";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { BASEURL } from "../constants";
+import { BASEURL, IMAGEURL } from "../constants";
 interface comment {
   userName: string;
   comment: string;
@@ -73,7 +73,6 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
     }
   }
 
-
   return (
     <div className={styles.commentsContainer}>
       {
@@ -82,10 +81,10 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
             <Comment
               key={comment.id}
               userName={comment.user_name}
-              profile_url="/me3.jpg"
+              profile_url={`${IMAGEURL}/${comment.profile_picture}`}
               hasPartner={comment.has_partner}
-              hasLiked={false}
-              isThisUser
+              hasLiked={comment.has_liked}
+              isThisUser={false}
               comment={comment.comment}
               date={new Date(comment.created_at)}
               likes_count={comment.likes_count}
