@@ -23,17 +23,18 @@ interface comment {
 
 const Comment: React.FunctionComponent<comment> = (props) => {
   const { locale } = useRouter()
-  const likesCount = new Intl.NumberFormat(locale, { notation: "compact" }).format(props.likes_count)
+  const [likes, setLikes] = useState(props.likes_count)
+  const likesCount = new Intl.NumberFormat(locale, { notation: "compact" }).format(likes)
   const [showActions, setShowActions] = useState(false)
   const [liked, setLiked] = useState(props.hasLiked)
 
   const deleteMutation = useMutation(
     () => {
-      return axios.post(`${BASEURL}/post/comment/${props.postId}/${props.id}`)
+      return axios.delete(`${BASEURL}/post/comment/${props.postId}/${props.id}`)
     },
     {
       onSuccess: () => {
-        console.log("done")
+        setShowActions(false)
       }
     }
   )
@@ -96,7 +97,13 @@ const Comment: React.FunctionComponent<comment> = (props) => {
         <p className={styles.comment}>{props.comment}</p>
         <div className={styles.iconContainer}>
           <div onClick={() => {
-            likeMututation.mutate(liked ? "unlike" : "like")
+            if (liked) {
+              likeMututation.mutate("unlike")
+              setLikes(likes - 1)
+            } else {
+              likeMututation.mutate("like")
+              setLikes(likes + 1)
+            }
             setLiked(!liked)
           }}>
             {liked ? <AiFillHeart size={20} color={`var(--error)`}></AiFillHeart> : <AiOutlineHeart size={20}></AiOutlineHeart>}
