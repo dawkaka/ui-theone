@@ -2,9 +2,8 @@ import React, { useRef, useState } from "react";
 import styles from "./styles/comment.module.css";
 import Image from 'next/image';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { GoPrimitiveDot } from "react-icons/go";
 import { useRouter } from "next/router";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { Actions } from "./mis";
@@ -17,13 +16,38 @@ interface comment {
   profile_url: string;
   isThisUser: boolean;
   hasLiked: boolean;
-  hasPartner: boolean
+  hasPartner: boolean;
+  id: string;
+  postId: string
 }
 
 const Comment: React.FunctionComponent<comment> = (props) => {
   const { locale } = useRouter()
   const likesCount = new Intl.NumberFormat(locale, { notation: "compact" }).format(props.likes_count)
   const [showActions, setShowActions] = useState(false)
+  const [liked, setLiked] = useState(props.hasLiked)
+
+  const deleteMutation = useMutation(
+    () => {
+      return axios.post(`${BASEURL}/post/comment/${props.postId}/${props.id}`)
+    },
+    {
+      onSuccess: () => {
+        console.log("done")
+      }
+    }
+  )
+
+  const likeMututation = useMutation(
+    (liked: string) => {
+      return axios.patch(`${BASEURL}/post/comment/${liked}/${props.postId}/${props.id}`)
+    },
+    {
+      onError: () => {
+        setLiked(!liked)
+      }
+    })
+
   return (
     <article className={styles.container} onClick={() => setShowActions(false)}>
       <div className={styles.header}>
@@ -59,7 +83,10 @@ const Comment: React.FunctionComponent<comment> = (props) => {
                 right: 0,
                 boxShadow: "0 0 5px var(--accents-2)"
               }}>
-                <li style={{ cursor: "pointer" }} onClick={(e) => { e.stopPropagation() }}>Delete</li>
+                <li style={{ cursor: "pointer" }} onClick={(e) => {
+                  e.stopPropagation()
+                  deleteMutation.mutate()
+                }}>Delete</li>
               </ul>
             )
           }
@@ -68,7 +95,12 @@ const Comment: React.FunctionComponent<comment> = (props) => {
       <div className={styles.commentBody}>
         <p className={styles.comment}>{props.comment}</p>
         <div className={styles.iconContainer}>
-          {props.hasLiked ? <AiFillHeart size={20} color={`var(--error)`}></AiFillHeart> : <AiOutlineHeart size={20}></AiOutlineHeart>}
+          <div onClick={() => {
+            likeMututation.mutate(liked ? "unlike" : "like")
+            setLiked(!liked)
+          }}>
+            {liked ? <AiFillHeart size={20} color={`var(--error)`}></AiFillHeart> : <AiOutlineHeart size={20}></AiOutlineHeart>}
+          </div>
           <span style={{ fontSize: "13px" }}>{likesCount}</span>
         </div>
       </div>
@@ -110,6 +142,8 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
           return (
             <Comment
               key={comment.id}
+              id={comment.id}
+              postId={id}
               userName={comment.user_name}
               profile_url={`${IMAGEURL}/${comment.profile_picture}`}
               hasPartner={comment.has_partner}
