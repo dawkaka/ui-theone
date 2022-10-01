@@ -214,8 +214,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     </div>
                     <div className={styles.captionContainer}>
                         <Link
-                            href={"/[couplename]/[something]"}
-                            as={`/yousiph.and.lana/gsJOvJIVk3gY`}
+                            href={`/yousiph.and.lana/gsJOvJIVk3gY`}
                         >
                             <p>
                                 Mr. Frimpong
@@ -407,7 +406,11 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                                 </span>
                             </div>
                             <div>
-                                <h4>{post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}</h4>
+                                <Link href={`/${post.couple_name}`}>
+                                    <a>
+                                        <h4>{post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}</h4>
+                                    </a>
+                                </Link>
                                 <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{post.location}</p>
                             </div>
                         </div>

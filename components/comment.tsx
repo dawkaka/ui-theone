@@ -8,6 +8,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { Actions } from "./mis";
+import Link from "next/link";
 interface comment {
   userName: string;
   comment: string;
@@ -22,8 +23,9 @@ interface comment {
 const Comment: React.FunctionComponent<comment> = (props) => {
   const { locale } = useRouter()
   const likesCount = new Intl.NumberFormat(locale, { notation: "compact" }).format(props.likes_count)
+  const [showActions, setShowActions] = useState(false)
   return (
-    <article className={styles.container}>
+    <article className={styles.container} onClick={() => setShowActions(false)}>
       <div className={styles.header}>
         <div className={styles.header}>
           <div className={styles.profileContainer}>
@@ -31,14 +33,36 @@ const Comment: React.FunctionComponent<comment> = (props) => {
           </div>
           <div className={styles.commentInfo}>
             <div className={styles.nameContainer}>
-              <h5>{props.userName}</h5>
+              <Link href={`/user/${props.userName}`}>
+                <a>
+                  <h5>{props.userName}</h5>
+                </a>
+              </Link>
               <AiFillHeart color="var(--error)" size={12} title="has partner"></AiFillHeart>
             </div>
             <small style={{ fontSize: "11px" }}>{props.date.toLocaleDateString()}</small>
           </div>
         </div>
-        <div>
-          <Actions orientation="landscape" size={15} />
+        <div style={{ position: "relative" }}>
+          <div onClick={(e) => {
+            e.stopPropagation()
+            setShowActions(!showActions)
+          }}>
+            <Actions orientation="landscape" size={15} />
+          </div>
+          {
+            showActions && (
+              <ul style={{
+                padding: "var(--gap-quarter) var(--gap-half)",
+                position: "absolute",
+                backgroundColor: "var(--background)",
+                right: 0,
+                boxShadow: "0 0 5px var(--accents-2)"
+              }}>
+                <li style={{ cursor: "pointer" }} onClick={(e) => { e.stopPropagation() }}>Delete</li>
+              </ul>
+            )
+          }
         </div>
       </div>
       <div className={styles.commentBody}>
