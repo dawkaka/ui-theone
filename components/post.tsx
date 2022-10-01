@@ -10,7 +10,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiUserUnfollowLine } from "react-icons/ri";
 import Modal from 'react-modal';
-import Comment, { Comments } from "./comment";
+import Comments from "./comment";
 import { useRouter } from "next/router";
 import { Langs } from "../types";
 import tr from "../i18n/locales/components/post.json";

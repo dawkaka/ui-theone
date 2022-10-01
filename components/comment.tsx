@@ -165,4 +165,4 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
   )
 }
 
-export default Comment
+export default Comments
