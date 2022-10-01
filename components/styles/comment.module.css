@@ -9,6 +9,8 @@
     display: flex;
     gap: var(--gap-half);
     align-items: center;
+    justify-content: space-between;
+    position: relative;
 }
 
 .commentInfo small {
@@ -29,14 +31,12 @@
 
 .profileImage {
     border-radius: 50%;
-    object-fit: cover;
 }
 
 .iconContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-basis: 10%;
     gap: 3px
 }
 

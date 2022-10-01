@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
+import { Actions } from "./mis";
 interface comment {
   userName: string;
   comment: string;
@@ -24,22 +25,27 @@ const Comment: React.FunctionComponent<comment> = (props) => {
   return (
     <article className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.profileContainer}>
-          <Image src={props.profile_url} width={40} height={40} className={styles.profileImage} />
-        </div>
-        <div className={styles.commentInfo}>
-          <div className={styles.nameContainer}>
-            <h5>{props.userName}</h5>
-            <AiFillHeart color="var(--error)" size={12} title="has partner"></AiFillHeart>
+        <div className={styles.header}>
+          <div className={styles.profileContainer}>
+            <Image src={props.profile_url} width={40} height={40} className={styles.profileImage} />
           </div>
-          <small style={{ fontSize: "11px" }}>{props.date.toLocaleDateString()}</small>
+          <div className={styles.commentInfo}>
+            <div className={styles.nameContainer}>
+              <h5>{props.userName}</h5>
+              <AiFillHeart color="var(--error)" size={12} title="has partner"></AiFillHeart>
+            </div>
+            <small style={{ fontSize: "11px" }}>{props.date.toLocaleDateString()}</small>
+          </div>
+        </div>
+        <div>
+          <Actions orientation="landscape" size={15} />
         </div>
       </div>
       <div className={styles.commentBody}>
         <p className={styles.comment}>{props.comment}</p>
         <div className={styles.iconContainer}>
           {props.hasLiked ? <AiFillHeart size={20} color={`var(--error)`}></AiFillHeart> : <AiOutlineHeart size={20}></AiOutlineHeart>}
-          <span style={{ fontSize: "13px" }}>{" " + likesCount}</span>
+          <span style={{ fontSize: "13px" }}>{likesCount}</span>
         </div>
       </div>
     </article>
