@@ -427,7 +427,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                             {post.caption}
                         </p>
                         <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
-                            <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} />
+                            <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} hasLiked={post.has_liked} />
                         </div>
                     </div>
                     <Comments id={post.id} />
@@ -591,11 +591,11 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
     )
 }
 
-const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: string }> = ({ likes, comments, id }) => {
+const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: string, hasLiked: boolean }> = ({ likes, comments, id, hasLiked }) => {
     const { locale } = useRouter()
     const l = new Intl.NumberFormat(locale, { notation: "compact" }).format(likes)
     const c = new Intl.NumberFormat(locale, { notation: "compact" }).format(comments)
-    const [liked, setLiked] = useState(false)
+    const [liked, setLiked] = useState(hasLiked)
 
     const likePost = useMutation(
         () => {
