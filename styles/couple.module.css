@@ -240,6 +240,7 @@
 }
 
 .bio {
+    margin-top: var(--gap-quarter);
     max-width: 400px;
     white-space: pre-line;
 }

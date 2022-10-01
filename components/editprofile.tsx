@@ -35,89 +35,102 @@ const modalStyles: Modal.Styles = {
     }
 }
 
-const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void }> = ({ open, close }) => {
+const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bioG: string, dc: string, web: string, coupleName: string }> =
+    ({ open, close, bioG, dc, web, coupleName }) => {
 
-    const router = useRouter()
-    const locale = router.locale || "en"
-    const localeTr = tr[locale as Langs]
+        const router = useRouter()
+        const locale = router.locale || "en"
+        const localeTr = tr[locale as Langs]
+        const queryClient = useQueryClient()
 
-    const website = useRef("")
-    const drb = useRef("")
-    const [bio, setBio] = useState("")
+        const website = useRef(web)
+        dc = new Date(dc).toLocaleString('en-CA').substring(0, 10)
+        const drb = useRef(dc + "T00:00:00Z")
+        const [bio, setBio] = useState(bioG)
 
-    const mutation = useMutation(
-        (data: EditCouple) => {
-            return axios.put(`${BASEURL}/couple`, JSON.stringify(data))
-        },
-        {
-            onSuccess: (data) => {
-                console.log(data.data)
-                close()
+        const mutation = useMutation(
+            (data: EditCouple) => {
+                return axios.put(`${BASEURL}/couple`, JSON.stringify(data))
             },
-            onError: (err: AxiosError) => {
-                console.log(err.response)
+            {
+                onSuccess: (data) => {
+                    queryClient.invalidateQueries(["profile", { coupleName }])
+                    close()
+                },
+                onError: (err: AxiosError) => {
+                    console.log(err.response)
+                }
             }
+        )
+
+        const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault()
+            mutation.mutate({ bio: bio, website: website.current, date_commenced: drb.current })
         }
-    )
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        mutation.mutate({ bio: bio, website: website.current, date_commenced: drb.current })
-    }
+        const handleBio = (e: ChangeEvent<HTMLTextAreaElement>) => {
+            const value = e.target.value
+            if (value.length > 255) return
+            setBio(value)
+        }
 
-    const handleBio = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const value = e.target.value
-        if (value.length > 255) return
-        setBio(value)
-    }
-
-    return (
-        <Modal
-            isOpen={open}
-            onRequestClose={close}
-            style={modalStyles}
-        >
-            <form className={styles.modalBody} onSubmit={handleSubmit}>
-                <div className={styles.requestHeader}>
-                    <div className={styles.backIcon} onClick={close}>
-                        <IoMdClose size={25} color="var(--accents-6)" />
-                    </div>
-                    <p>{localeTr.editcp}</p>
-                    <div
-                        className={styles.nextContainer}
-                    >
-                        <button>{localeTr.done}</button>
-                    </div>
-                </div>
-                <section className={styles.modalContent}>
-                    <div className={styles.editItem}>
-                        <label htmlFor="bio">{localeTr.bio.title}</label>
-                        <textarea id="bio" className={styles.bio}
-                            placeholder={localeTr.bio.placeholder}
-                            onChange={handleBio}
-                            value={bio}
+        return (
+            <Modal
+                isOpen={open}
+                onRequestClose={close}
+                style={modalStyles}
+            >
+                <form className={styles.modalBody} onSubmit={handleSubmit}>
+                    <div className={styles.requestHeader}>
+                        <div className={styles.backIcon} onClick={close}>
+                            <IoMdClose size={25} color="var(--accents-6)" />
+                        </div>
+                        <p>{localeTr.editcp}</p>
+                        <div
+                            className={styles.nextContainer}
                         >
-                        </textarea>
-                        <p id="bioCounter" style={{
-                            alignSelf: "flex-end",
-                            fontSize: "small",
-                            color: "var(--accents-6)"
-                        }}>{bio.length}/255</p>
+                            <button>{localeTr.done}</button>
+                        </div>
                     </div>
-                    <div className={styles.editItem}>
-                        <label htmlFor="date">{localeTr.drb.title}</label>
-                        <input type="date" id="date" pattern="yyy-mm-d" name="date_relationship_begun" onChange={(e) => drb.current = e.target.value + "T00:00:00Z"} />
-                    </div>
-                    <div className={styles.editItem}>
-                        <label htmlFor="contact">{localeTr.contact.title}</label>
-                        <input type="url" id="contact" placeholder="example@gmail.com" name="website" onChange={(e) => website.current = e.target.value} />
-                    </div>
+                    <section className={styles.modalContent}>
+                        <div className={styles.editItem}>
+                            <label htmlFor="bio">{localeTr.bio.title}</label>
+                            <textarea id="bio" className={styles.bio}
+                                placeholder={localeTr.bio.placeholder}
+                                onChange={handleBio}
+                                value={bio}
+                            >
+                            </textarea>
+                            <p id="bioCounter" style={{
+                                alignSelf: "flex-end",
+                                fontSize: "small",
+                                color: "var(--accents-6)"
+                            }}>{bio.length}/255</p>
+                        </div>
+                        <div className={styles.editItem}>
+                            <label htmlFor="date">{localeTr.drb.title}</label>
+                            <input
+                                type="date" id="date"
+                                name="date_relationship_begun"
+                                defaultValue={dc}
+                                onChange={(e) => drb.current = e.target.value + "T00:00:00Z"} />
+                        </div>
+                        <div className={styles.editItem}>
+                            <label htmlFor="contact">{localeTr.contact.title}</label>
+                            <input
+                                type="url"
+                                id="contact"
+                                placeholder="example.com"
+                                name="website"
+                                defaultValue={website.current}
+                                onChange={(e) => website.current = e.target.value} />
+                        </div>
 
-                </section>
-            </form>
-        </Modal >
-    )
-}
+                    </section>
+                </form>
+            </Modal >
+        )
+    }
 
 export const EditUser: React.FunctionComponent<EditUserT> = ({ open, close, first_name, last_name, website, bio, dob }) => {
     const queryClient = useQueryClient()

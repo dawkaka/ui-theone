@@ -34,6 +34,7 @@ const CoupleProfile: NextPage = (props: any) => {
     const [openReportModal, setOpenReportModal] = useState(false)
     const [openFollowers, setOpenFollowers] = useState(false)
     const [following, setFollowing] = useState(false)
+    const [showActions, setShowActions] = useState(false)
 
 
     const cropperRef = useRef<any>(null)
@@ -122,14 +123,13 @@ const CoupleProfile: NextPage = (props: any) => {
         setFollowing(!following)
     }
 
-    const { isLoading, data } = useQuery(["profile", { coulename: router.query.couplename }],
-        () => axios.get(`${BASEURL}/user/${router.query.name}`),
+    const { isLoading, data } = useQuery(["profile", { coupleName: router.query.couplename }],
+        () => axios.get(`${BASEURL}/${router.query.couplename}`),
         { initialData: props.couple, staleTime: Infinity })
-    console.log(data)
     return (
         <>
             <Layout>
-                <div className={styles.mainContainer}>
+                <div className={styles.mainContainer} onClick={() => setShowActions(false)}>
                     <div className={styles.profileContainer}>
                         <Header title={data?.data.couple_name} arrow />
                         <section className={styles.profileInfo}>
@@ -163,24 +163,33 @@ const CoupleProfile: NextPage = (props: any) => {
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
                                         <div style={{ position: "relative" }}>
-                                            <div onClick={() => setOpenSettings(true)}>
+                                            <div onClick={(e) => {
+                                                e.stopPropagation()
+                                                if (data.data.is_this_couple) {
+                                                    setOpenSettings(true)
+                                                } else {
+                                                    setShowActions(!showActions)
+                                                }
+                                            }}>
                                                 <Actions size={25} orientation="landscape" />
                                             </div>
-                                            <ul className={styles.userActions}>
-                                                <li
-                                                    className={`${styles.actionItem} ${styles.dangerAction}`}
-                                                    onClick={() => setOpenReportModal(true)}>
-                                                    <MdReport size={25} />
-                                                    <span>{localeTr.report}</span>
-                                                </li>
-                                                <li
-                                                    className={`${styles.actionItem} ${styles.dangerAction}`}>
-                                                    <MdBlock size={25} />
-                                                    <span>{localeTr.block}</span>
-                                                </li>
-                                            </ul>
+                                            {
+                                                showActions && <ul className={styles.userActions}>
+                                                    <li
+                                                        className={`${styles.actionItem} ${styles.dangerAction}`}
+                                                        onClick={() => setOpenReportModal(true)}>
+                                                        <MdReport size={25} />
+                                                        <span>{localeTr.report}</span>
+                                                    </li>
+                                                    <li
+                                                        className={`${styles.actionItem} ${styles.dangerAction}`}>
+                                                        <MdBlock size={25} />
+                                                        <span>{localeTr.block}</span>
+                                                    </li>
+                                                </ul>
+                                            }
                                         </div>
-                                        {true ? <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
+                                        {!data.data.is_this_couple ? <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
                                             :
                                             <button className={styles.editButton} onClick={() => setEditOpen(true)}>{localeTr.edit}</button>}
                                     </div>
@@ -198,7 +207,7 @@ const CoupleProfile: NextPage = (props: any) => {
                                         </h2>
                                         <h2 className={styles.countInfo}>
                                             <div className={`${styles.countItem} ${styles.dateStarted}`}>
-                                                <p title="Date relationship started">{new Date().toDateString().substring(3)}</p>
+                                                <p title="Date relationship started">{new Date(data.data.date_commenced).toDateString().substring(3)}</p>
                                                 <span className={styles.countItemTitle}>{localeTr.started}</span>
                                             </div>
                                         </h2>
@@ -219,7 +228,9 @@ const CoupleProfile: NextPage = (props: any) => {
                         <Suggestions />
                     </div>
 
-                    <EditCouple open={editOpen} close={() => setEditOpen(false)} />
+                    <EditCouple open={editOpen} close={() => setEditOpen(false)}
+                        web={data.data.website} bioG={data.data.bio}
+                        dc={data.data.date_commenced} coupleName={router.query.couplename as string} />
                     <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} />
                     <CoupleReportModal open={openReportModal} close={() => setOpenReportModal(false)} />
                     <Followers open={openFollowers} close={() => setOpenFollowers(false)} heading={localeTr.followers} />
