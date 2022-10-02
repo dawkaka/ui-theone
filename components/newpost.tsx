@@ -28,6 +28,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [alt, setAlt] = useState<string[]>(new Array(10).fill(""))
     const [carouselCurrent, setCarouselCurrent] = useState(0)
     const [currAlt, setCurrentAlt] = useState(alt[carouselCurrent])
+    const [location, setLocation] = useState("")
 
     const files = useRef<File[]>([])
     const blobs = useRef<string[]>([])
@@ -84,6 +85,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     const handleCaption = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setCaption(e.currentTarget.value)
+    }
+    const handleLocation = (e: ChangeEvent<HTMLInputElement>) => {
+        setLocation(e.currentTarget.value)
     }
 
     const changeAspectRatio = (a: number) => {
@@ -172,9 +176,8 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
             const blob = await (await fetch(file)).blob();
             formData.append("files", blob, "image.jpg")
         }
-        for (let al of alt) {
-            formData.append("alts", al)
-        }
+        formData.append("alts", JSON.stringify(alt))
+        formData.append("location", location)
         sharePostMutation.mutate(formData)
         setStep(4)
     }
@@ -356,6 +359,8 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                     type="text"
                                     placeholder={localeTr.location.placeholder}
                                     id="location"
+                                    value={location}
+                                    onChange={handleLocation}
                                 />
                             </div>
                         </div>
