@@ -361,7 +361,6 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         )
     }
     const post = data.data
-
     return (
         <div className={styles.viewContent}>
 

@@ -141,7 +141,7 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
       comments = comments.concat(page.data.comments)
     }
   }
-
+  console.log(comments)
   return (
     <div className={styles.commentsContainer}>
       {
@@ -172,4 +172,4 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
   )
 }
 
-export default Comments
+export default React.memo(Comments)

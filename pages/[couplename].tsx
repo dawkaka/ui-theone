@@ -126,8 +126,10 @@ const CoupleProfile: NextPage = (props: any) => {
     const { isLoading, data } = useQuery(["profile", { coupleName: router.query.couplename }],
         () => axios.get(`${BASEURL}/${router.query.couplename}`),
         { initialData: props.couple, staleTime: Infinity })
+
     const postQuery = useQuery(["posts", { coupleName: router.query.couplename }],
         () => axios.get(`${BASEURL}/${router.query.couplename}/posts/0`), { retry: 1 })
+
     console.log(postQuery.data)
 
     return (
