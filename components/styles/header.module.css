@@ -1,5 +1,6 @@
 .container {
     position: sticky;
+    padding: 0 var(--gap-half);
     top: -0.5px;
     width: 100%;
     z-index: 1;
@@ -13,7 +14,10 @@
 }
 
 .backIcon {
-    padding: var(--gap) var(--gap-half);
+    display: grid;
+    place-items: center;
+    padding: var(--gap-half) var(--gap-half);
+    margin-left: calc(var(--gap-half) * -1);
 }
 
 .backIcon:hover {
@@ -21,7 +25,7 @@
 }
 
 .container h1 {
-    margin-left: var(--gap);
+
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

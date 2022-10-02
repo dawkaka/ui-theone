@@ -41,3 +41,20 @@ export interface EditUserT {
     bio: string;
     website: string;
 }
+
+export interface PostT {
+    couple_name: string;
+    caption: string;
+    files: { name: string, type: string, alt: string, width: number, height: number }[];
+    likes_count: number;
+    comments_count: number;
+    verified: boolean;
+    married: boolean;
+    is_this_couple: boolean;
+    has_liked: boolean;
+    location: string;
+    created_at: string;
+    id: string;
+    profile_picture: string;
+    postId: string
+}

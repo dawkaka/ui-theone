@@ -225,6 +225,7 @@
 
 .userName {
     font-size: 18px;
+    margin-top: -10px;
     font-weight: bold;
     color: var(--accents-7);
     text-overflow: ellipsis;
@@ -240,7 +241,7 @@
 }
 
 .bio {
-    margin-top: var(--gap-quarter);
+    margin-top: var(--gap-half);
     max-width: 400px;
     white-space: pre-line;
 }
@@ -303,7 +304,7 @@
     }
 
     .profileImage {
-        width: 100px
+        width: 20vw
     }
 
     .profileContainer {
@@ -314,5 +315,15 @@
 @media only screen and (max-width: 500px) {
     .followersContent {
         padding: var(--gap) var(--gap-half);
+    }
+
+    .profileImage {
+        width: 25vw
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .profileImage {
+        width: 30vw
     }
 }

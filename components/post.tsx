@@ -12,7 +12,7 @@ import { RiUserUnfollowLine } from "react-icons/ri";
 import Modal from 'react-modal';
 import Comments from "./comment";
 import { useRouter } from "next/router";
-import { Langs } from "../types";
+import { Langs, PostT } from "../types";
 import tr from "../i18n/locales/components/post.json";
 import emTr from "../i18n/locales/components/emoji.json"
 import { BiCommentX } from "react-icons/bi";
@@ -33,14 +33,6 @@ const Picker = dynamic(
 );
 
 
-interface post {
-    userName: string;
-    caption: string;
-    files: { name: string, type: string }[];
-    likes_count: number;
-    comments_count: number;
-    verified: boolean
-}
 
 
 const modalStyles: Modal.Styles = {
@@ -66,26 +58,10 @@ const modalStyles: Modal.Styles = {
     }
 }
 
-export const Post: React.FunctionComponent<post> = (props) => {
-
-    const files = [
-        {
-            name: "/med.jpg",
-            width: "1080px",
-            height: "1080px"
-        },
-        {
-            name: "/med.jpg",
-            width: "1080px",
-            height: "1080px"
-        },
-        {
-            name: "/med.jpg",
-            width: "1080px",
-            height: "1080px"
-        }
-    ]
-
+export const Post: React.FunctionComponent<PostT> = (props) => {
+    const {
+        couple_name, verified, has_liked, profile_picture, id, postId, caption,
+        likes_count, comments_count, is_this_couple, location, files } = props
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
@@ -143,7 +119,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
 
     const followMutation = useMutation(
         () => {
-            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/yousiph.and.lana`)
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${couple_name}`)
         },
         {
             onSuccess: (data) => {
@@ -170,14 +146,14 @@ export const Post: React.FunctionComponent<post> = (props) => {
                                 <Image
                                     layout="fill"
                                     objectFit="cover"
-                                    src={"/me.jpg"}
+                                    src={`${IMAGEURL}/${profile_picture}`}
                                     className={styles.profileImage}
                                 />
                             </span>
                         </div>
                         <div>
-                            <h4>John.Doe{" "} {props.verified && <Verified size={13} />}</h4>
-                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>Zambiza, Tanzania</p>
+                            <h4>{couple_name + " "} {verified && <Verified size={13} />}</h4>
+                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{props.location}</p>
                         </div>
                     </div>
                     <div onClick={() => setModalOpen(true)}>
@@ -188,11 +164,13 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     <div className={styles.filesContainer}>
                         <div className={styles.fileSlider} ref={slider}>
                             {
-                                files.map(file => (<div className={styles.fileContainer} key={file.name}>
-                                    <img
-                                        src={file.name}
+                                files?.map(file => (<div className={styles.fileContainer} key={file.name}>
+                                    <Image
+                                        src={`${IMAGEURL}/${file.name}`}
                                         className={styles.postImage}
-                                        loading="lazy"
+                                        width={file.width}
+                                        height={file.height}
+                                        alt={file.alt}
                                     />
                                 </div>))
                             }
@@ -201,31 +179,33 @@ export const Post: React.FunctionComponent<post> = (props) => {
                             <MdOutlineNavigateNext size={20} className={styles.aIcon} />
                         </div>
                         }
-                        {curr < files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
+                        {curr < files?.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
                             <MdOutlineNavigateNext size={20} className={styles.aIcon} />
                         </div>
                         }
                     </div>
                     <div className={styles.postStats}>
-                        <PostIcons likes={2222} comments={323232} id={"sdafldsfasdfsadfskdf"} />
+                        <PostIcons likes={likes_count} comments={comments_count} id={props.id} hasLiked={has_liked} />
                         <div className={styles.sliderPos}>
-                            <small>{files.length - curr - 1 > 0 ? `+${files.length - 1 - curr} ${localeTr.more}` : ""}</small>
+                            <small>{files?.length - curr - 1 > 0 ? `+${files?.length - 1 - curr} ${localeTr.more}` : ""}</small>
                         </div>
                     </div>
                     <div className={styles.captionContainer}>
                         <Link
-                            href={`/yousiph.and.lana/gsJOvJIVk3gY`}
+                            href={`/${couple_name}/${props.postId}`}
                         >
-                            <p>
-                                Mr. Frimpong
-                            </p>
+                            <a>
+                                <p>
+                                    {props.caption}
+                                </p>
+                            </a>
                         </Link>
                     </div>
                 </div>
                 <div
                     style={{ position: "relative", borderTop: "var(--border)" }}
                 >
-                    <CommentArea isCard={true} />
+                    <CommentArea isCard={true} id={id} />
                 </div>
 
             </div>
@@ -236,25 +216,36 @@ export const Post: React.FunctionComponent<post> = (props) => {
                 {
                     step === "actions" && (
                         <ul className={styles.modalBody}>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><AiOutlineDelete size={25} /><span>{localeTr.delete}</span></li>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>{localeTr.report}</span></li>
-                            <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>{localeTr.edit}</span></li>
-                            <li className={styles.actionItem}><BiCommentX size={25} /><span>{localeTr.closecomments}</span></li>
-                            <li className={styles.actionItem} onClick={followUnfollow}><RiUserUnfollowLine size={25} /><span>{following ? localeTr.unfollow : localeTr.follow}</span></li>
-                            <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>{localeTr.copyurl}</span> </li>
-                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>{localeTr.block}</span></li>
-                            <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
+                            {is_this_couple ? (
+                                <>
+                                    <li className={styles.actionItem} onClick={() => setStep("edit")}><MdModeEdit size={25} /><span>Edit</span></li>
+                                    <li className={styles.actionItem}><BiCommentX size={25} /><span>Close comments</span></li>
+                                    <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                                    <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><AiOutlineDelete size={25} /><span>Delete</span></li>
+                                    <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
+                                </>
+                            ) :
+                                (
+                                    <>
+                                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><MdBlock size={25} /><span>Block @{couple_name}</span></li>
+                                        <li className={styles.actionItem} onClick={followUnfollow}><RiUserUnfollowLine size={25} /><span>{following ? localeTr.unfollow : localeTr.follow} @{couple_name}</span></li>
+                                        <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                                        <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><MdReport size={25} /><span>Report</span></li>
+                                        <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
+                                    </>
+                                )
+                            }
                         </ul>
                     )
                 }
                 {
                     step === "edit" && (
-                        <EditPost closeModal={closeModal} />
+                        <EditPost closeModal={closeModal} caption={caption} location={location} id={id} />
                     )
                 }
                 {
                     step === "report" && (
-                        <ReportPost closeModal={closeModal} />
+                        <ReportPost closeModal={closeModal} id={id} />
                     )
                 }
                 <Prompt
@@ -262,7 +253,7 @@ export const Post: React.FunctionComponent<post> = (props) => {
                     close={() => setPrOpen(false)}
                     message="Delete post?"
                     dangerAction
-                    acceptFun={() => deletePost.mutate("62fbb634c079cdc660fa03de")}
+                    acceptFun={() => deletePost.mutate(id)}
                 />
             </Modal>
         </article >
@@ -497,19 +488,23 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
     const [comment, setComment] = useState("")
     const theme = useTheme()
 
-    const commentMutation = useMutation(
+    const { mutate, isLoading } = useMutation(
         (comment: string) => {
             return axios.post(`${BASEURL}/post/comment/${id}`, JSON.stringify({ comment }))
         },
         {
-            onSuccess: data => console.log(data),
+            onSuccess: data => {
+                setComment("")
+            },
             onError: err => console.log(err)
         }
     )
 
     const postComment = (e: FormEvent) => {
         e.preventDefault()
-        commentMutation.mutate(comment)
+        if (isLoading || comment === "") return
+        e.preventDefault()
+        mutate(comment)
     }
 
     return (
@@ -534,7 +529,7 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
                 ></textarea>
 
                 <div>
-                    <button>{localeTr.post}</button>
+                    <button>{isLoading ? "posting" : localeTr.post}</button>
                 </div>
 
             </form>
@@ -592,16 +587,25 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
 
 const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: string, hasLiked: boolean }> = ({ likes, comments, id, hasLiked }) => {
     const { locale } = useRouter()
-    const l = new Intl.NumberFormat(locale, { notation: "compact" }).format(likes)
-    const c = new Intl.NumberFormat(locale, { notation: "compact" }).format(comments)
+
     const [liked, setLiked] = useState(hasLiked)
+    const [likesNum, setLikes] = useState(likes)
+
+    const l = new Intl.NumberFormat(locale, { notation: "compact" }).format(likesNum)
+    const c = new Intl.NumberFormat(locale, { notation: "compact" }).format(comments)
+
 
     const likePost = useMutation(
-        () => {
-            return axios.patch(`${BASEURL}/post/${liked ? "unlike" : "like"}/${id}`)
+        (action: string) => {
+            return axios.patch(`${BASEURL}/post/${action}/${id}`)
         },
         {
-            onError: err => {
+            onError: () => {
+                if (liked) {
+                    setLikes(likesNum - 1)
+                } else {
+                    setLikes(likesNum + 1)
+                }
                 setLiked(!liked)
             }
         }
@@ -611,7 +615,13 @@ const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: 
         <div className={styles.postIcons}>
             <div className={styles.postIcon}>
                 <div onClick={() => {
-                    likePost.mutate()
+                    if (liked) {
+                        likePost.mutate("unlike")
+                        setLikes(likesNum - 1)
+                    } else {
+                        likePost.mutate("like")
+                        setLikes(likesNum + 1)
+                    }
                     setLiked(!liked)
                 }} style={{ cursor: "pointer" }} >
                     {liked ? <FaHeart size={25} color="var(--error)" /> : <AiOutlineHeart size={25} />}
@@ -704,18 +714,21 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }
     )
 }
 
-const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: string, location: string, id: string, pId: string }> =
+const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: string, location: string, id: string, pId?: string }> =
     ({ closeModal, caption, location, id, pId }) => {
         const locale = useRouter().locale || "en"
         const localeTr = tr[locale as Langs]
-        const editRef = useRef({ caption: "", location: "" })
+        const editRef = useRef({ caption: caption, location: location })
+        const queryclient = useQueryClient()
+
+
         const editMutation = useMutation(
             (edit: { caption: string, location: string }) => {
                 return axios.put(`${BASEURL}/post/${id}`, JSON.stringify(edit))
             },
             {
                 onSuccess: (data) => {
-                    useQueryClient().invalidateQueries(["post", { postId: pId }])
+                    queryclient.invalidateQueries(["post", { postId: pId }])
                     closeModal()
                 },
                 onError: (err) => {
@@ -745,7 +758,6 @@ const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: strin
                         <label htmlFor="caption">{localeTr.caption.title}</label>
                         <textarea
                             placeholder={localeTr.caption.placeholder}
-                            autoFocus
                             className={styles.textArea}
                             id="caption"
                             defaultValue={caption}

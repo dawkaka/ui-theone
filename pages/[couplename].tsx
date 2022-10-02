@@ -18,9 +18,9 @@ import { useRouter } from "next/router";
 import EditCouple from "../components/editprofile";
 import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
-import { Langs } from "../types";
+import { Langs, PostT } from "../types";
 import CouplePreview from "../components/couplepreview";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 
@@ -127,11 +127,6 @@ const CoupleProfile: NextPage = (props: any) => {
         () => axios.get(`${BASEURL}/${router.query.couplename}`),
         { initialData: props.couple, staleTime: Infinity })
 
-    const postQuery = useQuery(["posts", { coupleName: router.query.couplename }],
-        () => axios.get(`${BASEURL}/${router.query.couplename}/posts/0`), { retry: 1 })
-
-    console.log(postQuery.data)
-
     return (
         <>
             <Layout>
@@ -221,11 +216,7 @@ const CoupleProfile: NextPage = (props: any) => {
                                 </div>
                             </div>
                             <div className={styles.postsContainer}>
-                                <Post verified />
-                                <Post verified />
-                                <Post verified />
-                                <Post verified />
-                                <Post verified />
+                                <Posts coupleName={router.query.couplename as string} />
                             </div>
 
                         </section>
@@ -421,4 +412,46 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         }
     })
     return { props: { couple: { data: res.data } } }
+}
+
+
+const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
+
+    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/${coupleName}/posts/${pageParam}`)
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery(["posts", { coupleName }], fetchPosts,
+        {
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.data.pagination.end) {
+                    return undefined
+                }
+                return lastPage.data.pagination.next
+            }
+        })
+
+    let posts: any[] = []
+    if (data?.pages) {
+        for (let page of data?.pages) {
+            posts = posts.concat(page.data.posts)
+        }
+    }
+    return (
+        <>
+            {
+                posts.map((post: PostT) => {
+                    return (
+                        <Post key={post.id} {...post} />
+                    )
+                })
+            }
+            {isFetching && <h3>Loading...</h3>}
+            {(!isFetching && hasNextPage) && <button onClick={() => fetchNextPage()}>Load more</button>}
+
+        </>
+    )
 }

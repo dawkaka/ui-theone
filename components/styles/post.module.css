@@ -3,6 +3,7 @@
     margin-bottom: var(--gap);
     border: var(--border);
     width: min(100vw, 470px);
+    min-height: 100px;
     border-radius: var(--radius-small);
 }
 

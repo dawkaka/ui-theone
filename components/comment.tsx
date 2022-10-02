@@ -141,7 +141,6 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
       comments = comments.concat(page.data.comments)
     }
   }
-  console.log(comments)
   return (
     <div className={styles.commentsContainer}>
       {
