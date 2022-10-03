@@ -9,6 +9,9 @@ import tr from "../../i18n/locales/explore..json"
 import { useRouter } from "next/router"
 import { Langs } from "../../types"
 import { SearchCouple, SearchUser } from "../../components/mis"
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { BASEURL, IMAGEURL } from "../../constants"
 
 
 export default function Explore() {
@@ -54,6 +57,7 @@ export default function Explore() {
             tabScrollRef.current = false
         }, 500);
     }
+
     return (
         <Layout>
 
@@ -85,50 +89,9 @@ export default function Explore() {
                             </div>
                             <div className={styles.searchResults} ref={scrollRef}>
 
-                                <div className={styles.resultsContainer}>
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" hasPartner />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" hasPartner />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" hasPartner />
-                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Yussif Mohammed" picture="/med.jpg" hasPartner />
-                                    <SearchUser userName="jane.doe" fullName="Jane Doe" picture="/med.jpg" />
-                                    <SearchUser userName="jane.doe" fullName="Foo Bar" picture="/med.jpg" />
-                                </div>
+                                <UserResults query={query} active={tab === "users"} />
 
-                                <div className={styles.resultsContainer}>
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-                                    <SearchCouple name="jones.bond" picture="/med.jpg" status="married" verified />
-
-                                </div>
+                                <CoupleResuts query={query} active={tab != "users"} />
 
                             </div>
 
@@ -139,21 +102,72 @@ export default function Explore() {
                     </div>
 
                     <div className={styles.ntfs}>
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
-                        <Post />
+
                     </div>
                 </section>
                 <Suggestions />
             </div >
         </Layout >
+    )
+}
+
+const UserResults: React.FC<{ query: string, active: boolean }> = ({ query, active }) => {
+
+    const { isLoading, data } = useQuery(
+        ["search-users", { query }],
+        () => axios.get(`${BASEURL}/user/search/${query}`),
+        {
+            enabled: active,
+            staleTime: Infinity
+        }
+    )
+    console.log(data)
+    const res = data?.data ? data.data : []
+
+    return (
+        <div className={styles.resultsContainer}>
+            {isLoading && <h3>Loading...</h3>}
+            {
+                res.map((user: any) => (
+                    <SearchUser
+                        key={user.user_name}
+                        userName={user.user_name}
+                        fullName={user.first_name + " " + user.last_name}
+                        picture={`${IMAGEURL}/${user.profile_picture}`} hasPartner={user.has_partner} />
+                )
+                )
+            }
+        </div>
+    )
+}
+
+const CoupleResuts: React.FC<{ query: string, active: boolean }> = ({ query, active }) => {
+    const { isLoading, data } = useQuery(
+        ["search-couple", { query }],
+        () => axios.get(`${BASEURL}/couple/search/${query}`),
+        {
+            enabled: active,
+            staleTime: Infinity
+        }
+    )
+    console.log(data)
+    const res = data?.data ? data.data : []
+
+    return (
+        <div className={styles.resultsContainer}>
+            {isLoading && <h3>Loading...</h3>}
+            {
+                res.map((couple: any) => (
+                    <SearchCouple
+                        key={couple.couple_name}
+                        name={couple.couple_name}
+                        verified={couple.verified}
+                        picture={`${IMAGEURL}/${couple.profile_picture}`}
+                        status={couple.married}
+                    />
+                )
+                )
+            }
+        </div>
     )
 }

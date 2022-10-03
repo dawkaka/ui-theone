@@ -136,7 +136,6 @@ export default function Profile(props: any) {
         }
     )
 
-    const showImages = ["/med.jpg", "/med2.jpg", "/me.jpg", "/me3.jpg", "/me2.jpg", "/me5.jpg"]
     const { isLoading, data } = useQuery(["profile", { name: router.query.name }],
         () => axios.get(`${BASEURL}/user/${router.query.name}`),
         { initialData: props.user, staleTime: Infinity })
@@ -180,7 +179,7 @@ export default function Profile(props: any) {
                                             {
                                                 !data.data.is_this_user ?
                                                     <button type="button" className={styles.requestButton}
-                                                        style={{ opacity: data.data.has_partner ? 0.5 : 1 }}
+                                                        style={{ opacity: data.data.has_partner ? "0.5" : "1" }}
                                                         onClick={() => {
                                                             if (data.data.has_partner) return
                                                             setPrOpen(true)
@@ -204,9 +203,13 @@ export default function Profile(props: any) {
                                 {data.data.bio}
                             </h2>
                         </div>
-                        <div className={styles.actions} onClick={() => setOpenSettings(true)}>
-                            <Actions orientation="landscape" size={25} />
-                        </div>
+                        {
+                            data.data.is_this_user && (
+                                <div className={styles.actions} onClick={() => setOpenSettings(true)}>
+                                    <Actions orientation="landscape" size={25} />
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 <div className={styles.profileBottom}>
