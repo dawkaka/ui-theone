@@ -184,11 +184,14 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                         </div>
                         }
                     </div>
+                    <div className={styles.viewSliderPos}>
+                        {
+                            files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} />))
+
+                        }
+                    </div>
                     <div className={styles.postStats}>
                         <PostIcons likes={likes_count} comments={comments_count} id={props.id} hasLiked={has_liked} />
-                        <div className={styles.sliderPos}>
-                            <small>{files?.length - curr - 1 > 0 ? `+${files?.length - 1 - curr} ${localeTr.more}` : ""}</small>
-                        </div>
                     </div>
                     <div className={styles.captionContainer}>
                         <Link
@@ -354,15 +357,15 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
     const post = data.data
     return (
         <div className={styles.viewContent}>
-
             <div className={styles.viewFiles}>
                 <div className={styles.filesContainer}>
                     <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent" }}>
                         {
                             post.files.map((file: any) => (<div className={styles.fileContainer} key={file.name}>
-                                <img
+                                <Image
                                     src={`${IMAGEURL}/${file.name}`}
-                                    style={{ width: "100%" }}
+                                    width={post.files[0].width}
+                                    height={post.files[0].height}
                                 />
                             </div>))
                         }
@@ -377,7 +380,9 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                     }
                 </div>
                 <div className={styles.viewSliderPos}>
-                    <small>{post.files.length - curr - 1 > 0 ? `+${post.files.length - 1 - curr} ${localeTr.more}` : ""}</small>
+                    {
+                        post.files.length > 1 && post.files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} />))
+                    }
                 </div>
             </div>
 
@@ -779,6 +784,13 @@ const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: strin
             </div>
         )
     }
+
+const SliderIndicator: React.FC<{ pos: number, curr: number }> = ({ pos, curr }) => {
+    return (
+        <div className={`${styles.indicator} ${pos === curr ? styles.indicatorActive : ""}`}>
+        </div>
+    )
+}
 
 
 export default PostFullView

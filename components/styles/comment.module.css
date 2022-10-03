@@ -56,6 +56,12 @@
     height: 80%;
 }
 
+@media screen and(max-width:700px) {
+    .commentsContainer {
+        height: 100%;
+    }
+}
+
 @media screen and (max-width: 400px) {
     .container {
         padding-inline: var(--gap-quarter);
