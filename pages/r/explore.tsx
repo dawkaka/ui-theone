@@ -53,9 +53,7 @@ export default function Explore() {
         } else {
             scrollRef.current?.scroll({ behavior: "smooth", left: 1000 })
         }
-        setTimeout(() => {
-            tabScrollRef.current = false
-        }, 500);
+        tabScrollRef.current = false
     }
 
     return (
@@ -80,7 +78,7 @@ export default function Explore() {
                                     <div className={`${styles.indicator} ${styles.indOne} ${tab === "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={`${styles.tabItem}`} onClick={() => tabNavigation("couples")}>
-                                    <p>{localeTr.couples}</p>
+                                    <p>Others</p>
                                     <div className={`${styles.indicator} ${styles.indTwo} ${tab !== "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={styles.closeSearch} onClick={() => setQuery("")}>
@@ -88,11 +86,8 @@ export default function Explore() {
                                 </div>
                             </div>
                             <div className={styles.searchResults} ref={scrollRef}>
-
-                                <UserResults query={query} active={tab === "users"} />
-
-                                <CoupleResuts query={query} active={tab != "users"} />
-
+                                <SearchResults query={query} active={tab === "users"} type="user" />
+                                <SearchResults query={query} active={tab != "users"} type="couple" />
                             </div>
 
                         </div>
@@ -111,11 +106,11 @@ export default function Explore() {
     )
 }
 
-const UserResults: React.FC<{ query: string, active: boolean }> = ({ query, active }) => {
+const SearchResults: React.FC<{ query: string, active: boolean, type: string }> = ({ query, active, type }) => {
 
     const { isLoading, data } = useQuery(
-        ["search-users", { query }],
-        () => axios.get(`${BASEURL}/user/search/${query}`),
+        [`search-${type}`, { query }],
+        () => axios.get(`${BASEURL}/${type}/search/${query}`),
         {
             enabled: active,
             staleTime: Infinity
@@ -128,42 +123,19 @@ const UserResults: React.FC<{ query: string, active: boolean }> = ({ query, acti
         <div className={styles.resultsContainer}>
             {isLoading && <h3>Loading...</h3>}
             {
-                res.map((user: any) => (
+                res.map((item: any) => type === "user" ? (
                     <SearchUser
-                        key={user.user_name}
-                        userName={user.user_name}
-                        fullName={user.first_name + " " + user.last_name}
-                        picture={`${IMAGEURL}/${user.profile_picture}`} hasPartner={user.has_partner} />
-                )
-                )
-            }
-        </div>
-    )
-}
-
-const CoupleResuts: React.FC<{ query: string, active: boolean }> = ({ query, active }) => {
-    const { isLoading, data } = useQuery(
-        ["search-couple", { query }],
-        () => axios.get(`${BASEURL}/couple/search/${query}`),
-        {
-            enabled: active,
-            staleTime: Infinity
-        }
-    )
-    console.log(data)
-    const res = data?.data ? data.data : []
-
-    return (
-        <div className={styles.resultsContainer}>
-            {isLoading && <h3>Loading...</h3>}
-            {
-                res.map((couple: any) => (
+                        key={item.user_name}
+                        userName={item.user_name}
+                        fullName={item.first_name + " " + item.last_name}
+                        picture={`${IMAGEURL}/${item.profile_picture}`} hasPartner={item.has_partner} />
+                ) : (
                     <SearchCouple
-                        key={couple.couple_name}
-                        name={couple.couple_name}
-                        verified={couple.verified}
-                        picture={`${IMAGEURL}/${couple.profile_picture}`}
-                        status={couple.married}
+                        key={item.couple_name}
+                        name={item.couple_name}
+                        verified={item.verified}
+                        picture={`${IMAGEURL}/${item.profile_picture}`}
+                        status={item.married}
                     />
                 )
                 )

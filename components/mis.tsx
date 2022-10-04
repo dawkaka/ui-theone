@@ -136,7 +136,7 @@ export const SearchUser: React.FunctionComponent<{
     userName: string, picture: string, fullName: string
 }> = ({ hasPartner, userName, picture, fullName }) => {
     return (
-        <Link href={`/user/${userName}`}>
+        <Link href={`/user/${userName}`} shallow>
             <a>
                 <article style={{ display: "flex", alignItems: "center", gap: "var(--gap-half)", marginBottom: "var(--gap-half)" }}>
 
@@ -161,7 +161,7 @@ export const SearchCouple: React.FunctionComponent<{
     picture: string
 }> = ({ verified, status, name, picture }) => {
     return (
-        <Link href={`/${name}`}>
+        <Link href={`/${name}`} shallow>
             <a>
                 <article style={{ display: "flex", alignItems: "center", gap: "var(--gap-half)", marginBottom: "var(--gap-half)" }}>
                     <div>
