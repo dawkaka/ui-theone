@@ -24,7 +24,6 @@ export default function Explore() {
     const tabScrollRef = useRef(false)
 
     useEffect(() => {
-
         const scrollFunc = () => {
             if (tabScrollRef.current) return
             let width = window.getComputedStyle(scrollRef.current!).width
@@ -36,14 +35,13 @@ export default function Explore() {
             } else {
                 setTab("couples")
             }
+            tabScrollRef.current = false
         }
-
         scrollRef.current?.addEventListener("scroll", scrollFunc)
-
         return () => {
             scrollRef.current?.removeEventListener("scroll", scrollFunc)
         }
-    }, [])
+    })
 
     const tabNavigation = (t: "users" | "couples") => {
         setTab(t)
@@ -53,7 +51,10 @@ export default function Explore() {
         } else {
             scrollRef.current?.scroll({ behavior: "smooth", left: 1000 })
         }
-        tabScrollRef.current = false
+        setTimeout(() => {
+            tabScrollRef.current = false
+        }, 300)
+
     }
 
     return (
@@ -67,7 +68,8 @@ export default function Explore() {
                             placeholder={`${localeTr.search} el wahid`}
                             value={query}
                             onChange={(e) => {
-                                setQuery(e.currentTarget.value)
+                                setQuery(e.target.value)
+                                if (e.target.value.length === 0) setTab("users")
                             }} />
                         <FaSearch className={styles.searchIcon} color="var(--accents-3)" />
 
@@ -78,7 +80,7 @@ export default function Explore() {
                                     <div className={`${styles.indicator} ${styles.indOne} ${tab === "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={`${styles.tabItem}`} onClick={() => tabNavigation("couples")}>
-                                    <p>Others</p>
+                                    <p>{localeTr.couples}</p>
                                     <div className={`${styles.indicator} ${styles.indTwo} ${tab !== "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={styles.closeSearch} onClick={() => setQuery("")}>
