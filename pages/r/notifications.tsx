@@ -9,29 +9,27 @@ import { AiFillMessage } from "react-icons/ai";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/notifications.json"
 import { Langs } from "../../types";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../../constants";
 
 export default function Notifications() {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+    const { isLoading, data } = useQuery(["notifications"], () => axios.get(`${BASEURL}/user/notifications/0`))
+    console.log(data)
     return (
         <Layout>
             <div className={styles.main}>
                 <section className={styles.ntfsContainer}>
                     <Header title={localeTr.notifications} arrow={false} />
                     <div className={styles.ntfs}>
-                        <Notification />
-                        <Notification type="comment" />
-                        <Notification />
-                        <Notification type="follower" />
-                        <Notification />
-                        <Notification />
-                        <Notification />
-                        <Notification />
-                        <Notification />
-                        <Notification />
-                        <Notification />
-                        <Notification />
+                        {
+                            data?.data.notifications.map((notif: any) => (
+                                <Notification type={notif.type} message={notif.message} />
+                            ))
+                        }
                     </div>
                 </section>
                 <Suggestions />
@@ -43,13 +41,14 @@ export default function Notifications() {
 
 
 const Notification: React.FunctionComponent<{
-    type?: "like" | "comment" | "follower"
-}> = ({ type }) => {
+    type?: "like" | "comment" | "follow",
+    message: string
+}> = ({ type, message }) => {
 
     let icon = <FaHeart size={30} color="var(--error-dark)" />
     if (type === "comment") {
         icon = <AiFillMessage size={30} color="limegreen" />
-    } else if (type === "follower") {
+    } else if (type === "follow") {
         icon = <FaUser size={30} color="var(--success)" />
     }
     return (
@@ -80,7 +79,7 @@ const Notification: React.FunctionComponent<{
                             </p>
                         </div>
                         <div style={{ marginTop: "var(--gap-quarter" }}>
-                            <p>Hello world I am suraj</p>
+                            <p>{message}</p>
                         </div>
                     </div>
                 </article>
