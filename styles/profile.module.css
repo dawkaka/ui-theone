@@ -257,8 +257,7 @@
 }
 
 .profileBottom {
-    --gap: 5px;
-    padding: var(--gap);
+    margin-bottom: var(--gap-quarter);
 }
 
 .editButton {
@@ -270,7 +269,24 @@
 .showImagesWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--gap)
+}
+
+@media screen and (max-width: 850px) {
+    .showImagesWrapper {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .profileBottom {
+        margin-bottom: 50px
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .showImagesWrapper {
+        grid-template-columns: 1fr;
+    }
 }
 
 .showImageContainer {
@@ -301,7 +317,11 @@
     display: "block"
 }
 
+
 @media only screen and (max-width:500px) {
+    .profileBottom {
+        margin-bottom: 50px
+    }
 
     .profileTopContainer {
         justify-content: grid;
@@ -341,10 +361,5 @@
 
     .bio {
         text-align: center;
-    }
-
-    .profileBottom {
-        --gap: 2px;
-        margin-bottom: var(--gap-double);
     }
 }
