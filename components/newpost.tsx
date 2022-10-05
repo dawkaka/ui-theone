@@ -14,6 +14,7 @@ import { Langs } from "../types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../constants";
+//import Cropper from "cropperjs";
 
 Modal.setAppElement("body")
 
@@ -24,37 +25,31 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [caption, setCaption] = useState("")
     const [aspectRatio, setAspectRatio] = useState(1)
     const [lockAsRatio, setLockAsRatio] = useState(false)
-    const [flash, setFlash] = useState(true)
+    const [image, setImage] = useState<string>()
     const [alt, setAlt] = useState<string[]>(new Array(10).fill(""))
     const [carouselCurrent, setCarouselCurrent] = useState(0)
     const [currAlt, setCurrentAlt] = useState(alt[carouselCurrent])
     const [location, setLocation] = useState("")
+    const [cropper, setCropper] = useState<Cropper>()
 
-    const files = useRef<File[]>([])
+    const files = useRef<string[]>([])
     const blobs = useRef<string[]>([])
     const cropperRef = useRef<any>(null);
-    const blob = useRef("")
     const altRef = useRef<HTMLDivElement>(null)
     const altTextRef = useRef<HTMLTextAreaElement>(null)
-    const imgRef = useRef<HTMLImageElement>(null)
-
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-
-
 
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const fs = e.currentTarget.files
         if (fs) {
             const reader = new FileReader()
-            files.current.push(fs[0])
             reader.readAsDataURL(fs[0])
             reader.onload = (e) => {
-                const _URL = window.URL || window.webkitURL
-                const blb = _URL.createObjectURL(fs[0]);
-                cropperRef.current!.src = blb
-                blobs.current.push(blb)
+                files.current.push(reader.result as any)
+                setImage(reader.result as any);
+                blobs.current.push(reader.result as any)
             }
             setStep(1)
         }
@@ -64,22 +59,20 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         if (!lockAsRatio) {
             setLockAsRatio(true)
         }
+        if (files.current.length > 9) {
+            alert("Images cant' be more than 10")
+            return
+        }
         const fs = e.currentTarget.files
         if (fs) {
             const reader = new FileReader()
-            files.current.push(fs[0])
             reader.readAsDataURL(fs[0])
             reader.onload = (e) => {
-                const _URL = window.URL || window.webkitURL
-                const blb = _URL.createObjectURL(fs[0]);
-                cropperRef.current!.src = blb
-                blobs.current.push(blb)
+                files.current.push(reader.result as any)
+                blobs.current.push(reader.result as any)
+                setImage(reader.result as any);
             }
         }
-        setFlash(false)
-        setTimeout(() => {
-            setFlash(true)
-        });
     }
 
 
@@ -91,47 +84,31 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     }
 
     const changeAspectRatio = (a: number) => {
-        if (aspectRatio === a) return
-        setAspectRatio(a)
-        setFlash(false)
-        setTimeout(() => {
-            setFlash(true)
-        });
-
+        cropper?.setAspectRatio(a)
     }
 
 
     useEffect(() => {
-        const _URL = window.URL || window.webkitURL
-        if (step === 1) {
-            if (files.current.length > 0) {
-                cropperRef.current!.src = _URL.createObjectURL(files.current[files.current.length - 1]);
-            }
+        if (files.current.length > 0) {
+            const _URL = window.URL || window.webkitURL
+            setImage(files.current[files.current.length - 1] as any)
         }
 
-        if (imgRef.current) {
-            imgRef.current.src = blob.current
-        }
-
-    }, [step])
+    })
 
     const onCrop = () => {
         const data = cropperRef.current?.cropper.getCroppedCanvas().toDataURL("image/jpeg") as string
-        blob.current = data
+
         blobs.current[blobs.current.length - 1] = data
     }
 
     const removeImage = () => {
         if (files.current.length == 1) return
-        cropperRef.current!.src = files.current.pop()
+        setImage(files.current.pop() as any)
         blobs.current.pop()
         if (files.current.length === 1) {
             setLockAsRatio(false)
         }
-        setStep(10)
-        setTimeout(() => {
-            setStep(1)
-        });
     }
 
     const handleAltText = () => {
@@ -188,13 +165,11 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         setCaption("")
         setAspectRatio(1)
         setLockAsRatio(false)
-        setFlash(true)
         setAlt(new Array(10).fill(""))
         setCarouselCurrent(0)
+        setImage("")
         files.current = []
         blobs.current = []
-        blob.current = ""
-
     }
 
     return (
@@ -259,7 +234,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
             }
             {
                 step === 1 && (
-                    <div className={styles.modalBody}>
+                    <div className={styles.modalBody} style={{ justifyContent: "flex-start" }}>
                         <div className={styles.requestHeader}>
                             <div className={styles.backIcon} onClick={() => setStep(0)}>
                                 <BiArrowBack size={20} color="var(--accents-6)" />
@@ -273,9 +248,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 <p>{localeTr.next}</p>
                             </div>
                         </div>
-                        <div className={styles.fileContent}>
-                            {flash && <Cropper
-                                src={cropperRef.current?.src}
+                        <div className={styles.fileContent} style={{ justifyContent: "flex-start" }}>
+                            <Cropper
+                                src={image}
                                 dragMode="move"
                                 style={{ height: "500px" }}
                                 // Cropper.js options
@@ -291,10 +266,12 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 guides={false}
                                 highlight={false}
                                 zoomTo={0}
+                                onInitialized={(instance) => {
+                                    setCropper(instance);
+                                }}
                                 crop={onCrop}
                                 ref={cropperRef}
                             />
-                            }
                             <div className={styles.aspectRatios}>
                                 <div className={styles.addImage}>
                                     <AiOutlinePlus />
@@ -309,28 +286,31 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                     <AiOutlineMinus color="var(--background)" />
                                 </div>
                                 {
-                                    !lockAsRatio ?
-                                        <div className={styles.square}
-                                            onClick={() => changeAspectRatio(1)}></div>
-                                        :
-                                        null
-                                }
-                                {
-                                    !lockAsRatio ?
-                                        <div className={styles.landscape}
-                                            onClick={() => changeAspectRatio(16 / 9)}></div>
-                                        :
-                                        null
-                                }
-                                {
-                                    !lockAsRatio ? <div className={styles.portrait}
-                                        onClick={() => changeAspectRatio(4 / 5)}></div>
-                                        :
-                                        null
+                                    !lockAsRatio && (
+                                        <>
+                                            <div className={styles.square}
+                                                onClick={() => changeAspectRatio(1)}></div>
+                                            <div className={styles.landscape}
+                                                onClick={() => changeAspectRatio(16 / 9)}></div>
+                                            <div className={styles.portrait}
+                                                onClick={() => changeAspectRatio(4 / 5)}></div>
+                                        </>
+                                    )
+
                                 }
                             </div>
-                        </div >
-                    </div >
+                            <div style={{ display: "flex", overflowX: "scroll", marginTop: "var(--gap-half)" }}>
+                                {
+                                    files.current.map(file => {
+                                        return (
+                                            <img src={file} width="90px" style={{ flexShrink: 1 }} />
+                                        )
+                                    })
+                                }
+                            </div>
+
+                        </div>
+                    </div>
                 )
             }
             {
