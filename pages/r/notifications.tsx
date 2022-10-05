@@ -27,7 +27,12 @@ export default function Notifications() {
                     <div className={styles.ntfs}>
                         {
                             data?.data.notifications.map((notif: any) => (
-                                <Notification type={notif.type} message={notif.message} />
+                                <Notification
+                                    type={notif.type} message={notif.message}
+                                    title={notif.title} postId={notif.post_id}
+                                    name={notif.name}
+                                    profilePicture={notif.profile}
+                                />
                             ))
                         }
                     </div>
@@ -41,9 +46,13 @@ export default function Notifications() {
 
 
 const Notification: React.FunctionComponent<{
-    type?: "like" | "comment" | "follow",
-    message: string
-}> = ({ type, message }) => {
+    type?: "like" | "comment" | "follow" | "PartnerPosted",
+    message: string,
+    title: string,
+    postId?: string,
+    profilePicture: string,
+    name?: string
+}> = ({ type, message, title, postId, name, profilePicture }) => {
 
     let icon = <FaHeart size={30} color="var(--error-dark)" />
     if (type === "comment") {
@@ -52,7 +61,7 @@ const Notification: React.FunctionComponent<{
         icon = <FaUser size={30} color="var(--success)" />
     }
     return (
-        <Link href="/water/blue">
+        <Link href={type === "comment" || type === "PartnerPosted" ? `/${name}/${postId}` : `/user/${name}`}>
             <a>
                 <article className={styles.notifContainer}>
                     <div className={styles.notifIconContainer}>
@@ -72,11 +81,9 @@ const Notification: React.FunctionComponent<{
                             </div>
                         </div>
                         <div>
-                            <p>
-                                <span className={styles.userName}>jon.doe</span>,
-                                <span className={styles.userName}> silvia_saige</span>
-                                {' '}and <span className={styles.userName}>47 others </span>liked you post
-                            </p>
+                            <h5>
+                                {title}
+                            </h5>
                         </div>
                         <div style={{ marginTop: "var(--gap-quarter" }}>
                             <p>{message}</p>
