@@ -15,10 +15,9 @@
 
 @media only screen and (max-width: 750px) {
     .container {
-        max-height: 100%;
+        height: 100%;
         border: none;
         margin: 0;
-        padding-top: 50px;
     }
 
     .headerContainer {
