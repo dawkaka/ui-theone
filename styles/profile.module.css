@@ -310,7 +310,8 @@
 }
 
 .followingContent {
-    height: 80vh;
+    min-height: 50vh;
+    max-height: 80vh;
     width: 100%;
     padding: var(--gap);
     overflow-y: auto;

@@ -351,6 +351,31 @@ const CoupleProfile: NextPage = (props: any) => {
 
 
 const Followers: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
+    const { query: { couplename } } = useRouter()
+    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/${couplename}/followers/${pageParam}`)
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery(["followers", { couplename }], fetchPosts,
+        {
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.data.pagination.end) {
+                    return undefined
+                }
+                return lastPage.data.pagination.next
+            }
+        })
+    let followers: any[] = []
+    if (data?.pages) {
+        for (let page of data?.pages) {
+            followers = followers.concat(page.data.followers)
+        }
+    }
+
+
     return (
         <Modal isOpen={open} onRequestClose={close}
 
@@ -376,7 +401,7 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
                 }
             }}
         >
-            <div className={styles.modalBody}>
+            <div className={styles.modalBody} style={{ maxWidth: "400px" }}>
                 <div className={styles.requestHeader}>
                     <p>{" "}</p>
                     <p>{heading}</p>
@@ -388,19 +413,16 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
                 </div>
                 <div className={styles.followersContent}>
                     <div>
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif MohammedYUssifMohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
-                        <SearchUser userName="youisph.is.here" picture="/med.jpg" hasPartner fullName="Yussif Mohammed" />
+                        {
+                            followers.map(follower => (
+                                <SearchUser
+                                    picture={`${IMAGEURL}/${follower.profile_picture}`}
+                                    userName={follower.user_name}
+                                    hasPartner={follower.has_partner}
+                                    fullName={follower.first_name + " " + follower.last_name}
+                                />
+                            ))
+                        }
                     </div>
                 </div>
 

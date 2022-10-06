@@ -17,7 +17,7 @@ import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
 import { Langs } from "../../types";
 import CouplePreview from "../../components/couplepreview";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../../constants";
 import { Prompt } from "../../components/prompt";
@@ -382,6 +382,30 @@ const ShowPicture: React.FunctionComponent<{
     }
 
 const Following: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
+    const { query: { name } } = useRouter()
+    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/following/${name}/${pageParam}`)
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery(["followers", { name }], fetchPosts,
+        {
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.data.pagination.end) {
+                    return undefined
+                }
+                return lastPage.data.pagination.next
+            }
+        })
+    let following: any[] = []
+    if (data?.pages) {
+        for (let page of data?.pages) {
+            following = following.concat(page.data.following)
+        }
+    }
+
     return (
         <Modal isOpen={open} onRequestClose={close}
 
@@ -407,7 +431,7 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                 }
             }}
         >
-            <div className={styles.modalBody}>
+            <div className={styles.modalBody} style={{ maxWidth: "400px" }}>
                 <div className={styles.requestHeader}>
                     <p>{" "}</p>
                     <p>{heading}</p>
@@ -418,26 +442,13 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                     </div>
                 </div>
                 <div className={styles.followingContent}>
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-                    <CouplePreview name="miss.c.nasty" profile_picture="/med.jpg" status="married" isFollowing={true} verified={true} />
-
+                    {
+                        following.map(flw => (
+                            <CouplePreview name={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} isFollowing={false} verified={flw.verified} />
+                        ))
+                    }
                 </div>
-
-
             </div>
-
         </Modal>
     )
 

@@ -8,18 +8,19 @@ import { Langs } from "../types";
 import { Mutation, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../constants";
+import Link from "next/link";
 
 
 interface couple {
     name: string;
     isFollowing: boolean;
-    status: string;
+    married: boolean;
     profile_picture: string;
     verified: boolean
 }
 
 
-const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, status, profile_picture, verified }) => {
+const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, married, profile_picture, verified }) => {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
@@ -46,18 +47,23 @@ const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, sta
     }
 
     return (
-        <article className={styles.container}>
-            <div className={styles.infoContainer}>
-                <div className={styles.imageContainer}>
-                    <Image className={styles.image} src={profile_picture} height="45px" width="45px" layout="fixed" />
-                </div>
-                <div className={styles.coupleInfo}>
-                    <h4>{name}{' '} {verified ? <Verified size={14} /> : ""}</h4>
-                    <p className={styles.status}>{status}</p>
-                </div>
-            </div>
-            <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
-        </article>
+        <Link href={`/${name}`}>
+            <a>
+                <article className={styles.container}>
+
+                    <div className={styles.infoContainer}>
+                        <div className={styles.imageContainer}>
+                            <Image className={styles.image} src={profile_picture} height="45px" width="45px" layout="fixed" />
+                        </div>
+                        <div className={styles.coupleInfo}>
+                            <h4>{name}{' '} {verified ? <Verified size={14} /> : ""}</h4>
+                            <p className={styles.status}>{married ? "married" : "dating"}</p>
+                        </div>
+                    </div>
+                    <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
+                </article >
+            </a>
+        </Link>
     )
 }
 
