@@ -25,31 +25,36 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [caption, setCaption] = useState("")
     const [aspectRatio, setAspectRatio] = useState(1)
     const [lockAsRatio, setLockAsRatio] = useState(false)
-    const [image, setImage] = useState<string>()
+    const [image, setImage] = useState<{ data: string }>({ data: "" })
     const [alt, setAlt] = useState<string[]>(new Array(10).fill(""))
     const [carouselCurrent, setCarouselCurrent] = useState(0)
     const [currAlt, setCurrentAlt] = useState(alt[carouselCurrent])
     const [location, setLocation] = useState("")
     const [cropper, setCropper] = useState<Cropper>()
 
+
     const files = useRef<string[]>([])
     const blobs = useRef<string[]>([])
-    const cropperRef = useRef<any>(null);
+    //index of file to crop
+    const ind = useRef<number>(0)
+    const cropperRef = useRef<any>(null)
     const altRef = useRef<HTMLDivElement>(null)
     const altTextRef = useRef<HTMLTextAreaElement>(null)
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
 
+
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const fs = e.currentTarget.files
         if (fs) {
             const reader = new FileReader()
             reader.readAsDataURL(fs[0])
-            reader.onload = (e) => {
-                files.current.push(reader.result as any)
-                setImage(reader.result as any);
-                blobs.current.push(reader.result as any)
+            reader.onload = () => {
+                files.current.push(reader.result as string)
+                setImage({ data: reader.result as string });
+                blobs.current.push(reader.result as string)
+                e.target.value = ""
             }
             setStep(1)
         }
@@ -67,10 +72,12 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         if (fs) {
             const reader = new FileReader()
             reader.readAsDataURL(fs[0])
-            reader.onload = (e) => {
+            reader.onload = () => {
                 files.current.push(reader.result as any)
                 blobs.current.push(reader.result as any)
-                setImage(reader.result as any);
+                ind.current = blobs.current.length - 1
+                setImage({ data: reader.result as any })
+                e.target.value = ""
             }
         }
     }
@@ -90,22 +97,36 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     useEffect(() => {
         if (files.current.length > 0) {
-            const _URL = window.URL || window.webkitURL
-            setImage(files.current[files.current.length - 1] as any)
+            setImage({ data: files.current[ind.current] })
         }
 
-    })
-
+    }, [])
     const onCrop = () => {
         const data = cropperRef.current?.cropper.getCroppedCanvas().toDataURL("image/jpeg") as string
-
-        blobs.current[blobs.current.length - 1] = data
+        blobs.current[ind.current] = data
     }
 
-    const removeImage = () => {
-        if (files.current.length == 1) return
-        setImage(files.current.pop() as any)
-        blobs.current.pop()
+    const removeImage = (index: number) => {
+        if (files.current.length == 1 || index > files.current.length - 1 || index < 0) return
+        if (ind.current === index) {
+            if (index + 1 < files.current.length) {
+                setImage({ data: files.current[index + 1] })
+            } else {
+                ind.current = ind.current - 1
+                setImage({ data: files.current[ind.current] })
+            }
+        } else {
+            setImage({ data: image.data })
+            if (index < ind.current) {
+                ind.current = ind.current - 1
+            }
+        }
+        files.current.splice(index, 1)
+        blobs.current.splice(index, 1)
+        const updALT = alt
+        updALT.splice(index, 1)
+        updALT.push("")
+        setAlt(updALT)
         if (files.current.length === 1) {
             setLockAsRatio(false)
         }
@@ -167,7 +188,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         setLockAsRatio(false)
         setAlt(new Array(10).fill(""))
         setCarouselCurrent(0)
-        setImage("")
+        setImage({ data: "" })
         files.current = []
         blobs.current = []
     }
@@ -250,7 +271,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                         </div>
                         <div className={styles.fileContent} style={{ justifyContent: "flex-start" }}>
                             <Cropper
-                                src={image}
+                                src={image.data}
                                 dragMode="move"
                                 style={{ height: "500px" }}
                                 // Cropper.js options
@@ -282,9 +303,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                         onChange={addImage}
                                     />
                                 </div>
-                                <div onClick={removeImage}>
+                                {/* <div onClick={removeImage}>
                                     <AiOutlineMinus color="var(--background)" />
-                                </div>
+                                </div> */}
                                 {
                                     !lockAsRatio && (
                                         <>
@@ -301,9 +322,13 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             </div>
                             <div style={{ display: "flex", overflowX: "scroll", marginTop: "var(--gap-half)" }}>
                                 {
-                                    files.current.map(file => {
+                                    files.current.map((file, index) => {
                                         return (
-                                            <img src={file} width="90px" style={{ flexShrink: 1 }} />
+                                            <ImagePreview file={file} key={index} remove={() => removeImage(index)} activate={async () => {
+                                                setImage({ data: file });
+                                                ind.current = index
+
+                                            }} />
                                         )
                                     })
                                 }
@@ -419,6 +444,28 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                 )
             }
         </Modal >
+
+    )
+}
+
+
+const ImagePreview: React.FC<{ file: string, remove: () => void, activate: () => void }> = ({ file, remove, activate }) => {
+    return (
+        <div style={{ position: "relative" }}>
+            <div
+                onClick={remove}
+                style={{
+                    position: "absolute",
+                    borderRadius: "50%", backgroundColor: "rgba(0,0,0,0.7)",
+                    padding: "5px", right: "0",
+                    display: "grid", placeItems: "cneter",
+                    cursor: "pointer",
+                }}>
+                <IoMdClose size={20} color="white" />
+            </div>
+
+            <img src={file} width="90px" height={"90px"} style={{ flexShrink: 1 }} onClick={activate} />
+        </div>
 
     )
 }
