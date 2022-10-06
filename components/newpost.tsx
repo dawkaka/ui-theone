@@ -31,6 +31,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [currAlt, setCurrentAlt] = useState(alt[carouselCurrent])
     const [location, setLocation] = useState("")
     const [cropper, setCropper] = useState<Cropper>()
+    const [zoom, setZoom] = useState<any>(0)
 
 
     const files = useRef<string[]>([])
@@ -269,17 +270,19 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 <p>{localeTr.next}</p>
                             </div>
                         </div>
-                        <div className={styles.fileContent} style={{ justifyContent: "flex-start" }}>
+                        <div className={styles.fileContent} style={{ display: "flex", flexDirection: "column", width: "100%", alignItems: "center" }}>
                             <Cropper
                                 src={image.data}
                                 dragMode="move"
-                                style={{ height: "500px" }}
+                                style={{ height: "50vh", width: "90%" }}
                                 // Cropper.js options
                                 viewMode={2}
                                 aspectRatio={aspectRatio}
                                 background={false}
                                 modal={true}
                                 movable={false}
+                                minCropBoxHeight={22222}
+                                minCropBoxWidth={22222}
                                 checkOrientation={false}
                                 responsive={true}
                                 zoomOnTouch={false}
@@ -293,34 +296,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 crop={onCrop}
                                 ref={cropperRef}
                             />
-                            <div className={styles.aspectRatios}>
-                                <div className={styles.addImage}>
-                                    <AiOutlinePlus />
-                                    <input
-                                        type="file"
-                                        accept="image/jpeg, image/png"
-                                        title="add image"
-                                        onChange={addImage}
-                                    />
-                                </div>
-                                {/* <div onClick={removeImage}>
-                                    <AiOutlineMinus color="var(--background)" />
-                                </div> */}
-                                {
-                                    !lockAsRatio && (
-                                        <>
-                                            <div className={styles.square}
-                                                onClick={() => changeAspectRatio(1)}></div>
-                                            <div className={styles.landscape}
-                                                onClick={() => changeAspectRatio(16 / 9)}></div>
-                                            <div className={styles.portrait}
-                                                onClick={() => changeAspectRatio(4 / 5)}></div>
-                                        </>
-                                    )
-
-                                }
-                            </div>
-                            <div style={{ display: "flex", overflowX: "scroll", marginTop: "var(--gap-half)" }}>
+                            <div style={{ display: "flex", overflowX: "scroll", width: "100%", height: "max-content", alignSelf: "flex-start" }}>
                                 {
                                     files.current.map((file, index) => {
                                         return (
@@ -332,6 +308,39 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                         )
                                     })
                                 }
+                                <div className={styles.addImage} style={{ height: "70px", width: "70px", backgroundColor: "var(--accents-2)", flexShrink: 0 }} >
+                                    <AiOutlinePlus size={45} color="white" />
+                                    <input
+                                        type="file"
+                                        accept="image/jpeg, image/png"
+                                        title="add image"
+                                        style={{ height: "100%", width: "100%" }}
+                                        onChange={addImage}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.aspectRatios}>
+
+                                {
+                                    !lockAsRatio && (
+                                        <>
+                                            <div className={styles.square}
+                                                onClick={() => changeAspectRatio(1)}></div>
+                                            <div className={styles.landscape}
+                                                onClick={() => changeAspectRatio(16 / 9)}></div>
+                                            <div className={styles.portrait}
+                                                onClick={() => changeAspectRatio(4 / 5)}></div>
+                                        </>
+                                    )
+                                }
+                                <input
+                                    type={"range"} min={0} max={1} step={0.0001}
+                                    defaultValue={0} style={{ accentColor: "var(--success)" }}
+                                    onChange={(e) => {
+                                        const val = parseFloat(e.target.value)
+                                        cropper?.zoomTo(val.toFixed(4) as any)
+                                    }}
+                                />
                             </div>
 
                         </div>
@@ -464,7 +473,7 @@ const ImagePreview: React.FC<{ file: string, remove: () => void, activate: () =>
                 <IoMdClose size={20} color="white" />
             </div>
 
-            <img src={file} width="90px" height={"90px"} style={{ flexShrink: 1 }} onClick={activate} />
+            <img src={file} width="70px" height={"70px"} style={{ flexShrink: 1 }} onClick={activate} />
         </div>
 
     )
