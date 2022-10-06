@@ -138,29 +138,40 @@ const CoupleProfile: NextPage = (props: any) => {
                                 <div className={styles.cover} >
                                     <Image src={`${IMAGEURL}/${data?.data.cover_picture}`} height={"300px"} width={"900px"} objectFit="cover" id="cover" />
                                 </div>
-                                <span
-                                    className={styles.editCover}
-                                    style={{ position: "absolute", top: 0, right: 0 }}
-                                    onClick={editCover}
-                                >
-                                    <MdModeEdit size={30} color="white" />
-                                </span>
+                                {
+                                    data?.data.is_this_couple && (
+                                        <span
+                                            className={styles.editCover}
+                                            style={{ position: "absolute", top: 0, right: 0 }}
+                                            onClick={editCover}
+                                        >
+                                            <MdModeEdit size={30} color="white" />
+                                        </span>
+                                    )
+                                }
                             </div>
                             <div className={styles.profile}>
                                 <div className={styles.flex}>
                                     <div className={styles.imageContainer}>
-                                        <img
-                                            src={`${IMAGEURL}/${data?.data.profile_picture}`}
-                                            className={styles.profileImage}
-                                            id="avatar"
-                                        />
-                                        <span
-                                            className={styles.avatarContainer}
-                                            style={{ width: "100%", height: "100%" }}
-                                            onClick={editAvatar}
-                                        >
-                                            <MdModeEdit size={30} color="white" style={{ top: "50%", left: "50%" }} />
-                                        </span>
+                                        <div className={styles.profileImage}>
+                                            <Image
+                                                src={`${IMAGEURL}/${data?.data.profile_picture}`}
+                                                layout="fill"
+                                                id="avatar"
+                                            />
+                                        </div>
+                                        {
+                                            data?.data.is_this_couple && (
+                                                <div
+                                                    className={styles.avatarContainer}
+                                                    onClick={editAvatar}
+                                                >
+                                                    <div>
+                                                        <MdModeEdit size={30} color="white" style={{ top: "50%", left: "50%" }} />
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                     <div className={styles.profileActBtnContainer}>
                                         <div style={{ position: "relative" }}>

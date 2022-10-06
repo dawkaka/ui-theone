@@ -52,31 +52,38 @@
     border-radius: 50%;
     padding: 0;
     margin: 0;
+    width: 120px;
+    height: 120px;
 }
 
 .profileImage {
-    border-radius: 50%;
-    width: 120px
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: relative;
 }
 
 .avatarContainer {
     top: 0;
     left: 0;
-    display: none;
     position: absolute;
-    border-radius: 50%;
-    place-items: center;
     cursor: pointer;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 .avatarContainer:hover {
-    display: grid;
+    display: flex;
 }
 
-.profileImage:hover~.avatarContainer {
-    display: grid;
+.profileImage:hover+.avatarContainer {
+    display: flex;
 }
+
 
 .profileActBtnContainer {
     margin-bottom: var(--gap-half);

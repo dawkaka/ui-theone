@@ -163,13 +163,16 @@ export default function Profile(props: any) {
                                         src={`${IMAGEURL}/${data?.data.profile_picture}`}
                                         className={styles.profileImage}
                                     />
-                                    <span
-                                        className={styles.avatarContainer}
-                                        style={{ width: "116px", height: "116px" }}
-                                        onClick={editProfileImage}
-                                    >
-                                        <MdModeEdit size={30} color="white" />
-                                    </span>
+                                    {
+                                        data.data.is_this_user && (<span
+                                            className={styles.avatarContainer}
+                                            style={{ width: "116px", height: "116px" }}
+                                            onClick={editProfileImage}
+                                        >
+                                            <MdModeEdit size={30} color="white" />
+                                        </span>
+                                        )
+                                    }
                                 </div>
                                 <div className={styles.titleContainer}>
                                     <h3 className={styles.userName}>@{data.data.user_name}</h3>
@@ -217,7 +220,7 @@ export default function Profile(props: any) {
                         {
                             data.data.show_pictures.map((file: string, indx: number) => {
                                 return (
-                                    <ShowPicture file={`${IMAGEURL}/${file}`} position={indx} editProfileImage={editShowImage} key={indx} />
+                                    <ShowPicture file={`${IMAGEURL}/${file}`} position={indx} editProfileImage={editShowImage} key={indx} isThisUser={data.data.is_this_user} />
                                 )
                             })
                         }
@@ -352,9 +355,10 @@ export default function Profile(props: any) {
 const ShowPicture: React.FunctionComponent<{
     editProfileImage: (a: number) => void,
     file: string,
-    position: number
+    position: number,
+    isThisUser: boolean
 }>
-    = ({ editProfileImage, position, file }) => {
+    = ({ editProfileImage, position, file, isThisUser }) => {
         const edit = () => {
             editProfileImage(position)
         }
@@ -365,13 +369,14 @@ const ShowPicture: React.FunctionComponent<{
                         height="230px" width="230px" layout="responsive"
                         objectFit="cover" id={`show-image-${position}`} />
                 </div>
-                <span
+                {isThisUser && (<span
                     className={styles.showImageEdit}
                     style={{ position: "absolute", top: 0, right: 0 }}
                     onClick={edit}
                 >
                     <MdModeEdit size={20} color="var(--accents-1)" />
                 </span>
+                )}
             </article>
         )
     }
