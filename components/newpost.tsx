@@ -183,7 +183,6 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
             const blob = await (await fetch(vid!)).blob();
             formData.append("files", blob, "video.mp4")
         }
-
         formData.append("alts", JSON.stringify(alt))
         formData.append("location", location)
         sharePostMutation.mutate(formData)
@@ -484,7 +483,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                     vid === "" ?
                                         <Carousel files={blobs.current} currFunc={(a: number) => setCarouselCurrent(a)} />
                                         :
-                                        <video src={vid} autoPlay controls height={"100%"} width="100%" style={{ objectFit: "contain" }}></video>
+                                        <video src={vid} autoPlay controls width="100%" style={{ objectFit: "contain" }}></video>
                                 }
 
                             </div>

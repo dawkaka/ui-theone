@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
 import { MdBlock, MdModeEdit, MdOutlineContentCopy, MdOutlineNavigateNext, MdReport } from "react-icons/md";
 import styles from "./styles/post.module.css";
-import { Actions, Verified } from "./mis";
+import { Actions, Verified, Video } from "./mis";
 import { BsEmojiSmile } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiUserUnfollowLine } from "react-icons/ri";
@@ -164,15 +164,27 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                     <div className={styles.filesContainer}>
                         <div className={styles.fileSlider} ref={slider}>
                             {
-                                files?.map(file => (<div className={styles.fileContainer} key={file.name}>
-                                    <Image
-                                        src={`${IMAGEURL}/${file.name}`}
-                                        className={styles.postImage}
-                                        width={file.width}
-                                        height={file.height}
-                                        alt={file.alt}
-                                    />
-                                </div>))
+
+                                files?.map(file => {
+                                    let post
+                                    if (file.name.substring(file.name.length - 3) === "mp4") {
+                                        post = <Video file={file.name} />
+                                    } else {
+                                        post = <Image
+                                            src={`${IMAGEURL}/${file.name}`}
+                                            className={styles.postImage}
+                                            width={file.width}
+                                            height={file.height}
+                                            alt={file.alt}
+                                            key={file.name}
+                                        />
+                                    }
+                                    return (
+                                        <div className={styles.fileContainer} key={file.name}>
+                                            {post}
+                                        </div>
+                                    )
+                                })
                             }
                         </div>
                         {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>
@@ -361,13 +373,26 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                 <div className={styles.filesContainer}>
                     <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent" }}>
                         {
-                            post.files.map((file: any) => (<div className={styles.fileContainer} key={file.name}>
-                                <Image
-                                    src={`${IMAGEURL}/${file.name}`}
-                                    width={post.files[0].width}
-                                    height={post.files[0].height}
-                                />
-                            </div>))
+                            post.files.map((file: any) => {
+                                let post
+                                if (file.name.substring(file.name.length - 3) === "mp4") {
+                                    post = <Video file={file.name} />
+                                } else {
+                                    post = <Image
+                                        src={`${IMAGEURL}/${file.name}`}
+                                        className={styles.postImage}
+                                        width={file.width}
+                                        height={file.height}
+                                        alt={file.alt}
+                                        key={file.name}
+                                    />
+                                }
+                                return (
+                                    <div className={styles.fileContainer} key={file.name}>
+                                        {post}
+                                    </div>
+                                )
+                            })
                         }
                     </div>
                     {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>

@@ -327,7 +327,7 @@
 }
 
 .viewContent {
-    max-width: 600px;
+    width: 600px;
 }
 
 .viewFiles {

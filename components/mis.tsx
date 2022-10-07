@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import Link from "next/link";
+import { IMAGEURL } from "../constants";
 
 export const Verified: React.FunctionComponent<{ size: number }> = ({ size }) => {
     return (
@@ -174,5 +175,28 @@ export const SearchCouple: React.FunctionComponent<{
                 </article>
             </a>
         </Link>
+    )
+}
+
+
+export const Video: React.FC<{ file: string }> = ({ file }) => {
+    const vidRef = useRef<HTMLVideoElement>(null)
+    const isVideoPlaying = (video: HTMLVideoElement) => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
+    const toggleVideo = () => {
+        if (vidRef && vidRef.current) {
+            if (isVideoPlaying(vidRef.current)) {
+                vidRef.current.pause()
+            } else {
+                vidRef.current.play()
+            }
+        }
+    }
+    return (
+        <video src={`${IMAGEURL}/${file}`} width="100%" height={"500px"}
+            style={{ objectFit: "contain", backgroundColor: "black" }} key={file}
+            autoPlay
+            onClick={toggleVideo}
+            ref={vidRef}
+        />
     )
 }

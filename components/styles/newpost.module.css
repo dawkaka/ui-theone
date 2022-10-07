@@ -126,12 +126,6 @@
     color: var(--accents-7);
 }
 
-.fileIcons>* {}
-
-.fileIcon1 {}
-
-.fileIcon2 {}
-
 .selectFile {
     display: grid;
     gap: var(--gap-half)
