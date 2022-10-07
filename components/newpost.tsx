@@ -14,6 +14,7 @@ import { Langs } from "../types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../constants";
+import { BsFillPlayBtnFill, BsPlayBtn } from "react-icons/bs";
 //import Cropper from "cropperjs";
 
 Modal.setAppElement("body")
@@ -32,6 +33,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [location, setLocation] = useState("")
     const [cropper, setCropper] = useState<Cropper>()
     const [zoom, setZoom] = useState<any>(0)
+    const [vid, setVid] = useState<string>()
 
 
     const files = useRef<string[]>([])
@@ -171,10 +173,17 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         const formData = new FormData()
         formData.append("caption", caption)
         formData.append("couple_name", "yousiph")
-        for (let file of blobs.current) {
-            const blob = await (await fetch(file)).blob();
-            formData.append("files", blob, "image.jpg")
+
+        if (vid === "") {
+            for (let file of blobs.current) {
+                const blob = await (await fetch(file)).blob();
+                formData.append("files", blob, "image.jpg")
+            }
+        } else {
+            const blob = await (await fetch(vid!)).blob();
+            formData.append("files", blob, "video.mp4")
         }
+
         formData.append("alts", JSON.stringify(alt))
         formData.append("location", location)
         sharePostMutation.mutate(formData)
@@ -192,8 +201,20 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         setImage({ data: "" })
         files.current = []
         blobs.current = []
+        setVid("")
     }
-
+    const handleVideo = (e: ChangeEvent<HTMLInputElement>) => {
+        const fs = e.currentTarget.files
+        if (fs) {
+            const reader = new FileReader()
+            reader.readAsDataURL(fs[0])
+            reader.onload = () => {
+                setVid(reader.result as any)
+                e.target.value = ""
+            }
+            setStep(1.5)
+        }
+    }
     return (
         <Modal
             isOpen={isOpen}
@@ -237,15 +258,23 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                         </div>
                         <div className={styles.modalContent}>
                             <div className={styles.fileIcons}>
-                                <GoFileMedia size={100} className={styles.fileIcon1} />
                                 <GoFileMedia size={100} className={styles.fileIcon2} />
+                                <BsPlayBtn size={100} className={styles.fileIcon1} />
+
                             </div>
                             <div className={styles.selectFile}>
 
-                                <button>{localeTr.selectfile}
+                                <button>{localeTr.selectimage}
                                     <input
                                         type="file" onChange={newFile}
                                         accept="image/jpeg, image/png"
+                                    />
+                                </button>
+
+                                <button>{localeTr.selectvideo}
+                                    <input
+                                        type="file" onChange={handleVideo}
+                                        accept="video/mp4"
                                     />
                                 </button>
                             </div>
@@ -300,11 +329,14 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 {
                                     files.current.map((file, index) => {
                                         return (
-                                            <ImagePreview file={file} key={index} remove={() => removeImage(index)} activate={async () => {
-                                                setImage({ data: file });
-                                                ind.current = index
+                                            <>
+                                                <ImagePreview file={file} key={index} remove={() => removeImage(index)} activate={async () => {
+                                                    setImage({ data: file });
+                                                    ind.current = index
 
-                                            }} />
+                                                }} />
+
+                                            </>
                                         )
                                     })
                                 }
@@ -343,6 +375,28 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 />
                             </div>
 
+                        </div>
+                    </div>
+                )
+            }
+            {
+                step === 1.5 && (
+                    <div className={styles.modalBody} style={{ justifyContent: "flex-start" }}>
+                        <div className={styles.requestHeader}>
+                            <div className={styles.backIcon} onClick={() => setStep(0)}>
+                                <BiArrowBack size={20} color="var(--accents-6)" />
+                            </div>
+                            <p>{localeTr.crop}</p>
+                            <div onClick={() => {
+                                setStep(2)
+                            }}
+                                className={styles.nextContainer}
+                            >
+                                <p>{localeTr.next}</p>
+                            </div>
+                        </div>
+                        <div className={`${styles.modalContent}`} style={{ height: "60vh", borderBottom: "10px solid var(--background)" }}>
+                            <video src={vid} autoPlay controls height={"100%"} width="100%" style={{ objectFit: "contain" }}></video>
                         </div>
                     </div>
                 )
@@ -398,29 +452,41 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
                         <div className={styles.previewContent}>
                             <div className={styles.pfileContainer}>
-                                <div className={styles.altButton} onClick={() => {
-                                    const vis = altRef.current!.style.display
-                                    if (vis === "none") {
-                                        altRef.current!.style.display = "block"
-                                    } else {
-                                        altRef.current!.style.display = "none"
-                                    }
-                                }}>
-                                    <button>{localeTr.alttext}</button>
+                                {
+                                    vid === "" && (
+                                        <>
+                                            <div className={styles.altButton} onClick={() => {
+                                                const vis = altRef.current!.style.display
+                                                if (vis === "none") {
+                                                    altRef.current!.style.display = "block"
+                                                } else {
+                                                    altRef.current!.style.display = "none"
+                                                }
+                                            }}>
+                                                <button>{localeTr.alttext}</button>
+                                            </div>
+                                            <div className={styles.altTextContainer} ref={altRef} >
 
-                                </div>
-                                <div className={styles.altTextContainer} ref={altRef} >
+                                                <textarea
+                                                    className={`${styles.textAreaAlt} ${styles.altTextArea}`}
+                                                    placeholder={localeTr.typealttext + "..."}
+                                                    onChange={altChanged}
+                                                    ref={altTextRef}
+                                                    value={currAlt}
+                                                ></textarea>
+                                                <button onClick={handleAltText}>{localeTr.done}</button>
+                                            </div>
+                                        </>
 
-                                    <textarea
-                                        className={`${styles.textAreaAlt} ${styles.altTextArea}`}
-                                        placeholder={localeTr.typealttext + "..."}
-                                        onChange={altChanged}
-                                        ref={altTextRef}
-                                        value={currAlt}
-                                    ></textarea>
-                                    <button onClick={handleAltText}>{localeTr.done}</button>
-                                </div>
-                                <Carousel files={blobs.current} currFunc={(a: number) => setCarouselCurrent(a)} />
+                                    )
+                                }
+                                {
+                                    vid === "" ?
+                                        <Carousel files={blobs.current} currFunc={(a: number) => setCarouselCurrent(a)} />
+                                        :
+                                        <video src={vid} autoPlay controls height={"100%"} width="100%" style={{ objectFit: "contain" }}></video>
+                                }
+
                             </div>
                             <div className={styles.previewCaption}>
                                 <p>{caption}</p>

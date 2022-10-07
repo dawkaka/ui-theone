@@ -118,41 +118,44 @@
 }
 
 .fileIcons {
-
     margin-bottom: var(--gap-double);
     position: relative;
-    height: 100px;
-    width: 100px;
-    color: var(--success-light);
-    margin-left: -50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--accents-7);
 }
 
-.fileIcons>* {
-    position: absolute;
-}
+.fileIcons>* {}
 
-.fileIcon1 {
-    transform: rotate(25deg);
-    left: 50px
-}
+.fileIcon1 {}
+
+.fileIcon2 {}
 
 .selectFile {
-    position: relative;
+    display: grid;
+    gap: var(--gap-half)
 }
 
 .selectFile input {
     position: absolute;
     left: 0;
     top: 0;
+    opacity: 0;
     width: 100%;
     font-size: 16px;
     padding: 10px;
-    opacity: 0;
+
 }
 
 .selectFile button {
+    position: relative;
     font-size: 16px;
-    padding: 10px
+    min-width: 80px;
+    font-weight: lighter;
+    text-align: center;
+    padding: 10px 15px;
+    background-color: var(--accents-7);
 }
 
 
