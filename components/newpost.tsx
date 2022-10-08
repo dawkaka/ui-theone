@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { GoFileMedia } from "react-icons/go";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { Carousel, CheckMark } from "./mis";
+import { Carousel, CheckMark, Video } from "./mis";
 import tr from "../i18n/locales/components/newpost.json"
 import { useRouter } from "next/router";
 import { Langs } from "../types";
@@ -32,8 +32,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [currAlt, setCurrentAlt] = useState(alt[carouselCurrent])
     const [location, setLocation] = useState("")
     const [cropper, setCropper] = useState<Cropper>()
-    const [zoom, setZoom] = useState<any>(0)
-    const [vid, setVid] = useState<string>()
+    const [vid, setVid] = useState<string>("")
 
 
     const files = useRef<string[]>([])
@@ -50,6 +49,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const fs = e.currentTarget.files
+        setVid("")
         if (fs) {
             const reader = new FileReader()
             reader.readAsDataURL(fs[0])
@@ -394,8 +394,8 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 <p>{localeTr.next}</p>
                             </div>
                         </div>
-                        <div className={`${styles.modalContent}`} style={{ height: "60vh", borderBottom: "10px solid var(--background)" }}>
-                            <video src={vid} autoPlay controls height={"100%"} width="100%" style={{ objectFit: "contain" }}></video>
+                        <div className={`${styles.modalContent}`} style={{ borderBottom: "10px solid var(--background)" }}>
+                            <Video file={vid} />
                         </div>
                     </div>
                 )
@@ -404,7 +404,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                 step === 2 && (
                     <div className={styles.modalBody}>
                         <div className={styles.requestHeader}>
-                            <div className={styles.backIcon} onClick={() => setStep(1)}>
+                            <div className={styles.backIcon} onClick={() => vid === "" ? setStep(1) : setStep(1.5)}>
                                 <BiArrowBack size={20} color="var(--accents-6)" />
                             </div>
                             <p>{localeTr.caption}</p>
@@ -483,7 +483,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                     vid === "" ?
                                         <Carousel files={blobs.current} currFunc={(a: number) => setCarouselCurrent(a)} />
                                         :
-                                        <video src={vid} autoPlay controls width="100%" style={{ objectFit: "contain" }}></video>
+                                        <Video file={vid} />
                                 }
 
                             </div>

@@ -19,7 +19,8 @@
     "react-cropper": "^2.1.8",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
-    "react-modal": "^3.15.1"
+    "react-modal": "^3.15.1",
+    "socket.io-client": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "18.7.6",

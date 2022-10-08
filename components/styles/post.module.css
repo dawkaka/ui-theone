@@ -328,6 +328,7 @@
 
 .viewContent {
     width: 600px;
+    min-height: 100px;
 }
 
 .viewFiles {
@@ -384,7 +385,7 @@
     .viewFixedBottom {
         bottom: 0;
         margin-inline: auto;
-        max-width: 600px;
+        width: 100vw;
         position: fixed
     }
 

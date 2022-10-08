@@ -182,20 +182,42 @@ export const SearchCouple: React.FunctionComponent<{
 export const Video: React.FC<{ file: string }> = ({ file }) => {
     const vidRef = useRef<HTMLVideoElement>(null)
     const isVideoPlaying = (video: HTMLVideoElement) => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
+    function isInView(el: HTMLVideoElement) {
+        var rect = el.getBoundingClientRect();           // absolute position of video element
+        return (rect.top > 0 && rect.bottom < window.innerHeight);   // visible?
+    }
+
     const toggleVideo = () => {
         if (vidRef && vidRef.current) {
-            if (isVideoPlaying(vidRef.current)) {
-                vidRef.current.pause()
+            if (vidRef.current.muted) {
+                vidRef.current.muted = false
             } else {
-                vidRef.current.play()
+                vidRef.current.muted = true
+
             }
         }
     }
+
+    useEffect(() => {
+        window.document.addEventListener("scroll", () => {
+            if (vidRef.current) {
+                if (isInView(vidRef.current)) {
+                    vidRef.current.click()
+                    vidRef.current.play()
+                } else {
+                    vidRef.current.pause()
+                }
+            }
+        })
+    })
+
     return (
-        <video src={`${IMAGEURL}/${file}`} width="100%" height={"500px"}
-            style={{ objectFit: "contain", backgroundColor: "black" }} key={file}
+        <video src={file}
+
+            style={{ objectFit: "contain", backgroundColor: "black", width: "100%", height: "min(70vh, 500px)" }} key={file}
             autoPlay
             onClick={toggleVideo}
+            onEnded={() => vidRef.current?.play()}
             ref={vidRef}
         />
     )

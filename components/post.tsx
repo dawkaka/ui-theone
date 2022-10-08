@@ -168,13 +168,12 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                 files?.map(file => {
                                     let post
                                     if (file.name.substring(file.name.length - 3) === "mp4") {
-                                        post = <Video file={file.name} />
+                                        post = <Video file={`${IMAGEURL}/${file.name}`} />
                                     } else {
-                                        post = <Image
+                                        post = <img
                                             src={`${IMAGEURL}/${file.name}`}
                                             className={styles.postImage}
-                                            width={file.width}
-                                            height={file.height}
+                                            width={"100%"}
                                             alt={file.alt}
                                             key={file.name}
                                         />
@@ -198,7 +197,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                     </div>
                     <div className={styles.viewSliderPos}>
                         {
-                            files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} />))
+                            files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
 
                         }
                     </div>
@@ -370,19 +369,18 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
     return (
         <div className={styles.viewContent}>
             <div className={styles.viewFiles}>
-                <div className={styles.filesContainer}>
-                    <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent" }}>
+                <div className={styles.filesContainer} style={{ width: "100%" }}>
+                    <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent", width: "100%" }}>
                         {
                             post.files.map((file: any) => {
                                 let post
                                 if (file.name.substring(file.name.length - 3) === "mp4") {
-                                    post = <Video file={file.name} />
+                                    post = <Video file={`${IMAGEURL}/${file.name}`} />
                                 } else {
-                                    post = <Image
+                                    post = <img
                                         src={`${IMAGEURL}/${file.name}`}
                                         className={styles.postImage}
-                                        width={file.width}
-                                        height={file.height}
+                                        width={"100%"}
                                         alt={file.alt}
                                         key={file.name}
                                     />
@@ -406,7 +404,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                 </div>
                 <div className={styles.viewSliderPos}>
                     {
-                        post.files.length > 1 && post.files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} />))
+                        post.files.length > 1 && post.files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
                     }
                 </div>
             </div>
@@ -451,11 +449,11 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                         </div>
                     </div>
                     <Comments id={post.id} />
-                </div>
+                </div >
                 <div className={styles.viewFixedBottom}>
                     <CommentArea isCard={false} id={post.id} />
                 </div>
-            </div>
+            </div >
             <Modal
                 isOpen={modalOpen}
                 style={modalStyles}
@@ -505,7 +503,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                     acceptFun={() => deletePost.mutate(post.id)}
                 />
             </Modal>
-        </div>
+        </div >
     )
 }
 

@@ -37,7 +37,7 @@ export default function Navigation() {
 
         if (window.screen.width < 751) {
             if (pathname !== "/r/home") setHideHeader(true)
-            if (pathname === "/r/messages" || pathname === "/[couplename]/[postId]") {
+            if (pathname === "/r/messages" || pathname === "/[couplename]/[postId]" || pathname === "/[couplename]") {
                 setHideBottomTab(true)
             }
         }
@@ -45,7 +45,7 @@ export default function Navigation() {
         window.addEventListener("resize", () => {
             if (window.screen.width < 751) {
                 if (pathname !== "/r/home") setHideHeader(true)
-                if (pathname === "/r/messages" || pathname === "/[couplename]/[postId]") {
+                if (pathname === "/r/messages" || pathname === "/[couplename]/[postId]" || pathname === "/[couplename]") {
                     setHideBottomTab(true)
                 }
             } else {

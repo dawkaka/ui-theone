@@ -420,6 +420,7 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
                                     userName={follower.user_name}
                                     hasPartner={follower.has_partner}
                                     fullName={follower.first_name + " " + follower.last_name}
+                                    key={follower.user_name}
                                 />
                             ))
                         }

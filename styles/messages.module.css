@@ -209,31 +209,44 @@
 
 .writeMessageContainer {
     background-color: var(--background);
-    border-top: 2px solid var(--accents-2);
+    margin: 10px;
+
 }
 
 .textAreaContainer {
     width: 100%;
-}
-
-.textArea {
-    outline: none;
-    background: none;
-    max-height: 300px;
-    min-height: 10px;
-    overflow-y: auto;
-    font-size: 1rem;
-    border: none;
-    outline: none;
-    padding: var(--gap-quarter);
-    width: 100%;
-    resize: none;
-}
-
-.messageControls {
-    border-top: var(--border);
-    width: 100%;
+    border: var(--border);
+    border-radius: var(--radius-big);
     display: flex;
+    align-items: center;
+}
+
+.commentContainer {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
     justify-content: space-between;
-    padding: var(--gap-quarter) var(--gap-half);
+    padding-inline: var(--gap-half);
+    padding-block: var(--gap-half);
+    gap: var(--gap-quarter);
+}
+
+.commentContainer textarea {
+    background: none;
+    border: none;
+    flex-grow: 1;
+    font-size: inherit;
+    max-height: 300px;
+    outline: none;
+    padding: 0;
+    resize: none;
+    font-family: var(--font-sans);
+    height: 18px;
+}
+
+.commentContainer button {
+    background-color: transparent;
+    color: var(--success-light);
+    font-weight: bold;
+    font-size: 15px;
 }
