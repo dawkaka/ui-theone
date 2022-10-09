@@ -163,7 +163,8 @@
 }
 
 .pmWrapper {
-    padding: var(--gap) var(--gap-half);
+    padding: var(--gap) var(--gap-half) 0;
+
     height: calc(100% - 100px);
     overflow-y: auto;
 }

@@ -7,15 +7,22 @@ import tr from "../../i18n/locales/messages.json"
 import { Langs } from "../../types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { BASEURL } from "../../constants";
+import { BASEURL, SOCKETURL } from "../../constants";
 import { useTheme } from "../../hooks";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import emTr from "../../i18n/locales/components/emoji.json"
 import dynamic from "next/dynamic";
 import { Categories, EmojiStyle } from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { GoFileMedia } from "react-icons/go";
+import { io } from "socket.io-client";
 
+const socket = io(`${SOCKETURL}/couple`, {
+    withCredentials: true,
+    extraHeaders: {
+        "my-custom-header": "abcd"
+    }
+});
 
 const Picker = dynamic(
     () => {
@@ -28,10 +35,47 @@ const Picker = dynamic(
 export default function Messages() {
     const router = useRouter()
     const locale = router.locale || "en"
+    const [messages, setMessages] = useState<any[]>([])
+    const [userId, setUserId] = useState("")
+    const messageContainer = useRef<HTMLDivElement>(null)
+
     const localeTr = tr[locale as Langs]
-    const { isLoading, data } = useQuery(["messages"], () => axios.get(`${BASEURL}/couple/p-messages/0`))
-    const messages = data?.data.messages || []
-    console.log(messages)
+
+    const { isLoading, data } = useQuery(["messages"], () => axios.get(`${BASEURL}/couple/p-messages/0`), { staleTime: Infinity })
+
+    socket.on('connect', () => {
+        console.log('Connected to the server')
+    })
+
+    socket.on("message", (data) => {
+        setMessages([...messages, data])
+        if (messageContainer.current) {
+            setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "smooth" }))
+        }
+    })
+
+    useEffect(() => {
+        if (data?.data.messages) {
+            setMessages(data.data.messages)
+        }
+    }, [data])
+
+    socket.on("connect_error", (error) => {
+        console.log(error)
+    })
+    socket.on("sent", (data) => {
+        console.log(data)
+    })
+
+    useEffect(() => {
+        document.cookie.split(";").forEach(cookie => {
+            const cc = cookie.trim().split("=")
+            if (cc[0] === "user_ID") {
+                setUserId(cc[1])
+            }
+        })
+    })
+
 
     return (
         <Layout>
@@ -43,15 +87,9 @@ export default function Messages() {
                                 display: "flex",
                                 alignItems: "center",
                                 gap: "var(--gap)"
-                            }}>
-                                <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
+                            }}> <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
                                     <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
-                                        <Image
-                                            layout="fill"
-                                            objectFit="cover"
-                                            src={"/me.jpg"}
-                                            className={styles.profileImage}
-                                        />
+                                        <Image layout="fill" objectFit="cover" src={"/me.jpg"} className={styles.profileImage} />
                                     </span>
                                 </div>
                                 <h4>john.doe</h4>
@@ -61,20 +99,27 @@ export default function Messages() {
                             </div>
                         </div>
                         <div className={styles.pmWrapper}>
-                            {
-                                messages.map((message: any, index: number) => {
-                                    return (
-                                        <ChatMessage
-                                            text={message.message} me={message.from === "63418496b2458f195b3b91ec"}
-                                            date={message.date} type={message.type} key={index} />
-                                    )
-                                })
+                            {messages.map((message: any, index: number) => {
+                                return (
+                                    <ChatMessage
+                                        text={message.message} me={message.from === userId}
+                                        date={message.date} type={message.type} key={index} />
+                                )
+                            })
                             }
+                            <div ref={messageContainer}></div>
 
                         </div>
                         <div className={styles.writeMessageContainer}>
                             <div className={styles.textAreaContainer}>
-                                <TextArea />
+                                <TextArea sendMessage={(message) => {
+                                    socket.emit("text-message", message)
+                                    setMessages([...messages, { message, from: userId, type: 'text' }])
+                                    if (messageContainer.current) {
+                                        setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "smooth" }))
+                                    }
+
+                                }} />
                             </div>
 
                         </div>
@@ -87,37 +132,23 @@ export default function Messages() {
 }
 
 
-const TextArea: React.FunctionComponent = () => {
+const TextArea: React.FunctionComponent<{ sendMessage: (message: string) => void }> = ({ sendMessage }) => {
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
     const emojiTr = emTr[locale as Langs]
     const [openEmoji, setOpenEmoji] = useState(false)
-    const [comment, setComment] = useState("")
+    const [message, setMessage] = useState("")
     const theme = useTheme()
 
-    const { mutate, isLoading } = useMutation(
-        (comment: string) => {
-            return axios.post(`${BASEURL}/post/comment/`, JSON.stringify({ comment }))
-        },
-        {
-            onSuccess: data => {
-                setComment("")
-            },
-            onError: err => console.log(err)
-        }
-    )
-
-    const postComment = (e: FormEvent) => {
-        e.preventDefault()
-        if (isLoading || comment === "") return
-        e.preventDefault()
-        mutate(comment)
-    }
 
     return (
         <>
             <form
-                onSubmit={postComment}
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    sendMessage(message)
+                    setMessage("")
+                }}
                 className={styles.commentContainer}
             >
                 <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
@@ -129,14 +160,14 @@ const TextArea: React.FunctionComponent = () => {
                         e.currentTarget.style.height = "1px";
                         e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
                     }}
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                     onFocus={() => setOpenEmoji(false)}
                 ></textarea>
 
                 <div>
                     {
-                        comment === "" ? <div style={{ display: "grid", placeItems: "center" }}> <GoFileMedia size={20} /> </div> : <button>{isLoading ? "posting" : "send"}</button>
+                        message === "" ? <div style={{ display: "grid", placeItems: "center" }}> <GoFileMedia size={20} /> </div> : <button>send</button>
                     }
                 </div>
 
@@ -144,7 +175,7 @@ const TextArea: React.FunctionComponent = () => {
             {
                 openEmoji && <div style={{ position: "absolute", bottom: "60px" }}>
                     <Picker
-                        onEmojiClick={(emojiObject) => setComment(comment + emojiObject.emoji)}
+                        onEmojiClick={(emojiObject) => setMessage(message + emojiObject.emoji)}
                         lazyLoadEmojis={true}
                         theme={theme}
                         categories={[
