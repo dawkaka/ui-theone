@@ -5,7 +5,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/messages.json"
 import { Langs } from "../../types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL, SOCKETURL } from "../../constants";
 import { useTheme } from "../../hooks";
@@ -41,7 +41,23 @@ export default function Messages() {
     const messageContainer = useRef<HTMLDivElement>(null)
     const localeTr = tr[locale as Langs]
 
-    const { isLoading, data } = useQuery(["messages"], () => axios.get(`${BASEURL}/couple/p-messages/0`), {})
+    const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/couple/p-messages/${pageParam}`)
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery(["messages"], fetchMessages,
+        {
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.data) {
+                    if (lastPage.data?.pagination.end)
+                        return undefined
+                }
+                return lastPage.data?.pagination.next
+            }
+        })
 
     socket.on('connect', () => {
         console.log('Connected to the server')
@@ -54,10 +70,17 @@ export default function Messages() {
         }
     })
 
+
     useEffect(() => {
-        if (data?.data.messages) {
-            setMessages(data.data.messages)
+        if (data?.pages) {
+            let msgs: any[] = []
+            for (let page of data?.pages) {
+                msgs = page.data.messages.concat(msgs)
+            }
+            msgs = msgs.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
+            setMessages([...msgs])
         }
+
     }, [data])
 
     socket.on("connect_error", (error) => {
@@ -71,7 +94,9 @@ export default function Messages() {
     })
     socket.on("typing", () => {
         setTyping(true)
-        setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
+        if (messageContainer.current !== null) {
+            setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
+        }
     })
     socket.on("not-typing", () => {
         setTyping(false)
@@ -109,11 +134,21 @@ export default function Messages() {
                             </div>
                         </div>
                         <div className={styles.pmWrapper}>
+                            {hasNextPage && (
+                                <div style={{ width: "100%", textAlign: "center" }}>
+                                    {!isFetching ?
+                                        <button onClick={() => fetchNextPage()}>load more</button>
+                                        :
+                                        <button>loading...</button>
+                                    }
+                                </div>
+                            )
+                            }
                             {messages.map((message: any, index: number) => {
                                 return (
                                     <ChatMessage
                                         text={message.message} me={message.from === userId}
-                                        date={message.date} type={message.type} key={index} />
+                                        date={message.date} type={message.type} key={new Date(message.date).getTime()} />
                                 )
                             })
                             }
@@ -126,11 +161,11 @@ export default function Messages() {
                                 <TextArea
                                     sendMessage={(type, message) => {
                                         socket.emit(`${type}-message`, message)
+                                        setMessages([])
                                         setMessages([...messages, { message, from: userId, type }])
                                         if (messageContainer.current) {
                                             setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
                                         }
-
                                     }}
                                     sendAlert={(alert) => {
                                         socket.emit(alert)
@@ -314,7 +349,7 @@ const ChatUser: React.FunctionComponent<{
     isVerified: boolean
 }> = (props) => {
     return (
-        <div className={`${styles.chatItemContainer} ${!props.isVerified ? styles.chatItemActive : ""}`}>
+        <div className={`${styles.chatItemContainer} ${!props.isVerified ? styles.chatItemActive : ""} `}>
             <div className={styles.imageContainer} style={{ width: "60px", height: "60px" }}>
                 <span className={styles.avatarContainer} style={{ width: "60px", height: "60px" }}>
                     <Image
@@ -344,11 +379,11 @@ const ChatMessage: React.FunctionComponent<{
 }> = ({ text, date, me, type }) => {
     return (
         <div className={styles.messageContainer}>
-            <div className={`${styles.messageInner} ${me ? styles.messageSent : ""}`}>
+            <div className={`${styles.messageInner} ${me ? styles.messageSent : ""} `}>
                 {
                     type === "text" ? < p > {text}</p> : < img src={`${IMAGEURL}/${text}`} style={{ width: "100%" }} />
                 }
-            </div>
+            </div >
         </div >
     )
 }

@@ -19,7 +19,6 @@ export default function Notifications() {
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const { isLoading, data } = useQuery(["notifications"], () => axios.get(`${BASEURL}/user/notifications/0`))
-    console.log(data)
     return (
         <Layout>
             <div className={styles.main}>
