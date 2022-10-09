@@ -7,9 +7,9 @@ import tr from "../../i18n/locales/messages.json"
 import { Langs } from "../../types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { BASEURL, SOCKETURL } from "../../constants";
+import { BASEURL, IMAGEURL, SOCKETURL } from "../../constants";
 import { useTheme } from "../../hooks";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import emTr from "../../i18n/locales/components/emoji.json"
 import dynamic from "next/dynamic";
 import { Categories, EmojiStyle } from "emoji-picker-react";
@@ -37,11 +37,11 @@ export default function Messages() {
     const locale = router.locale || "en"
     const [messages, setMessages] = useState<any[]>([])
     const [userId, setUserId] = useState("")
+    const [typing, setTyping] = useState(false)
     const messageContainer = useRef<HTMLDivElement>(null)
-
     const localeTr = tr[locale as Langs]
 
-    const { isLoading, data } = useQuery(["messages"], () => axios.get(`${BASEURL}/couple/p-messages/0`), { staleTime: Infinity })
+    const { isLoading, data } = useQuery(["messages"], () => axios.get(`${BASEURL}/couple/p-messages/0`), {})
 
     socket.on('connect', () => {
         console.log('Connected to the server')
@@ -65,6 +65,16 @@ export default function Messages() {
     })
     socket.on("sent", (data) => {
         console.log(data)
+    })
+    socket.on("not-sent", error => {
+        console.log(error)
+    })
+    socket.on("typing", () => {
+        setTyping(true)
+        setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
+    })
+    socket.on("not-typing", () => {
+        setTyping(false)
     })
 
     useEffect(() => {
@@ -107,19 +117,25 @@ export default function Messages() {
                                 )
                             })
                             }
+                            {typing && <p style={{ color: "var(--success)", paddingLeft: "var(--gap-half)" }}>typing...</p>}
                             <div ref={messageContainer}></div>
 
                         </div>
                         <div className={styles.writeMessageContainer}>
                             <div className={styles.textAreaContainer}>
-                                <TextArea sendMessage={(message) => {
-                                    socket.emit("text-message", message)
-                                    setMessages([...messages, { message, from: userId, type: 'text' }])
-                                    if (messageContainer.current) {
-                                        setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "smooth" }))
-                                    }
+                                <TextArea
+                                    sendMessage={(type, message) => {
+                                        socket.emit(`${type}-message`, message)
+                                        setMessages([...messages, { message, from: userId, type }])
+                                        if (messageContainer.current) {
+                                            setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
+                                        }
 
-                                }} />
+                                    }}
+                                    sendAlert={(alert) => {
+                                        socket.emit(alert)
+                                    }}
+                                />
                             </div>
 
                         </div>
@@ -132,25 +148,38 @@ export default function Messages() {
 }
 
 
-const TextArea: React.FunctionComponent<{ sendMessage: (message: string) => void }> = ({ sendMessage }) => {
+const TextArea: React.FunctionComponent<{
+    sendMessage: (type: "text" | "file", message: string | File) => void,
+    sendAlert: (action: string) => void
+}> = ({ sendMessage, sendAlert }) => {
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
     const emojiTr = emTr[locale as Langs]
     const [openEmoji, setOpenEmoji] = useState(false)
     const [message, setMessage] = useState("")
+    const [image, setImage] = useState("")
     const theme = useTheme()
 
+    const fileRef = useRef<File>()
 
+    const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+        const fs = e.currentTarget.files
+        if (fs) {
+            const reader = new FileReader()
+            fileRef.current = fs[0]
+            reader.readAsDataURL(fs[0])
+            reader.onload = () => {
+                setImage(reader.result as any)
+                e.target.value = ""
+            }
+        }
+    }
+    if (message === "") {
+        sendAlert("not-typing")
+    }
     return (
         <>
-            <form
-                onSubmit={(e) => {
-                    e.preventDefault()
-                    sendMessage(message)
-                    setMessage("")
-                }}
-                className={styles.commentContainer}
-            >
+            <div className={styles.commentContainer}>
                 <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
                     <BsEmojiSmile size={20} />
                 </div>
@@ -161,17 +190,72 @@ const TextArea: React.FunctionComponent<{ sendMessage: (message: string) => void
                         e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
                     }}
                     value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onFocus={() => setOpenEmoji(false)}
+                    onChange={(e) => {
+                        setMessage(e.target.value)
+                        sendAlert("typing")
+                    }}
+                    onBlur={() => sendAlert("not-typing")}
+                    onFocus={() => {
+                        sendAlert("typing")
+                        setOpenEmoji(false)
+                    }}
                 ></textarea>
 
                 <div>
                     {
-                        message === "" ? <div style={{ display: "grid", placeItems: "center" }}> <GoFileMedia size={20} /> </div> : <button>send</button>
+                        message === "" ?
+                            <>
+                                {image !== "" && (
+                                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", position: "absolute", height: "60vh", width: "min(60%, 300px)", right: "var(--gap)", bottom: "60px" }}>
+                                        <img src={image}
+                                            style={{
+                                                objectFit: "contain",
+                                                marginTop: "auto",
+                                                width: "100%",
+                                                maxHeight: "100%"
+                                            }}
+                                        />
+                                        <div style={{ width: "100%", gap: "var(--gap)", position: "absolute", display: "flex", justifyContent: "center", bottom: "var(--gap-half)" }}>
+                                            <button
+                                                onClick={() => setImage("")}
+                                                style={{
+                                                    padding: "3px var(--gap-half)", color: "white",
+                                                    backgroundColor: "rgba(0,0,0,0.9)"
+                                                }}>cancel</button>
+                                            <button
+                                                style={{
+                                                    padding: "3px var(--gap-half)",
+                                                    color: "white", backgroundColor: "var(--success)"
+                                                }}
+                                                onClick={() => {
+                                                    if (image === "" || fileRef.current === undefined) return
+                                                    sendMessage("file", fileRef.current)
+                                                    setImage("")
+                                                }}
+                                            >send</button>
+                                        </div>
+                                    </div>
+                                )
+                                }
+                                <div style={{ display: "grid", placeItems: "center", position: "relative" }}>
+                                    <input type={"file"} accept="image/jpg, image/jpeg, image/png, image/gif"
+                                        onChange={handleFile}
+                                        style={{ top: 0, left: 0, position: "absolute", width: "100%", height: "100%", opacity: 0 }}
+
+                                    />
+                                    <GoFileMedia size={25} />
+                                </div>
+                            </>
+                            :
+                            <button onClick={() => {
+                                if (message === "") return
+                                sendMessage("text", message)
+                                setMessage("")
+                            }}>send</button>
                     }
                 </div>
 
-            </form>
+            </div>
             {
                 openEmoji && <div style={{ position: "absolute", bottom: "60px" }}>
                     <Picker
@@ -261,8 +345,10 @@ const ChatMessage: React.FunctionComponent<{
     return (
         <div className={styles.messageContainer}>
             <div className={`${styles.messageInner} ${me ? styles.messageSent : ""}`}>
-                <p>{text}</p>
+                {
+                    type === "text" ? < p > {text}</p> : < img src={`${IMAGEURL}/${text}`} style={{ width: "100%" }} />
+                }
             </div>
-        </div>
+        </div >
     )
 }
