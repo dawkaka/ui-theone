@@ -74,9 +74,7 @@ export default function Messages() {
     useEffect(() => {
         if (data && data.pages) {
             let msgs: any[] = []
-            console.log(data)
             for (let page of data.pages) {
-                console.log(page)
                 msgs = page.data.messages.concat(msgs)
             }
             msgs = msgs.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
