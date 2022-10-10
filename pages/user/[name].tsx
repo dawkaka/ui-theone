@@ -390,7 +390,7 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
         hasNextPage,
         isFetching,
         isFetchingNextPage,
-    } = useInfiniteQuery(["followers", { name }], fetchPosts,
+    } = useInfiniteQuery(["following", { name }], fetchPosts,
         {
             getNextPageParam: (lastPage, pages) => {
                 if (lastPage.data.pagination.end) {
@@ -444,7 +444,7 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                 <div className={styles.followingContent}>
                     {
                         following.map(flw => (
-                            <CouplePreview name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} isFollowing={false} verified={flw.verified} />
+                            <CouplePreview name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} isFollowing={flw.is_following} verified={flw.verified} />
                         ))
                     }
                 </div>

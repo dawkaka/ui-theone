@@ -47,23 +47,25 @@ const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, mar
     }
 
     return (
-        <Link href={`/${name}`}>
-            <a>
-                <article className={styles.container}>
 
-                    <div className={styles.infoContainer}>
-                        <div className={styles.imageContainer}>
-                            <Image className={styles.image} src={profile_picture} height="45px" width="45px" layout="fixed" />
-                        </div>
+        <article className={styles.container}>
+
+            <div className={styles.infoContainer}>
+                <div className={styles.imageContainer}>
+                    <Image className={styles.image} src={profile_picture} height="45px" width="45px" layout="fixed" />
+                </div>
+                <Link href={`/${name}`}>
+                    <a>
                         <div className={styles.coupleInfo}>
                             <h4>{name}{' '} {verified ? <Verified size={14} /> : ""}</h4>
                             <p className={styles.status}>{married ? "married" : "dating"}</p>
                         </div>
-                    </div>
-                    <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
-                </article >
-            </a>
-        </Link>
+                    </a>
+                </Link>
+            </div>
+            <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
+        </article >
+
     )
 }
 
