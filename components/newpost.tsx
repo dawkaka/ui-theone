@@ -94,6 +94,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     }
 
     const changeAspectRatio = (a: number) => {
+        setAspectRatio(a)
         cropper?.setAspectRatio(a)
     }
 
