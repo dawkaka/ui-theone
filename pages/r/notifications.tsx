@@ -5,16 +5,14 @@ import Layout from "../../components/mainLayout"
 import Suggestions from "../../components/suggestions"
 import Header from "../../components/pageHeader"
 import { FaHeart, FaUser } from "react-icons/fa"
-import { AiFillMessage, AiFillPlusCircle } from "react-icons/ai";
+import { AiFillMessage } from "react-icons/ai";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/notifications.json"
 import { Langs } from "../../types";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../../constants";
 import { BsPlusCircleFill } from "react-icons/bs";
-import loadConfig from "next/dist/server/config";
-import { useId } from "react";
 import { Loader } from "../../components/mis";
 
 export default function Notifications() {
@@ -55,10 +53,19 @@ export default function Notifications() {
                     <Header title={localeTr.notifications} arrow={false} />
                     <div className={styles.ntfs}>
                         {
-                            notifications.map((notif: any, index) => (
+                            notifications.map((notif: {
+                                type: "like" | "comment" | "follow" | "Partner Posted" | "Request Rejected" | "Couple Request" | "Request accepted" | "Mentioned",
+                                message: string,
+                                post_id: string,
+                                title: string,
+                                profile: string,
+                                name: string
+                                user: string
+                            }, index) => (
                                 <Notification
                                     type={notif.type} message={notif.message}
-                                    title={notif.title} postId={notif.post_id}
+                                    postId={notif.post_id}
+                                    title={localeTr[notif.type]}
                                     name={notif.name}
                                     profilePicture={notif.profile}
                                     user={notif.user}
@@ -78,14 +85,14 @@ export default function Notifications() {
 
 
 const Notification: React.FunctionComponent<{
-    type?: "like" | "comment" | "follow" | "PartnerPosted",
+    type: "like" | "comment" | "follow" | "Partner Posted" | "Request Rejected" | "Couple Request" | "Request accepted" | "Mentioned",
     message: string,
-    title: string,
     postId?: string,
+    title: string,
     profilePicture: string,
     name?: string
     user: string
-}> = ({ type, message, title, postId, name, profilePicture, user }) => {
+}> = ({ type, message, postId, name, title, profilePicture, user }) => {
     const iconSize = 30
 
     let icon = <FaHeart size={iconSize} color="var(--error-dark)" />
@@ -96,7 +103,7 @@ const Notification: React.FunctionComponent<{
         case "follow":
             icon = <FaUser size={iconSize} color="var(--success)" />
             break
-        case "PartnerPosted":
+        case "Partner Posted":
             icon = <BsPlusCircleFill size={iconSize} color="var(--success-dark)" />
             break
         default:
@@ -129,9 +136,7 @@ const Notification: React.FunctionComponent<{
                 <Link href={type === "follow" ? `/user/${user}` : `/${name}/${postId}`}>
                     <a>
                         <div>
-                            <h5>
-                                {title}
-                            </h5>
+                            <p><strong>{user}</strong> {title}</p>
                         </div>
                         <div style={{ marginTop: "var(--gap-quarter" }}>
                             <p>{message}</p>

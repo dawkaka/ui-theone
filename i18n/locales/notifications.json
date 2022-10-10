@@ -1,9 +1,24 @@
 {
     "en": {
-        "notifications": "Notifications"
+        "notifications": "Notifications",
+        "like": "liked your post",
+        "comment": "commented on your post",
+        "follow": "followed you",
+        "Partner Posted": "Added a new post",
+        "Request Rejected": "rejected your couple request",
+        "Couple Request": "sent you a couple request",
+        "Request accepted": "accepted you couple request",
+        "Mentioned": "mentioned you in a post"
     },
-    
     "es": {
-        "notifications": "Notificaciones"
-    } 
+        "notifications": "Notificaciones",
+        "like": "le gustó tu publicación",
+        "comment": "comentó en tu publicación",
+        "follow": "te siguió",
+        "Partner Posted": "subió una nueva publicación",
+        "Request Rejected": "rechazó tu solicitud de pareja.",
+        "Couple Request": "te envió una solicitud de pareja.",
+        "Request accepted": "aceptada tu solicitud de pareja",
+        "Mentioned": "te mencionaron en una publicación"
+    }
 }
