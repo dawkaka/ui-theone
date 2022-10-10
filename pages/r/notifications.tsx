@@ -30,7 +30,7 @@ export default function Notifications() {
         hasNextPage,
         isFetching,
         isFetchingNextPage,
-    } = useInfiniteQuery(["messages"], fetchMessages,
+    } = useInfiniteQuery(["notifications"], fetchMessages,
         {
             getNextPageParam: (lastPage, pages) => {
                 if (lastPage.data) {
@@ -42,8 +42,8 @@ export default function Notifications() {
         })
 
     let notifications: any[] = []
-    if (data?.pages) {
-        for (let page of data?.pages) {
+    if (data && data.pages) {
+        for (let page of data.pages) {
             notifications = notifications.concat(page.data.notifications)
         }
     }

@@ -469,6 +469,7 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
         })
 
     let posts: any[] = []
+    console.log(data)
     if (data?.pages) {
         for (let page of data?.pages) {
             posts = posts.concat(page.data.posts)
@@ -483,9 +484,17 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
                     )
                 })
             }
-            {isFetching && <h3>Loading...</h3>}
-            {(!isFetching && hasNextPage) && <button onClick={() => fetchNextPage()}>Load more</button>}
-
+            {
+                hasNextPage && (
+                    <div style={{ width: "100%", textAlign: "center" }}>
+                        {!isFetching ?
+                            <button onClick={() => fetchNextPage()}>load more</button>
+                            :
+                            <button>loading...</button>
+                        }
+                    </div>
+                )
+            }
         </>
     )
 }
