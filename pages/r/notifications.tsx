@@ -9,16 +9,44 @@ import { AiFillMessage, AiFillPlusCircle } from "react-icons/ai";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/notifications.json"
 import { Langs } from "../../types";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../../constants";
 import { BsPlusCircleFill } from "react-icons/bs";
+import loadConfig from "next/dist/server/config";
+import { useId } from "react";
 
 export default function Notifications() {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-    const { isLoading, data } = useQuery(["notifications"], () => axios.get(`${BASEURL}/user/notifications/0`))
+    // const { isLoading, data } = useQuery(["notifications"], () => axios.get(`${BASEURL}/user/notifications/0`))
+
+    const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/notifications/${pageParam}`)
+
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery(["messages"], fetchMessages,
+        {
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.data) {
+                    if (lastPage.data?.pagination.end)
+                        return undefined
+                }
+                return lastPage.data?.pagination.next
+            }
+        })
+
+    let notifications: any[] = []
+    if (data?.pages) {
+        for (let page of data?.pages) {
+            notifications = notifications.concat(page.data.notifications)
+        }
+    }
     return (
         <Layout>
             <div className={styles.main}>
@@ -26,21 +54,33 @@ export default function Notifications() {
                     <Header title={localeTr.notifications} arrow={false} />
                     <div className={styles.ntfs}>
                         {
-                            data?.data.map((notif: any) => (
+                            notifications.map((notif: any, index) => (
                                 <Notification
                                     type={notif.type} message={notif.message}
                                     title={notif.title} postId={notif.post_id}
                                     name={notif.name}
                                     profilePicture={notif.profile}
                                     user={notif.user}
+                                    key={index}
                                 />
                             ))
+                        }
+                        {
+                            hasNextPage && (
+                                <div style={{ width: "100%", textAlign: "center" }}>
+                                    {!isFetching ?
+                                        <button onClick={() => fetchNextPage()}>load more</button>
+                                        :
+                                        <button>loading...</button>
+                                    }
+                                </div>
+                            )
                         }
                     </div>
                 </section>
                 <Suggestions />
-            </div>
-        </Layout>
+            </div >
+        </Layout >
     )
 }
 
