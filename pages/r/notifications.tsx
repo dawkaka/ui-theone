@@ -15,6 +15,7 @@ import { BASEURL, IMAGEURL } from "../../constants";
 import { BsPlusCircleFill } from "react-icons/bs";
 import loadConfig from "next/dist/server/config";
 import { useId } from "react";
+import { Loader } from "../../components/mis";
 
 export default function Notifications() {
     const router = useRouter()
@@ -65,17 +66,7 @@ export default function Notifications() {
                                 />
                             ))
                         }
-                        {
-                            hasNextPage && (
-                                <div style={{ width: "100%", textAlign: "center" }}>
-                                    {!isFetching ?
-                                        <button onClick={() => fetchNextPage()}>load more</button>
-                                        :
-                                        <button>loading...</button>
-                                    }
-                                </div>
-                            )
-                        }
+                        <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
                     </div>
                 </section>
                 <Suggestions />

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
-import { Actions } from "./mis";
+import { Actions, Loader } from "./mis";
 import Link from "next/link";
 interface comment {
   userName: string;
@@ -162,11 +162,7 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
           )
         })
       }
-      {
-        (isFetching || isFetchingNextPage) && <h5>Loading...</h5>
-      }
-      {hasNextPage && <button onClick={() => fetchNextPage()}>load more...</button>}
-
+      <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
     </div>
   )
 }

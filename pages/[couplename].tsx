@@ -7,7 +7,7 @@ import Header from "../components/pageHeader";
 import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import styles from "../styles/couple.module.css"
-import { Actions, SearchUser, Verified } from "../components/mis";
+import { Actions, Loader, SearchUser, Verified } from "../components/mis";
 import { Post } from "../components/post";
 import { MdBlock, MdModeEdit, MdReport } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
@@ -469,7 +469,6 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
         })
 
     let posts: any[] = []
-    console.log(data)
     if (data?.pages) {
         for (let page of data?.pages) {
             posts = posts.concat(page.data.posts)
@@ -484,17 +483,7 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
                     )
                 })
             }
-            {
-                hasNextPage && (
-                    <div style={{ width: "100%", textAlign: "center" }}>
-                        {!isFetching ?
-                            <button onClick={() => fetchNextPage()}>load more</button>
-                            :
-                            <button>loading...</button>
-                        }
-                    </div>
-                )
-            }
+            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
         </>
     )
 }

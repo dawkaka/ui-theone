@@ -222,3 +222,27 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
         />
     )
 }
+
+
+
+export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetching: boolean }> = ({ loadMore, hasNext, isFetching }) => {
+    return (
+        <>
+            {hasNext && (
+                <div style={{ width: "100%", textAlign: "center" }}>
+                    {!isFetching ?
+                        <button onClick={() => loadMore()}>load more</button>
+                        :
+                        <button>loading...</button>
+                    }
+                </div>
+            )
+            }
+        </>
+    )
+}
+
+
+
+
+

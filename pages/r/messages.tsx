@@ -16,6 +16,7 @@ import { Categories, EmojiStyle } from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { GoFileMedia } from "react-icons/go";
 import { io } from "socket.io-client";
+import { Loader } from "../../components/mis";
 
 const socket = io(`${SOCKETURL}/couple`, {
     withCredentials: true,
@@ -134,16 +135,7 @@ export default function Messages() {
                             </div>
                         </div>
                         <div className={styles.pmWrapper}>
-                            {hasNextPage && (
-                                <div style={{ width: "100%", textAlign: "center" }}>
-                                    {!isFetching ?
-                                        <button onClick={() => fetchNextPage()}>load more</button>
-                                        :
-                                        <button>loading...</button>
-                                    }
-                                </div>
-                            )
-                            }
+                            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
                             {messages.map((message: any, index: number) => {
                                 return (
                                     <ChatMessage
