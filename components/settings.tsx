@@ -291,8 +291,9 @@ export const CoupleReportModal: React.FunctionComponent<{
 
 export const CoupleSettings: React.FunctionComponent<{
     open: boolean,
-    close: () => void
-}> = ({ open, close }) => {
+    close: () => void,
+    married: boolean
+}> = ({ open, close, married }) => {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
@@ -367,6 +368,11 @@ export const CoupleSettings: React.FunctionComponent<{
                         title={localeTr.visibility.title}
                         options={[{ value: "public", label: localeTr.visibility.public }, { value: "private", label: localeTr.visibility.private }]}
                         value={visibility} handleChange={visibilityChange}
+                    />
+                    <SettingRadio
+                        title={localeTr.married.title}
+                        options={[{ value: "YES", label: localeTr.married.yes }, { value: "NO", label: localeTr.married.no }]}
+                        value={married ? "YES" : "NO"} handleChange={visibilityChange}
                     />
 
                     <div className={styles.dangerousActionContainer}>

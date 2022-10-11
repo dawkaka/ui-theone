@@ -126,7 +126,6 @@ const CoupleProfile: NextPage = (props: any) => {
     const { isLoading, data } = useQuery(["profile", { coupleName: router.query.couplename }],
         () => axios.get(`${BASEURL}/${router.query.couplename}`),
         { initialData: props.couple, staleTime: Infinity })
-
     return (
         <>
             <Layout>
@@ -208,9 +207,11 @@ const CoupleProfile: NextPage = (props: any) => {
                                 </div>
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>
                                     <p className={styles.userName}>{data?.data.couple_name} {data?.data.verified ? <Verified size={15} /> : ""}</p>
-                                    <p className={styles.bio}>{data?.data.bio}
-                                    </p>
-                                    <div style={{ display: "flex", gap: "var(--gap)", alignItems: "center" }}>
+                                    <p className={styles.bio}>{data?.data.bio}</p>
+                                    <div style={{ marginTop: "var(--gap-half)" }}>
+                                        <a href={data.data.website} style={{ color: "var(--success)" }}>{data.data.website}</a>
+                                    </div>
+                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
                                         <h2 className={styles.countInfo}>
                                             <div className={styles.countItem}>
                                                 <strong title="Number of posts">{data?.data.post_count}</strong>
@@ -245,7 +246,7 @@ const CoupleProfile: NextPage = (props: any) => {
                     <EditCouple open={editOpen} close={() => setEditOpen(false)}
                         web={data.data.website} bioG={data.data.bio}
                         dc={data.data.date_commenced} coupleName={router.query.couplename as string} />
-                    <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} />
+                    <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} married={data.data.married} />
                     <CoupleReportModal open={openReportModal} close={() => setOpenReportModal(false)} />
                     <Followers open={openFollowers} close={() => setOpenFollowers(false)} heading={localeTr.followers} />
 
