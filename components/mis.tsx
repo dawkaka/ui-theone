@@ -213,8 +213,7 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
 
     return (
         <video src={file}
-
-            style={{ objectFit: "contain", backgroundColor: "black", width: "100%", height: "min(70vh, 500px)" }} key={file}
+            style={{ objectFit: "contain", backgroundColor: "black", width: "100%", height: "min(70vh, 500px)" }}
             onClick={toggleVideo}
             onEnded={() => vidRef.current?.play()}
             ref={vidRef}

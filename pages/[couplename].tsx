@@ -19,7 +19,6 @@ import EditCouple from "../components/editprofile";
 import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
 import { Langs, PostT } from "../types";
-import CouplePreview from "../components/couplepreview";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";

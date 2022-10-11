@@ -396,7 +396,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             </div>
                         </div>
                         <div className={`${styles.modalContent}`} style={{ borderBottom: "10px solid var(--background)" }}>
-                            <Video file={vid} />
+                            <video src={vid} controls
+                                style={{ objectFit: "contain", backgroundColor: "black", width: "100%", height: "min(70vh, 500px)" }}
+                            ></video>
                         </div>
                     </div>
                 )
