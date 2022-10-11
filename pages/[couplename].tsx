@@ -207,6 +207,7 @@ const CoupleProfile: NextPage = (props: any) => {
                                 </div>
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>
                                     <p className={styles.userName}>{data?.data.couple_name} {data?.data.verified ? <Verified size={15} /> : ""}</p>
+                                    <p style={{ color: "var(--accents-5)" }}>{data.data.married ? "married" : "dating"}</p>
                                     <p className={styles.bio}>{data?.data.bio}</p>
                                     <div style={{ marginTop: "var(--gap-half)" }}>
                                         <a href={data.data.website} style={{ color: "var(--success)" }}>{data.data.website}</a>
