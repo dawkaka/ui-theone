@@ -157,10 +157,10 @@ export const SearchUser: React.FunctionComponent<{
 
 export const SearchCouple: React.FunctionComponent<{
     verified: boolean,
-    status: boolean,
+    married: boolean,
     name: string,
     picture: string
-}> = ({ verified, status, name, picture }) => {
+}> = ({ verified, married, name, picture }) => {
     return (
         <Link href={`/${name}`} shallow>
             <a>
@@ -170,7 +170,7 @@ export const SearchCouple: React.FunctionComponent<{
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "5px", color: "var(--accents-7)" }}>
                         <h4 style={{}}>{name}{" "} {verified ? <Verified size={13} /> : ""}</h4>
-                        <p style={{ color: "var(--accents-6)" }}>{status}</p>
+                        <p style={{ color: "var(--accents-6)" }}>{married ? "married" : "dating"}</p>
                     </div>
                 </article>
             </a>

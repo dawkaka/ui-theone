@@ -246,7 +246,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                     <>
                                         <li className={`${styles.actionItem} ${styles.dangerAction}`}><span>Block @{couple_name}</span><MdBlock size={25} /></li>
                                         <li className={styles.actionItem} onClick={followUnfollow}><span>{following ? localeTr.unfollow : localeTr.follow} @{couple_name}</span><RiUserUnfollowLine size={25} /></li>
-                                        <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>copy post url</span> </li>
+                                        <li className={styles.actionItem}><span>copy post url</span> <MdOutlineContentCopy size={25} /></li>
                                         <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><span>Report</span><MdReport size={25} /></li>
                                         <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
                                     </>

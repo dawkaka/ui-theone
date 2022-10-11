@@ -137,7 +137,7 @@ const SearchResults: React.FC<{ query: string, active: boolean, type: string }> 
                         name={item.couple_name}
                         verified={item.verified}
                         picture={`${IMAGEURL}/${item.profile_picture}`}
-                        status={item.married}
+                        married={item.married}
                     />
                 )
                 )

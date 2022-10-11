@@ -318,9 +318,25 @@ export const CoupleSettings: React.FunctionComponent<{
         changeNameMutation.mutate({ couple_name: newName })
     }
 
-    const visibilityChange = (val: string) => {
-        console.log(val);
+
+    const statusMutation = useMutation(
+        (val: string) => {
+            return axios.post(`${BASEURL}/couple/status/${val}`)
+        },
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
+
+    const statusChange = (val: string) => {
+        statusMutation.mutate(val)
     }
+
 
     const breakFastMutation = useMutation(
         () => {
@@ -364,15 +380,15 @@ export const CoupleSettings: React.FunctionComponent<{
                         placeholder={localeTr.couplename.placehoder}
                         actionTitle={localeTr.change}
                     />
-                    <SettingRadio
+                    {/* <SettingRadio
                         title={localeTr.visibility.title}
                         options={[{ value: "public", label: localeTr.visibility.public }, { value: "private", label: localeTr.visibility.private }]}
                         value={visibility} handleChange={visibilityChange}
-                    />
+                    /> */}
                     <SettingRadio
                         title={localeTr.married.title}
                         options={[{ value: "YES", label: localeTr.married.yes }, { value: "NO", label: localeTr.married.no }]}
-                        value={married ? "YES" : "NO"} handleChange={visibilityChange}
+                        value={married ? "YES" : "NO"} handleChange={statusChange}
                     />
 
                     <div className={styles.dangerousActionContainer}>
