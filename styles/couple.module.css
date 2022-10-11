@@ -311,9 +311,11 @@
         grid-template-columns: 1fr;
     }
 
-    .profileImage {
-        width: 20vw
+    .imageContainer {
+        width: 20vw;
+        height: 20vw
     }
+
 
     .profileContainer {
         min-height: 0;
@@ -325,13 +327,15 @@
         padding: var(--gap) var(--gap-half);
     }
 
-    .profileImage {
-        width: 25vw
+    .imageContainer {
+        width: 25vw;
+        height: 25vw;
     }
 }
 
 @media screen and (max-width: 300px) {
-    .profileImage {
-        width: 30vw
+    .imageContainer {
+        width: 30vw;
+        height: 30vw;
     }
 }

@@ -12,7 +12,7 @@ import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import { EditUser } from "../../components/editprofile";
-import { Actions } from "../../components/mis";
+import { Actions, Loader } from "../../components/mis";
 import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
 import { Langs } from "../../types";
@@ -447,6 +447,7 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                             <CouplePreview name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} isFollowing={flw.is_following} verified={flw.verified} />
                         ))
                     }
+                    <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} />
                 </div>
             </div>
         </Modal>

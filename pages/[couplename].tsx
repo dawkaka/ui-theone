@@ -212,8 +212,14 @@ const CoupleProfile: NextPage = (props: any) => {
                                     </p>
                                     <div style={{ display: "flex", gap: "var(--gap)", alignItems: "center" }}>
                                         <h2 className={styles.countInfo}>
+                                            <div className={styles.countItem}>
+                                                <strong title="Number of posts">{data?.data.post_count}</strong>
+                                                <span className={styles.countItemTitle}>{localeTr.posts}</span>
+                                            </div>
+                                        </h2>
+                                        <h2 className={styles.countInfo}>
                                             <div className={styles.countItem} onClick={() => setOpenFollowers(true)}>
-                                                <strong title="Followers">{data?.data.followers_count}</strong>
+                                                <strong title="Number of followers">{data?.data.followers_count}</strong>
                                                 <span className={styles.countItemTitle}>{localeTr.followers}</span>
                                             </div>
                                         </h2>
@@ -424,6 +430,7 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
                                 />
                             ))
                         }
+                        <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} />
                     </div>
                 </div>
 

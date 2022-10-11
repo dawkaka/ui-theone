@@ -24,6 +24,7 @@ import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { FaHeart } from "react-icons/fa";
 import { Prompt } from "./prompt";
+import { postDateFormat } from "../libs/utils";
 
 const Picker = dynamic(
     () => {
@@ -61,7 +62,7 @@ const modalStyles: Modal.Styles = {
 export const Post: React.FunctionComponent<PostT> = (props) => {
     const {
         couple_name, verified, has_liked, profile_picture, id, postId, caption,
-        likes_count, comments_count, is_this_couple, location, files } = props
+        likes_count, comments_count, is_this_couple, location, files, created_at } = props
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const locale = useRouter().locale || "en"
@@ -195,14 +196,16 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                         </div>
                         }
                     </div>
-                    <div className={styles.viewSliderPos}>
-                        {
-                            files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
 
-                        }
-                    </div>
-                    <div className={styles.postStats}>
-                        <PostIcons likes={likes_count} comments={comments_count} id={props.id} hasLiked={has_liked} />
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingInline: "var(--gap-half)" }}>
+                        <p style={{ color: "var(--accents-3)", fontSize: "small" }}>{postDateFormat(created_at)}</p>
+                        <div className={styles.viewSliderPos}>
+                            {
+                                files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
+
+                            }
+                        </div>
+                        <PostIcons likes={likes_count} comments={comments_count} id={id} hasLiked={has_liked} />
                     </div>
                     <div className={styles.captionContainer}>
                         <Link
@@ -210,7 +213,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                         >
                             <a>
                                 <p>
-                                    {props.caption}
+                                    {caption}
                                 </p>
                             </a>
                         </Link>
@@ -446,6 +449,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                         </p>
                         <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
                             <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} hasLiked={post.has_liked} />
+                            <p style={{ color: "var(--accents-3)", fontSize: "small" }}>{postDateFormat(post.created_at)}</p>
                         </div>
                     </div>
                     <Comments id={post.id} />
@@ -642,6 +646,12 @@ const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: 
     return (
         <div className={styles.postIcons}>
             <div className={styles.postIcon}>
+                <div>
+                    <AiOutlineComment size={25} />
+                </div>
+                <p>{c}</p>
+            </div>
+            <div className={styles.postIcon}>
                 <div onClick={() => {
                     if (liked) {
                         likePost.mutate("unlike")
@@ -655,12 +665,6 @@ const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: 
                     {liked ? <FaHeart size={25} color="var(--error)" /> : <AiOutlineHeart size={25} />}
                 </div>
                 <p>{l}</p>
-            </div>
-            <div className={styles.postIcon}>
-                <div>
-                    <AiOutlineComment size={25} />
-                </div>
-                <p>{c}</p>
             </div>
         </div>
     )

@@ -10,7 +10,8 @@
         "done": "Done",
         "report": "Report",
         "block": "Block",
-        "reportcouple": "Report couple"
+        "reportcouple": "Report couple",
+        "posts": "Posts"
     },
     "es": {
         "follow": "Seguir",
@@ -23,6 +24,7 @@
         "done": "Hecho",
         "report": "Reporte",
         "block": "Bloquear",
-        "reportcouple": "Reportar pareja"
+        "reportcouple": "Reportar pareja",
+        "posts": "Publicacciones"
     }
 }
