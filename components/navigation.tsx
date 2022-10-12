@@ -100,7 +100,7 @@ export default function Navigation() {
                                 {pathname === "/r/notifications" ? <AiFillBell size={25}></AiFillBell> :
                                     <AiOutlineBell size={25} color="var(--accents-6)" ></AiOutlineBell>
                                 }
-                                <p
+                                {startup.notifications_count > 0 && (<p
                                     style={{
                                         position: "absolute", top: 0,
                                         right: "-4px", backgroundColor: "red",
@@ -109,6 +109,8 @@ export default function Navigation() {
 
                                     }}
                                 >{startup.notifications_count}</p>
+                                )
+                                }
                             </div>
                             <p>{cMessages.notifications}</p>
                         </div>

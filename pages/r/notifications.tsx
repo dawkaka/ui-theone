@@ -46,6 +46,7 @@ export default function Notifications() {
             notifications = notifications.concat(page.data.notifications)
         }
     }
+    axios.put(`${BASEURL}/user/new-notifications`).then(res => console.log(res)).catch(err => console.log(err))
     return (
         <Layout>
             <div className={styles.main}>
@@ -69,6 +70,7 @@ export default function Notifications() {
                                     name={notif.name}
                                     profilePicture={notif.profile}
                                     user={notif.user}
+                                    isNew={index < data?.pages[0].data.new_count}
                                     key={index}
                                 />
                             ))
@@ -90,9 +92,10 @@ const Notification: React.FunctionComponent<{
     postId?: string,
     title: string,
     profilePicture: string,
-    name?: string
+    name?: string,
+    isNew: boolean,
     user: string
-}> = ({ type, message, postId, name, title, profilePicture, user }) => {
+}> = ({ type, message, postId, name, title, profilePicture, user, isNew }) => {
     const iconSize = 30
 
     let icon = <FaHeart size={iconSize} color="var(--error-dark)" />
@@ -112,7 +115,7 @@ const Notification: React.FunctionComponent<{
 
     return (
 
-        <article className={styles.notifContainer}>
+        <article className={styles.notifContainer} style={{ backgroundColor: isNew ? "var(--accents-2)" : "" }}>
             <div className={styles.notifIconContainer}>
                 {icon}
             </div>
