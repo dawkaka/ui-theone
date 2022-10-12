@@ -125,6 +125,12 @@ const CoupleProfile: NextPage = (props: any) => {
     const { isLoading, data } = useQuery(["profile", { coupleName: router.query.couplename }],
         () => axios.get(`${BASEURL}/${router.query.couplename}`),
         { initialData: props.couple, staleTime: Infinity })
+
+    useEffect(() => {
+        setFollowing(data.data.is_following)
+    }, [data])
+
+
     return (
         <>
             <Layout>
