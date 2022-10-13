@@ -66,3 +66,21 @@
 .next {
     right: 0;
 }
+
+.toast {
+    position: fixed;
+    z-index: 222;
+    right: 5px;
+    font-size: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    width: max-content;
+    background-color: var(--background);
+    padding: var(--gap-half) var(--gap-double);
+    bottom: 0;
+    border-radius: var(--radius-tiny);
+    border: 1px solid var(--accents-1);
+    border-left: 5px solid var(--success);
+}

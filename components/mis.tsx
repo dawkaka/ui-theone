@@ -1,6 +1,6 @@
 import { CSSProperties } from "react"
 import styles from "./styles/misc.module.css"
-import { useSpring, animated } from "@react-spring/web";
+import { useSpring, animated, useSpringRef, useChain } from "@react-spring/web";
 import { useState, useEffect, useRef } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
@@ -242,5 +242,20 @@ export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetchi
 
 
 
+export const Toast: React.FC<{ message: string, type: "ERROR" | "SUCCESS" | "NEUTRAL", resetMessage: () => void }> = ({ message, type, resetMessage }) => {
+    const [paused, setPaused] = useState(false)
 
+    const springRef = useSpringRef()
+    const props = useSpring({
+        config: { duration: 1000 },
+        delay: 100,
+        pause: paused,
+        from: { bottom: 0 }, to: [{ bottom: 70 }, { bottom: 60 }, { bottom: 0 }],
+    })
 
+    return (
+        <animated.div className={styles.toast} style={props} onMouseOver={() => setPaused(true)} onMouseOut={() => setPaused(false)}>
+            <p>message</p>
+        </animated.div>
+    )
+}

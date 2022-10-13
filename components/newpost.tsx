@@ -217,6 +217,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     }
     return (
         <Modal
+            closeTimeoutMS={400}
             isOpen={isOpen}
             onRequestClose={() => close()}
             style={{

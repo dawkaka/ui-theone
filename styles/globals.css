@@ -170,6 +170,19 @@ input[type="search"]:focus {
   color: var(--success)
 }
 
+.ReactModal__Content {
+  transform: translateY(-500px);
+  transition: transform 200ms ease-in;
+}
+
+.ReactModal__Content--after-open {
+  transform: translateY(0);
+}
+
+.ReactModal__Content--before-close {
+  transform: translateY(100vh);
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

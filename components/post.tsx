@@ -227,6 +227,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
 
             </div>
             <Modal
+                closeTimeoutMS={400}
                 isOpen={modalOpen}
                 style={modalStyles}
                 onRequestClose={closeModal} >
@@ -459,6 +460,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                 </div>
             </div >
             <Modal
+                closeTimeoutMS={400}
                 isOpen={modalOpen}
                 style={modalStyles}
                 onRequestClose={() => setModalOpen(false)} >

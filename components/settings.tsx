@@ -173,6 +173,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     )
     return (
         <Modal
+            closeTimeoutMS={400}
             isOpen={open}
             onRequestClose={close}
             style={modalStyles}
@@ -243,6 +244,7 @@ export const CoupleReportModal: React.FunctionComponent<{
     const localeTr = tr[locale as Langs]
     return (
         <Modal
+            closeTimeoutMS={400}
             isOpen={open}
             onRequestClose={close}
             style={modalStyles}
@@ -354,6 +356,7 @@ export const CoupleSettings: React.FunctionComponent<{
 
     return (
         <Modal
+            closeTimeoutMS={400}
             isOpen={open}
             onRequestClose={close}
             style={modalStyles}

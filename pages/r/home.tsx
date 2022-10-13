@@ -33,6 +33,7 @@ export default function HomePage() {
                 <Suggestions />
             </div>
             <Modal
+                closeTimeoutMS={400}
                 isOpen={false}
                 onRequestClose={() => router.back()}
                 contentLabel="Post modal"

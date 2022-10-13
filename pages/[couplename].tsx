@@ -257,6 +257,7 @@ const CoupleProfile: NextPage = (props: any) => {
                     <Followers open={openFollowers} close={() => setOpenFollowers(false)} heading={localeTr.followers} />
 
                     <Modal
+                        closeTimeoutMS={400}
                         isOpen={isOpen}
                         onRequestClose={() => setIsOpen(false)}
                         style={{
@@ -390,7 +391,7 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
 
 
     return (
-        <Modal isOpen={open} onRequestClose={close}
+        <Modal closeTimeoutMS={400} isOpen={open} onRequestClose={close}
 
             style={{
                 overlay: {

@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app'
 import { useEffect } from "react"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { ToasContext } from "../components/context";
+import { Toast } from "../components/mis";
 
 const queryClient = new QueryClient()
 axios.defaults.withCredentials = true
@@ -25,9 +27,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
-    </QueryClientProvider>
+    <ToasContext.Provider value={null}>
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+        <Toast message="Hello world" type="NEUTRAL" resetMessage={() => { }} />
+      </QueryClientProvider >
+    </ToasContext.Provider>
   )
 }
 

@@ -166,6 +166,7 @@ export default function Navigation() {
             </aside>
             }
             <Modal
+                closeTimeoutMS={400}
                 isOpen={openRequest}
                 onRequestClose={() => setOpenRequest(false)}
                 contentLabel="Post modal"
