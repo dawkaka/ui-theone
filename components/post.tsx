@@ -34,9 +34,6 @@ const Picker = dynamic(
     { ssr: false }
 );
 
-
-
-
 const modalStyles: Modal.Styles = {
     overlay: {
         zIndex: 1,
@@ -73,6 +70,8 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
     const [following, setFollowing] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
     const notify = useContext(ToasContext)
+    const queryClient = useQueryClient()
+
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
             let width = window.getComputedStyle(slider.current!).width
@@ -115,6 +114,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
         {
             onSuccess: (data) => {
                 const { message, type } = data.data as MutationResponse
+                queryClient.invalidateQueries(["post", { postId }])
                 notify!.notify(message, type)
                 setPrOpen(false)
                 closeModal()
@@ -237,7 +237,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
 
             </div>
             <Modal
-                closeTimeoutMS={400}
+                closeTimeoutMS={200}
                 isOpen={modalOpen}
                 style={modalStyles}
                 onRequestClose={closeModal} >
@@ -299,6 +299,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
     const [following, setFollowing] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
     const notify = useContext(ToasContext)
+    const queryClient = useQueryClient()
 
     useEffect(() => {
         const scrollHandler = () => {
@@ -364,6 +365,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         },
         {
             onSuccess: (data) => {
+                queryClient.invalidateQueries(["post", { postId }])
                 const { message, type } = data.data as MutationResponse
                 notify!.notify(message, type)
                 setPrOpen(false)
@@ -479,7 +481,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                 </div>
             </div >
             <Modal
-                closeTimeoutMS={400}
+                closeTimeoutMS={200}
                 isOpen={modalOpen}
                 style={modalStyles}
                 onRequestClose={() => setModalOpen(false)} >

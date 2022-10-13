@@ -76,7 +76,7 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bi
 
         return (
             <Modal
-                closeTimeoutMS={400}
+                closeTimeoutMS={200}
                 isOpen={open}
                 onRequestClose={close}
                 style={modalStyles}
@@ -194,7 +194,7 @@ export const EditUser: React.FunctionComponent<EditUserT> = ({ open, close, firs
 
     return (
         <Modal
-            closeTimeoutMS={400}
+            closeTimeoutMS={200}
             isOpen={open}
             onRequestClose={close}
             style={modalStyles}

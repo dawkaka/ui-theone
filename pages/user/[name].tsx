@@ -245,7 +245,7 @@ export default function Profile(props: any) {
                 <UserSettings open={openSettings} close={() => setOpenSettings(false)} />
                 <Following open={openFollowing} close={() => setOpenFollowing(false)} heading={localeTr.following} />
                 <Modal
-                    closeTimeoutMS={400}
+                    closeTimeoutMS={200}
                     isOpen={isOpen}
                     onRequestClose={() => setIsOpen(false)}
                     style={{
@@ -408,7 +408,7 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
     }
 
     return (
-        <Modal closeTimeoutMS={400} isOpen={open} onRequestClose={close}
+        <Modal closeTimeoutMS={200} isOpen={open} onRequestClose={close}
 
             style={{
                 overlay: {
