@@ -1,14 +1,19 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { ToasContext } from "../components/context";
 import { Toast } from "../components/mis";
+import { BsTypeStrikethrough } from "react-icons/bs";
 
 const queryClient = new QueryClient()
 axios.defaults.withCredentials = true
 function MyApp({ Component, pageProps }: AppProps) {
+  const [message, setMessage] = useState("")
+  const [type, setType] = useState<"ERROR" | "SUCCESS" | "NEUTRAL">("NEUTRAL")
+
+
   useEffect(() => {
     const val = window.localStorage.getItem("theme")
     if (val === "dark") {
@@ -25,12 +30,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
+  const notify = useMemo(() => ({
+    notify: (message: string, type: "SUCCESS" | "NEUTRAL" | "ERROR") => {
+      setMessage(message)
+      setType(type)
+    }
+  }), [])
+
 
   return (
-    <ToasContext.Provider value={null}>
+    <ToasContext.Provider value={notify}>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
-        <Toast message="Hello world" type="NEUTRAL" resetMessage={() => { }} />
+        <Toast message={message} type={type} resetMessage={() => setMessage("")} />
       </QueryClientProvider >
     </ToasContext.Provider>
   )

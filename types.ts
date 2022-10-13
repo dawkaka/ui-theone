@@ -58,3 +58,9 @@ export interface PostT {
     profile_picture: string;
     postId: string
 }
+export type MessageTypes = "ERROR" | "SUCCESS" | "NEUTRAL"
+
+export interface MutationResponse {
+    message: string,
+    type: MessageTypes
+}

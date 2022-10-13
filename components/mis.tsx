@@ -243,19 +243,31 @@ export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetchi
 
 
 export const Toast: React.FC<{ message: string, type: "ERROR" | "SUCCESS" | "NEUTRAL", resetMessage: () => void }> = ({ message, type, resetMessage }) => {
-    const [paused, setPaused] = useState(false)
-
-    const springRef = useSpringRef()
-    const props = useSpring({
-        config: { duration: 1000 },
-        delay: 100,
-        pause: paused,
-        from: { bottom: 0 }, to: [{ bottom: 70 }, { bottom: 60 }, { bottom: 0 }],
-    })
-
+    const pausedRef = useRef(false)
+    const timer = useRef(0)
+    if (message === "") {
+        return null
+    }
+    if (message !== "") {
+        timer.current = Date.now()
+        setTimeout(() => {
+            if (!pausedRef.current) {
+                resetMessage()
+            }
+        }, 3000)
+    }
     return (
-        <animated.div className={styles.toast} style={props} onMouseOver={() => setPaused(true)} onMouseOut={() => setPaused(false)}>
-            <p>message</p>
-        </animated.div>
+        <div className={styles.toast}
+            onMouseOver={() => pausedRef.current = true}
+            onMouseOut={() => {
+                pausedRef.current = false
+                if (Date.now() - timer.current > 3000) {
+                    resetMessage()
+                }
+            }}
+            style={{ borderLeftColor: type === "ERROR" ? "var(-error)" : type === "SUCCESS" ? "green" : "var(--success)" }}
+        >
+            <p>{message}</p>
+        </div >
     )
 }
