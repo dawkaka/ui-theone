@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -12,7 +12,7 @@ import { RiUserUnfollowLine } from "react-icons/ri";
 import Modal from 'react-modal';
 import Comments from "./comment";
 import { useRouter } from "next/router";
-import { Langs, PostT } from "../types";
+import { Langs, MutationResponse, PostT } from "../types";
 import tr from "../i18n/locales/components/post.json";
 import emTr from "../i18n/locales/components/emoji.json"
 import { BiCommentX } from "react-icons/bi";
@@ -20,11 +20,12 @@ import { IoMdClose } from "react-icons/io";
 import { useTheme } from "../hooks";
 import { Categories, EmojiStyle } from "emoji-picker-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { FaHeart } from "react-icons/fa";
 import { Prompt } from "./prompt";
 import { postDateFormat } from "../libs/utils";
+import { ToasContext } from "./context";
 
 const Picker = dynamic(
     () => {
@@ -71,7 +72,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const [following, setFollowing] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
-
+    const notify = useContext(ToasContext)
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
             let width = window.getComputedStyle(slider.current!).width
@@ -107,28 +108,37 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
         setCurr(dist / widthNum)
     }
 
-    const deletePost = useMutation(
-        (id: string) => {
+    const deletePost = useMutation<AxiosResponse, AxiosError<any, any>, string>(
+        (id) => {
             return axios.delete(`${BASEURL}/post/${id}`)
         },
         {
-            onSuccess: (data) => console.log(data),
-            onError: (err) => console.log(err)
+            onSuccess: (data) => {
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
+                setPrOpen(false)
+                closeModal()
+            },
+            onError: (err) => {
+                setFollowing(!following)
+                notify!.notify(err.response?.data.message, "ERROR")
+            }
         }
     )
 
-
-    const followMutation = useMutation(
+    const followMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
             return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${couple_name}`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
                 console.log(err)
                 setFollowing(!following)
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -288,6 +298,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const [following, setFollowing] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
+    const notify = useContext(ToasContext)
 
     useEffect(() => {
         const scrollHandler = () => {
@@ -327,17 +338,18 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         setCurr(dist / widthNum)
     }
 
-    const followMutation = useMutation(
+    const followMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
             return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${post.couple_name}`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
                 setFollowing(!following)
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -346,13 +358,20 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         setFollowing(!following)
     }
 
-    const deletePost = useMutation(
+    const deletePost = useMutation<AxiosResponse, AxiosError<any, any>, string>(
         (id: string) => {
             return axios.delete(`${BASEURL}/post/${id}`)
         },
         {
-            onSuccess: (data) => console.log(data),
-            onError: (err) => console.log(err)
+            onSuccess: (data) => {
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
+                setPrOpen(false)
+                closeModal()
+            },
+            onError: (err) => {
+                notify!.notify(err.response?.data.message, "ERROR")
+            }
         }
     )
 
@@ -521,16 +540,22 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
     const [openEmoji, setOpenEmoji] = useState(false)
     const [comment, setComment] = useState("")
     const theme = useTheme()
+    const notify = useContext(ToasContext)
 
-    const { mutate, isLoading } = useMutation(
-        (comment: string) => {
+
+    const { mutate, isLoading } = useMutation<AxiosResponse, AxiosError<any, any>, string>(
+        (comment) => {
             return axios.post(`${BASEURL}/post/comment/${id}`, JSON.stringify({ comment }))
         },
         {
             onSuccess: data => {
                 setComment("")
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
-            onError: err => console.log(err)
+            onError: err => {
+                notify!.notify(err.response?.data.message, "ERROR")
+            }
         }
     )
 
@@ -629,7 +654,7 @@ const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: 
     const c = new Intl.NumberFormat(locale, { notation: "compact" }).format(comments)
 
 
-    const likePost = useMutation(
+    const likePost = useMutation<AxiosResponse, AxiosError<any, any>, string>(
         (action: string) => {
             return axios.patch(`${BASEURL}/post/${action}/${id}`)
         },
@@ -676,17 +701,21 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }
 
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
+    const notify = useContext(ToasContext)
 
     const report = useRef<HTMLUListElement>(null)
 
-    const reportMutation = useMutation(
-        (reports: { reports: number[] }) => {
+    const reportMutation = useMutation<AxiosResponse, AxiosError<any, any>, { reports: number[] }>(
+        (reports) => {
             return axios.post(`${BASEURL}/post/report/${id}`, JSON.stringify(reports))
         },
         {
-            onSuccess: (data) => console.log(data),
-            onError: (err) => {
-                console.log(err)
+            onSuccess: data => {
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
+            },
+            onError: err => {
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -754,9 +783,10 @@ const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: strin
         const localeTr = tr[locale as Langs]
         const editRef = useRef({ caption: caption, location: location })
         const queryclient = useQueryClient()
+        const notify = useContext(ToasContext)
 
 
-        const editMutation = useMutation(
+        const editMutation = useMutation<AxiosResponse, AxiosError<any, any>, { caption: string, location: string }>(
             (edit: { caption: string, location: string }) => {
                 return axios.put(`${BASEURL}/post/${id}`, JSON.stringify(edit))
             },
@@ -764,9 +794,11 @@ const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: strin
                 onSuccess: (data) => {
                     queryclient.invalidateQueries(["post", { postId: pId }])
                     closeModal()
+                    const { message, type } = data.data as MutationResponse
+                    notify!.notify(message, type)
                 },
-                onError: (err) => {
-                    console.log(err)
+                onError: err => {
+                    notify!.notify(err.response?.data.message, "ERROR")
                 }
             })
 
