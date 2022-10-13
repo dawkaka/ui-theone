@@ -1,14 +1,15 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import Image from "next/image"
 import styles from "./styles/couplepreview.module.css"
 import { Verified } from "./mis";
 import tr from "../i18n/locales/components/couplepreview.json"
 import { useRouter } from "next/router";
-import { Langs } from "../types";
+import { Langs, MutationResponse } from "../types";
 import { Mutation, useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL } from "../constants";
 import Link from "next/link";
+import { ToasContext } from "./context";
 
 
 interface couple {
@@ -25,18 +26,20 @@ const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, mar
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const [following, setFollowing] = useState(isFollowing)
+    const notify = useContext(ToasContext)
 
-    const mutation = useMutation(
+    const mutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
-            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/yousiph.and.lana`)
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${name}`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify?.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
-                setFollowing(!following)
+                setFollowing(prv => !prv)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )

@@ -1,14 +1,15 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useEffect, useRef, useState } from "react"
 import { IoMdClose } from "react-icons/io"
 import Modal from "react-modal"
 import styles from "./styles/edit.module.css"
 import tr from "../i18n/locales/components/editprofile.json"
-import { EditCouple, EditUser as EditU, EditUserT, ErrCodes, Langs } from "../types"
+import { EditCouple, EditUser as EditU, EditUserT, ErrCodes, Langs, MutationResponse } from "../types"
 import { useRouter } from "next/router"
 import { isRealName } from "../libs/validators"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios, { AxiosError } from "axios"
+import axios, { AxiosError, AxiosResponse } from "axios"
 import { BASEURL } from "../constants"
+import { ToasContext } from "./context"
 
 const modalStyles: Modal.Styles = {
     overlay: {
@@ -42,23 +43,26 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bi
         const locale = router.locale || "en"
         const localeTr = tr[locale as Langs]
         const queryClient = useQueryClient()
+        const notify = useContext(ToasContext)
 
         const website = useRef(web)
         dc = new Date(dc).toLocaleString('en-CA').substring(0, 10)
         const drb = useRef(dc + "T00:00:00Z")
         const [bio, setBio] = useState(bioG)
 
-        const mutation = useMutation(
-            (data: EditCouple) => {
+        const mutation = useMutation<AxiosResponse, AxiosError<any, any>, EditCouple>(
+            (data) => {
                 return axios.put(`${BASEURL}/couple`, JSON.stringify(data))
             },
             {
                 onSuccess: (data) => {
                     queryClient.invalidateQueries(["profile", { coupleName }])
                     close()
+                    const { message, type } = data.data as MutationResponse
+                    notify!.notify(message, type)
                 },
-                onError: (err: AxiosError) => {
-                    console.log(err.response)
+                onError: (err) => {
+                    notify!.notify(err.response?.data.message, "ERROR")
                 }
             }
         )
@@ -138,6 +142,7 @@ export const EditUser: React.FunctionComponent<EditUserT> = ({ open, close, firs
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+    const notify = useContext(ToasContext)
 
     const [firstName, setFirstName] = useState(first_name)
     const [lastName, setLastName] = useState(last_name)
@@ -150,14 +155,19 @@ export const EditUser: React.FunctionComponent<EditUserT> = ({ open, close, firs
     const dateRef = useRef(dob)
     const webRef = useRef(website)
 
-    const mutation = useMutation(
-        (data: EditU) => {
+    const mutation = useMutation<AxiosResponse, AxiosError<any, any>, EditU>(
+        (data) => {
             return axios.put(`${BASEURL}/user`, JSON.stringify(data))
         },
         {
-            onSuccess: () => {
+            onSuccess: (data) => {
                 queryClient.invalidateQueries(["profile", { name: router.query.name }])
                 close()
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
+            },
+            onError: (err) => {
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )

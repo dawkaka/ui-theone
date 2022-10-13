@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { ChangeEvent } from "react";
 import Image from "next/image";
 import "cropperjs/dist/cropper.css";
@@ -15,13 +15,14 @@ import { EditUser } from "../../components/editprofile";
 import { Actions, Loader } from "../../components/mis";
 import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
-import { Langs } from "../../types";
+import { Langs, MutationResponse } from "../../types";
 import CouplePreview from "../../components/couplepreview";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../../constants";
 import { Prompt } from "../../components/prompt";
 import { GetServerSideProps } from "next";
+import { ToasContext } from "../../components/context";
 Modal.setAppElement("#__next")
 
 export default function Profile(props: any) {
@@ -37,6 +38,7 @@ export default function Profile(props: any) {
     const [openFollowing, setOpenFollowing] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
     const queryClient = useQueryClient()
+    const notify = useContext(ToasContext)
 
     const router = useRouter()
     const locale = router.locale || "en"
@@ -47,8 +49,8 @@ export default function Profile(props: any) {
         setIsOpen(true)
     }
 
-    const updatePicMutation = useMutation(
-        (data: FormData) => {
+    const updatePicMutation = useMutation<AxiosResponse, AxiosError<any, any>, FormData>(
+        (data) => {
             return axios.post(`${BASEURL}/user/profile-pic`, data)
         },
         {
@@ -56,14 +58,16 @@ export default function Profile(props: any) {
                 queryClient.invalidateQueries(["profile", { name: router.query.name }])
                 avatarImgRef.current!.src = newFileRef.current
                 setIsOpen(false)
+                const { message, type } = data.data as MutationResponse
+                notify?.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )
-    const updateShowPicMutation = useMutation(
-        (data: FormData) => {
+    const updateShowPicMutation = useMutation<AxiosResponse, AxiosError<any, any>, FormData>(
+        (data) => {
             return axios.post(`${BASEURL}/user/show-pictures/${showImage}`, data)
         },
         {
@@ -74,9 +78,11 @@ export default function Profile(props: any) {
                 if (imgTarget) {
                     imgTarget.srcset = newFileRef.current
                 }
+                const { message, type } = data.data as MutationResponse
+                notify?.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -121,17 +127,18 @@ export default function Profile(props: any) {
         targetRef.current = "show"
     }
 
-    const sendRequestMutation = useMutation(
+    const sendRequestMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
             return axios.post(`${BASEURL}/user/couple-request/yousiph`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
                 queryClient.invalidateQueries(['pending-request'])
+                const { message, type } = data.data as MutationResponse
+                notify?.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )

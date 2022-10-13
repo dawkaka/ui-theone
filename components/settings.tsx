@@ -1,17 +1,18 @@
-import { ChangeEvent, FormEvent, MouseEventHandler, useEffect, useMemo, useRef, useState } from "react"
+import { ChangeEvent, FormEvent, MouseEventHandler, useContext, useEffect, useMemo, useRef, useState } from "react"
 import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
 import styles from "./styles/settings.module.css"
 import { FaCaretDown } from "react-icons/fa";
 import { useRouter } from "next/router";
 import tr from "../i18n/locales/components/settings.json"
-import { Langs } from "../types"
+import { Langs, MutationResponse } from "../types"
 import { Theme } from "emoji-picker-react";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL } from "../constants";
 import { isPassword } from "../libs/validators";
 import { Prompt } from "./prompt";
+import { ToasContext } from "./context";
 Modal.setAppElement("body")
 
 const modalStyles: Modal.Styles = {
@@ -44,20 +45,22 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const { pathname, asPath } = router
     const [theme, setTheme] = useState<Theme>(Theme.LIGHT)
     const [prOpen, setPrOpen] = useState(false)
+    const notify = useContext(ToasContext)
 
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
 
-    const changeNameMutation = useMutation(
-        (data: { user_name: string }) => {
+    const changeNameMutation = useMutation<AxiosResponse, AxiosError<any, any>, { user_name: string }>(
+        (data) => {
             return axios.put(`${BASEURL}/user/name`, JSON.stringify(data))
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -86,16 +89,17 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
 
 
 
-    const langMutation = useMutation(
-        (lang: string) => {
+    const langMutation = useMutation<AxiosResponse, AxiosError<any, any>, string>(
+        (lang) => {
             return axios.patch(`${BASEURL}/user/settings/language/${lang}`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -106,16 +110,17 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         langMutation.mutate(lang)
     }
 
-    const passwordMutation = useMutation(
-        (data: { current: string, new: string, repeat: string }) => {
+    const passwordMutation = useMutation<AxiosResponse, AxiosError<any, any>, { current: string, new: string, repeat: string }>(
+        (data) => {
             return axios.put(`${BASEURL}/user/password`, JSON.stringify(data))
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -125,16 +130,17 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         passwordMutation.mutate({ current, repeat, new: newP })
     }
 
-    const emailMutation = useMutation(
-        (data: { email: string }) => {
+    const emailMutation = useMutation<AxiosResponse, AxiosError<any, any>, { email: string }>(
+        (data) => {
             return axios.put(`${BASEURL}/user/email`, JSON.stringify(data))
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -143,31 +149,32 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         emailMutation.mutate({ email })
     }
 
-    const statusMutation = useMutation(
-        (status: string) => {
+    const statusMutation = useMutation<AxiosResponse, AxiosError<any, any>, string>(
+        (status) => {
             return axios.put(`${BASEURL}/user/request-status/${status}`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
-    const logout = useMutation(
+    const logout = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
             return axios.post(`${BASEURL}/user/logout`)
         },
         {
             onSuccess: (data) => {
-                console.log(data);
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
 
             },
             onError: (err) => {
-                console.log(err);
-
+                notify!.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -242,6 +249,7 @@ export const CoupleReportModal: React.FunctionComponent<{
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+
     return (
         <Modal
             closeTimeoutMS={200}
@@ -301,17 +309,20 @@ export const CoupleSettings: React.FunctionComponent<{
     const localeTr = tr[locale as Langs]
     const visibility = "public"
     const [prOpen, setPrOpen] = useState(false)
+    const notify = useContext(ToasContext)
 
-    const changeNameMutation = useMutation(
-        (data: { couple_name: string }) => {
+
+    const changeNameMutation = useMutation<AxiosResponse, AxiosError<any, any>, { couple_name: string }>(
+        (data) => {
             return axios.post(`${BASEURL}/couple/name`, JSON.stringify(data))
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -321,16 +332,17 @@ export const CoupleSettings: React.FunctionComponent<{
     }
 
 
-    const statusMutation = useMutation(
-        (val: string) => {
+    const statusMutation = useMutation<AxiosResponse, AxiosError<any, any>, string>(
+        (val) => {
             return axios.post(`${BASEURL}/couple/status/${val}`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -340,16 +352,17 @@ export const CoupleSettings: React.FunctionComponent<{
     }
 
 
-    const breakFastMutation = useMutation(
+    const breakFastMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
             return axios.post(`${BASEURL}/couple/break-up`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -424,6 +437,7 @@ const SettingInputItem: React.FunctionComponent<{
     const [rNewPassword, setRNewPassword] = useState("")
     const iconRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
+
 
     const showInputs = () => {
         iconRef.current!.classList.toggle(`${styles.show}`)

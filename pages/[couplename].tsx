@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useRef, useEffect } from "react";
+import { ChangeEvent, useState, useRef, useEffect, useContext } from "react";
 import Image from "next/image";
 import { GetServerSideProps, NextPage } from "next";
 import Layout from "../components/mainLayout";
@@ -18,10 +18,11 @@ import { useRouter } from "next/router";
 import EditCouple from "../components/editprofile";
 import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
-import { Langs, PostT } from "../types";
+import { Langs, MutationResponse, PostT } from "../types";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
+import { ToasContext } from "../components/context";
 
 Modal.setAppElement("#__next")
 
@@ -34,7 +35,7 @@ const CoupleProfile: NextPage = (props: any) => {
     const [openFollowers, setOpenFollowers] = useState(false)
     const [following, setFollowing] = useState(false)
     const [showActions, setShowActions] = useState(false)
-
+    const notify = useContext(ToasContext)
 
     const cropperRef = useRef<any>(null)
     const newFileRef = useRef<any>("")
@@ -65,22 +66,23 @@ const CoupleProfile: NextPage = (props: any) => {
         targetRef.current = "cover"
         setIsOpen(true)
     }
-    const updatePicMutation = useMutation(
-        (data: FormData) => {
+    const updatePicMutation = useMutation<AxiosResponse, AxiosError<any, any>, FormData>(
+        (data) => {
             return axios.post(`${BASEURL}/couple/${targetRef.current === "avatar" ? "profile" : "cover"}-picture`, data)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
                 if (targetRef.current === "avatar") {
                     document.querySelector<HTMLImageElement>("#avatar")!.srcset = newFileRef.current
                 } else {
                     document.querySelector<HTMLImageElement>("#cover")!.srcset = newFileRef.current
                 }
                 setIsOpen(false)
+                const { message, type } = data.data as MutationResponse
+                notify?.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )
@@ -103,17 +105,18 @@ const CoupleProfile: NextPage = (props: any) => {
         }
     }, [step])
 
-    const followMutation = useMutation(
+    const followMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
-            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/yousiph.and.lana`)
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${data?.data.couple_name}`)
         },
         {
             onSuccess: (data) => {
-                console.log(data)
+                const { message, type } = data.data as MutationResponse
+                notify?.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
-                setFollowing(!following)
+                setFollowing(prv => !prv)
+                notify?.notify(err.response?.data.message, "ERROR")
             }
         }
     )

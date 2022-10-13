@@ -651,7 +651,6 @@ const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: 
 
     const [liked, setLiked] = useState(hasLiked)
     const [likesNum, setLikes] = useState(likes)
-
     const l = new Intl.NumberFormat(locale, { notation: "compact" }).format(likesNum)
     const c = new Intl.NumberFormat(locale, { notation: "compact" }).format(comments)
 

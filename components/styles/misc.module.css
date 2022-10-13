@@ -81,7 +81,7 @@
     padding: var(--gap-half) var(--gap-double);
     bottom: -50px;
     border-radius: var(--radius-tiny);
-    border: 1px solid var(--accents-1);
+    border: 1px solid var(--accents-2);
     border-left: 5px solid var(--success);
     animation: popup 3s linear;
 }
