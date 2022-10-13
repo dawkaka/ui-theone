@@ -10,8 +10,8 @@
 .messagingContainer {
     background-color: var(--background);
     width: 100%;
-    height: 85%;
-    border: 2px solid var(--accents-2);
+    height: 90%;
+    border: var(--border);
     display: flex;
 }
 
@@ -22,7 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid var(--accents-2);
+    border-bottom: var(--border);
     height: 60px;
     flex-shrink: 0;
     gap: var(--gap-quarter);
