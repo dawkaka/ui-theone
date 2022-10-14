@@ -69,6 +69,8 @@
 .postButton {
     font-weight: normal;
     font-size: large;
+    display: flex;
+    align-items: center;
     padding: .5em 3em;
     max-width: 200px;
     overflow: hidden;
@@ -76,7 +78,9 @@
     white-space: nowrap;
 }
 
-
+.addPlus {
+    display: none;
+}
 
 .requestModal {
     width: min(95vw, 400px);
@@ -191,13 +195,24 @@
     }
 
     .postButtonContainer .navItem {
-        margin-left: 0
+        margin-left: 0;
+    }
+
+    .postButtonContainer {
+        width: 60px;
+        margin-left: 5px;
+
+    }
+
+    .addPlus {
+        display: grid;
+        place-items: center;
     }
 
     .postButton {
         border-radius: 50%;
         display: grid;
-        padding: 1em 0;
+        padding: 1.1em 0;
         place-items: center;
     }
 

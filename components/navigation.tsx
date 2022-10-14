@@ -136,8 +136,11 @@ export default function Navigation() {
                             <p>{cMessages.profile}</p>
                         </div>
                     </Link>
+
                     {
+
                         !hideHeader && (
+
                             <div className={styles.postButtonContainer}>
                                 {
                                     !startup.has_partner && <div className={`${styles.navItem}`} onClick={() => setOpenRequest(true)} tabIndex={0} aria-label="Check couple request">
@@ -157,7 +160,7 @@ export default function Navigation() {
                                         if (!startup.has_partner) return
                                         setOpenPostModal(true)
                                     }}
-                                ><AiOutlinePlus /><span>{' '}{cMessages.post}</span></button>
+                                ><div className={styles.addPlus}><AiOutlinePlus /></div><span>{' '}{cMessages.post}</span></button>
                             </div>
                         )
                     }
@@ -166,7 +169,7 @@ export default function Navigation() {
             </aside>
             }
             <Modal
-                closeTimeoutMS={200}
+                closeTimeoutMS={400}
                 isOpen={openRequest}
                 onRequestClose={() => setOpenRequest(false)}
                 contentLabel="Post modal"
