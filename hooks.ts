@@ -12,3 +12,16 @@ export const useTheme = () => {
     }, [])
     return theme
 }
+
+export const useUser = () => {
+    const [user, setUser] = useState("")
+    useEffect(() => {
+        document.cookie.split(";").forEach(cookie => {
+            const cc = cookie.trim().split("=")
+            if (cc[0] === "user_ID") {
+                setUser(cc[1])
+            }
+        })
+    }, [])
+    return user
+}

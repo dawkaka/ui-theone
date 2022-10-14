@@ -8,6 +8,7 @@ import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { Actions, Loader } from "./mis";
 import Link from "next/link";
+import { useUser } from "../hooks";
 interface comment {
   userName: string;
   comment: string;
@@ -84,10 +85,14 @@ const Comment: React.FunctionComponent<comment> = (props) => {
                 right: 0,
                 boxShadow: "0 0 5px var(--accents-2)"
               }}>
-                <li style={{ cursor: "pointer" }} onClick={(e) => {
-                  e.stopPropagation()
-                  deleteMutation.mutate()
-                }}>Delete</li>
+                {
+                  props.isThisUser && (
+                    <li style={{ cursor: "pointer" }} onClick={(e) => {
+                      e.stopPropagation()
+                      deleteMutation.mutate()
+                    }}>Delete</li>
+                  )
+                }
               </ul>
             )
           }
@@ -134,7 +139,7 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
         return lastPage.data.pagination.next
       }
     })
-
+  const userId = useUser()
   let comments: any[] = []
   if (data?.pages) {
     for (let page of data?.pages) {
@@ -154,7 +159,7 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
               profile_url={`${IMAGEURL}/${comment.profile_picture}`}
               hasPartner={comment.has_partner}
               hasLiked={comment.has_liked}
-              isThisUser={false}
+              isThisUser={comment.user_id === userId}
               comment={comment.comment}
               date={new Date(comment.created_at)}
               likes_count={comment.likes_count}

@@ -8,7 +8,7 @@ import { Langs } from "../../types";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL, SOCKETURL } from "../../constants";
-import { useTheme } from "../../hooks";
+import { useTheme, useUser } from "../../hooks";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import emTr from "../../i18n/locales/components/emoji.json"
 import dynamic from "next/dynamic";
@@ -37,10 +37,10 @@ export default function Messages() {
     const router = useRouter()
     const locale = router.locale || "en"
     const [messages, setMessages] = useState<any[]>([])
-    const [userId, setUserId] = useState("")
     const [typing, setTyping] = useState(false)
     const messageContainer = useRef<HTMLDivElement>(null)
     const localeTr = tr[locale as Langs]
+    const userId = useUser()
 
     const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/couple/p-messages/${pageParam}`)
     const {
@@ -102,16 +102,6 @@ export default function Messages() {
     socket.on("not-typing", () => {
         setTyping(false)
     })
-
-    useEffect(() => {
-        document.cookie.split(";").forEach(cookie => {
-            const cc = cookie.trim().split("=")
-            if (cc[0] === "user_ID") {
-                setUserId(cc[1])
-            }
-        })
-    })
-
 
     return (
         <Layout>
