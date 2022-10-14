@@ -134,7 +134,7 @@ export default function Messages() {
                                 )
                             })
                             }
-                            {typing && <p style={{ color: "var(--success)", paddingLeft: "var(--gap-half)" }}>typing...</p>}
+                            {typing && <p style={{ color: "var(--success)", paddingLeft: "var(--gap-half)" }}>{localeTr.typing}</p>}
                             <div ref={messageContainer}></div>
 
                         </div>
@@ -200,7 +200,7 @@ const TextArea: React.FunctionComponent<{
                 <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
                     <BsEmojiSmile size={20} />
                 </div>
-                <textarea aria-label="" placeholder={"Write message" + "..."}
+                <textarea aria-label="" placeholder={localeTr.writeMessage}
                     autoComplete="off" autoCorrect="off"
                     onKeyUp={(e) => {
                         e.currentTarget.style.height = "1px";
@@ -238,7 +238,7 @@ const TextArea: React.FunctionComponent<{
                                                 style={{
                                                     padding: "3px var(--gap-half)", color: "white",
                                                     backgroundColor: "rgba(0,0,0,0.9)"
-                                                }}>cancel</button>
+                                                }}>{localeTr.cancel}</button>
                                             <button
                                                 style={{
                                                     padding: "3px var(--gap-half)",
@@ -249,7 +249,7 @@ const TextArea: React.FunctionComponent<{
                                                     sendMessage("file", fileRef.current)
                                                     setImage("")
                                                 }}
-                                            >send</button>
+                                            >{localeTr.send}</button>
                                         </div>
                                     </div>
                                 )
@@ -268,7 +268,7 @@ const TextArea: React.FunctionComponent<{
                                 if (message === "") return
                                 sendMessage("text", message)
                                 setMessage("")
-                            }}>send</button>
+                            }}>{localeTr.send}</button>
                     }
                 </div>
 

@@ -1,8 +1,14 @@
 {
     "en": {
-        "writeMessage": "Type message"
+        "writeMessage": "Type message",
+        "typing": "Typing..",
+        "send": "send",
+        "cancel": "cancel"
     },
     "es": {
-        "writeMessage": "Escribe un mensaje"
+        "writeMessage": "Escribe un mensaje",
+        "typing": "Escribiendo...",
+        "send": "enviar",
+        "cancel": "cancelar"
     }
 }

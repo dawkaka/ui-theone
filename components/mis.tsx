@@ -6,6 +6,9 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import Link from "next/link";
 import { IMAGEURL } from "../constants";
+import { useRouter } from "next/router";
+import { Langs } from "../types";
+import tr from "../i18n/locales/components/misc.json"
 
 export const Verified: React.FunctionComponent<{ size: number }> = ({ size }) => {
     return (
@@ -224,14 +227,16 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
 
 
 export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetching: boolean }> = ({ loadMore, hasNext, isFetching }) => {
+    const locale = useRouter().locale || "en"
+    const localeTr = tr[locale as Langs]
     return (
         <>
             {hasNext && (
-                <div style={{ width: "100%", textAlign: "center" }}>
+                <div style={{ width: "100%", textAlign: "center", paddingBlock: "var(--gap-half)" }}>
                     {!isFetching ?
-                        <button onClick={() => loadMore()}>load more</button>
+                        <button onClick={() => loadMore()}>{localeTr.loadmore}</button>
                         :
-                        <button>loading...</button>
+                        <button>{localeTr.loading}</button>
                     }
                 </div>
             )
