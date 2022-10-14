@@ -46,7 +46,9 @@ export default function Notifications() {
             notifications = notifications.concat(page.data.notifications)
         }
     }
-    axios.put(`${BASEURL}/user/new-notifications`).then(res => console.log(res)).catch(err => console.log(err))
+    if (data) {
+        axios.put(`${BASEURL}/user/new-notifications`).then(() => { }).catch(() => { })
+    }
     return (
         <Layout>
             <div className={styles.main}>
