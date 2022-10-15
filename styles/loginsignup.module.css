@@ -24,12 +24,14 @@
 .formContainer {
     padding: var(--gap);
     height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     overflow-y: auto;
 }
 
 .form {
     margin: var(--gap);
-
     padding: var(--gap);
     border-radius: var(--radius-tiny);
     background-color: var(--accents-1);

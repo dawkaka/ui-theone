@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from "react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import Link from "next/link";
-import { IMAGEURL } from "../constants";
 import { useRouter } from "next/router";
 import { Langs } from "../types";
 import tr from "../i18n/locales/components/misc.json"
