@@ -42,6 +42,8 @@ export default function Messages() {
     const localeTr = tr[locale as Langs]
     const userId = useUser()
 
+    const pData = useQuery(["partner", { userId }], () => axios.get(`${BASEURL}/user/u/partner`)).data
+
     const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/couple/p-messages/${pageParam}`)
     const {
         data,
@@ -112,13 +114,13 @@ export default function Messages() {
                             <div style={{
                                 display: "flex",
                                 alignItems: "center",
-                                gap: "var(--gap)"
+                                gap: "var(--gap-half)"
                             }}> <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
                                     <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
-                                        <Image layout="fill" objectFit="cover" src={"/me.jpg"} className={styles.profileImage} />
+                                        <Image layout="fill" objectFit="cover" src={`${IMAGEURL}/${pData?.data.profile_picture}`} className={styles.profileImage} />
                                     </span>
                                 </div>
-                                <h4>john.doe</h4>
+                                <h4>{pData?.data.user_name}</h4>
                             </div>
                             <div onClick={() => router.back()} className={styles.backIcon}>
                                 <BiArrowBack />
