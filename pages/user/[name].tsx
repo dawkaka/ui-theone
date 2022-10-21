@@ -39,7 +39,7 @@ export default function Profile(props: any) {
     const [prOpen, setPrOpen] = useState(false)
     const queryClient = useQueryClient()
     const notify = useContext(ToasContext)
-
+    const [image, setImage] = useState("")
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
@@ -107,19 +107,12 @@ export default function Profile(props: any) {
             const reader = new FileReader()
             reader.readAsDataURL(fs[0])
             reader.onload = (e) => {
+                setImage(reader.result as string)
                 newFileRef.current = e.target?.result
             }
-            setTimeout(() => {
-                setStep(1)
-            }, 200)
+            setStep(1)
         }
     }
-
-    useEffect(() => {
-        if (step === 1) {
-            cropperRef.current.src = newFileRef.current
-        }
-    }, [step])
 
     const editShowImage = (n: number) => {
         setShowImage(n)
@@ -327,7 +320,7 @@ export default function Profile(props: any) {
                                 </div>
                                 <div className={styles.modalContent}>
                                     <Cropper
-                                        src={cropperRef.current?.src}
+                                        src={image}
                                         dragMode="move"
                                         style={{ height: "500px", width: "100%" }}
                                         // Cropper.js options
