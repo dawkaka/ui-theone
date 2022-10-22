@@ -105,7 +105,6 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     )
 
     const langChange = (lang: string) => {
-        document.cookie = `NEXT_LOCALE=${lang};${1000 * 60 * 60 * 24 * 40};path=/`
         router.replace("/user/[name]", asPath, { locale: lang })
         langMutation.mutate(lang)
     }
@@ -307,7 +306,6 @@ export const CoupleSettings: React.FunctionComponent<{
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-    const visibility = "public"
     const [prOpen, setPrOpen] = useState(false)
     const notify = useContext(ToasContext)
 
