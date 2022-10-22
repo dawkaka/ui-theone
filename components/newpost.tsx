@@ -173,7 +173,6 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const sharePost = async () => {
         const formData = new FormData()
         formData.append("caption", caption)
-        formData.append("couple_name", "yousiph")
 
         if (vid === "") {
             for (let file of blobs.current) {

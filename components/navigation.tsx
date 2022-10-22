@@ -249,9 +249,9 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                             </div>
                             <div className={styles.titleContainer}>
                                 <h2 tabIndex={0} aria-label="Name of the person that sent you the couple request is Yussif Mohammed" className={styles.realName}>
-                                    {data?.data.request.first_name} {data?.data.request.Last_naem}
+                                    {data?.data.request.first_name} {data?.data.request.last_name}
                                 </h2>
-                                <h3 tabIndex={0} aria-label="Their unique user name is ant.man" className={styles.userName}>@{data?.data.request.user_naame}</h3>
+                                <h3 tabIndex={0} aria-label="Their unique user name is ant.man" className={styles.userName}>@{data?.data.request.user_name}</h3>
                             </div>
                             <div className={styles.requestButtons}>
                                 {
@@ -267,7 +267,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                                             < button
                                                 aria-label={tr.accept + tr.couplerequest}
                                                 className={styles.acceptBtn}
-                                                onClick={() => requestMutation.mutate(`couple/new/${data.data.request.id}`)}
+                                                onClick={() => requestMutation.mutate(`couple/new/${data?.data.request.id}`)}
                                             >
                                                 {tr.accept}
                                             </button>

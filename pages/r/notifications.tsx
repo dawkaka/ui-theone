@@ -4,7 +4,7 @@ import styles from "../../styles/notifications.module.css"
 import Layout from "../../components/mainLayout"
 import Suggestions from "../../components/suggestions"
 import Header from "../../components/pageHeader"
-import { FaHeart, FaUser } from "react-icons/fa"
+import { FaAt, FaHeart, FaTimes, FaUser } from "react-icons/fa"
 import { AiFillMessage } from "react-icons/ai";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/notifications.json"
@@ -12,8 +12,9 @@ import { Langs } from "../../types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../../constants";
-import { BsPlusCircleFill } from "react-icons/bs";
+import { BsHeartHalf, BsPlusCircleFill } from "react-icons/bs";
 import { Loader } from "../../components/mis";
+import { RiHeartsFill } from "react-icons/ri";
 
 export default function Notifications() {
     const router = useRouter()
@@ -57,7 +58,7 @@ export default function Notifications() {
                     <div className={styles.ntfs}>
                         {
                             notifications.map((notif: {
-                                type: "like" | "comment" | "follow" | "Partner Posted" | "Request Rejected" | "Couple Request" | "Request accepted" | "Mentioned",
+                                type: "like" | "comment" | "follow" | "Partner Posted" | "Request Rejected" | "Couple Request" | "Request Accepted" | "Mentioned",
                                 message: string,
                                 post_id: string,
                                 title: string,
@@ -89,7 +90,7 @@ export default function Notifications() {
 
 
 const Notification: React.FunctionComponent<{
-    type: "like" | "comment" | "follow" | "Partner Posted" | "Request Rejected" | "Couple Request" | "Request accepted" | "Mentioned",
+    type: "like" | "comment" | "follow" | "Partner Posted" | "Request Rejected" | "Couple Request" | "Request Accepted" | "Mentioned",
     message: string,
     postId?: string,
     title: string,
@@ -100,7 +101,7 @@ const Notification: React.FunctionComponent<{
 }> = ({ type, message, postId, name, title, profilePicture, user, isNew }) => {
     const iconSize = 30
 
-    let icon = <FaHeart size={iconSize} color="var(--error-dark)" />
+    let icon: JSX.Element
     switch (type) {
         case "comment":
             icon = <AiFillMessage size={iconSize} color="limegreen" />
@@ -111,12 +112,22 @@ const Notification: React.FunctionComponent<{
         case "Partner Posted":
             icon = <BsPlusCircleFill size={iconSize} color="var(--success-dark)" />
             break
+        case "Couple Request":
+            icon = <BsHeartHalf size={iconSize} color="var(--error)" />
+            break
+        case "Request Rejected":
+            icon = <FaTimes size={iconSize} color="var(--error)" />
+            break
+        case "Request Accepted":
+            icon = <RiHeartsFill size={iconSize} color="var(--error)" />
+            break
+        case "Mentioned":
+            icon = <FaAt size={iconSize} color="var(--success-dark)" />
+            break
         default:
-            break;
+            icon = <FaHeart size={iconSize} color="var(--error-dark)" />
     }
-
     return (
-
         <article className={styles.notifContainer} style={{ backgroundColor: isNew ? "var(--accents-2)" : "" }}>
             <div className={styles.notifIconContainer}>
                 {icon}
@@ -150,6 +161,5 @@ const Notification: React.FunctionComponent<{
                 </Link>
             </div>
         </article>
-
     )
 }

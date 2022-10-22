@@ -104,6 +104,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         }
     )
 
+
     const langChange = (lang: string) => {
         router.replace("/user/[name]", asPath, { locale: lang })
         langMutation.mutate(lang)

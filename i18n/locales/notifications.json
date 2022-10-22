@@ -7,7 +7,7 @@
         "Partner Posted": "Added a new post",
         "Request Rejected": "rejected your couple request",
         "Couple Request": "sent you a couple request",
-        "Request accepted": "accepted you couple request",
+        "Request Accepted": "accepted you couple request",
         "Mentioned": "mentioned you in a post"
     },
     "es": {
@@ -18,7 +18,7 @@
         "Partner Posted": "subió una nueva publicación",
         "Request Rejected": "rechazó tu solicitud de pareja.",
         "Couple Request": "te envió una solicitud de pareja.",
-        "Request accepted": "aceptada tu solicitud de pareja",
+        "Request Accepted": "aceptada tu solicitud de pareja",
         "Mentioned": "te mencionaron en una publicación"
     }
 }

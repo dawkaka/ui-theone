@@ -122,7 +122,7 @@ export default function Profile(props: any) {
 
     const sendRequestMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
-            return axios.post(`${BASEURL}/user/couple-request/yousiph`)
+            return axios.post(`${BASEURL}/user/couple-request/${router.query.name}`)
         },
         {
             onSuccess: (data) => {
