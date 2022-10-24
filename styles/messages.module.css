@@ -179,6 +179,7 @@
     flex-shrink: 0;
     margin: 0;
     padding: 0;
+    margin-bottom: var(--gap-quarter);
     position: relative;
     vertical-align: baseline;
 }
@@ -193,7 +194,6 @@
     justify-content: center;
     min-height: 44px;
     padding: var(--gap-half);
-    margin-bottom: var(--gap-quarter);
     border: 2px solid var(--accents-2);
 }
 

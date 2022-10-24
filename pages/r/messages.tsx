@@ -17,6 +17,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { GoFileMedia } from "react-icons/go";
 import { io } from "socket.io-client";
 import { Loader } from "../../components/mis";
+import { postDateFormat } from "../../libs/utils";
 
 const socket = io(`${SOCKETURL}/couple`, {
     withCredentials: true,
@@ -262,7 +263,7 @@ const TextArea: React.FunctionComponent<{
                                         style={{ top: 0, left: 0, position: "absolute", width: "100%", height: "100%", opacity: 0 }}
 
                                     />
-                                    <GoFileMedia size={25} />
+                                    <GoFileMedia size={20} />
                                 </div>
                             </>
                             :
@@ -357,7 +358,7 @@ const ChatUser: React.FunctionComponent<{
 
 const ChatMessage: React.FunctionComponent<{
     text: string;
-    date: Date;
+    date: string;
     me: boolean;
     type: "text" | "file"
 }> = ({ text, date, me, type }) => {
@@ -368,6 +369,8 @@ const ChatMessage: React.FunctionComponent<{
                     type === "text" ? < p > {text}</p> : < img src={`${IMAGEURL}/${text}`} style={{ height: "60vh" }} />
                 }
             </div >
+            <p className={me ? styles.messageSent : ""} style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>{postDateFormat(date)}</p>
+
         </div >
     )
 }

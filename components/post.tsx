@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useCallback, useContext, useEffect, useRef, use
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
+import { AiOutlineHeart, AiOutlineComment, AiFillHeart } from 'react-icons/ai';
 import { MdBlock, MdModeEdit, MdOutlineContentCopy, MdOutlineNavigateNext, MdReport } from "react-icons/md";
 import styles from "./styles/post.module.css";
 import { Actions, Verified, Video } from "./mis";
@@ -690,7 +690,7 @@ const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: 
                     }
                     setLiked(!liked)
                 }} style={{ cursor: "pointer" }} >
-                    {liked ? <FaHeart size={25} color="var(--error)" /> : <AiOutlineHeart size={25} />}
+                    {liked ? <AiFillHeart size={25} color="var(--error)" /> : <AiOutlineHeart size={25} />}
                 </div>
                 <p>{l}</p>
             </div>
