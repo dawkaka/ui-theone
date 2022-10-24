@@ -72,13 +72,14 @@
     z-index: 222;
     right: 5px;
     font-size: 14px;
-    left: 50%;
+    left: calc(50% + 125px);
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    width: min(95vw, 400px);
+    gap: var(--gap-half);
+    width: min(95vw, 300px);
     background-color: var(--background);
-    padding: var(--gap-half) var(--gap-double);
+    padding: var(--gap-half) var(--gap-half);
     bottom: -50px;
     border-radius: var(--radius-tiny);
     border: 1px solid var(--accents-2);

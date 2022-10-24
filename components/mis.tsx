@@ -2,12 +2,13 @@ import { CSSProperties } from "react"
 import styles from "./styles/misc.module.css"
 import { useSpring, animated, useSpringRef, useChain } from "@react-spring/web";
 import { useState, useEffect, useRef } from "react";
-import { MdOutlineNavigateNext } from "react-icons/md";
+import { MdOutlineError, MdOutlineNavigateNext } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Langs } from "../types";
 import tr from "../i18n/locales/components/misc.json"
+import { BsFillCheckCircleFill } from "react-icons/bs";
 
 export const Verified: React.FunctionComponent<{ size: number }> = ({ size }) => {
     return (
@@ -261,17 +262,23 @@ export const Toast: React.FC<{ message: string, type: "ERROR" | "SUCCESS" | "NEU
         }, 3000)
     }
     return (
-        <div className={styles.toast}
-            onMouseOver={() => pausedRef.current = true}
-            onMouseOut={() => {
-                pausedRef.current = false
-                if (Date.now() - timer.current > 3000) {
-                    resetMessage()
+        <div>
+            <div className={styles.toast}
+                onMouseOver={() => pausedRef.current = true}
+                onMouseOut={() => {
+                    pausedRef.current = false
+                    if (Date.now() - timer.current > 3000) {
+                        resetMessage()
+                    }
+                }}
+                style={{ borderLeftColor: type === "ERROR" ? "var(--error)" : type === "SUCCESS" ? "limegreen" : "var(--success)" }}
+            >
+                {
+                    type === "SUCCESS" ? <BsFillCheckCircleFill size={25} color="limegreen" /> :
+                        <MdOutlineError size={30} color="var(--error)" />
                 }
-            }}
-            style={{ borderLeftColor: type === "ERROR" ? "var(-error)" : type === "SUCCESS" ? "green" : "var(--success)" }}
-        >
-            <p>{message}</p>
-        </div >
+                <p>{message}</p>
+            </div >
+        </div>
     )
 }
