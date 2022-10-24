@@ -52,6 +52,7 @@
     position: relative;
     overflow: hidden;
     border-radius: 50%;
+    border: var(--border);
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.5);
 }

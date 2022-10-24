@@ -196,6 +196,11 @@ input[type="search"]:focus {
   opacity: 0;
 }
 
+.avatar {
+  border: var(--border);
+}
+
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

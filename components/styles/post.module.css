@@ -184,6 +184,7 @@
 
 .avatarContainer {
     display: grid;
+    border: var(--border);
     place-items: center;
     position: relative;
     overflow: hidden;
