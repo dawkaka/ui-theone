@@ -365,7 +365,7 @@ const ChatMessage: React.FunctionComponent<{
         <div className={styles.messageContainer}>
             <div className={`${styles.messageInner} ${me ? styles.messageSent : ""} `}>
                 {
-                    type === "text" ? < p > {text}</p> : < img src={`${IMAGEURL}/${text}`} style={{ width: "100%" }} />
+                    type === "text" ? < p > {text}</p> : < img src={`${IMAGEURL}/${text}`} style={{ height: "60vh" }} />
                 }
             </div >
         </div >
