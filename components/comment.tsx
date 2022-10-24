@@ -1,14 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import styles from "./styles/comment.module.css";
 import Image from 'next/image';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { Actions, Loader } from "./mis";
 import Link from "next/link";
 import { useUser } from "../hooks";
+import { MutationResponse } from "../types";
+import { ToasContext } from "./context";
 interface comment {
   userName: string;
   comment: string;
@@ -28,14 +30,22 @@ const Comment: React.FunctionComponent<comment> = (props) => {
   const likesCount = new Intl.NumberFormat(locale, { notation: "compact" }).format(likes)
   const [showActions, setShowActions] = useState(false)
   const [liked, setLiked] = useState(props.hasLiked)
+  const [deleted, setDeleted] = useState(false)
+  const notify = useContext(ToasContext)
 
-  const deleteMutation = useMutation(
+  const deleteMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
     () => {
       return axios.delete(`${BASEURL}/post/comment/${props.postId}/${props.id}`)
     },
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setShowActions(false)
+        setDeleted(true)
+        const { message, type } = data.data as MutationResponse
+        notify?.notify(message, type)
+      },
+      onError: (err) => {
+        notify?.notify(err.response?.data.message, "ERROR")
       }
     }
   )
@@ -49,6 +59,9 @@ const Comment: React.FunctionComponent<comment> = (props) => {
         setLiked(!liked)
       }
     })
+  if (deleted) {
+    return null
+  }
 
   return (
     <article className={styles.container} onClick={() => setShowActions(false)}>
