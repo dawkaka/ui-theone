@@ -56,12 +56,13 @@ export default function Navigation() {
 
     }, [pathname])
 
-    const { isLoading, data } = useQuery(["pending-request"], () => {
+    const { data } = useQuery(["pending-request"], () => {
         return axios.get(`${BASEURL}/user/u/startup`)
     })
-    let startup = { has_partner: false, notifications_count: 0, user_name: "" }
+    let startup = { has_partner: false, notifications_count: 0, user_name: "", new_posts_count: 0 }
     if (data) {
-        startup = { has_partner: data.data.has_partner, notifications_count: data.data.notifications_count, user_name: data.data.user_name }
+        console.log(data)
+        startup = { new_posts_count: data.data.new_posts_count, has_partner: data.data.has_partner, notifications_count: data.data.notifications_count, user_name: data.data.user_name }
     }
     return (
         <>
@@ -74,12 +75,24 @@ export default function Navigation() {
                     </div>
                     <Link href={"/r/home"}>
                         <div className={`${styles.navItem} ${pathname === "/r/home" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to home page">
-                            <div>
+                            <div style={{ position: "relative" }}>
                                 {
                                     pathname === "/r/home" ? <AiFillHome size={25}></AiFillHome> :
                                         <AiOutlineHome size={25} color="var(--accents-6)"></AiOutlineHome>
                                 }
+                                {startup.new_posts_count > 0 && (<p
+                                    style={{
+                                        position: "absolute", top: 0,
+                                        right: "-4px", backgroundColor: "var(--success)",
+                                        color: "white", fontSize: "10px", borderRadius: "50%",
+                                        padding: "2px 5px"
+
+                                    }}
+                                >{startup.new_posts_count}</p>
+                                )
+                                }
                             </div>
+
                             <p>{cMessages.home}</p>
                         </div>
                     </Link>
@@ -104,11 +117,11 @@ export default function Navigation() {
                                     style={{
                                         position: "absolute", top: 0,
                                         right: "-4px", backgroundColor: "red",
-                                        color: "white", fontSize: "12px", borderRadius: "50%",
+                                        color: "white", fontSize: "10px", borderRadius: "50%",
                                         padding: "2px 5px"
 
                                     }}
-                                >{startup.notifications_count}</p>
+                                >{startup.notifications_count > 10 ? "10+" : startup.notifications_count}</p>
                                 )
                                 }
                             </div>

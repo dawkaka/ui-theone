@@ -190,7 +190,7 @@
         width: 120px;
     }
 
-    .navItem p {
+    .navItem>p {
         display: none;
     }
 
@@ -269,7 +269,7 @@
         justify-content: space-between;
         position: fixed;
         top: 0;
-        left: 0;
+        right: 0;
         z-index: 1;
         padding-inline: var(--gap-half);
 

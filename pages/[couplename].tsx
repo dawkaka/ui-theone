@@ -492,7 +492,6 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
             posts = posts.concat(page.data.posts)
         }
     }
-    console.log(data)
     return (
         <>
             {
