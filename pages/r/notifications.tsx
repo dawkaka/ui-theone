@@ -12,7 +12,7 @@ import { Langs } from "../../types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../../constants";
-import { BsHeartHalf, BsPlusCircleFill } from "react-icons/bs";
+import { BsHeartFill, BsHeartHalf, BsPlusCircleFill } from "react-icons/bs";
 import { Loader } from "../../components/mis";
 import { RiHeartsFill } from "react-icons/ri";
 
@@ -125,7 +125,7 @@ const Notification: React.FunctionComponent<{
             icon = <FaAt size={iconSize} color="var(--success-dark)" />
             break
         default:
-            icon = <FaHeart size={iconSize} color="var(--error-dark)" />
+            icon = <BsHeartFill size={iconSize} color="var(--error)" />
     }
     return (
         <article className={styles.notifContainer} style={{ backgroundColor: isNew ? "var(--accents-2)" : "" }}>
