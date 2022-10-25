@@ -15,13 +15,13 @@ import { BASEURL, IMAGEURL } from "../../constants";
 import { BsHeartFill, BsHeartHalf, BsPlusCircleFill } from "react-icons/bs";
 import { Loader } from "../../components/mis";
 import { RiHeartsFill } from "react-icons/ri";
+import { useRef } from "react";
 
 export default function Notifications() {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-    // const { isLoading, data } = useQuery(["notifications"], () => axios.get(`${BASEURL}/user/notifications/0`))
-
+    const clearedRef = useRef(false)
     const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/notifications/${pageParam}`)
 
     const {
@@ -47,8 +47,8 @@ export default function Notifications() {
             notifications = notifications.concat(page.data.notifications)
         }
     }
-    if (data) {
-        axios.put(`${BASEURL}/user/new-notifications`).then(() => { }).catch(() => { })
+    if (data && !clearedRef.current) {
+        axios.put(`${BASEURL}/user/new-notifications`).then(() => { clearedRef.current = false }).catch(() => { })
     }
     return (
         <Layout>

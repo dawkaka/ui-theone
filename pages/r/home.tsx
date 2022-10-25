@@ -6,9 +6,11 @@ import Suggestions from "../../components/suggestions";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/home.json"
 import { Langs, PostT } from "../../types";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../../constants";
+import { Loader } from "../../components/mis";
+import { useRef } from "react";
 
 
 Modal.setAppElement('#__next')
@@ -17,9 +19,36 @@ export default function HomePage() {
     const router = useRouter()
     const locale = router.locale as Langs || "en"
     const localeTr = tr[locale]
+    const clearedRef = useRef(false)
 
-    const { data } = useQuery(["feed"], () => axios.get(`${BASEURL}/user/feed/0`))
-    console.log(data)
+    // const { data } = useQuery(["feed"], () => axios.get(`${BASEURL}/user/feed/0`))
+    const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/feed/${pageParam}`)
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery(["feed"], fetchMessages,
+        {
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.data) {
+                    if (lastPage.data?.pagination.end)
+                        return undefined
+                }
+                return lastPage.data?.pagination.next
+            }
+        })
+
+    let posts: any[] = []
+    if (data && data.pages) {
+        for (let page of data.pages) {
+            posts = posts.concat(page.data.feed)
+        }
+    }
+    if (data && !clearedRef.current) {
+        axios.put(`${BASEURL}/user/new-posts`).then(() => { clearedRef.current = true }).catch(() => { })
+    }
     return (
         <Layout>
             <div className={styles.home}>
@@ -30,12 +59,13 @@ export default function HomePage() {
                     </div>
                     <div className={styles.content}>
                         {
-                            data?.data.feed.map((post: PostT) => {
+                            posts.map((post: PostT) => {
                                 return (
                                     <Post key={post.id} {...post} />
                                 )
                             })
                         }
+                        <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
                     </div>
                 </section>
                 <Suggestions />

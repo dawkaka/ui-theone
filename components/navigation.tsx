@@ -70,7 +70,7 @@ export default function Navigation() {
                 <nav className={styles.nav}>
                     <div className={`${styles.logoContainer}`} aria-label="company logo, el wahid">
                         <Link href={"/r/home"}>
-                            <em>elwahid</em>
+                            <p>Elwahid</p>
                         </Link>
                     </div>
                     <Link href={"/r/home"}>
@@ -88,7 +88,7 @@ export default function Navigation() {
                                         padding: "2px 5px"
 
                                     }}
-                                >{startup.new_posts_count}</p>
+                                >{startup.new_posts_count > 10 ? "10+" : startup.new_posts_count}</p>
                                 )
                                 }
                             </div>
@@ -162,7 +162,7 @@ export default function Navigation() {
                                     </div>
                                 }
                                 <div className={`${styles.logoContainer2}`}>
-                                    <em>elwahid</em>
+                                    <p>Elwahid</p>
                                 </div>
                                 <button
 
