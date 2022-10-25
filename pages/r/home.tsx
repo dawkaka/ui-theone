@@ -5,7 +5,10 @@ import PostFullView, { Post } from "../../components/post";
 import Suggestions from "../../components/suggestions";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/home.json"
-import { Langs } from "../../types";
+import { Langs, PostT } from "../../types";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { BASEURL } from "../../constants";
 
 
 Modal.setAppElement('#__next')
@@ -14,6 +17,9 @@ export default function HomePage() {
     const router = useRouter()
     const locale = router.locale as Langs || "en"
     const localeTr = tr[locale]
+
+    const { data } = useQuery(["feed"], () => axios.get(`${BASEURL}/user/feed/0`))
+    console.log(data)
     return (
         <Layout>
             <div className={styles.home}>
@@ -23,11 +29,13 @@ export default function HomePage() {
                         <h1>{localeTr.header}</h1>
                     </div>
                     <div className={styles.content}>
-                        <Post verified />
-                        <Post verified />
-                        <Post verified />
-                        <Post verified />
-                        <Post verified />
+                        {
+                            data?.data.feed.map((post: PostT) => {
+                                return (
+                                    <Post key={post.id} {...post} />
+                                )
+                            })
+                        }
                     </div>
                 </section>
                 <Suggestions />
@@ -62,7 +70,7 @@ export default function HomePage() {
                         position: "relative"
                     }
                 }} >
-                <PostFullView postId={router.query.postId} couplename={router.pathname} />
+                {/* <PostFullView postId={router.query.postId} couplename={router.pathname} /> */}
             </Modal>
         </Layout >
     )
