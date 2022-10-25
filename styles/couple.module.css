@@ -49,8 +49,8 @@
     position: relative;
     border: 5px solid var(--background);
     overflow: hidden;
-    border: var(--border);
     border-radius: 50%;
+    outline: var(--border);
     padding: 0;
     margin: 0;
     width: 120px;

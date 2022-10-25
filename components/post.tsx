@@ -69,6 +69,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
     const [following, setFollowing] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
+    const [deleted, setDeleted] = useState(false)
     const notify = useContext(ToasContext)
     const queryClient = useQueryClient()
 
@@ -115,6 +116,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
             onSuccess: (data) => {
                 const { message, type } = data.data as MutationResponse
                 queryClient.invalidateQueries(["post", { postId }])
+                setDeleted(true)
                 notify!.notify(message, type)
                 setPrOpen(false)
                 closeModal()
@@ -146,7 +148,9 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
         followMutation.mutate()
         setFollowing(!following)
     }
-
+    if (deleted) {
+        return null
+    }
     return (
         <article className={styles.container}>
             <div>
@@ -163,8 +167,12 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                             </span>
                         </div>
                         <div>
-                            <h4>{couple_name + " "} {verified && <Verified size={13} />}</h4>
-                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{props.location}</p>
+                            <Link href={`/${couple_name}`}>
+                                <a>
+                                    <h4>{couple_name + " "} {verified && <Verified size={13} />}</h4>
+                                    <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{props.location}</p>
+                                </a>
+                            </Link>
                         </div>
                     </div>
                     <div onClick={() => setModalOpen(true)}>

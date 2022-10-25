@@ -39,6 +39,7 @@ const CoupleProfile: NextPage = (props: any) => {
 
     const cropperRef = useRef<any>(null)
     const newFileRef = useRef<any>("")
+    const [image, setImage] = useState("")
     const targetRef = useRef<"avatar" | "cover">("avatar")
     const router = useRouter()
     const locale = router.locale || "en"
@@ -46,11 +47,12 @@ const CoupleProfile: NextPage = (props: any) => {
 
     const newFile = (e: ChangeEvent<HTMLInputElement>) => {
         const fs = e.currentTarget.files
-        if (fs) {
+        if (fs && fs[0]) {
             const reader = new FileReader()
             reader.readAsDataURL(fs[0])
             reader.onload = (e) => {
-                newFileRef.current = e.target?.result
+                newFileRef.current = reader.result
+                setImage(reader.result as string)
             }
             setTimeout(() => {
                 setStep(1)
@@ -58,13 +60,15 @@ const CoupleProfile: NextPage = (props: any) => {
         }
     }
 
-    const editAvatar = () => {
+    const editAvatar = (e: ChangeEvent<HTMLInputElement>) => {
         targetRef.current = "avatar"
         setIsOpen(true)
+        newFile(e)
     }
-    const editCover = () => {
+    const editCover = (e: ChangeEvent<HTMLInputElement>) => {
         targetRef.current = "cover"
         setIsOpen(true)
+        newFile(e)
     }
     const updatePicMutation = useMutation<AxiosResponse, AxiosError<any, any>, FormData>(
         (data) => {
@@ -98,12 +102,6 @@ const CoupleProfile: NextPage = (props: any) => {
         }
         updatePicMutation.mutate(formData)
     }
-
-    useEffect(() => {
-        if (step === 1) {
-            cropperRef.current.src = newFileRef.current
-        }
-    }, [step])
 
     const followMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
@@ -147,13 +145,17 @@ const CoupleProfile: NextPage = (props: any) => {
                                 </div>
                                 {
                                     data?.data.is_this_couple && (
-                                        <span
+                                        <div
                                             className={styles.editCover}
                                             style={{ position: "absolute", top: 0, right: 0 }}
-                                            onClick={editCover}
                                         >
-                                            <MdModeEdit size={30} color="white" />
-                                        </span>
+                                            <MdModeEdit size={20} color="white" style={{ top: "50%", left: "50%" }} />
+                                            <input
+                                                type="file" onChange={editCover}
+                                                accept="image/jpeg, image/png"
+                                                style={{ width: "100%", height: "100%", position: "absolute", opacity: 0, top: 0, left: 0 }}
+                                            />
+                                        </div>
                                     )
                                 }
                             </div>
@@ -169,13 +171,13 @@ const CoupleProfile: NextPage = (props: any) => {
                                         </div>
                                         {
                                             data?.data.is_this_couple && (
-                                                <div
-                                                    className={styles.avatarContainer}
-                                                    onClick={editAvatar}
-                                                >
-                                                    <div>
-                                                        <MdModeEdit size={30} color="white" style={{ top: "50%", left: "50%" }} />
-                                                    </div>
+                                                <div className={styles.avatarContainer}>
+                                                    <MdModeEdit size={20} color="white" style={{ top: "50%", left: "50%" }} />
+                                                    <input
+                                                        type="file" onChange={editAvatar}
+                                                        accept="image/jpeg, image/png"
+                                                        style={{ width: "100%", height: "100%", position: "absolute", opacity: 0, top: 0, left: 0 }}
+                                                    />
                                                 </div>
                                             )
                                         }
@@ -335,7 +337,7 @@ const CoupleProfile: NextPage = (props: any) => {
                                     </div>
                                     <div className={styles.modalContent}>
                                         <Cropper
-                                            src={cropperRef.current?.src}
+                                            src={image}
                                             dragMode="move"
                                             style={{ maxHeight: "500px" }}
                                             // Cropper.js options
