@@ -8,7 +8,7 @@ import { Langs } from "../../types";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL, SOCKETURL } from "../../constants";
-import { useTheme, useUser } from "../../hooks";
+import { useTheme, useToggle, useUser } from "../../hooks";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import emTr from "../../i18n/locales/components/emoji.json"
 import dynamic from "next/dynamic";
@@ -362,14 +362,22 @@ const ChatMessage: React.FunctionComponent<{
     me: boolean;
     type: "text" | "file"
 }> = ({ text, date, me, type }) => {
+    const { on: show, off: toggle } = useToggle()
     return (
-        <div className={styles.messageContainer}>
+        <div className={styles.messageContainer} onClick={toggle}>
             <div className={`${styles.messageInner} ${me ? styles.messageSent : ""} `}>
                 {
-                    type === "text" ? < p > {text}</p> : < img src={`${IMAGEURL}/${text}`} style={{ height: "60vh" }} />
+                    type === "text" ? <p style={{ whiteSpace: "nowrap" }}> {text}</p> : < img src={`${IMAGEURL}/${text}`} className={styles.textImage} />
                 }
             </div >
-            <p className={me ? styles.messageSent : ""} style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>{postDateFormat(date)}</p>
+            {
+                show && (
+                    <p className={me ? styles.messageSent : ""}
+                        style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>
+                        {postDateFormat(date)}
+                    </p>
+                )
+            }
 
         </div >
     )

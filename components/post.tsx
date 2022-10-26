@@ -6,7 +6,7 @@ import { AiOutlineHeart, AiOutlineComment, AiFillHeart } from 'react-icons/ai';
 import { MdBlock, MdModeEdit, MdOutlineContentCopy, MdOutlineNavigateNext, MdReport } from "react-icons/md";
 import styles from "./styles/post.module.css";
 import { Actions, Verified, Video } from "./mis";
-import { BsEmojiSmile } from "react-icons/bs";
+import { BsArrowUpRight, BsEmojiSmile } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiUserUnfollowLine } from "react-icons/ri";
 import Modal from 'react-modal';
@@ -63,7 +63,8 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
         likes_count, comments_count, is_this_couple, location, files, created_at } = props
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
-    const locale = useRouter().locale || "en"
+    const router = useRouter()
+    const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
     const [step, setStep] = useState<"actions" | "edit" | "report">("actions")
@@ -148,6 +149,15 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
         followMutation.mutate()
         setFollowing(!following)
     }
+
+    const copyPostURl = () => {
+        navigator.clipboard.writeText(window.location.origin + "/" + couple_name + "/" + postId).then(() => {
+            notify?.notify("Post link copied", "SUCCESS")
+        }, () => {
+            notify?.notify("Failed to copy", "ERROR")
+        });
+    }
+
     if (deleted) {
         return null
     }
@@ -256,7 +266,9 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                 <>
                                     <li className={styles.actionItem} onClick={() => setStep("edit")} ><span>Edit</span><MdModeEdit size={25} /></li>
                                     <li className={styles.actionItem}><span>Close comments</span><BiCommentX size={25} /></li>
-                                    <li className={styles.actionItem}><span>copy post url</span> <MdOutlineContentCopy size={25} /></li>
+                                    <li className={styles.actionItem} onClick={copyPostURl}><span>Copy post url</span> <MdOutlineContentCopy size={25} /></li>
+                                    <li className={styles.actionItem} onClick={() => router.push(`/${couple_name}/${postId}`)}><span>Go to post</span> <BsArrowUpRight size={25} /></li>
+
                                     <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><span>Delete</span><AiOutlineDelete size={25} /></li>
                                     <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
                                 </>
@@ -384,6 +396,13 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
             }
         }
     )
+    const copyPostURl = () => {
+        navigator.clipboard.writeText(window.location.origin + "/" + post.couple_name + "/" + postId).then(() => {
+            notify?.notify("Post link copied", "SUCCESS")
+        }, () => {
+            notify?.notify("Failed to copy", "ERROR")
+        });
+    }
 
     const { data } = useQuery(["post", { postId }],
         () => axios.get(`${BASEURL}/post/${couplename}/${postId}`),
@@ -501,7 +520,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                                     <>
                                         <li className={styles.actionItem} onClick={() => setStep("edit")}><span>Edit</span><MdModeEdit size={25} /></li>
                                         <li className={styles.actionItem}><span>Close comments</span><BiCommentX size={25} /></li>
-                                        <li className={styles.actionItem}><span>copy post url</span> <MdOutlineContentCopy size={25} /></li>
+                                        <li className={styles.actionItem} onClick={copyPostURl}><span>Copy post link</span> <MdOutlineContentCopy size={25} /></li>
                                         <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><span>Delete</span><AiOutlineDelete size={25} /></li>
                                         <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
                                     </>

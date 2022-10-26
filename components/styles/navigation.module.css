@@ -71,8 +71,10 @@
     font-size: large;
     display: flex;
     align-items: center;
-    padding: .5em 3em;
-    max-width: 200px;
+    padding: .5em .8em;
+    display: grid;
+    place-items: center;
+    width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -186,6 +188,10 @@
         justify-content: center;
     }
 
+    .logoContainer {
+        margin-left: var(--gap-quarter);
+    }
+
     .nav {
         width: 120px;
     }
@@ -213,6 +219,7 @@
         border-radius: 50%;
         display: grid;
         padding: 1.1em 0;
+        width: auto;
         place-items: center;
     }
 

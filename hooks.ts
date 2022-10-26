@@ -25,3 +25,11 @@ export const useUser = () => {
     }, [])
     return user
 }
+
+export const useToggle = () => {
+    const [on, setOn] = useState(false)
+    const off = () => {
+        setOn(prv => !prv)
+    }
+    return { on, off }
+}
