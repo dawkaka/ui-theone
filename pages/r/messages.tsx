@@ -367,7 +367,7 @@ const ChatMessage: React.FunctionComponent<{
         <div className={styles.messageContainer} onClick={toggle}>
             <div className={`${styles.messageInner} ${me ? styles.messageSent : ""} `}>
                 {
-                    type === "text" ? <p style={{ whiteSpace: "nowrap" }}> {text}</p> : < img src={`${IMAGEURL}/${text}`} className={styles.textImage} />
+                    type === "text" ? <p style={{ whiteSpace: "pre-wrap" }}> {text}</p> : < img src={`${IMAGEURL}/${text}`} className={styles.textImage} />
                 }
             </div >
             {

@@ -61,7 +61,6 @@ export default function Navigation() {
     })
     let startup = { has_partner: false, notifications_count: 0, user_name: "", new_posts_count: 0 }
     if (data) {
-        console.log(data)
         startup = { new_posts_count: data.data.new_posts_count, has_partner: data.data.has_partner, notifications_count: data.data.notifications_count, user_name: data.data.user_name }
     }
     return (

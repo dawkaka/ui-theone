@@ -71,7 +71,7 @@ export default function Profile(props: any) {
             return axios.post(`${BASEURL}/user/show-pictures/${showImage}`, data)
         },
         {
-            onSuccess: () => {
+            onSuccess: (data) => {
                 queryClient.invalidateQueries(["profile", { name: router.query.name }])
                 setIsOpen(false)
                 const imgTarget = document.querySelector<HTMLImageElement>("#show-image-" + showImage)

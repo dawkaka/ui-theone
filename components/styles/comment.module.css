@@ -27,6 +27,7 @@
     margin-block: var(--gap-quarter);
     color: var(--accents-7);
     font-size: 16px;
+    white-space: pre-line;
 }
 
 .profileImage {
