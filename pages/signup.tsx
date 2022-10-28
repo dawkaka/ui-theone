@@ -1,12 +1,12 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { ChangeEvent, FormEvent, FormEventHandler, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, FormEventHandler, useEffect, useRef, useState } from "react";
 import { isEmail, isPassword, isRealName, isUserName } from "../libs/validators";
 import styles from "../styles/loginsignup.module.css"
 import { ErrCodes, Langs, Signup } from "../types";
 import tr from "../i18n/locales/signuplogin.json"
 import { useRouter } from "next/router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { BASEURL } from "../constants";
 import { getCountry, getState } from "../i18n/location";
@@ -20,6 +20,8 @@ const Signup: NextPage = () => {
     const [step, setStep] = useState(true)
     const [updateUi, setUpdateUi] = useState(false)
     const [errMode, setErrMode] = useState(false)
+    const [nameAvl, setNameAvailability] = useState(true)
+    const [enabled, setEnabled] = useState(false)
 
     const dataRef = useRef<Signup>({
         first_name: "",
@@ -116,6 +118,12 @@ const Signup: NextPage = () => {
                 errs = isUserName(value)
                 errRef.current.uNameErrs = errs
                 dataRef.current.user_name = value
+                if (errRef.current.uNameErrs.length === 0) {
+                    axios.get(`${BASEURL}/user/availability/${dataRef.current.user_name}`)
+                        .then(res => {
+                            setNameAvailability(res.data.available)
+                        })
+                }
                 break;
             case "password":
                 errs = isPassword(value)
@@ -245,14 +253,16 @@ const Signup: NextPage = () => {
                                 ) : (
                                     <>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="firstname">{localeTr.username.title}</label>
+                                            <label htmlFor="user_name">{localeTr.username.title}</label>
                                             <input
                                                 type="text"
                                                 placeholder={localeTr.username.placeholder}
                                                 name="user_name"
+                                                id="user_name"
                                                 value={dataRef.current.user_name}
                                                 onChange={handleInputs}
                                             />
+                                            <div>{errRef.current.uNameErrs.length === 0 ? <p>{nameAvl ? "available" : "not available"}</p> : null}</div>
                                             <div className={styles.errorsContainer}>
                                                 {
                                                     errRef.current.uNameErrs.map(val => {
@@ -262,12 +272,13 @@ const Signup: NextPage = () => {
                                             </div>
                                         </div>
                                         <div className={styles.formItem}>
-                                            <label htmlFor="lastname" placeholder="Enter last name">{localeTr.password.title}</label>
+                                            <label htmlFor="password">{localeTr.password.title}</label>
                                             <input
                                                 type="password"
                                                 placeholder={localeTr.password.placeholder}
                                                 name="password"
                                                 required
+                                                id="password"
                                                 value={dataRef.current.password}
                                                 onChange={handleInputs}
                                             />
@@ -286,6 +297,7 @@ const Signup: NextPage = () => {
                                                 placeholder={localeTr.repeatpassword.placeholder}
                                                 name="repeat_password"
                                                 required
+                                                id="email"
                                                 value={dataRef.current.repeat_password}
                                                 onChange={handleInputs}
                                             />
