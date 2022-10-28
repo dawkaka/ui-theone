@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { BASEURL } from "../constants";
+import { getCountry, getState } from "../i18n/location";
 
 const Signup: NextPage = () => {
     const router = useRouter()
@@ -26,7 +27,9 @@ const Signup: NextPage = () => {
         date_of_birth: "",
         user_name: "",
         password: "",
-        repeat_password: ""
+        repeat_password: "",
+        country: "",
+        state: ""
     })
 
     const errRef = useRef<{
@@ -76,6 +79,14 @@ const Signup: NextPage = () => {
     const back = (e: FormEvent) => {
         e.preventDefault()
         setStep(true)
+    }
+    const country = getCountry()
+    const state = getState()
+    if (country) {
+        dataRef.current.country = country
+        if (state) {
+            dataRef.current.state = state
+        }
     }
 
     const handleInputs = (e: ChangeEvent<HTMLInputElement>) => {
@@ -133,9 +144,6 @@ const Signup: NextPage = () => {
         e.preventDefault()
         if (hasErrors()) return
         mutation.mutate(dataRef.current)
-    }
-    if (mutation.isError) {
-        console.log(mutation.error)
     }
 
     return (

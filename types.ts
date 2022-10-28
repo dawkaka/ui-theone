@@ -15,7 +15,9 @@ export interface Signup {
     email: string;
     date_of_birth: string;
     password: string;
-    repeat_password: string
+    repeat_password: string;
+    country: string;
+    state: string
 }
 
 export interface EditUser {
