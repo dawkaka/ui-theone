@@ -9,13 +9,13 @@ import { Langs, PostT } from "../../types";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../../constants";
-import { Loader } from "../../components/mis";
+import { Loader, Loading } from "../../components/mis";
 import { useRef } from "react";
 import { getCountry } from "../../i18n/location";
 
 
 Modal.setAppElement('#__next')
-console.log(getCountry())
+
 export default function HomePage() {
     const router = useRouter()
     const locale = router.locale as Langs || "en"
@@ -53,7 +53,6 @@ export default function HomePage() {
     return (
         <Layout>
             <div className={styles.home}>
-
                 <section className={styles.postsContainer}>
                     <div className={styles.headerContainer}>
                         <h1>{localeTr.header}</h1>

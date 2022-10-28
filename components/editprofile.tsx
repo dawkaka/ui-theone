@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios, { AxiosError, AxiosResponse } from "axios"
 import { BASEURL } from "../constants"
 import { ToasContext } from "./context"
+import { Loading } from "./mis"
 
 const modalStyles: Modal.Styles = {
     overlay: {
@@ -69,6 +70,7 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bi
 
         const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault()
+            if (mutation.isLoading) return
             mutation.mutate({ bio: bio, website: website.current, date_commenced: drb.current })
         }
 
@@ -94,7 +96,7 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bi
                         <div
                             className={styles.nextContainer}
                         >
-                            <button>{localeTr.done}</button>
+                            <button>{mutation.isLoading ? <Loading size="small" color="white" /> : localeTr.done}</button>
                         </div>
                     </div>
                     <section className={styles.modalContent}>
@@ -198,7 +200,7 @@ export const EditUser: React.FunctionComponent<EditUserT> = ({ open, close, firs
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setErrMode(true)
-        if (fNameErrs.length !== 0 || lNameErrs.length !== 0) return
+        if (fNameErrs.length !== 0 || lNameErrs.length !== 0 || mutation.isLoading) return
         mutation.mutate({ first_name: firstName, last_name: lastName, bio: bioRef.current, date_of_birth: dateRef.current + "T00:00:00Z", website: webRef.current })
     }
 
@@ -218,7 +220,7 @@ export const EditUser: React.FunctionComponent<EditUserT> = ({ open, close, firs
                     <div
                         className={styles.nextContainer}
                     >
-                        <button>{localeTr.done}</button>
+                        <button>{mutation.isLoading ? <Loading size="small" color="white" /> : localeTr.done}</button>
                     </div>
                 </div>
                 <section className={styles.modalContent}>

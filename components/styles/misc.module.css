@@ -130,3 +130,49 @@
         left: 50%;
     }
 }
+
+.loadingContainer {
+    display: flex;
+    gap: 5px;
+    align-self: center;
+    --delay: .1s
+}
+
+.loaderBar {
+    display: block;
+    width: 2px;
+    height: 20px;
+    background-color: currentColor;
+    animation: scale .5s ease-in var(--delay) infinite alternate;
+}
+
+.loaderBar:nth-child(1) {
+    --delay: .1s
+}
+
+.loaderBar:nth-child(2) {
+    --delay: .2s
+}
+
+.loaderBar:nth-child(3) {
+    --delay: .3s
+}
+
+.loaderBar:nth-child(4) {
+    --delay: .4s
+}
+
+.loaderBar:nth-child(5) {
+    --delay: .5s
+}
+
+
+@keyframes scale {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1);
+    }
+}

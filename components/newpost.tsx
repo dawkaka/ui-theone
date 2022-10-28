@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { GoFileMedia } from "react-icons/go";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { Carousel, CheckMark, Video } from "./mis";
+import { Carousel, CheckMark, Loading, Video } from "./mis";
 import tr from "../i18n/locales/components/newpost.json"
 import { useRouter } from "next/router";
 import { Langs } from "../types";
@@ -514,8 +514,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                         </div>
 
                         <div className={styles.modalContent}>
-
-                            <CheckMark size={200} />
+                            {
+                                sharePostMutation.isLoading ? <Loading color="var(--success)" size="large" /> : <CheckMark size={200} />
+                            }
                         </div>
                     </div>
                 )

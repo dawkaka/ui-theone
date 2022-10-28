@@ -8,6 +8,7 @@ import styles from "../styles/loginsignup.module.css"
 import { Langs } from "../types";
 import tr from "../i18n/locales/signuplogin.json"
 import { BASEURL } from "../constants";
+import { Loading } from "../components/mis";
 
 const Login: NextPage = () => {
     const [emailOrUsername, setEmailOrUserName] = useState("")
@@ -25,7 +26,7 @@ const Login: NextPage = () => {
 
     const login = (e: FormEvent) => {
         e.preventDefault()
-        if (hasErrors) return
+        if (hasErrors || mutation.isLoading) return
         mutation.mutate({ user_name_or_email: emailOrUsername, password: password })
     }
     return (
@@ -55,11 +56,10 @@ const Login: NextPage = () => {
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", marginTop: "40px", gap: "var(--gap)" }}>
                                 <button
-                                    style={{ paddingBlock: "var(--gap-half)", opacity: hasErrors ? .5 : 1 }}
+                                    style={{ paddingBlock: "var(--gap-half)", opacity: hasErrors ? .5 : 1, display: "flex", justifyContent: "center" }}
                                 >
-                                    {localeTr.login}
+                                    {mutation.isLoading ? <Loading color="white" size="small" /> : localeTr.login}
                                 </button>
-
                                 <p>{localeTr.hasnoaccount} <Link href={"/signup"} shallow><a style={{ color: "var(--success)" }}>{localeTr.singup}</a></Link></p>
                             </div>
 

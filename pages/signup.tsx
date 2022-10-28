@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { BASEURL } from "../constants";
 import { getCountry, getState } from "../i18n/location";
+import { Loading } from "../components/mis";
 
 const Signup: NextPage = () => {
     const router = useRouter()
@@ -142,7 +143,7 @@ const Signup: NextPage = () => {
 
     const signup = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (hasErrors()) return
+        if (hasErrors() || mutation.isLoading) return
         mutation.mutate(dataRef.current)
     }
 
@@ -305,10 +306,9 @@ const Signup: NextPage = () => {
                                                     backgroundColor: "transparent",
                                                     border: "var(--border)"
                                                 }}>{localeTr.back}</button>
-                                            <button
-                                                style={{ paddingBlock: "var(--gap-half)" }}
-                                            >
-                                                {localeTr.singup}
+
+                                            <button style={{ paddingBlock: "var(--gap-half)", opacity: hasErrors() ? .5 : 1 }}>
+                                                {mutation.isLoading ? <Loading color="white" size="small" /> : localeTr.singup}
                                             </button>
                                         </div>
                                     </>

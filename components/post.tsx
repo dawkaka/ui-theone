@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { AiOutlineHeart, AiOutlineComment, AiFillHeart } from 'react-icons/ai';
 import { MdBlock, MdModeEdit, MdOutlineContentCopy, MdOutlineNavigateNext, MdReport } from "react-icons/md";
 import styles from "./styles/post.module.css";
-import { Actions, Verified, Video } from "./mis";
+import { Actions, Loading, Verified, Video } from "./mis";
 import { BsArrowUpRight, BsEmojiSmile } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiUserUnfollowLine } from "react-icons/ri";
@@ -617,7 +617,7 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
                 ></textarea>
 
                 <div>
-                    <button>{isLoading ? "posting" : localeTr.post}</button>
+                    <button>{isLoading ? <Loading size="small" color="var(--success)" /> : localeTr.post}</button>
                 </div>
 
             </form>
@@ -748,6 +748,7 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }
         }
     )
     const reportPost = () => {
+        if (reportMutation.isLoading) return
         const reports = []
         for (let list of Array.from(report.current!.childNodes)) {
             const inp = list.firstChild as HTMLInputElement
@@ -767,7 +768,7 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }
                 <button onClick={reportPost}
                     className={styles.saveButton}
                 >
-                    Send
+                    {reportMutation.isLoading ? <Loading size="small" color="white" /> : localeTr.send}
                 </button>
             </div>
             <ul className={`${styles.modalContent} ${styles.report}`} ref={report}>
@@ -831,6 +832,7 @@ const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: strin
             })
 
         const editPost = () => {
+            if (editMutation.isLoading) return
             editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
         }
 
@@ -844,7 +846,7 @@ const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: strin
                     <button onClick={editPost}
                         className={styles.saveButton}
                     >
-                        {localeTr.save}
+                        {editMutation.isLoading ? <Loading size="small" color="white" /> : localeTr.save}
                     </button>
                 </div>
                 <div className={`${styles.modalContent} ${styles.captionStage}`}>

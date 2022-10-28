@@ -12,7 +12,7 @@ import { BiArrowBack } from "react-icons/bi";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import { EditUser } from "../../components/editprofile";
-import { Actions, Loader } from "../../components/mis";
+import { Actions, Loader, Loading } from "../../components/mis";
 import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
 import { Langs, MutationResponse } from "../../types";
@@ -92,10 +92,12 @@ export default function Profile(props: any) {
         const formData = new FormData()
         const blob = await (await fetch(newFileRef.current)).blob()
         if (targetRef.current === "avatar") {
+            if (updatePicMutation.isLoading) return
             formData.append("profile-picture", blob, "profile.jpeg")
             updatePicMutation.mutate(formData)
 
         } else {
+            if (updateShowPicMutation.isLoading) return
             formData.append("show_picture", blob, "show.jpeg")
             updateShowPicMutation.mutate(formData)
         }
@@ -311,11 +313,10 @@ export default function Profile(props: any) {
                                         <BiArrowBack size={20} color="var(--accents-6)" />
                                     </div>
                                     <p>{localeTr.crop}</p>
-                                    <div
-                                        onClick={onDone}
-                                        className={styles.nextContainer}
-                                    >
-                                        <p>{localeTr.done}</p>
+                                    <div onClick={onDone} className={styles.nextContainer}>
+                                        {
+                                            updatePicMutation.isLoading || updateShowPicMutation.isLoading ? <Loading size="small" color="white" /> : <p>{localeTr.done}</p>
+                                        }
                                     </div>
                                 </div>
                                 <div className={styles.modalContent}>

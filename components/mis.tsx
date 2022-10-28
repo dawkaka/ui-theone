@@ -232,12 +232,13 @@ export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetchi
     return (
         <>
             {hasNext && (
-                <div style={{ width: "100%", textAlign: "center", paddingBlock: "var(--gap-half)" }}>
+                <div style={{ width: "100%", textAlign: "center", paddingBlock: "var(--gap-quarter)", display: "flex", justifyContent: "center" }}>
                     {!isFetching ?
                         <button onClick={() => loadMore()}>{localeTr.loadmore}</button>
                         :
-                        <button>{localeTr.loading}</button>
+                        <Loading color="var(--success)" size="medium" />
                     }
+
                 </div>
             )
             }
@@ -280,5 +281,23 @@ export const Toast: React.FC<{ message: string, type: "ERROR" | "SUCCESS" | "NEU
                 <p>{message}</p>
             </div >
         </div>
+    )
+}
+
+export const Loading: React.FC<{ color: string, size: "small" | "medium" | "large" }> = ({ color, size }) => {
+    const setSize: CSSProperties =
+        size === "small" ?
+            { height: "13px", width: "2px" } :
+            size === "medium" ?
+                { height: "20px", width: "3px" } :
+                { height: "50px", width: "10px" }
+    return (
+        <div className={styles.loadingContainer} style={{ color: color }}>
+            <div className={styles.loaderBar} style={{ ...setSize }}></div>
+            <div className={styles.loaderBar} style={{ ...setSize }}></div>
+            <div className={styles.loaderBar} style={{ ...setSize }}></div>
+            <div className={styles.loaderBar} style={{ ...setSize }}></div>
+            <div className={styles.loaderBar} style={{ ...setSize }}></div>
+        </div >
     )
 }
