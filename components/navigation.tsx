@@ -56,7 +56,7 @@ export default function Navigation() {
 
     }, [pathname])
 
-    const { data } = useQuery(["pending-request"], () => {
+    const { data } = useQuery(["startup"], () => {
         return axios.get(`${BASEURL}/user/u/startup`)
     })
     let startup = { has_partner: false, notifications_count: 0, user_name: "", new_posts_count: 0 }

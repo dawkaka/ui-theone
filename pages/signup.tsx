@@ -21,7 +21,6 @@ const Signup: NextPage = () => {
     const [updateUi, setUpdateUi] = useState(false)
     const [errMode, setErrMode] = useState(false)
     const [nameAvl, setNameAvailability] = useState(true)
-    const [enabled, setEnabled] = useState(false)
 
     const dataRef = useRef<Signup>({
         first_name: "",

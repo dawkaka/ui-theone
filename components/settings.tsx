@@ -7,12 +7,13 @@ import { useRouter } from "next/router";
 import tr from "../i18n/locales/components/settings.json"
 import { Langs, MutationResponse } from "../types"
 import { Theme } from "emoji-picker-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL } from "../constants";
 import { isPassword } from "../libs/validators";
 import { Prompt } from "./prompt";
 import { ToasContext } from "./context";
+import { Loading } from "./mis";
 Modal.setAppElement("body")
 
 const modalStyles: Modal.Styles = {
@@ -46,6 +47,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const [theme, setTheme] = useState<Theme>(Theme.LIGHT)
     const [prOpen, setPrOpen] = useState(false)
     const notify = useContext(ToasContext)
+    const queryclient = useQueryClient()
 
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
@@ -58,6 +60,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
             onSuccess: (data) => {
                 const { message, type } = data.data as MutationResponse
                 notify!.notify(message, type)
+                queryclient.invalidateQueries(["startup"])
             },
             onError: (err) => {
                 notify!.notify(err.response?.data.message, "ERROR")
@@ -66,6 +69,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     )
 
     const changeName = (newName: string) => {
+        if (newName.length < 4 || changeNameMutation.isLoading) return
         changeNameMutation.mutate({ user_name: newName })
     }
 
@@ -204,6 +208,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         type="text"
                         title={localeTr.username.title}
                         submit={changeName}
+                        isChanging={changeNameMutation.isLoading}
                         placeholder={localeTr.username.placehoder}
                         actionTitle={localeTr.change}
                     />
@@ -215,6 +220,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         placeholderCurrent={localeTr.password.current}
                         placeholderRepeat={localeTr.password.repeat}
                         submit={changePassword}
+                        isChanging={passwordMutation.isLoading}
                     />
                     <SettingInputItem
                         type="email"
@@ -222,6 +228,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         placeholder={localeTr.email.placehoder}
                         actionTitle={localeTr.change}
                         submit={changeEmail}
+                        isChanging={emailMutation.isLoading}
                     />
                     <SettingRadio title={localeTr.opentorequest.title} options={[{ value: "ON", label: localeTr.opentorequest.yes }, { value: "OFF", label: localeTr.opentorequest.no }]} value={"ON"} handleChange={statusMutation.mutate} />
                     <SettingRadio title={localeTr.language.title} options={[{ value: "en", label: "English" }, { value: "es", label: "Español" }]} value={locale} handleChange={langChange} />
@@ -327,6 +334,7 @@ export const CoupleSettings: React.FunctionComponent<{
     )
 
     const changeCoupleName = (newName: string) => {
+        if (newName.length < 4 || changeNameMutation.isLoading) return
         changeNameMutation.mutate({ couple_name: newName })
     }
 
@@ -394,6 +402,7 @@ export const CoupleSettings: React.FunctionComponent<{
                         submit={changeCoupleName}
                         placeholder={localeTr.couplename.placehoder}
                         actionTitle={localeTr.change}
+                        isChanging={changeNameMutation.isLoading}
                     />
                     {/* <SettingRadio
                         title={localeTr.visibility.title}
@@ -429,14 +438,14 @@ const SettingInputItem: React.FunctionComponent<{
     placeholderCurrent?: string,
     placeholderRepeat?: string
     placeholder: string,
+    isChanging: boolean,
     actionTitle: string
-}> = ({ placeholder, type, title, submit, actionTitle, placeholderCurrent, placeholderRepeat }) => {
+}> = ({ placeholder, type, title, submit, actionTitle, placeholderCurrent, placeholderRepeat, isChanging }) => {
     const [val, setVal] = useState("")
     const [currentPassword, setCurrentPassword] = useState("")
     const [rNewPassword, setRNewPassword] = useState("")
     const iconRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
-
 
     const showInputs = () => {
         iconRef.current!.classList.toggle(`${styles.show}`)
@@ -446,9 +455,13 @@ const SettingInputItem: React.FunctionComponent<{
     const change = () => {
         if (type === "password") {
             submit(currentPassword, val, rNewPassword)
-            return
+        } else {
+            submit(val)
         }
-        submit(val)
+    }
+
+    const inputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setVal(e.currentTarget.value)
     }
     return (
         <form onSubmit={(e) => e.preventDefault()} className={styles.itemContainer}>
@@ -465,14 +478,14 @@ const SettingInputItem: React.FunctionComponent<{
                         :
                         null
                 }
-                <input type={type} value={val} placeholder={placeholder} onChange={(e) => setVal(e.currentTarget.value)} />
+                <input type={type} value={val} placeholder={placeholder} onChange={inputChange} />
                 {
                     placeholderRepeat ?
                         <input type={type} value={rNewPassword} placeholder={placeholderRepeat} onChange={(e) => setRNewPassword(e.currentTarget.value)} />
                         :
                         null
                 }
-                <button onClick={change}>{actionTitle}</button>
+                {isChanging ? <Loading size="small" color="var(--success)" /> : <button onClick={change}>{actionTitle}</button>}
             </div>
         </form>
     )
