@@ -4,7 +4,7 @@ import tr from "../i18n/locales/components/suggestions.json"
 import { useRouter } from "next/router"
 import { Langs } from "../types"
 import { BASEURL, IMAGEURL } from "../constants"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { Loading } from "./mis"
 import React, { useState } from "react"
@@ -37,7 +37,14 @@ const Suggestions: React.FunctionComponent = () => {
 
 const PreviewWithRemove: React.FC<{ node: React.ReactNode, name: string }> = ({ node, name }) => {
     const [removed, setRemoved] = useState(false)
-    const mutation = useMutation(() => axios.post(`${BASEURL}/user/exempt/${name}`), { onSuccess: () => setRemoved(true) })
+    const queryClient = useQueryClient()
+    const mutation = useMutation(() => axios.post(`${BASEURL}/user/exempt/${name}`),
+        {
+            onSuccess: () => {
+                setRemoved(true)
+                queryClient.invalidateQueries(["suggested"])
+            }
+        })
 
     if (removed) {
         return null
