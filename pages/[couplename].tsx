@@ -128,10 +128,14 @@ const CoupleProfile: NextPage = (props: any) => {
         { initialData: props.couple, staleTime: Infinity })
 
     useEffect(() => {
-        setFollowing(data.data.is_following)
+        if (data.data) {
+            setFollowing(data.data.is_following)
+        }
     }, [data])
 
-
+    if (!data || !data.data) {
+        return <Layout><div style={{ height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}><h1>Couple not found</h1></div></Layout>
+    }
     return (
         <>
             <Layout>
@@ -455,12 +459,16 @@ export default CoupleProfile
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const name = ctx.query.couplename as string
-    const res = await axios.get(`${BASEURL}/${name}`, {
-        headers: {
-            Cookie: `session=${ctx.req.cookies.session}`
-        }
-    })
-    return { props: { couple: { data: res.data } } }
+    try {
+        const res = await axios.get(`${BASEURL}/${name}`, {
+            headers: {
+                Cookie: `session=${ctx.req.cookies.session}`
+            }
+        })
+        return { props: { couple: { data: res.data } } }
+    } catch (error) {
+        return { props: { couple: { data: null } } }
+    }
 }
 
 
