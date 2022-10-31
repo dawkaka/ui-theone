@@ -25,9 +25,11 @@ const Suggestions: React.FunctionComponent = () => {
                 }
                 {
                     data?.data.map((c: any) => (
-                        <PreviewWithRemove node={<CouplePreview
-                            profile_picture={`${IMAGEURL}/${c.profile_picture}`}
-                            name={c.couple_name} isFollowing={false} married={c.married} verified={c.verified} />} name={c.couple_name} />
+                        <PreviewWithRemove
+                            key={c.couple_name}
+                            node={<CouplePreview
+                                profile_picture={`${IMAGEURL}/${c.profile_picture}`}
+                                name={c.couple_name} isFollowing={false} married={c.married} verified={c.verified} />} name={c.couple_name} />
                     ))
                 }
             </div>
