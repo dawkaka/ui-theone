@@ -5,14 +5,16 @@
         "sendrequest": "Send request",
         "selectimage": "Select image",
         "crop": "Crop",
-        "done": "Done"
+        "done": "Done",
+        "block": "Block"
     },
     "es": {
         "following": "Siguiendo",
-       "edit": "Editar",
-       "sendrequest": "Enviar petición",
-       "selectimage": "Elegir una imagen",
-       "crop": "Delimitar",
-       "done": "Hecho"
+        "edit": "Editar",
+        "sendrequest": "Enviar petición",
+        "selectimage": "Elegir una imagen",
+        "crop": "Delimitar",
+        "done": "Hecho",
+        "block": "Bloquear"
     }
 }

@@ -1,11 +1,11 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect, useContext, MouseEventHandler, MouseEvent } from "react";
 import { ChangeEvent } from "react";
 import Image from "next/image";
 import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import Layout from "../../components/mainLayout";
 import styles from "../../styles/profile.module.css"
-import { MdModeEdit } from "react-icons/md";
+import { MdBlock, MdModeEdit, MdReport } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
@@ -43,6 +43,7 @@ export default function Profile(props: any) {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+    const [showActions, setShowActions] = useState(false)
 
     const editProfileImage = (e: React.MouseEvent<HTMLSpanElement>) => {
         targetRef.current = "avatar"
@@ -150,10 +151,26 @@ export default function Profile(props: any) {
             </Layout>
         )
     }
+    const blockMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
+        () => axios.post(`${BASEURL}/couple/block/${router.query.name}`),
+        {
+            onSuccess: (data) => {
+                const { message, type } = data.data as MutationResponse
+                notify?.notify(message, type)
+            },
+            onError: (err) => {
+                notify?.notify(err.response?.data.message, "ERROR")
+            }
+        }
+    )
+    const block = () => {
+        blockMutation.mutate()
+    }
+
 
     return (
         <Layout>
-            <section className={styles.section}>
+            <section className={styles.section} onClick={() => setShowActions(false)}>
                 <div className={styles.profileTopContainer}>
                     <div className={styles.profileTop}>
                         <div className={styles.infoWrapper}>
@@ -209,12 +226,34 @@ export default function Profile(props: any) {
                             </h2>
                         </div>
                         {
-                            data.data.is_this_user && (
+                            data.data.is_this_user ? (
                                 <div className={styles.actions} onClick={() => setOpenSettings(true)}>
                                     <Actions orientation="landscape" size={25} />
                                 </div>
+                            ) : (
+                                (
+                                    <div className={styles.actions} onClick={(e) => {
+                                        e.stopPropagation()
+                                        setShowActions(prv => !prv)
+                                    }}>
+                                        <Actions orientation="landscape" size={25} />
+                                        {
+                                            showActions &&
+                                            (<ul className={styles.userActions}>
+                                                <li onClick={block}
+                                                    className={`${styles.actionItem} ${styles.dangerAction}`}>
+                                                    <MdBlock size={25} />
+                                                    <span>{localeTr.block}</span>
+                                                </li>
+                                            </ul>
+                                            )
+                                        }
+                                    </div>
+                                )
                             )
+
                         }
+
                     </div>
                 </div>
                 <div className={styles.profileBottom}>

@@ -202,11 +202,6 @@ const CoupleProfile: NextPage = (props: any) => {
                                                         <MdReport size={25} />
                                                         <span>{localeTr.report}</span>
                                                     </li>
-                                                    <li
-                                                        className={`${styles.actionItem} ${styles.dangerAction}`}>
-                                                        <MdBlock size={25} />
-                                                        <span>{localeTr.block}</span>
-                                                    </li>
                                                 </ul>
                                             }
                                         </div>
