@@ -9,6 +9,8 @@
     padding: var(--gap);
     border-radius: var(--radius-small);
     position: fixed;
+    overflow-y: auto;
+    height: 50vh;
     top: 75px
 }
 
@@ -29,6 +31,7 @@
         padding-bottom: var(--gap-half);
         position: inherit;
         width: 100%;
+        height: auto;
         border: none;
         top: var(--gap);
         margin-bottom: 75px;
