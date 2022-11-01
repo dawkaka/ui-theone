@@ -9,7 +9,7 @@ import Cropper from "react-cropper";
 import styles from "../styles/couple.module.css"
 import { Actions, Loader, SearchUser, Verified } from "../components/mis";
 import { Post } from "../components/post";
-import { MdBlock, MdModeEdit, MdReport } from "react-icons/md";
+import { MdModeEdit, MdReport } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
@@ -23,6 +23,7 @@ import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { ToasContext } from "../components/context";
+import { NotFound } from "../components/notfound";
 
 Modal.setAppElement("#__next")
 
@@ -134,7 +135,9 @@ const CoupleProfile: NextPage = (props: any) => {
     }, [data])
 
     if (!data || !data.data) {
-        return <Layout><div style={{ height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}><h1>Couple not found</h1></div></Layout>
+        return <Layout>
+            <NotFound message="Couple not found" />
+        </Layout>
     }
     return (
         <>

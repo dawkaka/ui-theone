@@ -26,6 +26,7 @@ import { FaHeart } from "react-icons/fa";
 import { Prompt } from "./prompt";
 import { postDateFormat } from "../libs/utils";
 import { ToasContext } from "./context";
+import { NotFound } from "./notfound";
 
 const Picker = dynamic(
     () => {
@@ -411,9 +412,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
     if (data.data === null) {
         return (
 
-            <div>
-                <h2>Post not found</h2>
-            </div>
+            <NotFound message="Post not found" />
 
         )
     }
