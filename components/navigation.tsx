@@ -58,10 +58,14 @@ export default function Navigation() {
 
     const { data } = useQuery(["startup"], () => {
         return axios.get(`${BASEURL}/user/u/startup`)
-    })
-    let startup = { has_partner: false, notifications_count: 0, user_name: "", new_posts_count: 0 }
+    }, { staleTime: 10000 })
+    let startup = { has_partner: false, notifications_count: 0, user_name: "", new_posts_count: 0, new_messages_count: 0 }
     if (data) {
-        startup = { new_posts_count: data.data.new_posts_count, has_partner: data.data.has_partner, notifications_count: data.data.notifications_count, user_name: data.data.user_name }
+        startup = {
+            new_posts_count: data.data.new_posts_count, has_partner: data.data.has_partner,
+            notifications_count: data.data.notifications_count, user_name: data.data.user_name,
+            new_messages_count: data.data.new_messages_count
+        }
     }
     return (
         <>
@@ -129,9 +133,20 @@ export default function Navigation() {
                     </Link>
                     {startup.has_partner && (<Link href={"/r/messages"}>
                         <div className={`${styles.navItem} ${pathname === "/r/messages" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to messages page">
-                            <div>
+                            <div style={{ position: "relative" }}>
                                 {pathname === "/r/messages" ? <MdEmail size={25}></MdEmail> :
                                     <MdOutlineMail size={26} color="var(--accents-5)"></MdOutlineMail>
+                                }
+                                {startup.new_messages_count > 0 && (<p
+                                    style={{
+                                        position: "absolute", top: 0,
+                                        right: "-4px", backgroundColor: "red",
+                                        color: "white", fontSize: "10px", borderRadius: "50%",
+                                        padding: "2px 5px"
+
+                                    }}
+                                >{startup.new_messages_count > 10 ? "10+" : startup.new_messages_count}</p>
+                                )
                                 }
                             </div>
                             <p>{cMessages.messages}</p>

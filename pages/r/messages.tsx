@@ -72,6 +72,7 @@ export default function Messages() {
         if (messageContainer.current) {
             setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "smooth" }))
         }
+        socket.emit("recieved")
     })
 
 
@@ -84,8 +85,16 @@ export default function Messages() {
             msgs = msgs.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
             setMessages([...msgs])
         }
+        socket.emit("recieved")
 
     }, [data])
+
+    // useEffect(() => {
+
+    //     return () => {
+    //         socket.disconnect()
+    //     }
+    // }, [])
 
     socket.on("connect_error", (error) => {
         console.log(error)
@@ -105,7 +114,6 @@ export default function Messages() {
     socket.on("not-typing", () => {
         setTyping(false)
     })
-
     return (
         <Layout>
             <div className={styles.messagePageContainer}>
@@ -132,7 +140,7 @@ export default function Messages() {
                             {messages.map((message: any, index: number) => {
                                 return (
                                     <ChatMessage
-                                        text={message.message} me={message.from === userId}
+                                        text={message.message} me={message.from === userId} recieved={message.from === userId && message.recieved}
                                         date={message.date} type={message.type} key={new Date(message.date).getTime()} />
                                 )
                             })
@@ -360,8 +368,9 @@ const ChatMessage: React.FunctionComponent<{
     text: string;
     date: string;
     me: boolean;
+    recieved: boolean;
     type: "text" | "file"
-}> = ({ text, date, me, type }) => {
+}> = ({ text, date, me, type, recieved }) => {
     const { on: show, off: toggle } = useToggle()
     return (
         <div className={styles.messageContainer} onClick={toggle}>
@@ -376,7 +385,19 @@ const ChatMessage: React.FunctionComponent<{
                         style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>
                         {postDateFormat(date)}
                     </p>
+
                 )
+            }
+            {
+                show && recieved ? (
+                    <p className={me ? styles.messageSent : ""}
+                        style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>
+                        Seen
+                    </p>
+                ) : show && me ? <p className={me ? styles.messageSent : ""}
+                    style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>
+                    Sent
+                </p> : null
             }
 
         </div >

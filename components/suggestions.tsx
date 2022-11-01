@@ -15,7 +15,6 @@ const Suggestions: React.FunctionComponent = () => {
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const { isLoading, data } = useQuery(["suggested"], () => axios.get(`${BASEURL}/couple/u/suggested-accounts`), { staleTime: Infinity })
-    console.log(data)
     return (
         <section className={styles.suggestionsContainer}>
             <div className={styles.suggestionsWrapper}>
