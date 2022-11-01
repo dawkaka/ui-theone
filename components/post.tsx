@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -27,6 +27,7 @@ import { Prompt } from "./prompt";
 import { postDateFormat } from "../libs/utils";
 import { ToasContext } from "./context";
 import { NotFound } from "./notfound";
+import { isUserName } from "../libs/validators";
 
 const Picker = dynamic(
     () => {
@@ -492,9 +493,8 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                         borderBottom: "var(--border)"
 
                     }}>
-                        <p style={{ whiteSpace: "pre-line" }}>
-                            {post.caption}
-                        </p>
+                        <TextParser text={post.caption} />
+
                         <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
                             <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} hasLiked={post.has_liked} />
                             <p style={{ color: "var(--accents-3)", fontSize: "small" }}>{postDateFormat(post.created_at)}</p>
@@ -882,5 +882,45 @@ const SliderIndicator: React.FC<{ pos: number, curr: number }> = ({ pos, curr })
     )
 }
 
+
+const TextParser: React.FC<{ text: string }> = ({ text }) => {
+    let i = 0
+    let ind = -1
+    const parsed: ReactNode[] = []
+    const tags = []
+    while (i < text.length) {
+        if (text[i] === "@") {
+            ind = i
+        }
+        const reg = new RegExp(/[\n\r\s]+/)
+        if (reg.test(text[i])) {
+            if (ind > 0) {
+                if (i - ind > 3) {
+                    tags.push([ind, i - 1])
+                }
+                ind = -1
+            }
+        }
+        i++
+    }
+    if (ind > 0) {
+        tags.push([ind, text.length - 1])
+    }
+    let start = 0
+    for (let i = 0; i < tags.length; i++) {
+        parsed.push(<span>{text.substring(start, tags[i][0])}</span>)
+        const tag = text.substring(tags[i][0], tags[i][1] + 1)
+        parsed.push(<Link href={`/user/${tag.substring(1)}`}><a style={{ color: "var(--success)" }}>{tag}</a></Link>)
+        start = tags[i][1] + 1
+    }
+    if (start < text.length - 1) {
+        parsed.push(text.substring(start))
+    }
+    return (
+        <p style={{ whiteSpace: "pre-wrap" }}>
+            {parsed}
+        </p>
+    )
+}
 
 export default PostFullView
