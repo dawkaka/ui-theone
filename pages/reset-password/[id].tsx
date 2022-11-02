@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
-import { Loading } from "../../components/mis"
+import { CheckMark, Loading } from "../../components/mis"
 import { BASEURL } from "../../constants"
 import styles from "../../styles/loginsignup.module.css"
 
@@ -11,7 +11,7 @@ export default function ResetPassword() {
     const [password, setPassword] = useState("")
     const [rpassword, setRPassword] = useState("")
     const [response, setResponse] = useState("")
-    const { query } = useRouter()
+    const { query, replace } = useRouter()
     const mutation = useMutation(
         (data: { password: string }) => axios.post(`${BASEURL}/user/reset-password/${query.id}`, JSON.stringify(data)),
         {
@@ -34,34 +34,40 @@ export default function ResetPassword() {
                 <p>Enter new password to be  associated with your account</p>
                 {
                     response !== "" ? response === "SUCCESS" ?
-                        <p>A password reset link has been sent to your email, click on it to change your password</p>
+                        <div style={{ textAlign: "center", marginTop: "var(--gap)", display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--gap-half)" }}>
+                            <CheckMark size={50} />
+                            <p>Password has been reset successfully </p>
+                            <button style={{ padding: "var(--gap-quarter) var(--gap)" }} onClick={() => replace("/login")}>Login</button>
+                        </div>
                         :
-                        <p>Something went wrong, click the "Request password reset" button again</p>
+                        <p style={{ color: "red", marginTop: "var(--gap)" }}>Something went wrong, check your  and try button again</p>
                         :
                         null
                 }
-                <form onSubmit={submit} style={{ marginTop: "var(--gap)", display: "flex", flexDirection: "column" }}>
+                {
+                    response === "SUCCESS" ? null : <form onSubmit={submit} style={{ marginTop: "var(--gap)", display: "flex", flexDirection: "column" }}>
 
-                    <div className={styles.formItem}>
-                        <label>Password<span style={{ color: "red" }}>*</span></label>
-                        <input
-                            type="password"
-                            placeholder={"Enter password"}
-                            value={password}
-                            onChange={(e) => setPassword(e.currentTarget.value)}
-                            name="password" required />
-                    </div>
-                    <div className={styles.formItem}>
-                        <label>Repeat password <span style={{ color: "red" }}>*</span></label>
-                        <input
-                            type="password"
-                            placeholder="Repeat password"
-                            value={rpassword}
-                            onChange={(e) => setRPassword(e.currentTarget.value)}
-                            name="password" required />
-                    </div>
-                    <button style={{ padding: "var(--gap-half) var(--gap)", fontSize: "16px", display: "flex", justifyContent: "center" }}>{mutation.isLoading ? <Loading size="medium" color="white" /> : "Request password reset"}</button>
-                </form>
+                        <div className={styles.formItem}>
+                            <label>Password<span style={{ color: "red" }}>*</span></label>
+                            <input
+                                type="password"
+                                placeholder={"Enter password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.currentTarget.value)}
+                                name="password" required />
+                        </div>
+                        <div className={styles.formItem}>
+                            <label>Repeat password <span style={{ color: "red" }}>*</span></label>
+                            <input
+                                type="password"
+                                placeholder="Repeat password"
+                                value={rpassword}
+                                onChange={(e) => setRPassword(e.currentTarget.value)}
+                                name="password" required />
+                        </div>
+                        <button style={{ padding: "var(--gap-half) var(--gap)", fontSize: "16px", display: "flex", justifyContent: "center" }}>{mutation.isLoading ? <Loading size="medium" color="white" /> : "Reset password"}</button>
+                    </form>
+                }
             </div>
         </div >
     )
