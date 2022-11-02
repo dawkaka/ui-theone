@@ -11,13 +11,13 @@ import { IoMdClose } from "react-icons/io"
 import AddPost from "./newpost";
 import messages from "../i18n/locales/navigation..json"
 import { Langs } from "../types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Query, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { start } from "repl";
 export default function Navigation() {
 
-    const { pathname, locale } = useRouter()
+    const { pathname, locale, query } = useRouter()
     const [openRequest, setOpenRequest] = useState(false)
     const [hideHeader, setHideHeader] = useState(false)
     const [openPostModal, setOpenPostModal] = useState(false)
@@ -154,9 +154,9 @@ export default function Navigation() {
                     </Link>)
                     }
                     <Link href={`/user/${startup.user_name}`}>
-                        <div className={`${styles.navItem} ${pathname === "/user/[name]" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to your profile page">
+                        <div className={`${styles.navItem} ${pathname === "/user/[name]" && query.name === startup.user_name ? styles.activeNav : null}`} tabIndex={0} aria-label="go to your profile page">
                             <div>
-                                {pathname === "/user/[name]" ? <FaUser size={25}></FaUser> :
+                                {pathname === "/user/[name]" && query.name === startup.user_name ? <FaUser size={25}></FaUser> :
                                     <AiOutlineUser size={25} color="var(--accents-6)"></AiOutlineUser>
                                 }
                             </div>

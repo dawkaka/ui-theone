@@ -1,5 +1,8 @@
 
-export const postDateFormat = (date: string) => {
+export const postDateFormat = (date: string, now?: boolean) => {
+    if (now) {
+        return "Now"
+    }
     const Dd = new Date(date)
     const day = Dd.toDateString().substring(3)
     const t = Dd.toLocaleTimeString().split(" ")

@@ -155,7 +155,7 @@ export default function Messages() {
                                     sendMessage={(type, message) => {
                                         socket.emit(`${type}-message`, message)
                                         setMessages([])
-                                        setMessages([...messages, { message, from: userId, type }])
+                                        setMessages([...messages, { message, from: userId, type, date: postDateFormat("", true) }])
                                         if (messageContainer.current) {
                                             setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
                                         }

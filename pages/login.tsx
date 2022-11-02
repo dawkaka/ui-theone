@@ -52,7 +52,7 @@ const Login: NextPage = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.currentTarget.value)}
                                     name="password" required />
-                                <small style={{ color: "var(--success)" }}>{localeTr.forgotpassword}</small>
+                                <Link href={"/user/s/forgot-password"}><a><small style={{ color: "var(--success)" }}>{localeTr.forgotpassword}</small></a></Link>
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", marginTop: "40px", gap: "var(--gap)" }}>
                                 <button
