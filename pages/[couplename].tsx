@@ -134,16 +134,12 @@ const CoupleProfile: NextPage = (props: any) => {
         }
     }, [data])
 
-    if (!data || !data.data) {
-        return <Layout>
-            <NotFound message="Couple not found" />
-        </Layout>
-    }
+
     return (
         <>
             <Layout>
                 <div className={styles.mainContainer} onClick={() => setShowActions(false)}>
-                    <div className={styles.profileContainer}>
+                    {!data || !data.data ? <NotFound message="Couple not found" /> : <div className={styles.profileContainer}>
                         <Header title={data?.data.couple_name} arrow />
                         <section className={styles.profileInfo}>
                             <div className={styles.coverPicContainer}>
@@ -252,118 +248,121 @@ const CoupleProfile: NextPage = (props: any) => {
 
                         </section>
                     </div>
+                    }
                     <div>
                         <Suggestions />
                     </div>
 
-                    <EditCouple open={editOpen} close={() => setEditOpen(false)}
-                        web={data.data.website} bioG={data.data.bio}
-                        dc={data.data.date_commenced} coupleName={router.query.couplename as string} />
-                    <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} married={data.data.married} />
-                    <CoupleReportModal open={openReportModal} close={() => setOpenReportModal(false)} />
-                    <Followers open={openFollowers} close={() => setOpenFollowers(false)} heading={localeTr.followers} />
+                    {data && data.data && <>
+                        <EditCouple open={editOpen} close={() => setEditOpen(false)}
+                            web={data.data.website} bioG={data.data.bio}
+                            dc={data.data.date_commenced} coupleName={router.query.couplename as string} />
+                        <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} married={data.data.married} />
+                        <CoupleReportModal open={openReportModal} close={() => setOpenReportModal(false)} />
+                        <Followers open={openFollowers} close={() => setOpenFollowers(false)} heading={localeTr.followers} />
 
-                    <Modal
-                        closeTimeoutMS={200}
-                        isOpen={isOpen}
-                        onRequestClose={() => setIsOpen(false)}
-                        style={{
-                            overlay: {
-                                zIndex: 1,
-                                backgroundColor: "var(--modal-overlay)",
-                                paddingInline: "var(--gap)",
-                                display: "flex",
-                                flexDirection: "column",
-                                margin: 0
-                            },
-                            content: {
-                                alignSelf: "center",
-                                position: "relative",
-                                padding: 0,
-                                backgroundColor: "var(--background)",
-                                margin: 0,
-                                overflow: "hidden",
-                                justifyContent: "center",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                left: 0,
-                                border: "none",
+                        <Modal
+                            closeTimeoutMS={200}
+                            isOpen={isOpen}
+                            onRequestClose={() => setIsOpen(false)}
+                            style={{
+                                overlay: {
+                                    zIndex: 1,
+                                    backgroundColor: "var(--modal-overlay)",
+                                    paddingInline: "var(--gap)",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    margin: 0
+                                },
+                                content: {
+                                    alignSelf: "center",
+                                    position: "relative",
+                                    padding: 0,
+                                    backgroundColor: "var(--background)",
+                                    margin: 0,
+                                    overflow: "hidden",
+                                    justifyContent: "center",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    left: 0,
+                                    border: "none",
+                                }
+                            }}
+                        >
+                            {
+                                step === 0 && (
+                                    <div className={styles.modalBody}>
+                                        <div className={styles.requestHeader}>
+                                            <p>{localeTr.selectimage}</p>
+                                            <div onClick={() => setIsOpen(false)}
+                                                className={styles.closeContainer}
+                                            >
+                                                <IoMdClose color="tranparent" size={25} />
+                                            </div>
+                                        </div>
+                                        <div className={styles.modalContent}>
+                                            <div className={styles.fileIcons}>
+                                                <GoFileMedia size={100} className={styles.fileIcon1} />
+                                                <GoFileMedia size={100} className={styles.fileIcon2} />
+                                            </div>
+                                            <div className={styles.selectFile}>
+
+                                                <button>{localeTr.selectimage}
+                                                    <input
+                                                        type="file" onChange={newFile}
+                                                        accept="image/jpeg, image/png"
+                                                    />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                )
                             }
-                        }}
-                    >
-                        {
-                            step === 0 && (
-                                <div className={styles.modalBody}>
-                                    <div className={styles.requestHeader}>
-                                        <p>{localeTr.selectimage}</p>
-                                        <div onClick={() => setIsOpen(false)}
-                                            className={styles.closeContainer}
-                                        >
-                                            <IoMdClose color="tranparent" size={25} />
+                            {
+                                step == 1 && (
+                                    <div className={styles.modalBody}>
+                                        <div className={styles.requestHeader}>
+                                            <div className={styles.backIcon} onClick={() => setStep(0)}>
+                                                <BiArrowBack size={20} color="var(--accents-6)" />
+                                            </div>
+                                            <p>{localeTr.crop}</p>
+                                            <div
+                                                onClick={onDone}
+                                                className={styles.nextContainer}
+                                            >
+                                                <p>{localeTr.done}</p>
+                                            </div>
+                                        </div>
+                                        <div className={styles.modalContent}>
+                                            <Cropper
+                                                src={image}
+                                                dragMode="move"
+                                                style={{ maxHeight: "500px" }}
+                                                // Cropper.js options
+                                                viewMode={2}
+                                                aspectRatio={targetRef.current === "avatar" ? 1 : 3 / 1}
+                                                background={false}
+                                                modal={true}
+                                                movable={false}
+                                                checkOrientation={false}
+                                                responsive={true}
+                                                zoomOnTouch={false}
+                                                zoomOnWheel={false}
+                                                guides={false}
+                                                highlight={false}
+                                                zoomTo={0}
+                                                ref={cropperRef}
+                                            />
+
                                         </div>
                                     </div>
-                                    <div className={styles.modalContent}>
-                                        <div className={styles.fileIcons}>
-                                            <GoFileMedia size={100} className={styles.fileIcon1} />
-                                            <GoFileMedia size={100} className={styles.fileIcon2} />
-                                        </div>
-                                        <div className={styles.selectFile}>
-
-                                            <button>{localeTr.selectimage}
-                                                <input
-                                                    type="file" onChange={newFile}
-                                                    accept="image/jpeg, image/png"
-                                                />
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            )
-                        }
-                        {
-                            step == 1 && (
-                                <div className={styles.modalBody}>
-                                    <div className={styles.requestHeader}>
-                                        <div className={styles.backIcon} onClick={() => setStep(0)}>
-                                            <BiArrowBack size={20} color="var(--accents-6)" />
-                                        </div>
-                                        <p>{localeTr.crop}</p>
-                                        <div
-                                            onClick={onDone}
-                                            className={styles.nextContainer}
-                                        >
-                                            <p>{localeTr.done}</p>
-                                        </div>
-                                    </div>
-                                    <div className={styles.modalContent}>
-                                        <Cropper
-                                            src={image}
-                                            dragMode="move"
-                                            style={{ maxHeight: "500px" }}
-                                            // Cropper.js options
-                                            viewMode={2}
-                                            aspectRatio={targetRef.current === "avatar" ? 1 : 3 / 1}
-                                            background={false}
-                                            modal={true}
-                                            movable={false}
-                                            checkOrientation={false}
-                                            responsive={true}
-                                            zoomOnTouch={false}
-                                            zoomOnWheel={false}
-                                            guides={false}
-                                            highlight={false}
-                                            zoomTo={0}
-                                            ref={cropperRef}
-                                        />
-
-                                    </div>
-                                </div>
-                            )
-                        }
-                    </Modal>
-
+                                )
+                            }
+                        </Modal>
+                    </>
+                    }
                 </div>
             </Layout >
         </>
@@ -469,11 +468,19 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             }
         })
         return { props: { couple: { data: res.data } } }
-    } catch (error) {
+    } catch (error: any) {
+        if (error.response?.status === 401) {
+            return {
+                redirect: {
+                    permanent: false,
+                    destination: "/login",
+                },
+                props: {},
+            };
+        }
         return { props: { couple: { data: null } } }
     }
 }
-
 
 const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
 
@@ -483,7 +490,6 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
         fetchNextPage,
         hasNextPage,
         isFetching,
-        isFetchingNextPage,
     } = useInfiniteQuery(["posts", { coupleName }], fetchPosts,
         {
             getNextPageParam: (lastPage, pages) => {

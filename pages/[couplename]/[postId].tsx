@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { kMaxLength } from "buffer"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
@@ -46,7 +46,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             }
         })
         return { props: { post: { data: res.data } } }
-    } catch (err) {
+    } catch (err: any) {
+        if (err.response?.status === 401) {
+            return {
+                redirect: {
+                    permanent: false,
+                    destination: "/login",
+                },
+                props: {},
+            };
+        }
         return { props: { post: { data: null } } }
     }
 }

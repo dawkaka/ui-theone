@@ -23,6 +23,7 @@ import { BASEURL, IMAGEURL } from "../../constants";
 import { Prompt } from "../../components/prompt";
 import { GetServerSideProps } from "next";
 import { ToasContext } from "../../components/context";
+import { NotFound } from "../../components/notfound";
 Modal.setAppElement("#__next")
 
 export default function Profile(props: any) {
@@ -145,9 +146,7 @@ export default function Profile(props: any) {
     if (data.data === null) {
         return (
             <Layout>
-                <div>
-                    <h2>User not found</h2>
-                </div>
+                <NotFound message={"User not found"} />
             </Layout>
         )
     }
@@ -506,7 +505,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             }
         })
         return { props: { user: { data: res.data } } }
-    } catch (err) {
+    } catch (err: any) {
+        if (err.response?.status === 401) {
+            return {
+                redirect: {
+                    permanent: false,
+                    destination: "/login",
+                },
+                props: {},
+            };
+        }
         return { props: { user: { data: null } } }
     }
 }
