@@ -22,7 +22,13 @@ const Login: NextPage = () => {
     const mutation = useMutation((data: { user_name_or_email: string, password: string }) => {
         const d = JSON.stringify(data)
         return axios.post(`${BASEURL}/user/u/login`, d)
-    })
+    },
+        {
+            onSuccess: () => {
+                router.push(`/${locale}/r/home`)
+            },
+        }
+    )
 
     const login = (e: FormEvent) => {
         e.preventDefault()

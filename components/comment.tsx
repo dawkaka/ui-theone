@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useUser } from "../hooks";
 import { MutationResponse } from "../types";
 import { ToasContext } from "./context";
+import { TextParser } from "./post";
 interface comment {
   userName: string;
   comment: string;
@@ -112,7 +113,9 @@ const Comment: React.FunctionComponent<comment> = (props) => {
         </div>
       </div>
       <div className={styles.commentBody}>
-        <p className={styles.comment}>{props.comment}</p>
+        <p className={styles.comment}>
+          {<TextParser text={props.comment} />}
+        </p>
         <div className={styles.iconContainer}>
           <div onClick={() => {
             if (liked) {

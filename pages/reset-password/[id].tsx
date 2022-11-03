@@ -57,7 +57,7 @@ export default function ResetPassword() {
                                 name="password" required />
                         </div>
                         <div className={styles.formItem}>
-                            <label>Repeat password <span style={{ color: "red" }}>*</span></label>
+                            <label>Repeat password<span style={{ color: "red" }}>*</span></label>
                             <input
                                 type="password"
                                 placeholder="Repeat password"

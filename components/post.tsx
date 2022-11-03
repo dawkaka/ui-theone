@@ -883,7 +883,7 @@ const SliderIndicator: React.FC<{ pos: number, curr: number }> = ({ pos, curr })
 }
 
 
-const TextParser: React.FC<{ text: string }> = ({ text }) => {
+export const TextParser: React.FC<{ text: string }> = ({ text }) => {
     let i = 0
     let ind = -1
     const parsed: ReactNode[] = []
@@ -891,18 +891,20 @@ const TextParser: React.FC<{ text: string }> = ({ text }) => {
     while (i < text.length) {
         if (text[i] === "@") {
             ind = i
-        }
-        const reg = new RegExp(/[\n\r\s]+/)
-        if (reg.test(text[i])) {
-            if (ind > 0) {
-                if (i - ind > 3) {
-                    tags.push([ind, i - 1])
+        } else {
+            const reg = new RegExp(/[\n\r\s]+/)
+            if (reg.test(text[i])) {
+                if (ind > -1) {
+                    if (i - ind > 3) {
+                        tags.push([ind, i - 1])
+                    }
+                    ind = -1
                 }
-                ind = -1
             }
         }
         i++
     }
+
     if (ind > 0) {
         tags.push([ind, text.length - 1])
     }
