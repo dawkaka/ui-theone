@@ -58,7 +58,8 @@ export interface PostT {
     created_at: string;
     id: string;
     profile_picture: string;
-    postId: string
+    postId: string;
+    comments_closed: boolean
 }
 export type MessageTypes = "ERROR" | "SUCCESS" | "NEUTRAL"
 

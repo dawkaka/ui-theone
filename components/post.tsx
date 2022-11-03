@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { Langs, MutationResponse, PostT } from "../types";
 import tr from "../i18n/locales/components/post.json";
 import emTr from "../i18n/locales/components/emoji.json"
-import { BiCommentX } from "react-icons/bi";
+import { BiCommentAdd, BiCommentX } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import { useTheme } from "../hooks";
 import { Categories, EmojiStyle } from "emoji-picker-react";
@@ -62,7 +62,7 @@ const modalStyles: Modal.Styles = {
 export const Post: React.FunctionComponent<PostT> = (props) => {
     const {
         couple_name, verified, has_liked, profile_picture, id, postId, caption,
-        likes_count, comments_count, is_this_couple, location, files, created_at } = props
+        likes_count, comments_count, is_this_couple, location, files, created_at, comments_closed } = props
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const router = useRouter()
@@ -267,10 +267,9 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                             {is_this_couple ? (
                                 <>
                                     <li className={styles.actionItem} onClick={() => setStep("edit")} ><span>Edit</span><MdModeEdit size={25} /></li>
-                                    <li className={styles.actionItem}><span>Close comments</span><BiCommentX size={25} /></li>
+                                    <li className={styles.actionItem}>{comments_closed ? <><span>Open comments</span><BiCommentAdd size={25} /></> : <><span>Close comments</span><BiCommentX size={25} /></>}</li>
                                     <li className={styles.actionItem} onClick={copyPostURl}><span>Copy post url</span> <MdOutlineContentCopy size={25} /></li>
                                     <li className={styles.actionItem} onClick={() => router.push(`/${couple_name}/${postId}`)}><span>Go to post</span> <BsArrowUpRight size={25} /></li>
-
                                     <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><span>Delete</span><AiOutlineDelete size={25} /></li>
                                     <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
                                 </>

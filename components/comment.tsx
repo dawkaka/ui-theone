@@ -113,9 +113,9 @@ const Comment: React.FunctionComponent<comment> = (props) => {
         </div>
       </div>
       <div className={styles.commentBody}>
-        <p className={styles.comment}>
+        <div className={styles.comment}>
           {<TextParser text={props.comment} />}
-        </p>
+        </div>
         <div className={styles.iconContainer}>
           <div onClick={() => {
             if (liked) {
