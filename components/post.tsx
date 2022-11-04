@@ -261,9 +261,9 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                     </div>
                 </div>
                 <div
-                    style={{ position: "relative", borderTop: "var(--border)" }}
+                    style={{ position: "relative", borderTop: "var(--border)", textAlign: "center" }}
                 >
-                    <CommentArea isCard={true} id={id} />
+                    {comments_closed ? <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p> : <CommentArea isCard={false} id={id} />}
                 </div>
 
             </div>
@@ -297,6 +297,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                         <li className={`${styles.actionItem} ${styles.dangerAction}`}><span>Block @{couple_name}</span><MdBlock size={25} /></li>
                                         <li className={styles.actionItem} onClick={followUnfollow}><span>{following ? localeTr.unfollow : localeTr.follow} @{couple_name}</span><RiUserUnfollowLine size={25} /></li>
                                         <li className={styles.actionItem}><span>copy post url</span> <MdOutlineContentCopy size={25} /></li>
+                                        <li className={styles.actionItem} onClick={() => router.push(`/${couple_name}/${postId}`)}><span>Go to post</span> <BsArrowUpRight size={25} /></li>
                                         <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><span>Report</span><MdReport size={25} /></li>
                                         <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
                                     </>
@@ -536,8 +537,8 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                     </div>
                     <Comments id={post.id} />
                 </div >
-                <div className={styles.viewFixedBottom}>
-                    <CommentArea isCard={false} id={post.id} />
+                <div className={styles.viewFixedBottom} style={{ textAlign: "center" }}>
+                    {comments_closed ? <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p> : <CommentArea isCard={false} id={post.id} />}
                 </div>
             </div >
             <Modal
