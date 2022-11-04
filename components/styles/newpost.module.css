@@ -1,5 +1,5 @@
 .modalBody {
-    width: min(95vw, 600px);
+    width: min(95vw, 500px);
     background-color: var(--background);
     border-radius: var(--radius-small);
 }
@@ -46,7 +46,7 @@
 .modalContent {
     width: 100%;
     flex-direction: column;
-    min-height: calc(50vh);
+    min-height: calc(70vh);
     display: flex;
     align-items: center;
     justify-content: center;

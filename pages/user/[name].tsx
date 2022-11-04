@@ -353,7 +353,7 @@ export default function Profile(props: any) {
                                     <p>{localeTr.crop}</p>
                                     <div onClick={onDone} className={styles.nextContainer}>
                                         {
-                                            updatePicMutation.isLoading || updateShowPicMutation.isLoading ? <Loading size="small" color="white" /> : <p>{localeTr.done}</p>
+                                            updatePicMutation.isLoading || updateShowPicMutation.isLoading ? <Loading size="small" color="var(--success)" /> : <p>{localeTr.done}</p>
                                         }
                                     </div>
                                 </div>
