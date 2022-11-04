@@ -15,6 +15,8 @@ import { Query, useMutation, useQuery, useQueryClient } from "@tanstack/react-qu
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { start } from "repl";
+import { NotFound } from "./notfound";
+import { Loading } from "./mis";
 export default function Navigation() {
 
     const { pathname, locale, query } = useRouter()
@@ -265,8 +267,8 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                 </div>
             </div>
             <div className={styles.requestContainer}>
-                {isLoading ? <h1>loading...</h1> :
-                    data?.data.request == null ? <h1>No pending requests</h1> :
+                {isLoading ? <Loading size="medium" color="var(--success)" /> :
+                    data?.data.request == null ? <NotFound type="request" /> :
                         <>
                             <div className={styles.imageContainer}>
                                 <img

@@ -1,0 +1,78 @@
+{
+    "en": {
+        "post": {
+            "title": "Post Not Found",
+            "message": "This post does not exist or has been deleted"
+        },
+        "comments": {
+            "title": "No Comments",
+            "message": "This post does not have any comments yet"
+        },
+        "followers": {
+            "title": "No Followers",
+            "message": "This couple do not have any followers yet"
+        },
+        "following": {
+            "title": "Empty",
+            "message": "User not following anyone"
+        },
+        "posts": {
+            "title": "No Posts",
+            "message": "This couple have not made any posts yet"
+        },
+        "couple": {
+            "title": "Couple Not Found",
+            "message": "This couples can not be found"
+        },
+        "user": {
+            "title": "User Not Found",
+            "message": "This user can not be found"
+        },
+        "notifications": {
+            "title": "Empty",
+            "message": "Couple requests, mentions and posts interactions appear here"
+        },
+        "request": {
+            "title": "No Pending Request",
+            "message": "Couple requests you sent and the ones you recieve appear here"
+        }
+    },
+    "es": {
+        "post": {
+            "title": "Publicación no encontrada",
+            "message": "Esta publicación no existe o ha sido eliminada"
+        },
+        "comments": {
+            "title": "No hay comentarios",
+            "message": "Esta publicación aún no tiene comentarios"
+        },
+        "followers": {
+            "title": "No hay seguidores",
+            "message": "Esta pareja aún no tiene seguidores."
+        },
+        "following": {
+            "title": "Vacío",
+            "message": "Usuario no sigue a nadie"
+        },
+        "posts": {
+            "title": "No hay Publicaciónes",
+            "message": "Esta pareja aún no ha hecho ninguna publicación."
+        },
+        "couple": {
+            "title": "Pareja no encontrada",
+            "message": "Compruebe el nombre de pareja y vuelva a intentarlo"
+        },
+        "user": {
+            "title": "Usuario no encontrado",
+            "message": "Compruebe el nombre de usuario y vuelva a intentarlo"
+        },
+        "notifications": {
+            "title": "Vacío",
+            "message": "Las solicitudes de pareja, las menciones y las interacciones de publicaciones aparecen aquí."
+        },
+        "request": {
+            "title": "No hay solicitud pendiente",
+            "message": "Las solicitudes de pareja que enviaste y las que recibiste aparecen aquí"
+        }
+    }
+}

@@ -139,7 +139,7 @@ const CoupleProfile: NextPage = (props: any) => {
         <>
             <Layout>
                 <div className={styles.mainContainer} onClick={() => setShowActions(false)}>
-                    {!data || !data.data ? <NotFound message="Couple not found" /> : <div className={styles.profileContainer}>
+                    {!data || !data.data ? <NotFound type="couple" /> : <div className={styles.profileContainer}>
                         <Header title={data?.data.couple_name} arrow />
                         <section className={styles.profileInfo}>
                             <div className={styles.coverPicContainer}>
@@ -434,6 +434,9 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
                 <div className={styles.followersContent}>
                     <div>
                         {
+                            followers.length === 0 && <NotFound type="followers" />
+                        }
+                        {
                             followers.map(follower => (
                                 <SearchUser
                                     picture={`${IMAGEURL}/${follower.profile_picture}`}
@@ -508,6 +511,9 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
     }
     return (
         <>
+            {
+                posts.length === 0 && <NotFound type="posts" />
+            }
             {
                 posts.map((post: PostT) => {
                     return (

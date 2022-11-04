@@ -67,3 +67,5 @@ export interface MutationResponse {
     message: string,
     type: MessageTypes
 }
+
+export type NotFoundT = "post" | "comments" | "followers" | "following" | "couple" | "user" | "posts" | "notifications" | "request"

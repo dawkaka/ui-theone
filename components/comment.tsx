@@ -12,6 +12,7 @@ import { useUser } from "../hooks";
 import { MutationResponse } from "../types";
 import { ToasContext } from "./context";
 import { TextParser } from "./post";
+import { NotFound } from "./notfound";
 interface comment {
   userName: string;
   comment: string;
@@ -164,6 +165,9 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
   }
   return (
     <div className={styles.commentsContainer}>
+      {
+        comments.length === 0 && <NotFound type="comments" />
+      }
       {
         comments.map((comment: any) => {
           return (

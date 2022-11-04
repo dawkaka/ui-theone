@@ -29,6 +29,10 @@
       "3": "Violence or physical harm",
       "4": "Fake or spam",
       "5": "Intellectual property infringement"
+    },
+    "notfound": {
+      "title": "Post Not Found",
+      "message": "This posts doesn't not exist of has been deleted"
     }
   },
   "es": {
@@ -61,6 +65,10 @@
       "3": "Violencia o daño físico",
       "4": "Falso o spam",
       "5": "Infracción de propiedad intelectual"
+    },
+    "notfound": {
+      "title": "Post Not Found",
+      "message": "This posts doesn't not exist of has been deleted"
     }
   }
 }

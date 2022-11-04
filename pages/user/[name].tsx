@@ -146,7 +146,7 @@ export default function Profile(props: any) {
     if (data.data === null) {
         return (
             <Layout>
-                <NotFound message={"User not found"} />
+                <NotFound type="user" />
             </Layout>
         )
     }
@@ -482,6 +482,9 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                     </div>
                 </div>
                 <div className={styles.followingContent}>
+                    {
+                        following.length === 0 && <NotFound type="following" />
+                    }
                     {
                         following.map(flw => (
                             <CouplePreview name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} isFollowing={flw.is_following} verified={flw.verified} />

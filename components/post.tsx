@@ -18,16 +18,14 @@ import emTr from "../i18n/locales/components/emoji.json"
 import { BiCommentAdd, BiCommentX } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 import { useTheme } from "../hooks";
-import { Categories, EmojiStyle } from "emoji-picker-react";
+import { Categories } from "emoji-picker-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
-import { FaHeart } from "react-icons/fa";
 import { Prompt } from "./prompt";
 import { postDateFormat } from "../libs/utils";
 import { ToasContext } from "./context";
 import { NotFound } from "./notfound";
-import { isUserName } from "../libs/validators";
 
 const Picker = dynamic(
     () => {
@@ -257,9 +255,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                             href={`/${couple_name}/${props.postId}`}
                         >
                             <a>
-                                <p>
-                                    {caption}
-                                </p>
+                                <TextParser text={caption} />
                             </a>
                         </Link>
                     </div>
@@ -435,7 +431,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
     if (data.data === null) {
         return (
 
-            <NotFound message="Post not found" />
+            <NotFound type="post" />
 
         )
     }

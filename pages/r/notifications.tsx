@@ -16,6 +16,7 @@ import { BsHeartFill, BsHeartHalf, BsPlusCircleFill } from "react-icons/bs";
 import { Loader } from "../../components/mis";
 import { RiHeartsFill } from "react-icons/ri";
 import { useRef } from "react";
+import { NotFound } from "../../components/notfound";
 
 export default function Notifications() {
     const router = useRouter()
@@ -57,6 +58,9 @@ export default function Notifications() {
                     <Header title={localeTr.notifications} arrow={false} />
                     <div className={styles.ntfs}>
                         {
+                            notifications.length === 0 && <NotFound type="notifications" />
+                        }
+                        {
                             notifications.map((notif: {
                                 type: "like" | "comment" | "follow" | "Partner Posted" | "Request Rejected" | "Couple Request" | "Request Accepted" | "Mentioned",
                                 message: string,
@@ -77,6 +81,7 @@ export default function Notifications() {
                                     key={index}
                                 />
                             ))
+
                         }
                         <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
                     </div>
