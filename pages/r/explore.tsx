@@ -7,11 +7,12 @@ import { Post } from "../../components/post"
 import { AiFillCloseCircle } from "react-icons/ai"
 import tr from "../../i18n/locales/explore..json"
 import { useRouter } from "next/router"
-import { Langs } from "../../types"
-import { SearchCouple, SearchUser } from "../../components/mis"
-import { useQuery } from "@tanstack/react-query"
+import { Langs, PostT } from "../../types"
+import { Loader, SearchCouple, SearchUser } from "../../components/mis"
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { BASEURL, IMAGEURL } from "../../constants"
+import { NotFound } from "../../components/notfound"
 
 
 export default function Explore() {
@@ -57,6 +58,32 @@ export default function Explore() {
 
     }
 
+    const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/post/explore/${pageParam}`)
+
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery(["explore"], fetchMessages,
+        {
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.data) {
+                    if (lastPage.data?.pagination.end)
+                        return undefined
+                }
+                return lastPage.data?.pagination.next
+            }
+        })
+
+    let posts: any[] = []
+    if (data && data.pages) {
+        for (let page of data.pages) {
+            posts = posts.concat(page.data.posts)
+        }
+    }
+
     return (
         <Layout>
 
@@ -99,7 +126,18 @@ export default function Explore() {
                     </div>
 
                     <div className={styles.ntfs}>
+                        {
+                            posts.length === 0 && <NotFound type="explore" />
+                        }
+                        {
+                            posts.map((post: PostT) => {
+                                return (
+                                    <Post key={post.id} {...post} />
+                                )
+                            })
+                        }
 
+                        <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
                     </div>
                 </section>
                 <Suggestions />

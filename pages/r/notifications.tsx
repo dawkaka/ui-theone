@@ -49,7 +49,7 @@ export default function Notifications() {
         }
     }
     if (data && !clearedRef.current) {
-        axios.put(`${BASEURL}/user/new-notifications`).then(() => { clearedRef.current = false }).catch(() => { })
+        axios.put(`${BASEURL}/user/new-notifications`).then(() => { clearedRef.current = true }).catch(() => { })
     }
     return (
         <Layout>

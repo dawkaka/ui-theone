@@ -35,6 +35,10 @@
         "request": {
             "title": "No Pending Request",
             "message": "Couple requests you sent and the ones you recieve appear here"
+        },
+        "explore": {
+            "title": "How strange",
+            "message": "We have run out of posts to show you here."
         }
     },
     "es": {
@@ -73,6 +77,10 @@
         "request": {
             "title": "No hay solicitud pendiente",
             "message": "Las solicitudes de pareja que enviaste y las que recibiste aparecen aquí"
+        },
+        "explore": {
+            "title": "Que raro",
+            "message": "Nos hemos quedado sin publicaciones para mostrarte"
         }
     }
 }
