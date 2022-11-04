@@ -62,10 +62,11 @@ const modalStyles: Modal.Styles = {
 export const Post: React.FunctionComponent<PostT> = (props) => {
     const {
         couple_name, verified, has_liked, profile_picture, id, postId, caption,
-        likes_count, comments_count, is_this_couple, location, files, created_at, comments_closed } = props
+        likes_count, comments_count, is_this_couple, location, files, created_at } = props
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const router = useRouter()
+    const [comments_closed, setComments_closed] = useState(props.comments_closed)
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const [modalOpen, setModalOpen] = useState(false)
@@ -159,6 +160,20 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
             notify?.notify("Failed to copy", "ERROR")
         });
     }
+
+    const toggleCommentsMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
+        () => axios.post(`${BASEURL}/post/${id}/${comments_closed ? "ON" : "OFF"}`),
+        {
+            onSuccess: (data) => {
+                setComments_closed(!comments_closed)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
+            },
+            onError: (err) => {
+                notify!.notify(err.response?.data.message, "ERROR")
+            }
+        }
+    )
 
     if (deleted) {
         return null
@@ -267,7 +282,14 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                             {is_this_couple ? (
                                 <>
                                     <li className={styles.actionItem} onClick={() => setStep("edit")} ><span>Edit</span><MdModeEdit size={25} /></li>
-                                    <li className={styles.actionItem}>{comments_closed ? <><span>Open comments</span><BiCommentAdd size={25} /></> : <><span>Close comments</span><BiCommentX size={25} /></>}</li>
+                                    <li className={styles.actionItem} onClick={() => toggleCommentsMutation.mutate()}>
+                                        {
+                                            comments_closed ?
+                                                <><span>Open comments</span><BiCommentAdd size={25} /></>
+                                                :
+                                                <><span>Close comments</span><BiCommentX size={25} /></>
+                                        }
+                                    </li>
                                     <li className={styles.actionItem} onClick={copyPostURl}><span>Copy post url</span> <MdOutlineContentCopy size={25} /></li>
                                     <li className={styles.actionItem} onClick={() => router.push(`/${couple_name}/${postId}`)}><span>Go to post</span> <BsArrowUpRight size={25} /></li>
                                     <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><span>Delete</span><AiOutlineDelete size={25} /></li>
@@ -405,6 +427,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         });
     }
 
+
     const { data } = useQuery(["post", { postId }],
         () => axios.get(`${BASEURL}/post/${couplename}/${postId}`),
         { initialData, staleTime: Infinity })
@@ -417,6 +440,22 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         )
     }
     const post = data.data
+    const [comments_closed, setComments_closed] = useState(post.comments_closed)
+
+    const toggleCommentsMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
+        () => axios.post(`${BASEURL}/post/${post.id}/${comments_closed ? "ON" : "OFF"}`),
+        {
+            onSuccess: (data) => {
+                setComments_closed(!comments_closed)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
+            },
+            onError: (err) => {
+                notify!.notify(err.response?.data.message, "ERROR")
+            }
+        }
+    )
+
     return (
         <div className={styles.viewContent}>
             <div className={styles.viewFiles}>
@@ -517,7 +556,14 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                                 post.is_this_couple ? (
                                     <>
                                         <li className={styles.actionItem} onClick={() => setStep("edit")}><span>Edit</span><MdModeEdit size={25} /></li>
-                                        <li className={styles.actionItem}><span>Close comments</span><BiCommentX size={25} /></li>
+                                        <li className={styles.actionItem} onClick={() => toggleCommentsMutation.mutate()}>
+                                            {
+                                                comments_closed ?
+                                                    <><span>Open comments</span><BiCommentAdd size={25} /></>
+                                                    :
+                                                    <><span>Close comments</span><BiCommentX size={25} /></>
+                                            }
+                                        </li>
                                         <li className={styles.actionItem} onClick={copyPostURl}><span>Copy post link</span> <MdOutlineContentCopy size={25} /></li>
                                         <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><span>Delete</span><AiOutlineDelete size={25} /></li>
                                         <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
