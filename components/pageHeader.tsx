@@ -9,10 +9,10 @@ const Header: React.FunctionComponent<{ title: string, arrow: boolean }> = ({ ti
 
             {arrow && (
                 <div className={styles.backIcon} onClick={() => back()}>
-                    <BiArrowBack size={25} />
+                    <BiArrowBack size={20} />
                 </div>
             )}
-            <h1>{title}</h1>
+            <h3>{title}</h3>
         </div>
     )
 }

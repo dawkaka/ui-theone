@@ -12,6 +12,7 @@ import { BASEURL } from "../../constants";
 import { Loader, Loading } from "../../components/mis";
 import { useRef } from "react";
 import { getCountry } from "../../i18n/location";
+import Header from "../../components/pageHeader";
 
 
 Modal.setAppElement('#__next')
@@ -55,7 +56,7 @@ export default function HomePage() {
             <div className={styles.home}>
                 <section className={styles.postsContainer}>
                     <div className={styles.headerContainer}>
-                        <h1>{localeTr.header}</h1>
+                        <h3>{localeTr.header}</h3>
                     </div>
                     <div className={styles.content}>
                         {

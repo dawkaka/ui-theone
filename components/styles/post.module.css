@@ -219,7 +219,7 @@
     overflow-x: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    background-color: var(--background)
+    background-color: var(--accents-3)
 }
 
 .fileSlider::-webkit-scrollbar {
@@ -237,6 +237,7 @@
 .postImage {
     width: 100%;
     height: auto;
+    background-color: var(--accents-3)
 }
 
 .prev,
