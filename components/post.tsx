@@ -294,9 +294,8 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                             ) :
                                 (
                                     <>
-                                        <li className={`${styles.actionItem} ${styles.dangerAction}`}><span>{localeTr.block} @{couple_name}</span><MdBlock size={25} /></li>
                                         <li className={styles.actionItem} onClick={followUnfollow}><span>{following ? localeTr.unfollow : localeTr.follow} @{couple_name}</span><RiUserUnfollowLine size={25} /></li>
-                                        <li className={styles.actionItem}><span>copy post url</span> <MdOutlineContentCopy size={25} /></li>
+                                        <li className={styles.actionItem}><span>{localeTr.copyurl}</span> <MdOutlineContentCopy size={25} /></li>
                                         <li className={styles.actionItem} onClick={() => router.push(`/${couple_name}/${postId}`)}><span>{localeTr.gotopost}</span> <BsArrowUpRight size={25} /></li>
                                         <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><span>{localeTr.report}</span><MdReport size={25} /></li>
                                         <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
@@ -572,7 +571,6 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                                 ) :
                                     (
                                         <>
-                                            <li className={`${styles.actionItem} ${styles.dangerAction}`}><span>{localeTr.block} @{post.couple_name}</span><MdBlock size={25} /></li>
                                             <li className={styles.actionItem} onClick={followUnfollow}><span>{following ? localeTr.unfollow : localeTr.follow} @{post.couple_name}</span><RiUserUnfollowLine size={25} /></li>
                                             <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>{localeTr.copyurl}</span> </li>
                                             <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><span>{localeTr.report}</span><MdReport size={25} /></li>
