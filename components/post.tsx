@@ -59,8 +59,8 @@ const modalStyles: Modal.Styles = {
 
 export const Post: React.FunctionComponent<PostT> = (props) => {
     const {
-        couple_name, verified, has_liked, profile_picture, id, postId, caption,
-        likes_count, comments_count, is_this_couple, location, files, created_at } = props
+        couple_name, verified, has_liked, profile_picture, id, postId,
+        likes_count, comments_count, is_this_couple, files, created_at } = props
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const router = useRouter()
@@ -74,6 +74,9 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
     const [deleted, setDeleted] = useState(false)
     const notify = useContext(ToasContext)
     const queryClient = useQueryClient()
+    const [caption, setCaption] = useState(props.caption)
+    const [location, setLocation] = useState(props.location)
+
 
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
@@ -307,7 +310,12 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                 }
                 {
                     step === "edit" && (
-                        <EditPost closeModal={closeModal} caption={caption} location={location} id={id} />
+                        <EditPost closeModal={closeModal} caption={caption} location={location} id={id}
+                            update={(caption: string, location: string) => {
+                                setCaption(caption)
+                                setLocation(location)
+                            }}
+                        />
                     )
                 }
                 {
@@ -454,6 +462,8 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
             }
         }
     )
+    const [caption, setCaption] = useState(post.caption)
+    const [location, setLocation] = useState(post.location)
 
     return (
         <div className={styles.viewContent}>
@@ -519,7 +529,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                                         <h4>{post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}</h4>
                                     </a>
                                 </Link>
-                                <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{post.location}</p>
+                                <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{location}</p>
                             </div>
                         </div>
                         <div onClick={() => setModalOpen(true)}>
@@ -531,7 +541,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                         borderBottom: "var(--border)"
 
                     }}>
-                        <TextParser text={post.caption} />
+                        <TextParser text={caption} />
 
                         <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
                             <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} hasLiked={post.has_liked} />
@@ -584,7 +594,10 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                 }
                 {
                     step === "edit" && (
-                        <EditPost closeModal={closeModal} caption={post.caption} location={post.location} id={post.id} pId={postId} />
+                        <EditPost closeModal={closeModal} caption={post.caption} location={post.location} id={post.id} pId={postId} update={(caption: string, location: string) => {
+                            setCaption(caption)
+                            setLocation(location)
+                        }} />
                     )
                 }
                 {
@@ -852,8 +865,11 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }
     )
 }
 
-const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: string, location: string, id: string, pId?: string }> =
-    ({ closeModal, caption, location, id, pId }) => {
+const EditPost: React.FunctionComponent<{
+    closeModal: () => void, caption: string, location: string,
+    id: string, pId?: string, update: (caption: string, location: string) => void
+}> =
+    ({ closeModal, caption, location, id, pId, update }) => {
         const locale = useRouter().locale || "en"
         const localeTr = tr[locale as Langs]
         const editRef = useRef({ caption: caption, location: location })
@@ -868,9 +884,12 @@ const EditPost: React.FunctionComponent<{ closeModal: () => void, caption: strin
             {
                 onSuccess: (data) => {
                     queryclient.invalidateQueries(["post", { postId: pId }])
+                    queryclient.invalidateQueries(["feed"])
+                    queryclient.invalidateQueries(["posts"])
                     closeModal()
                     const { message, type } = data.data as MutationResponse
                     notify!.notify(message, type)
+                    update(editRef.current.caption, editRef.current.location)
                 },
                 onError: err => {
                     notify!.notify(err.response?.data.message, "ERROR")
@@ -957,13 +976,13 @@ export const TextParser: React.FC<{ text: string }> = ({ text }) => {
     }
     let start = 0
     for (let i = 0; i < tags.length; i++) {
-        parsed.push(<span>{text.substring(start, tags[i][0])}</span>)
+        parsed.push(<span key={Date.now()}>{text.substring(start, tags[i][0])}</span>)
         const tag = text.substring(tags[i][0], tags[i][1] + 1)
-        parsed.push(<Link href={`/user/${tag.substring(1)}`}><a style={{ color: "var(--success)" }}>{tag}</a></Link>)
+        parsed.push(<Link href={`/user/${tag.substring(1)}`} key={tag + Date.now()}><a style={{ color: "var(--success)" }}>{tag}</a></Link>)
         start = tags[i][1] + 1
     }
     if (start < text.length - 1) {
-        parsed.push(text.substring(start))
+        parsed.push(<span key={text.substring(start) + Date.now()}>{text.substring(start)}</span>)
     }
     return (
         <p style={{ whiteSpace: "pre-wrap" }}>
