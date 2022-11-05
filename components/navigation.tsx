@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Modal from "react-modal";
 import styles from "./styles/navigation.module.css"
 import { AiFillHome, AiOutlineBell, AiFillBell, AiOutlineHome, AiOutlineUser, AiOutlinePlus } from "react-icons/ai"
-import { BsHeartHalf, BsSearch } from "react-icons/bs"
+import { BsBell, BsBellFill, BsChatSquare, BsChatSquareFill, BsHeartHalf, BsSearch } from "react-icons/bs"
 import { FaSearch, FaUser } from "react-icons/fa"
 import { MdEmail, MdOutlineMail } from 'react-icons/md'
 import { IoMdClose } from "react-icons/io"
@@ -17,6 +17,7 @@ import { BASEURL, IMAGEURL } from "../constants";
 import { start } from "repl";
 import { NotFound } from "./notfound";
 import { Loading } from "./mis";
+import { RiSearchFill, RiSearchLine } from "react-icons/ri";
 
 export default function Navigation() {
 
@@ -81,6 +82,7 @@ export default function Navigation() {
 
         }
     }
+    const iconSize = 25
     return (
         <>
             {hideBottomTab ? "" : <aside className={styles.container}>
@@ -94,8 +96,8 @@ export default function Navigation() {
                         <div className={`${styles.navItem} ${pathname === "/r/home" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to home page">
                             <div style={{ position: "relative" }}>
                                 {
-                                    pathname === "/r/home" ? <AiFillHome size={25}></AiFillHome> :
-                                        <AiOutlineHome size={25} color="var(--accents-6)"></AiOutlineHome>
+                                    pathname === "/r/home" ? <AiFillHome size={iconSize}></AiFillHome> :
+                                        <AiOutlineHome size={iconSize} color="var(--accents-6)"></AiOutlineHome>
                                 }
                                 {startup.new_posts_count > 0 && (<p
                                     style={{
@@ -116,8 +118,9 @@ export default function Navigation() {
                     <Link href={"/r/explore"}>
                         <div className={`${styles.navItem} ${pathname === "/r/explore" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to explore page">
                             <div>
-                                {pathname === "/r/explore" ? <FaSearch size={25}></FaSearch> :
-                                    <BsSearch size={22} color="var(--accents-6)"></BsSearch>
+                                {pathname === "/r/explore" ? <RiSearchFill size={iconSize} color="var(--success)" />
+                                    :
+                                    <RiSearchLine size={iconSize} color="var(--accents-6)" />
                                 }
                             </div>
 
@@ -127,8 +130,8 @@ export default function Navigation() {
                     <Link href={"/r/notifications"}>
                         <div className={`${styles.navItem} ${pathname === "/r/notifications" ? styles.activeNav : null}`} tabIndex={0} aria-label="got to notifications page">
                             <div style={{ position: "relative" }}>
-                                {pathname === "/r/notifications" ? <AiFillBell size={25}></AiFillBell> :
-                                    <AiOutlineBell size={25} color="var(--accents-6)" ></AiOutlineBell>
+                                {pathname === "/r/notifications" ? <BsBellFill size={iconSize} /> :
+                                    <BsBell size={iconSize} color="var(--accents-6)" />
                                 }
                                 {startup.notifications_count > 0 && (<p
                                     style={{
@@ -148,8 +151,8 @@ export default function Navigation() {
                     {startup.has_partner && (<Link href={"/r/messages"}>
                         <div className={`${styles.navItem} ${pathname === "/r/messages" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to messages page">
                             <div style={{ position: "relative" }}>
-                                {pathname === "/r/messages" ? <MdEmail size={25}></MdEmail> :
-                                    <MdOutlineMail size={26} color="var(--accents-5)"></MdOutlineMail>
+                                {pathname === "/r/messages" ? <BsChatSquareFill size={24} /> :
+                                    <BsChatSquare size={24} color="var(--accents-6)" />
                                 }
                                 {startup.new_messages_count > 0 && (<p
                                     style={{
@@ -170,8 +173,8 @@ export default function Navigation() {
                     <Link href={`/user/${startup.user_name}`}>
                         <div className={`${styles.navItem} ${pathname === "/user/[name]" && query.name === startup.user_name ? styles.activeNav : null}`} tabIndex={0} aria-label="go to your profile page">
                             <div>
-                                {pathname === "/user/[name]" && query.name === startup.user_name ? <FaUser size={25}></FaUser> :
-                                    <AiOutlineUser size={25} color="var(--accents-6)"></AiOutlineUser>
+                                {pathname === "/user/[name]" && query.name === startup.user_name ? <FaUser size={iconSize}></FaUser> :
+                                    <AiOutlineUser size={iconSize} color="var(--accents-6)"></AiOutlineUser>
                                 }
                             </div>
                             <p>{cMessages.profile}</p>
@@ -188,7 +191,7 @@ export default function Navigation() {
                                         className={`${styles.navItem}`} onClick={() => setOpenRequest(true)}
                                         tabIndex={0} aria-label="Check couple request" >
                                         <div style={{ position: "relative" }}>
-                                            <BsHeartHalf size={25} color="var(--accents-6)" />
+                                            <BsHeartHalf size={iconSize} color="var(--accents-6)" />
                                             {
                                                 startup.pending_request > 0 && (
                                                     <div
