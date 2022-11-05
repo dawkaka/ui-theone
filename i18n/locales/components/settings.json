@@ -59,13 +59,13 @@
         },
         "deleteacc": {
             "title": "Delete Account?",
-            "message": "Deleting your accounts with wipe your date from the platform, this action can not be reversed.",
+            "message": "Deleting your accounts with wipe your data from the platform, this action can not be reversed.",
             "actiontext": "Delete",
             "canceltext": "Cancel"
         },
         "breakup": {
-            "title": "Deactivate Couple Profile?",
-            "message": "You and your partner(hopefully still) will no longer be able to post and text.",
+            "title": "Deactivate Couple Profile",
+            "message": "You and your partner will no longer be able to post and text.",
             "actiontext": "Deactivate",
             "canceltext": "Cancel"
         }
@@ -129,16 +129,16 @@
             "4": "Desnudez o suplantación de identidad"
         },
         "deleteacc": {
-            "title": "Delete Account?",
-            "message": "Deleting your accounts with wipe your date from the platform, this action can not be reversed.",
-            "actiontext": "Delete",
-            "canceltext": "Cancel"
+            "title": "¿Borrar cuenta?",
+            "message": "Al eliminar sus cuentas con borrar sus datos de la plataforma, esta acción no se puede revertir.",
+            "actiontext": "Borrar",
+            "canceltext": "Cancelar"
         },
         "breakup": {
-            "title": "Deactivate Couple Profile",
-            "message": "You and your partner(hopefully still) will no longer be able to post and text.",
-            "actiontext": "Deactivate",
-            "canceltext": "canceltext"
+            "title": "¿Desactivar perfil de pareja?",
+            "message": "Tú y tu pareja ya no podrán publicar ni enviar mensajes de texto.",
+            "actiontext": "Desactivar",
+            "canceltext": "Cancel"
         }
     }
 }

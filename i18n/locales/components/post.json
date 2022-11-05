@@ -64,10 +64,10 @@
       "placeholder": "Añade una ubicación..."
     },
     "deletepost": {
-      "title": "Delete Post?",
-      "message": "Post will be deleted along with comments, this action can not be reversed",
-      "actiontext": "Delete",
-      "canceltext": "Cancel"
+      "title": "¿Eliminar publicación?",
+      "message": "La publicación se eliminará junto con los comentarios, esta acción no se puede revertir.",
+      "actiontext": "Eliminar",
+      "canceltext": "Cancelar"
     },
     "caption": {
       "title": "Subtitulo",

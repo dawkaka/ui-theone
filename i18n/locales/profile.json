@@ -23,10 +23,10 @@
         "done": "Hecho",
         "block": "Bloquear",
         "requestprompt": {
-            "title": "Send couple request?",
-            "message": "Sending request means you are in a relatoinship with this person and want to show your love to the world.",
-            "actiontext": "Send",
-            "canceltext": "Cancel"
+            "title": "¿Enviar solicitud de pareja?",
+            "message": "Enviar solicitud significa que estás en una relación con esta persona y quieres mostrar tu amor al mundo.",
+            "actiontext": "Enviar",
+            "canceltext": "Cancelar"
         }
     }
 }
