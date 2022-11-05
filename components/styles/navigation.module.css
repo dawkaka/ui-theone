@@ -242,10 +242,11 @@
         display: flex;
         flex-direction: row;
         border-right: none;
+        align-items: center;
         height: auto;
-        padding: var(--gap-half) var(--gap);
+        padding: var(--gap-half) 0;
         position: fixed;
-        justify-content: space-between;
+        justify-content: space-evenly;
         bottom: 0;
         width: 100%;
         border-top: var(--border);
@@ -291,4 +292,12 @@
         border: 1px solid var(--foreground);
         padding: 1px;
     }
+}
+
+@media screen and (max-width: 600px) {
+    .nav {
+        padding: var(--gap-half);
+        justify-content: space-between;
+    }
+
 }

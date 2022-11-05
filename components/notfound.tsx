@@ -17,7 +17,7 @@ export const NotFound: React.FC<{ type: NotFoundT }> = ({ type }) => {
             <div >
                 <ImHeartBroken color="var(--accents-2)" size={150} />
             </div>
-            <h3 style={{ marginTop: 'var(--gap)', color: "var(--accents-6)" }}>{localeTr[type].title}</h3>
+            <h3 style={{ marginTop: 'var(--gap)', color: "var(--accents-6)", textAlign: "center" }}>{localeTr[type].title}</h3>
             <p style={{ marginTop: "10px", textAlign: "center" }}>{localeTr[type].message}</p>
         </div>
     )

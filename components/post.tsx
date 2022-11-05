@@ -194,13 +194,13 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                 />
                             </span>
                         </div>
-                        <div>
+                        <div className={styles.textEllipsis}>
                             <Link href={`/${couple_name}`}>
-                                <a>
-                                    <h4>{couple_name + " "} {verified && <Verified size={13} />}</h4>
-                                    <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{props.location}</p>
+                                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
+                                    {couple_name + " "} {verified && <Verified size={13} />}
                                 </a>
                             </Link>
+                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{props.location}</p>
                         </div>
                     </div>
                     <div onClick={() => setModalOpen(true)}>
@@ -523,10 +523,10 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                                 </span>
                             </div>
 
-                            <div>
+                            <div className={styles.textEllipsis}>
                                 <Link href={`/${post.couple_name}`}>
-                                    <a>
-                                        <h4>{post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}</h4>
+                                    <a style={{ fontSize: "14px", fontWeight: "bold" }}>
+                                        {post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}
                                     </a>
                                 </Link>
                                 <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{location}</p>

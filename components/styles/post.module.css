@@ -165,7 +165,7 @@
 .userInfoContainer {
     display: flex;
     align-items: center;
-    padding: var(--gap-half) var(--gap-quarter);
+    padding: 8px var(--gap-quarter);
     justify-content: space-between;
 }
 
@@ -195,6 +195,13 @@
 .profileImage {
     width: 100%;
     height: 100%;
+}
+
+.textEllipsis {
+    width: min(350px, 50vw);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .filesContainer {

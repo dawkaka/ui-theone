@@ -130,8 +130,8 @@ export default function Navigation() {
                     <Link href={"/r/notifications"}>
                         <div className={`${styles.navItem} ${pathname === "/r/notifications" ? styles.activeNav : null}`} tabIndex={0} aria-label="got to notifications page">
                             <div style={{ position: "relative" }}>
-                                {pathname === "/r/notifications" ? <BsBellFill size={iconSize} /> :
-                                    <BsBell size={iconSize} color="var(--accents-6)" />
+                                {pathname === "/r/notifications" ? <BsBellFill size={23} /> :
+                                    <BsBell size={23} color="var(--accents-6)" />
                                 }
                                 {startup.notifications_count > 0 && (<p
                                     style={{
@@ -151,8 +151,8 @@ export default function Navigation() {
                     {startup.has_partner && (<Link href={"/r/messages"}>
                         <div className={`${styles.navItem} ${pathname === "/r/messages" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to messages page">
                             <div style={{ position: "relative" }}>
-                                {pathname === "/r/messages" ? <BsChatSquareFill size={24} /> :
-                                    <BsChatSquare size={24} color="var(--accents-6)" />
+                                {pathname === "/r/messages" ? <BsChatSquareFill size={21} /> :
+                                    <BsChatSquare size={21} color="var(--accents-6)" />
                                 }
                                 {startup.new_messages_count > 0 && (<p
                                     style={{

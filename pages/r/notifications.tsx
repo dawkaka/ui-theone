@@ -130,7 +130,7 @@ const Notification: React.FunctionComponent<{
             icon = <FaAt size={iconSize} color="var(--success-dark)" />
             break
         default:
-            icon = <BsHeartFill size={iconSize} color="var(--error)" />
+            icon = <BsHeartFill size={25} color="var(--error)" />
     }
     return (
         <article className={styles.notifContainer} style={{ backgroundColor: isNew ? "var(--accents-2)" : "" }}>
