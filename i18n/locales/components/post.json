@@ -12,10 +12,12 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "closecomments": "Close comments",
+    "opencomments": "Open comments",
     "reportpost": "Report post",
     "disablecomments": "Comments closed",
     "copyurl": "Copy post url",
     "close": "Close",
+    "gotopost": "Go to post",
     "location": {
       "title": "Location",
       "placeholder": "Add location..."
@@ -46,8 +48,10 @@
     "follow": "Seguir",
     "unfollow": "Dejar de seguir",
     "closecomments": "Cerrar comentarios",
+    "opencomments": "Abrir comentarios",
     "reportpost": "Reportar publicacion",
-    "copyurl": "Copiar URL de la publicación",
+    "copyurl": "Copiar url de la publicación",
+    "gotopost": "Ir a la publicación",
     "close": "Cerrar",
     "location": {
       "title": "Ubicación",

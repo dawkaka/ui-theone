@@ -136,7 +136,7 @@ a {
   --modal-overlay: rgba(1, 1, 1, 0.75);
   --border: 1px solid #333;
   color: var(--foreground);
-  --modal-overlay: rgba(255, 255, 255, 0.25);
+  --modal-overlay: rgba(255, 255, 255, 0.1);
 }
 
 body {

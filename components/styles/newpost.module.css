@@ -149,7 +149,8 @@
     font-weight: lighter;
     text-align: center;
     padding: 10px 15px;
-    background-color: var(--accents-7);
+    color: var(--background);
+    background-color: var(--foreground);
 }
 
 
