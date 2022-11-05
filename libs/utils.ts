@@ -1,13 +1,9 @@
 
-export const postDateFormat = (date: string, now?: boolean) => {
-    if (now) {
-        return "Now"
-    }
+export const postDateFormat = (date: string, lang: string) => {
     const Dd = new Date(date)
-    const day = Dd.toDateString().substring(3)
-    const t = Dd.toLocaleTimeString().split(" ")
-    const time = t[0].substring(0, t[0].length - 3) + " " + t[1]
-    return `${day}・${time}`
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const day = Dd.toLocaleDateString(lang, options)
+    return day
 }
 
 function fallbackCopyTextToClipboard(text: string) {

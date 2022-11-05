@@ -244,7 +244,6 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                     </div>
 
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingInline: "var(--gap-half)" }}>
-                        <p style={{ color: "var(--accents-3)", fontSize: "small" }}>{postDateFormat(created_at)}</p>
                         <div className={styles.viewSliderPos}>
                             {
                                 files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
@@ -261,6 +260,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                 <TextParser text={caption} />
                             </a>
                         </Link>
+                        <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDateFormat(created_at, locale)}</p>
                     </div>
                 </div>
                 <div
@@ -542,10 +542,10 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
 
                     }}>
                         <TextParser text={caption} />
+                        <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDateFormat(post.created_at, locale)}</p>
 
                         <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
                             <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} hasLiked={post.has_liked} />
-                            <p style={{ color: "var(--accents-3)", fontSize: "small" }}>{postDateFormat(post.created_at)}</p>
                         </div>
                     </div>
                     <Comments id={post.id} />
