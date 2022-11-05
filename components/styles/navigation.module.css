@@ -165,7 +165,7 @@
 }
 
 .acceptBtn {
-    background-color: lime;
+    background-color: var(--success);
     margin-bottom: var(--gap-half);
 }
 
@@ -201,7 +201,7 @@
     }
 
     .postButtonContainer .navItem {
-        margin-left: 0;
+        align-self: center;
     }
 
     .postButtonContainer {

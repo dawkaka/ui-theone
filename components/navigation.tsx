@@ -3,9 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Modal from "react-modal";
 import styles from "./styles/navigation.module.css"
-import { AiFillHome, AiOutlineBell, AiFillBell, AiOutlineHome, AiOutlineUser, AiOutlinePlus, AiFillCloseCircle } from "react-icons/ai"
+import { AiFillHome, AiOutlineBell, AiFillBell, AiOutlineHome, AiOutlineUser, AiOutlinePlus } from "react-icons/ai"
 import { BsHeartHalf, BsSearch } from "react-icons/bs"
-import { FaSearch, FaPlus, FaUser, FaRegQuestionCircle } from "react-icons/fa"
+import { FaSearch, FaUser } from "react-icons/fa"
 import { MdEmail, MdOutlineMail } from 'react-icons/md'
 import { IoMdClose } from "react-icons/io"
 import AddPost from "./newpost";
@@ -17,6 +17,7 @@ import { BASEURL, IMAGEURL } from "../constants";
 import { start } from "repl";
 import { NotFound } from "./notfound";
 import { Loading } from "./mis";
+
 export default function Navigation() {
 
     const { pathname, locale, query } = useRouter()
@@ -61,12 +62,23 @@ export default function Navigation() {
     const { data } = useQuery(["startup"], () => {
         return axios.get(`${BASEURL}/user/u/startup`)
     }, { staleTime: 10000 })
-    let startup = { has_partner: false, notifications_count: 0, user_name: "", new_posts_count: 0, new_messages_count: 0 }
+    let startup = {
+        has_partner: false,
+        notifications_count: 0,
+        user_name: "",
+        new_posts_count: 0,
+        new_messages_count: 0,
+        pending_request: 0
+    }
     if (data) {
         startup = {
-            new_posts_count: data.data.new_posts_count, has_partner: data.data.has_partner,
-            notifications_count: data.data.notifications_count, user_name: data.data.user_name,
-            new_messages_count: data.data.new_messages_count
+            new_posts_count: data.data.new_posts_count,
+            has_partner: data.data.has_partner,
+            notifications_count: data.data.notifications_count,
+            user_name: data.data.user_name,
+            new_messages_count: data.data.new_messages_count,
+            pending_request: data.data.pending_request
+
         }
     }
     return (
@@ -172,9 +184,27 @@ export default function Navigation() {
 
                             <div className={styles.postButtonContainer}>
                                 {
-                                    !startup.has_partner && <div className={`${styles.navItem}`} onClick={() => setOpenRequest(true)} tabIndex={0} aria-label="Check couple request">
-                                        <div><BsHeartHalf size={25} color="var(--accents-6)" /></div>
+                                    !startup.has_partner && <div
+                                        className={`${styles.navItem}`} onClick={() => setOpenRequest(true)}
+                                        tabIndex={0} aria-label="Check couple request" >
+                                        <div style={{ position: "relative" }}>
+                                            <BsHeartHalf size={25} color="var(--accents-6)" />
+                                            {
+                                                startup.pending_request > 0 && (
+                                                    <div
+                                                        style={{
+                                                            position: "absolute", top: 0,
+                                                            right: "-4px", backgroundColor: "var(--success)",
+                                                            borderRadius: "50%",
+                                                            padding: "5px 5px"
+
+                                                        }}
+                                                    ></div>
+                                                )
+                                            }
+                                        </div>
                                         <p>{cMessages.request}</p>
+
                                     </div>
                                 }
                                 <div className={`${styles.logoContainer2}`}>
@@ -239,7 +269,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
     const tr = locale ? messages[locale as Langs] : messages["en"]
     const queryClient = useQueryClient()
 
-    const { isLoading, data } = useQuery(["pending-request"], () => {
+    const { isLoading, data, isError } = useQuery(["pending-request"], () => {
         return axios.get(`${BASEURL}/user/u/pending-request`)
     })
 
@@ -251,11 +281,9 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
             queryClient.invalidateQueries(['pending-request'])
 
         },
-        onError: (err) => console.log(err)
 
     })
 
-    console.log(data)
     return (
         <div className={styles.requestModal} aria-label="couple request modal">
             <div className={styles.requestHeader} id="full_description">
@@ -267,8 +295,8 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                 </div>
             </div>
             <div className={styles.requestContainer}>
-                {isLoading ? <Loading size="medium" color="var(--success)" /> :
-                    data?.data.request == null ? <NotFound type="request" /> :
+                {isLoading ? <div style={{ width: "100%", display: "flex", justifyContent: "center" }}><Loading size="medium" color="var(--success)" /></div> :
+                    !data?.data.request ? <NotFound type="request" /> :
                         <>
                             <div className={styles.imageContainer}>
                                 <img
