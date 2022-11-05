@@ -219,7 +219,6 @@
     overflow-x: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    background-color: var(--accents-3)
 }
 
 .fileSlider::-webkit-scrollbar {

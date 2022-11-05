@@ -978,16 +978,16 @@ export const TextParser: React.FC<{ text: string }> = ({ text }) => {
     for (let i = 0; i < tags.length; i++) {
         parsed.push(<span key={Date.now()}>{text.substring(start, tags[i][0])}</span>)
         const tag = text.substring(tags[i][0], tags[i][1] + 1)
-        parsed.push(<Link href={`/user/${tag.substring(1)}`} key={tag + Date.now()}><a style={{ color: "var(--success)" }}>{tag}</a></Link>)
+        parsed.push(<Link href={`/user/${tag.substring(1)}`} key={tag + Date.now()}><span style={{ color: "var(--success)" }}>{tag}</span></Link>)
         start = tags[i][1] + 1
     }
     if (start < text.length - 1) {
         parsed.push(<span key={text.substring(start) + Date.now()}>{text.substring(start)}</span>)
     }
     return (
-        <p style={{ whiteSpace: "pre-wrap" }}>
+        <div style={{ whiteSpace: "pre-wrap" }}>
             {parsed}
-        </p>
+        </div>
     )
 }
 
