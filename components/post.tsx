@@ -319,7 +319,10 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                 <Prompt
                     open={prOpen}
                     close={() => setPrOpen(false)}
-                    message="Delete post?"
+                    title={localeTr.deletepost.title}
+                    message={localeTr.deletepost.message}
+                    actionText={localeTr.deletepost.actiontext}
+                    cancelText={localeTr.deletepost.canceltext}
                     dangerAction
                     acceptFun={() => deletePost.mutate(id)}
                 />
@@ -594,7 +597,10 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                 <Prompt
                     open={prOpen}
                     close={() => setPrOpen(false)}
-                    message="Delete post?"
+                    title={localeTr.deletepost.title}
+                    message={localeTr.deletepost.message}
+                    actionText={localeTr.deletepost.actiontext}
+                    cancelText={localeTr.deletepost.canceltext}
                     dangerAction
                     acceptFun={() => deletePost.mutate(post.id)}
                 />

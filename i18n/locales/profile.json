@@ -6,7 +6,13 @@
         "selectimage": "Select image",
         "crop": "Crop",
         "done": "Done",
-        "block": "Block"
+        "block": "Block",
+        "requestprompt": {
+            "title": "Send couple request?",
+            "message": "Sending request means you are in a relatoinship with this person and want to show your love to the world.",
+            "actiontext": "Send",
+            "canceltext": "Cancel"
+        }
     },
     "es": {
         "following": "Siguiendo",
@@ -15,6 +21,12 @@
         "selectimage": "Elegir una imagen",
         "crop": "Delimitar",
         "done": "Hecho",
-        "block": "Bloquear"
+        "block": "Bloquear",
+        "requestprompt": {
+            "title": "Send couple request?",
+            "message": "Sending request means you are in a relatoinship with this person and want to show your love to the world.",
+            "actiontext": "Send",
+            "canceltext": "Cancel"
+        }
     }
 }

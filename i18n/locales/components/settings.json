@@ -56,6 +56,18 @@
             "2": "Either partner under 18 years old",
             "3": "Violence of physical harm",
             "4": "Nudity or Impersonation"
+        },
+        "deleteacc": {
+            "title": "Delete Account?",
+            "message": "Deleting your accounts with wipe your date from the platform, this action can not be reversed.",
+            "actiontext": "Delete",
+            "canceltext": "Cancel"
+        },
+        "breakup": {
+            "title": "Deactivate Couple Profile?",
+            "message": "You and your partner(hopefully still) will no longer be able to post and text.",
+            "actiontext": "Deactivate",
+            "canceltext": "Cancel"
         }
     },
     "es": {
@@ -115,6 +127,18 @@
             "2": "Cualquier pareja menor de 18 años",
             "3": "Violencia de daño físico",
             "4": "Desnudez o suplantación de identidad"
+        },
+        "deleteacc": {
+            "title": "Delete Account?",
+            "message": "Deleting your accounts with wipe your date from the platform, this action can not be reversed.",
+            "actiontext": "Delete",
+            "canceltext": "Cancel"
+        },
+        "breakup": {
+            "title": "Deactivate Couple Profile",
+            "message": "You and your partner(hopefully still) will no longer be able to post and text.",
+            "actiontext": "Deactivate",
+            "canceltext": "canceltext"
         }
     }
 }

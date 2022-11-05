@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
-export const Prompt: React.FunctionComponent<{ open: boolean, close: () => void, message: string, acceptFun: () => void, dangerAction: boolean }> =
-    ({ open, message, acceptFun, dangerAction, close }) => {
+export const Prompt: React.FunctionComponent<{ open: boolean, close: () => void, actionText: string, cancelText: string, title: string, message: string, acceptFun: () => void, dangerAction: boolean }> =
+    ({ open, title, message, actionText, cancelText, acceptFun, dangerAction, close }) => {
         if (!open) {
             return null
         }
@@ -14,6 +14,7 @@ export const Prompt: React.FunctionComponent<{ open: boolean, close: () => void,
                     borderRadius: "var(--radius-tiny)", width: "min(90%,400px)", textAlign: "center"
                 }}>
                     <div style={{ marginBottom: "var(--gap)", fontSize: "1.1rem" }}>
+                        <h3 style={{ marginBottom: "var(--gap-half)" }}>{title}</h3>
                         <p>{message}</p>
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -22,7 +23,7 @@ export const Prompt: React.FunctionComponent<{ open: boolean, close: () => void,
                                 backgroundColor: "transparent", border: "var(--border)",
                                 width: "40%", paddingBlock: "var(--gap-quarter)",
                                 color: "var(--foreground)"
-                            }}>Cancel</button>
+                            }}>{cancelText}</button>
 
                         <button onClick={(e) => {
                             e.stopPropagation()
@@ -32,7 +33,7 @@ export const Prompt: React.FunctionComponent<{ open: boolean, close: () => void,
                             style={{
                                 width: "40%", paddingBlock: "var(--gap-quarter)",
                                 backgroundColor: dangerAction ? "var(--error)" : ""
-                            }}>Yes</button>
+                            }}>{actionText}</button>
                     </div>
                 </div>
 

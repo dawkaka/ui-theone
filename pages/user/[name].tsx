@@ -273,7 +273,11 @@ export default function Profile(props: any) {
                     close={() => setPrOpen(false)}
                     acceptFun={sendRequestMutation.mutate}
                     dangerAction={false}
-                    message={"So you are fucking this person right?"}
+                    title={localeTr.requestprompt.title}
+                    message={localeTr.requestprompt.message}
+                    actionText={localeTr.requestprompt.actiontext}
+                    cancelText={localeTr.requestprompt.canceltext}
+
                 />
                 <EditUser open={editOpen} close={() => setEditOpen(false)}
                     first_name={data.data.first_name}

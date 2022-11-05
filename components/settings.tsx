@@ -239,8 +239,10 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                     </div>
                 </section>
                 <Prompt
-                    message="This action can't be reversed, Are you sure you want to delete your account"
-                    dangerAction={true} open={prOpen}
+                    title={localeTr.deleteacc.title}
+                    message={localeTr.deleteacc.message}
+                    actionText={localeTr.deleteacc.actiontext}
+                    cancelText={localeTr.deleteacc.canceltext} dangerAction={true} open={prOpen}
                     acceptFun={() => { }}
                     close={() => setPrOpen(false)}
                 />
@@ -420,8 +422,12 @@ export const CoupleSettings: React.FunctionComponent<{
                     </div>
                 </section>
                 <Prompt
-                    message="Are you sure you want to deactivate couple profile"
-                    dangerAction={true} open={prOpen}
+                    title={localeTr.breakup.title}
+                    message={localeTr.breakup.message}
+                    actionText={localeTr.breakup.actiontext}
+                    cancelText={localeTr.breakup.canceltext}
+                    dangerAction={true}
+                    open={prOpen}
                     acceptFun={breakFastMutation.mutate}
                     close={() => setPrOpen(false)}
                 />
