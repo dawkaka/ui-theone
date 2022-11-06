@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       </Head>
       <header className={`${styles.header} ${styles.widthControlWrapper}`}>
         <div className={styles.widthControl}>
-          <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <nav className={styles.nav}>
             <h2>Elwahid</h2>
             <div className={styles.headerButtonContainer}>
               <button className={`${styles.button} ${styles.buttonOutline}`}>Sign in</button>
@@ -20,11 +20,22 @@ const Home: NextPage = () => {
           </nav>
         </div>
       </header>
-
-      <main >
-
+      <main className={styles.widthControlWrapper}>
+        <div className={styles.widthControl}>
+          <div className={styles.heroContainer}>
+            <div className={styles.heroHeading}>
+              <h1 className={styles.headerLarge}>
+                Social Media Made for
+                <span>{' '}</span>
+                <span>C</span><span>o</span><span>u</span><span>p</span>
+                <span>l</span><span>e</span><span>s</span>
+              </h1>
+            </div>
+            <div className={styles.headerCircle}></div>
+            <div className={styles.headerCircle}></div>
+          </div>
+        </div>
       </main>
-
       <footer >
 
       </footer>

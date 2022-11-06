@@ -9,10 +9,19 @@
 }
 
 .header {
-    padding: var(--gap-half) var(--gap-half);
-    width: 100%;
+    position: sticky;
+    top: 0;
+    padding: var(--gap-half);
+    background-color: red;
     background-color: var(--background);
-    box-shadow: 0 0 7px 0 var(--accents-2);
+    box-shadow: 0 0 10px 0 var(--accents-2);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: var(--gap);
+    align-items: center;
 }
 
 .headerButtonContainer {
@@ -41,4 +50,45 @@
 .buttonOutline:hover {
     color: var(--success);
     border-color: var(--success);
+}
+
+.heroContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: var(--space-32x) var(--gap);
+}
+
+.headerCircle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20vw;
+    width: 20vw;
+    border-radius: 50%;
+    border: 1px solid green;
+    border-bottom-color: aquamarine;
+    border-left-color: red;
+    border-right-color: yellow;
+    animation: rotate .5s linear 1s infinite;
+}
+
+.headerCircle:last-child {
+    transform: translateX(50%);
+}
+
+
+.heroHeading {
+    max-width: 70%;
+    text-align: center;
+}
+
+.headerLarge {
+    color: var(--accents-6);
+    font-size: 5.5rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -.06em;
 }
