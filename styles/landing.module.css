@@ -1,0 +1,44 @@
+.widthControlWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.widthControl {
+    width: min(100vw, 1200px);
+}
+
+.header {
+    padding: var(--gap-half) var(--gap-half);
+    width: 100%;
+    background-color: var(--background);
+    box-shadow: 0 0 7px 0 var(--accents-2);
+}
+
+.headerButtonContainer {
+    display: flex;
+    gap: var(--gap);
+
+}
+
+.button {
+    padding: var(--gap-half) calc(var(--gap) + var(--gap-half));
+    font-size: var(--font-size);
+    transition: all .5s linear;
+}
+
+.buttonOutline {
+    background-color: var(--background);
+    border: var(--border);
+    color: var(--foreground)
+}
+
+.button:last-child:hover {
+    background-color: var(--success);
+    color: var(--background);
+}
+
+.buttonOutline:hover {
+    color: var(--success);
+    border-color: var(--success);
+}
