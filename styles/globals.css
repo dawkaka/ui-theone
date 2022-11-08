@@ -145,6 +145,10 @@ body {
   background-color: var(--background);
 }
 
+#__next {
+  width: 100%;
+}
+
 li {
   list-style: none;
 }

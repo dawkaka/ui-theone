@@ -5,22 +5,29 @@
 }
 
 .widthControl {
-    width: min(100vw, 1200px);
+    width: min(100%, 1250px);
+    padding-inline: var(--gap);
+}
+
+.sectionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24x);
 }
 
 .header {
+    width: 100%;
     position: sticky;
     top: 0;
-    padding: var(--gap-half);
-    background-color: red;
+    padding: var(--gap-half) 0;
     background-color: var(--background);
     box-shadow: 0 0 10px 0 var(--accents-2);
+    z-index: 1
 }
 
 .nav {
     display: flex;
     justify-content: space-between;
-    padding-inline: var(--gap);
     align-items: center;
 }
 
@@ -58,27 +65,18 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: var(--space-32x) var(--gap);
+    padding: var(--space-16x) var(--gap);
+    gap: var(--space-large);
 }
 
 .headerCircle {
     position: absolute;
     top: 0;
-    left: 0;
-    height: 20vw;
-    width: 20vw;
+    height: 300px;
+    width: 300px;
     border-radius: 50%;
     border: 1px solid green;
-    border-bottom-color: aquamarine;
-    border-left-color: red;
-    border-right-color: yellow;
-    animation: rotate .5s linear 1s infinite;
 }
-
-.headerCircle:last-child {
-    transform: translateX(50%);
-}
-
 
 .heroHeading {
     max-width: 70%;
@@ -86,9 +84,278 @@
 }
 
 .headerLarge {
-    color: var(--accents-6);
+    color: var(--accents-7);
     font-size: 5.5rem;
     line-height: 1;
     font-weight: 800;
     letter-spacing: -.06em;
+}
+
+.headerMedium {
+    color: var(--accents-7);
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -.06em;
+}
+
+.headerSmall {
+    color: var(--accents-7);
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -.06em;
+    margin-bottom: var(--gap);
+}
+
+.headerXSmall {
+    color: var(--accents-7);
+    font-size: 1rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -.01em;
+}
+
+.txL {
+    color: var(--accents-6);
+    font-size: 1.2rem;
+}
+
+.txS {
+    color: var(--accents-6);
+    font-size: 1.2rem;
+}
+
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32x);
+    text-align: center;
+}
+
+.twoCol {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    flex-basis: 50%;
+    flex-shrink: 0;
+    gap: var(--space-large);
+}
+
+.text80 {
+    max-width: 600px;
+    min-width: 0;
+}
+
+.conList {
+    margin-top: var(--gap);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-quarter);
+    position: relative;
+}
+
+.conList>li {
+    padding-left: var(--gap-quarter);
+}
+
+.conList>li::marker {
+    content: "";
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.sectionContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.sendRequestDemo {
+    padding-top: var(--gap);
+    box-shadow: 0 0 10px var(--accents-2);
+    border-radius: var(--radius-small);
+}
+
+.urlBar {
+    margin: 0 var(--gap-half) var(--gap);
+    padding: var(--gap-quarter) var(--gap-half);
+    display: flex;
+    gap: var(--gap-half);
+    background-color: var(--accents-2);
+    border-radius: var(--radius-small);
+    align-items: center;
+    color: var(--accents-6);
+}
+
+.profileTop {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    padding: 0 var(--space-16x) var(--space-24x);
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    gap: var(--gap)
+}
+
+.imageContainer {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.profileImage {
+    width: 100%;
+    height: 100%;
+}
+
+.titleContainer {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.userName {
+    font-weight: normal;
+    font-size: 22px;
+    padding-bottom: var(--gap-quarter);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--accents-6);
+}
+
+.realName {
+    font-weight: 500;
+    font-size: 25px;
+    max-width: 350px;
+}
+
+.requestContainer {
+    margin: var(--gap-half) 0px 0px;
+}
+
+.bio {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    max-width: 450px;
+    white-space: pre-line;
+    margin-top: 10px;
+    color: var(--accents-6);
+}
+
+.countInfo {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: 22px;
+    color: var(--accents-7)
+}
+
+.countItem {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    display: flex;
+    -webkit-box-align: baseline;
+    align-items: baseline;
+    cursor: default;
+}
+
+.countItemTitle {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    display: inline-block;
+    margin-left: 6px;
+    color: var(--accents-6)
+}
+
+.requestModal {
+    background-color: var(--background);
+    border: 5px solid var(--accents-6);
+    border-radius: 25px
+}
+
+.requestContainer {
+    position: relative;
+    width: 100%;
+    margin-top: 0;
+    padding-bottom: var(--gap);
+
+}
+
+
+.requestHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--gap-half) 0;
+    align-items: center;
+    border-bottom: var(--border);
+    width: 100%;
+}
+
+.requestHeader p {
+    font-size: 18px;
+    font-weight: 510;
+}
+
+.closeContainer {
+    color: var(--accents-3);
+    cursor: pointer;
+    padding: var(--gap-half);
+    border-radius: 50%
+}
+
+.reqProfileImage {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.requestButtons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-half);
+    align-items: center;
+    width: 100%;
+}
+
+.requestButtons button {
+    font-size: 20px;
+    padding: .5em .2em;
+    width: 90%
+}
+
+.acceptBtn {
+    background-color: var(--success);
+    margin-bottom: var(--gap-half);
+}
+
+.declineBtn {
+    background-color: transparent;
+    border: 1px solid var(--error);
+    color: var(--error)
 }

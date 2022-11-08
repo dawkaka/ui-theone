@@ -26,6 +26,7 @@ import { Prompt } from "./prompt";
 import { postDateFormat } from "../libs/utils";
 import { ToasContext } from "./context";
 import { NotFound } from "./notfound";
+import { clearInterval } from "timers";
 
 const Picker = dynamic(
     () => {
@@ -334,6 +335,165 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                     acceptFun={() => deletePost.mutate(id)}
                 />
             </Modal>
+        </article >
+    )
+}
+
+
+export const LandingPost: React.FunctionComponent<PostT> = (props) => {
+    const {
+        couple_name, verified, has_liked, profile_picture, id,
+        likes_count, comments_count, files, created_at } = props
+    const slider = useRef<HTMLDivElement>(null)
+    const [curr, setCurr] = useState(0)
+    const router = useRouter()
+    const [comments_closed, setComments_closed] = useState(props.comments_closed)
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
+    const [caption, setCaption] = useState(props.caption)
+    const [location, setLocation] = useState(props.location)
+    const direc = useRef<"right" | "left">("right")
+
+    useEffect(() => {
+        slider.current!.addEventListener("scroll", () => {
+            let width = window.getComputedStyle(slider.current!).width
+            width = width.substring(0, width.length - 2)
+            let scrollPos = slider.current!.scrollLeft
+            const widthNum = Math.floor(Number(width))
+            setCurr(Math.floor(scrollPos / widthNum))
+        })
+    }, [])
+
+
+    const scroll = (dir: string) => {
+        let width = window.getComputedStyle(slider.current!).width
+        width = width.substring(0, width.length - 2)
+        let scrollPos = slider.current!.scrollLeft
+        const widthNum = Math.floor(Number(width))
+        let dist
+        if (dir === "right") {
+            dist = scrollPos + widthNum
+        } else {
+            dist = scrollPos - widthNum
+        }
+        slider.current!.scroll({
+            left: dist,
+            behavior: 'smooth'
+        });
+        setCurr(dist / widthNum)
+    }
+    let inter: NodeJS.Timer
+    useEffect(() => {
+        console.log("here")
+        inter = setInterval(() => {
+            scroll(direc.current)
+
+        }, 3000)
+    }, [])
+
+    if (curr === files.length) {
+        direc.current = "left"
+    } else if (curr < 0) {
+        direc.current = "right"
+    }
+
+    return (
+        <article className={styles.container}>
+            <div>
+                <div className={styles.userInfoContainer}>
+                    <div className={styles.infoWrapper}>
+                        <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
+                            <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
+                                <Image
+                                    layout="fill"
+                                    objectFit="cover"
+                                    src={`${profile_picture}`}
+                                    className={styles.profileImage}
+                                />
+                            </span>
+                        </div>
+                        <div className={styles.textEllipsis}>
+                            <Link href={`/${couple_name}`}>
+                                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
+                                    {couple_name + " "} {verified && <Verified size={13} />}
+                                </a>
+                            </Link>
+                            <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{props.location}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <Actions size={20} orientation="potrait" />
+                    </div>
+                </div>
+                <div>
+                    <div className={styles.filesContainer}>
+                        <div className={styles.fileSlider} ref={slider}>
+                            {
+
+                                files?.map(file => {
+                                    let post
+                                    if (file.name.substring(file.name.length - 3) === "mp4") {
+                                        post = <Video file={`${IMAGEURL}/${file.name}`} />
+                                    } else {
+                                        post = <img
+                                            src={`${file.name}`}
+                                            className={styles.postImage}
+
+                                            alt={file.alt}
+                                            key={file.name}
+                                        />
+                                    }
+                                    return (
+                                        <div className={styles.fileContainer} key={file.name}>
+                                            {post}
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                        {curr !== 0 && <div role="button" className={styles.prev} onClick={() => {
+                            clearInterval(inter)
+                            scroll("left")
+                        }}>
+                            <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                        </div>
+                        }
+                        {curr < files?.length - 1 && <div role="button" className={styles.next} onClick={() => {
+                            clearInterval(inter)
+                            scroll("right")
+                        }}>
+                            <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                        </div>
+                        }
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingInline: "var(--gap-half)" }}>
+                        <div className={styles.viewSliderPos}>
+                            {
+                                files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
+
+                            }
+                        </div>
+                        <PostIcons likes={likes_count} comments={comments_count} id={id} hasLiked={has_liked} />
+                    </div>
+                    <div className={styles.captionContainer}>
+                        <Link
+                            href={`/${couple_name}/${props.postId}`}
+                        >
+                            <a>
+                                <TextParser text={caption} />
+                            </a>
+                        </Link>
+                        <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDateFormat(created_at, locale)}</p>
+                    </div>
+                </div>
+                <div
+                    style={{ position: "relative", borderTop: "var(--border)", textAlign: "center" }}
+                >
+                    {comments_closed ? <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p> : <CommentArea isCard={false} id={id} />}
+                </div>
+
+            </div>
         </article >
     )
 }
