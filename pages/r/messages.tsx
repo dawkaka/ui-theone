@@ -155,7 +155,7 @@ export default function Messages() {
                                     sendMessage={(type, message) => {
                                         socket.emit(`${type}-message`, message)
                                         setMessages([])
-                                        setMessages([...messages, { message, from: userId, type, date: postDateFormat("", true) }])
+                                        setMessages([...messages, { message, from: userId, type, date: "Now" }])
                                         if (messageContainer.current) {
                                             setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
                                         }
@@ -364,7 +364,7 @@ const ChatUser: React.FunctionComponent<{
     )
 }
 
-const ChatMessage: React.FunctionComponent<{
+export const ChatMessage: React.FunctionComponent<{
     text: string;
     date: string;
     me: boolean;
@@ -372,6 +372,10 @@ const ChatMessage: React.FunctionComponent<{
     type: "text" | "file"
 }> = ({ text, date, me, type, recieved }) => {
     const { on: show, off: toggle } = useToggle()
+    let { locale } = useRouter()
+    if (!locale) {
+        locale = "en"
+    }
     return (
         <div className={styles.messageContainer} onClick={toggle}>
             <div className={`${styles.messageInner} ${me ? styles.messageSent : ""} `}>
@@ -383,7 +387,53 @@ const ChatMessage: React.FunctionComponent<{
                 show && (
                     <p className={me ? styles.messageSent : ""}
                         style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>
-                        {postDateFormat(date)}
+                        {postDateFormat(date, locale)}
+                    </p>
+
+                )
+            }
+            {
+                show && recieved ? (
+                    <p className={me ? styles.messageSent : ""}
+                        style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>
+                        Seen
+                    </p>
+                ) : show && me ? <p className={me ? styles.messageSent : ""}
+                    style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>
+                    Sent
+                </p> : null
+            }
+
+        </div >
+    )
+}
+
+export const LandingChatMsg: React.FunctionComponent<{
+    text: string;
+    date: string;
+    me: boolean;
+    recieved: boolean;
+    type: "text" | "file"
+}> = ({ text, date, me, type, recieved }) => {
+    const { on: show, off: toggle } = useToggle()
+    let { locale } = useRouter()
+    if (!locale) {
+        locale = "en"
+    }
+    return (
+        <div className={styles.messageContainer} onClick={toggle}>
+            <div className={`${styles.messageInner} ${me ? styles.messageSent : ""} `}>
+                {
+                    type === "text" ? <p style={{ whiteSpace: "pre-wrap" }}> {text}</p>
+                        :
+                        < img src={text} style={{ width: "min(100%,300px)", objectFit: "cover" }} />
+                }
+            </div >
+            {
+                show && (
+                    <p className={me ? styles.messageSent : ""}
+                        style={{ backgroundColor: "transparent", color: "var(--accents-5)", fontSize: 12 }}>
+                        {postDateFormat(date, locale)}
                     </p>
 
                 )

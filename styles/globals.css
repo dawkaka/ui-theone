@@ -203,6 +203,49 @@ input[type="search"]:focus {
   border: var(--border);
 }
 
+.demo {
+  opacity: 0;
+}
+
+#msg-0 {
+  animation-delay: 1s;
+}
+
+#msg-1 {
+  animation-delay: 2s;
+}
+
+#msg-2 {
+  animation-delay: 3s;
+}
+
+#msg-3 {
+  animation-delay: 4s;
+}
+
+#msg-4 {
+  animation-delay: 5s;
+}
+
+#msg-5 {
+  animation-delay: 6s;
+}
+
+#msg-6 {
+  animation-delay: 7s;
+}
+
+#msg-7 {
+  animation-delay: 8s;
+}
+
+#msg-8 {
+  animation-delay: 9s;
+}
+
+#msg-9 {
+  animation-delay: 10s;
+}
 
 @media (prefers-color-scheme: dark) {
   html {

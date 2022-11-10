@@ -342,7 +342,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
 
 export const LandingPost: React.FunctionComponent<PostT> = (props) => {
     const {
-        couple_name, verified, has_liked, profile_picture, id,
+        couple_name, verified, has_liked, profile_picture, id, caption,
         likes_count, comments_count, files, created_at } = props
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
@@ -350,10 +350,8 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
     const [comments_closed, setComments_closed] = useState(props.comments_closed)
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-    const [caption, setCaption] = useState(props.caption)
-    const [location, setLocation] = useState(props.location)
     const direc = useRef<"right" | "left">("right")
-
+    const postDate = postDateFormat(new Date().toString(), locale)
     useEffect(() => {
         slider.current!.addEventListener("scroll", () => {
             let width = window.getComputedStyle(slider.current!).width
@@ -366,25 +364,27 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
 
 
     const scroll = (dir: string) => {
-        let width = window.getComputedStyle(slider.current!).width
-        width = width.substring(0, width.length - 2)
-        let scrollPos = slider.current!.scrollLeft
-        const widthNum = Math.floor(Number(width))
-        let dist
-        if (dir === "right") {
-            dist = scrollPos + widthNum
-        } else {
-            dist = scrollPos - widthNum
+        if (slider.current) {
+            let width = window.getComputedStyle(slider.current).width
+            width = width.substring(0, width.length - 2)
+            let scrollPos = slider.current!.scrollLeft
+            const widthNum = Math.floor(Number(width))
+            let dist
+            if (dir === "right") {
+                dist = scrollPos + widthNum
+            } else {
+                dist = scrollPos - widthNum
+            }
+            slider.current!.scroll({
+                left: dist,
+                behavior: 'smooth'
+            });
+            setCurr(dist / widthNum)
         }
-        slider.current!.scroll({
-            left: dist,
-            behavior: 'smooth'
-        });
-        setCurr(dist / widthNum)
     }
+
     let inter: NodeJS.Timer
     useEffect(() => {
-        console.log("here")
         inter = setInterval(() => {
             scroll(direc.current)
 
@@ -398,7 +398,7 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
     }
 
     return (
-        <article className={styles.container}>
+        <article className={styles.container} style={{ width: "min(95%,470px)", marginInline: "auto", borderRadius: "var(--radius-small)" }}>
             <div>
                 <div className={styles.userInfoContainer}>
                     <div className={styles.infoWrapper}>
@@ -413,11 +413,9 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
                             </span>
                         </div>
                         <div className={styles.textEllipsis}>
-                            <Link href={`/${couple_name}`}>
-                                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
-                                    {couple_name + " "} {verified && <Verified size={13} />}
-                                </a>
-                            </Link>
+                            <p style={{ fontSize: "14px", fontWeight: "bold" }}>
+                                {couple_name + " "} {verified && <Verified size={13} />}
+                            </p>
                             <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{props.location}</p>
                         </div>
                     </div>
@@ -477,14 +475,10 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
                         <PostIcons likes={likes_count} comments={comments_count} id={id} hasLiked={has_liked} />
                     </div>
                     <div className={styles.captionContainer}>
-                        <Link
-                            href={`/${couple_name}/${props.postId}`}
-                        >
-                            <a>
-                                <TextParser text={caption} />
-                            </a>
-                        </Link>
-                        <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDateFormat(created_at, locale)}</p>
+                        <div>
+                            <TextParser text={caption} />
+                        </div>
+                        <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDate}</p>
                     </div>
                 </div>
                 <div

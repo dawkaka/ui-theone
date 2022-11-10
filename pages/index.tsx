@@ -1,12 +1,67 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from "next/image"
+import { useEffect, useRef, useState } from "react"
 import { AiOutlineReload } from "react-icons/ai"
+import { BiArrowBack, BiSmile } from "react-icons/bi"
+import { BsChatSquare } from "react-icons/bs"
 import { IoMdClose } from "react-icons/io"
-import { Actions, Rocket } from "../components/mis"
-import { LandingPost, Post } from "../components/post"
+import { Actions, CheckMark, Rocket } from "../components/mis"
+import { LandingPost } from "../components/post"
 import styles from "../styles/landing.module.css"
+import { LandingChatMsg as ChatMessage } from "./r/messages"
+
+
 const Home: NextPage = () => {
+
+  const [requestSent, setRequestSent] = useState(false)
+  const [reqAccepted, setRequestAccepted] = useState(false)
+
+  function createObserver() {
+
+    function demosIntersectionHandler(entries: IntersectionObserverEntry[]) {
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio > 0.5) {
+          entry.target.classList.add(`${styles.demoScale}`)
+        } else {
+          entry.target.classList.remove(`${styles.demoScale}`)
+        }
+      })
+    }
+
+    function msgsHandler(entries: IntersectionObserverEntry[]) {
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio >= 0.5) {
+          entry.target.classList.add(`${styles.messageAnime}`)
+          // msgDemoObser.unobserve(entry.target)
+        }
+      })
+    }
+
+    let options = {
+      threshold: [0.3, 0.6, 0.9]
+    }
+
+    let demos = document.querySelectorAll(`.demo`);
+    let msgDemos = document.querySelectorAll(".msg-demo")
+    let msgDemoObser = new IntersectionObserver(msgsHandler, { root: null, threshold: [0.3, 0.6, 0.9] })
+    let demosObserver = new IntersectionObserver(demosIntersectionHandler, options)
+    addObserver(demos, demosObserver)
+    addObserver(msgDemos, msgDemoObser)
+  }
+
+  function addObserver(targets: NodeListOf<Element>, observer: IntersectionObserver) {
+    targets.forEach(elem => {
+      observer.observe(elem);
+    })
+  }
+
+  useEffect(() => {
+    createObserver()
+  }, [])
+
+
+
   return (
     <div style={{}}>
       <Head>
@@ -17,7 +72,7 @@ const Home: NextPage = () => {
       <header className={`${styles.header} ${styles.widthControlWrapper}`}>
         <div className={styles.widthControl}>
           <nav className={styles.nav}>
-            <h2 style={{ color: "var(--success)" }}>El wahid</h2>
+            <h2 className={styles.headerSmall} style={{ marginBottom: 0 }}>El wahid</h2>
             <div className={styles.headerButtonContainer}>
               <button className={`${styles.button} ${styles.buttonOutline}`}>Sign in</button>
               <button className={styles.button}>Sign up</button>
@@ -25,227 +80,302 @@ const Home: NextPage = () => {
           </nav>
         </div>
       </header>
-      <main className={styles.widthControlWrapper}>
-        <div className={styles.widthControl}>
-          <div className={styles.sectionsContainer}>
-            <header className={styles.heroContainer}>
-              <div className={styles.heroHeading}>
-                <h1 className={styles.headerLarge}>
-                  Social Media Made for
-                  <span>{' '}</span>
-                  <span>C</span><span>o</span><span>u</span><span>p</span>
-                  <span>l</span><span>e</span><span>s</span>
-                </h1>
-              </div>
-              <div className={styles.heroImageContainer}>
-                <div className={styles.heroImageContainerInner}>
-                  <img src="/couple.jpg" width={500} />
+      <main style={{ backgroundColor: "var(--success)" }}>
+        <div className={styles.sectionsContainer}>
+          <div className={styles.widthControlWrapper} style={{ backgroundColor: "var(--success)", color: "white" }}>
+            <div className={styles.widthControl}>
+              <header className={styles.heroContainer}>
+                <div className={styles.heroHeading}>
+                  <h1 className={styles.headerLarge}>
+                    Social Media Made for
+                    <span>{' '}</span>
+                    <span>C</span><span>o</span><span>u</span><span>p</span>
+                    <span>l</span><span>e</span><span>s</span>
+                  </h1>
                 </div>
-              </div>
-            </header>
-
-            <section id="how-it-work" className={styles.section}>
-              <h3 className={styles.headerMedium}>How it Works</h3>
-              <div className={styles.twoCol}>
-                <div className={styles.sectionContent}>
-                  <div>
-                    <Rocket recieving={false} />
-                    <h4 className={styles.headerSmall}>User A sends a request</h4>
-                  </div>
-                  <p className={`${styles.txL} ${styles.text80}`}>
-                    Once you have an account, you can send request to your partner by going to their profile.
-                    You can cancel the request anytime provided the user you sent the request to has not accepted nor reject you request.
-                  </p>
-                  <ul className={styles.conList}>
-                    <h5 className={styles.headerXSmall}>Constraints</h5>
-                    <li>You must not be having a couple profile</li>
-                    <li>You must be 18 years or older</li>
-                    <li>Partner must be 18 years or older</li>
-                    <li>Partner must be open to recieving request</li>
-                    <li>Parner must not be having a couple profile</li>
-                  </ul>
-                </div>
-
-
-                <div>
-                  <div className={styles.sendRequestDemo}>
-                    <div className={styles.urlBar}>
-                      <AiOutlineReload />
-                      <div>
-                        <small>https://elwahid.com/user/temi</small>
-                      </div>
-                    </div>
-                    <div className={styles.profileTop}>
-                      <div className={styles.infoWrapper}>
-                        <div className={styles.infoContainer}>
-                          <div className={styles.imageContainer} style={{ width: "116px", height: "116px" }}>
-                            <img
-                              style={{ objectFit: "cover", position: "absolute", borderRadius: "50%" }}
-                              src={`/temi.jpg`}
-                              className={styles.profileImage}
-                            />
-                          </div>
-                          <div className={styles.titleContainer}>
-                            <h3 className={styles.userName}>@temi</h3>
-                            <h2 data-e2e="user-subtitle" className={styles.realName}>Temi Otedola</h2>
-                            <div className={styles.requestContainer}>
-                              <div className={styles.requestButtonWrapper}>
-                                <button type="button" className={styles.button}>Send request</button>
-
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <h2 className={styles.countInfo}>
-                          <div className={styles.countItem}>
-                            <strong title="Following">5</strong>
-                            <span className={styles.countItemTitle}>Following</span>
-                          </div>
-                        </h2>
-                        <h2 className={styles.bio}>
-                          Zina in The Man For The Job
-                          Moremi in the Netflix Original Citation
-                          temiotedola@vmgnt.com / temi@bookingsafrica.com
-                        </h2>
-                      </div>
-
-                      <div className={styles.actions}>
-                        <Actions orientation="landscape" size={25} />
-                      </div>
-                    </div>
+                <div className={styles.heroImageContainer}>
+                  <div className={styles.heroImageContainerInner}>
+                    <img src="/temi.jpg" />
                   </div>
                 </div>
+              </header>
+            </div>
+          </div>
 
-              </div>
-
-              <div>
+          <div className={styles.widthControlWrapper} style={{ backgroundColor: "var(--success)" }}>
+            <div className={styles.widthControl}>
+              <section id="how-it-work" className={styles.section}>
+                <h3 className={styles.headerMedium}>How it Works</h3>
                 <div className={styles.twoCol}>
-
-
-                  <div>
-                    <div className={styles.requestModal}>
-                      <div className={styles.requestHeader} id="full_description">
-                        <p role={"heading"}>Couple Request</p>
-                        <div onClick={() => close()}
-                          className={styles.closeContainer}
-                        >
-                          <IoMdClose color="tranparent" size={25} />
-                        </div>
-                      </div>
-                      <div className={styles.requestContainer}>
-                        <div className={styles.reqImageContainer}>
-                          <img
-                            src={`/eazi.jpeg`}
-                            className={styles.reqProfileImage}
-                          />
-                        </div>
-                        <div className={styles.titleContainer} style={{ textAlign: "center", width: "100%" }}>
-                          <h2 tabIndex={0} className={styles.realName}>Oluwatosin Ajibade</h2>
-                          <h3 tabIndex={0} className={styles.userName}>@mreazi</h3>
-                        </div>
-                        <div className={styles.requestButtons}>
-
-                          <button className={styles.acceptBtn}>
-                            Accept
-                          </button>
-                          <button
-                            className={styles.declineBtn}
-                          >Reject</button>
-
-                        </div>
-                      </div>
-                    </div >
-
-
-
-                  </div>
-
-
-                  <div>
+                  <div className={styles.sectionContent}>
                     <div>
-                      <Rocket recieving={true} />
-                      <h5 className={styles.headerSmall}>User B accepts the request</h5>
+                      <Rocket recieving={false} />
+                      <h4 className={styles.headerSmall}>User A sends a request</h4>
                     </div>
                     <p className={`${styles.txL} ${styles.text80}`}>
-                      Once you recieve a request, you have an option to accept or reject the request, double check the user name of the send and either accept or reject the request.
-                      Once you accept the request, a couple profile is created for you and your partner.
+                      Once you have an account, you can send request to your partner by going to their profile.
+                      You can cancel the request anytime provided the user you sent the request to has not accepted nor reject you request.
                     </p>
-                    <ul className={styles.conList}>
+                    {/* <ul className={styles.conList}>
                       <h5 className={styles.headerXSmall}>Constraints</h5>
                       <li>You must not be having a couple profile</li>
                       <li>You must be 18 years or older</li>
                       <li>Partner must be 18 years or older</li>
                       <li>Partner must be open to recieving request</li>
                       <li>Parner must not be having a couple profile</li>
-                    </ul>
+                    </ul> */}
                   </div>
 
+                  <div className={styles.demoContainer}>
+                    <div className={`${styles.sendRequestDemo} demo`}>
+                      <div className={styles.urlBar}>
+                        <AiOutlineReload />
+                        <div>
+                          <small>https://elwahid.com/user/temi</small>
+                        </div>
+                      </div>
+                      <div className={styles.profileTop}>
+                        <div className={styles.infoWrapper}>
+                          <div className={styles.infoContainer}>
+                            <div className={styles.imageContainer} style={{ width: "116px", height: "116px" }}>
+                              <img
+                                style={{ objectFit: "cover", position: "absolute", borderRadius: "50%" }}
+                                src={`/temi.jpg`}
+                                className={styles.profileImage}
+                              />
+                            </div>
+                            <div className={styles.titleContainer}>
+                              <h3 className={styles.userName}>@temi</h3>
+                              <h2 className={styles.realName}>Temi Otedola</h2>
+                              <div className={styles.requestContainer}>
+                                <div className={styles.requestButtonWrapper} style={{ position: "relative", width: "max-content" }}>
+                                  {!requestSent ? <button className={styles.button}
+                                    onClick={() => setRequestSent(true)}
+                                    style={{ backgroundColor: "var(--success)", color: "white" }}
+                                  >Send request</button> :
+                                    <div style={{
+                                      width: "150px",
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      alignSelf: "center",
+                                      marginInline: "auto",
+                                      alignItems: "center",
+                                    }}>
+                                      <CheckMark size={40} />
+                                      <small style={{ color: "var(--success)" }}>request sent</small>
+                                    </div>
+                                  }
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <h2 className={styles.countInfo}>
+                            <div className={styles.countItem}>
+                              <strong title="Following">5</strong>
+                              <span className={styles.countItemTitle}>Following</span>
+                            </div>
+                          </h2>
+                          <h2 className={styles.bio}>
+                            Zina in The Man For The Job
+                            Moremi in the Netflix Original Citation
+                            temiotedola@vmgnt.com / temi@bookingsafrica.com
+                          </h2>
+                        </div>
 
-                </div>
-              </div>
-            </section>
-
-            <section id="what-next" className={styles.section}>
-              <div>
-                <h3 className={styles.headerMedium} style={{ marginBottom: "var(--gap)" }}>What's Next?</h3>
-                <p>Once you have couple profile, you can...</p>
-              </div>
-
-              <div className={styles.twoCol} style={{ alignItems: "flex-start" }}>
-                <div className={styles.sectionContent}>
-                  <div>
-                    <div>
-                      <Rocket recieving={false} />
+                        <div className={styles.actions}>
+                          <Actions orientation="landscape" size={25} />
+                        </div>
+                      </div>
                     </div>
-                    <h4 className={styles.headerSmall}>Make Posts (pictures and videos)</h4>
                   </div>
-                  <p className={`${styles.txL} ${styles.text80}`}>
-                    Couples can upload posts to share to their followers in the form of pictures and videos and we accept upto 10 picture slides per post and a 30s video per post.
-                    In future versions couples would be able to upload more than videos and mix pictures and videos for a single post.
-                  </p>
-                </div>
-                <div>
-                  <LandingPost files={[
-                    { name: "/eazi.jpeg", type: "image", alt: "", width: 100, height: 500 },
-                    { name: "/temi.jpg", type: "image", alt: "", width: 100, height: 500 },
-                  ]} couple_name="Teazi" caption="What a bomb shelll"
-                    verified married={false} likes_count={5000000}
-                    comments_count={3000}
-                    created_at={new Date().toString()}
-                    has_liked={true}
-                    is_this_couple={false}
-                    comments_closed={true}
-                    profile_picture={"/temi.jpg"}
-                    location="Bali, Indonesia"
-                    id="wolaeafjdfajsldfkjwlfjwad"
-                    postId="wdaomdas"
-                  />
-                </div>
-              </div>
 
-              <div className={styles.twoCol}>
-                <div>
                 </div>
-                <div className={styles.sectionContent}>
-                  <div>
+
+                <div>
+                  <div className={styles.twoCol}>
                     <div>
-                      <Rocket recieving={false} />
-                    </div>
-                    <h4 className={styles.headerSmall}>Messaging your Partner</h4>
-                  </div>
-                  <p className={`${styles.txL} ${styles.text80}`}>
-                    A messaging inbox is created especially for a single couple to chat and send streaks between them.
-                    It's made just for you and yours.
-                  </p>
-                  <ul className={styles.conList}>
-                    <h5 className={styles.headerXSmall}>Constraints</h5>
-                  </ul>
-                </div>
-              </div>
+                      <div className={`${styles.requestModal} demo`} >
+                        <div className={styles.requestHeader} id="full_description">
+                          <p role={"heading"}>Couple Request</p>
+                          <div onClick={() => close()}
+                            className={styles.closeContainer}
+                          >
+                            <IoMdClose color="tranparent" size={25} />
+                          </div>
+                        </div>
 
-            </section>
+                        <div className={styles.mRequestContainer}>
+                          <div className={styles.reqImageContainer}>
+                            <img
+                              src={`/eazi.jpeg`}
+                              className={styles.reqProfileImage}
+                            />
+                          </div>
+                          <div className={styles.titleContainer} style={{ textAlign: "center", width: "100%" }}>
+                            <h2 tabIndex={0} className={styles.realName} style={{ width: "fit-content", alignSelf: "center" }}>Oluwatosin Ajibade</h2>
+                            <h3 tabIndex={0} className={styles.userName}>@mreazi</h3>
+                          </div>
+                          <div className={styles.requestButtons}>
+
+                            {!reqAccepted ? <><button className={styles.acceptBtn} onClick={() => setRequestAccepted(true)}>
+                              Accept
+                            </button>
+                              <button
+                                className={styles.declineBtn}
+                              >Reject</button>
+                            </>
+                              :
+                              <div style={{ textAlign: "center", display: "flex", flexDirection: "column" }}>
+                                <CheckMark size={120} />
+                                <small style={{ color: "var(--success)" }}>Request accepted</small>
+                              </div>
+                            }
+                          </div>
+                        </div>
+
+                      </div >
+                    </div>
+
+
+                    <div className={styles.changePosition}>
+                      <div>
+                        <Rocket recieving={true} />
+                        <h5 className={styles.headerSmall}>User B recieves the request</h5>
+                      </div>
+                      <p className={`${styles.txL} ${styles.text80}`}>
+                        Once you recieve a request, you have an option to accept or reject the request, double check the user name of the send and either accept or reject the request.
+                        Once you accept the request, a couple profile is created for you and your partner.
+                      </p>
+                      {/* <ul className={styles.conList}>
+                        <h5 className={styles.headerXSmall}>Constraints</h5>
+                        <li>You must not be having a couple profile</li>
+                        <li>You must be 18 years or older</li>
+                        <li>Partner must be 18 years or older</li>
+                        <li>Partner must be open to recieving request</li>
+                        <li>Parner must not be having a couple profile</li>
+                      </ul> */}
+                    </div>
+
+
+                  </div>
+                </div>
+              </section>
+            </div>
           </div>
-        </div >
+
+
+          <div className={styles.widthControlWrapper}>
+            <div className={styles.widthControl}>
+              <section id="what-next" className={styles.section}>
+                <div>
+                  <h3 className={styles.headerMedium} style={{ marginBottom: "var(--gap)" }}>What's Next?</h3>
+                  <p>Once you have couple profile, you can...</p>
+                </div>
+
+                <div className={styles.twoCol}>
+                  <div className={styles.sectionContent}>
+                    <div>
+                      <div>
+                        <Rocket recieving={false} />
+                      </div>
+                      <h4 className={styles.headerSmall}>Make Posts (pictures and videos)</h4>
+                    </div>
+                    <p className={`${styles.txL} ${styles.text80}`}>
+                      Couples can upload posts to share to their followers in the form of pictures and videos and we accept upto 10 picture slides per post and a 30s video per post.
+                      In future versions couples would be able to upload more than videos and mix pictures and videos for a single post.
+                    </p>
+                  </div>
+                  <div style={{ textAlign: "left" }} className={"demo"}>
+                    <LandingPost files={[
+                      { name: "/eazi.jpeg", type: "image", alt: "", width: 100, height: 500 },
+                      { name: "/temi.jpg", type: "image", alt: "", width: 100, height: 500 },
+                    ]} couple_name="Teazi" caption="What a bomb shelll"
+                      verified married={false} likes_count={5000000}
+                      comments_count={3000}
+                      created_at={new Date().toString()}
+                      has_liked={true}
+                      is_this_couple={false}
+                      comments_closed={true}
+                      profile_picture={"/temi.jpg"}
+                      location="Bali, Indonesia"
+                      id="wolaeafjdfajsldfkjwlfjwad"
+                      postId="wdaomdas"
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.twoCol} style={{ marginBottom: "100px" }}>
+
+                  <div>
+
+                    <div className={`${styles.messagePageContainer} demo`}>
+                      <div className={styles.messagingContainer}>
+                        <section className={styles.chatContainer}>
+                          <div className={styles.msgHeader}>
+                            <div style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "var(--gap-half)"
+                            }}> <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
+                                <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
+                                  <Image layout="fill" objectFit="cover" src={`/eazi.jpeg`} className={styles.profileImage} />
+                                </span>
+                              </div>
+                              <h4>mreazi</h4>
+                            </div>
+                            <div className={styles.backIcon}>
+                              <BiArrowBack />
+                            </div>
+                          </div>
+                          <div className={styles.pmWrapper} id="messages-root">
+                            {
+                              messages.map((message: any, index: number) => {
+                                if (message === null) return null
+                                return (
+                                  <div className={`${styles.msgDemo} msg-demo`} id={"msg-" + index}>
+                                    <ChatMessage
+                                      text={message.text} me={index % 2 === 0} recieved={index % 2 === 0 && true}
+                                      date={message.date} type={message.type} key={message.date} />
+                                  </div>
+                                )
+                              })
+                            }
+                          </div>
+                          <div className={styles.writeMessageContainer}>
+                            <div className={styles.textAreaContainer}>
+                              <BiSmile size={25} color="var(--accents-5)" />
+                              <p style={{ color: "var(--accents-5)", width: "100%" }}>type message...</p>
+                              <button style={{ backgroundColor: "transparent", color: "var(--success)" }}>send</button>
+                            </div>
+
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div className={`${styles.sectionContent} ${styles.changePosition}`}>
+                    <div>
+                      <div style={{ marginBottom: "var(--gap)" }}>
+                        <BsChatSquare size={40} color="var(--accents-5)" />
+                      </div>
+                      <h4 className={styles.headerSmall}>Messaging your Partner</h4>
+                    </div>
+                    <p className={`${styles.txL} ${styles.text80}`}>
+                      A messaging inbox is created especially for a single couple to chat and send streaks between them.
+                      It's made just for you and yours.
+                    </p>
+                    {/* <ul className={styles.conList}>
+                      <h5 className={styles.headerXSmall}>Constraints</h5>
+                    </ul> */}
+                  </div>
+                </div>
+
+              </section>
+            </div>
+          </div>
+        </div>
       </main >
       <footer >
 
@@ -253,5 +383,27 @@ const Home: NextPage = () => {
     </div >
   )
 }
+
+
+const messages = [
+  {
+    text: "Helloooooo eazziiii\n❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️", type: "text", date: "9 nov 2022, 23:10"
+  },
+  { text: "How you dey naa", type: "text", date: "9 nov 2022, 23:19" },
+  { text: "bitching", type: "text", date: "9 nov 2022, 23:25" },
+  null,
+  { text: "Where are you?", type: "text", date: "9 nov 2022, 23:30" },
+  { text: "I'm in the studio", type: "text", date: "9 nov 2022, 23:35" },
+  null,
+  { text: "/eazi.jpeg", type: "file", date: "9 nov 2022, 23:40" },
+  { text: "Hello eazi", type: "text", date: "9 nov 2022, 23:45" },
+  { text: "Hello eazi", type: "text", date: "9 nov 2022, 23:50" },
+  { text: "Hello eazi", type: "text", date: "9 nov 2022, 23:55" },
+  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:00" },
+  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:20" },
+  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:30" },
+  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:40" },
+  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:50" },
+]
 
 export default Home
