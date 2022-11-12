@@ -9,15 +9,20 @@
 .main {
     width: 90%;
     box-shadow: 0 0 10px var(--accents-2);
+    background-color: var(--success);
     height: 80%;
     display: grid;
     border-radius: var(--radius-small);
+    color: white;
     grid-template-columns: 1fr 1fr;
 }
 
 .deco {
-    background: url("/med.jpg");
+    background: url("/illu.gif");
+    background-position: center;
     background-size: cover;
+    border: 10px solid var(--success);
+    border-radius: 15px 0 0 15px;
 }
 
 .formContainer {
@@ -32,8 +37,9 @@
 .form {
     margin: var(--gap);
     padding: var(--gap);
-    border-radius: var(--radius-tiny);
-    background-color: var(--accents-1);
+    border-radius: var(--radius-small);
+    background-color: white;
+    color: black;
 }
 
 .formItem {
