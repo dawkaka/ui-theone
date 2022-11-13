@@ -302,7 +302,7 @@ const Home: NextPage = () => {
                       <div>
                         <Rocket recieving={false} />
                       </div>
-                      <h4 className={styles.headerSmall}>Make Posts (pictures and videos)</h4>
+                      <h4 className={styles.headerSmall}>Post Photos (up to 10 per post)</h4>
                     </div>
                     <p className={`${styles.txL} ${styles.text80}`}>
                       Couples can upload posts to share to their followers in the form of pictures and videos and we accept upto 10 picture slides per post and a 30s video per post.
@@ -331,6 +331,38 @@ const Home: NextPage = () => {
                     />
                   </div>
                 </div>
+
+                <div className={styles.twoCol}>
+                  <div className={styles.sectionContent}>
+                    <div>
+                      <div>
+                        <Rocket recieving={false} />
+                      </div>
+                      <h4 className={styles.headerSmall}>Post Short Videos</h4>
+                    </div>
+                    <p className={`${styles.txL} ${styles.text80}`}>
+                      Couples can upload posts to share to their followers in the form of pictures and videos and we accept upto 10 picture slides per post and a 30s video per post.
+                      In future versions couples would be able to upload more than videos and mix pictures and videos for a single post.
+                    </p>
+                  </div>
+                  <div className={"demo"} style={{ maxWidth: "470px", width: "fit-content", flexGrow: 0, padding: 0, textAlign: "left" }}>
+                    <LandingPost files={[
+                      { name: "/landingvideo.mp4", type: "mp4", alt: "", width: 500, height: 500 },
+                    ]} couple_name="Teazi" caption="What a bomb shelll"
+                      verified married={false} likes_count={10000000}
+                      comments_count={35000}
+                      created_at={new Date().toString()}
+                      has_liked={true}
+                      is_this_couple={false}
+                      comments_closed={true}
+                      profile_picture={"/teazi3.jpeg"}
+                      location="Bali, Indonesia"
+                      id="wolaeafjdfajsldfkjwlfjwad"
+                      postId="wdaomdas"
+                    />
+                  </div>
+                </div>
+
 
                 <div className={styles.twoCol} style={{ marginBottom: "100px" }}>
 

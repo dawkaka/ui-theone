@@ -184,6 +184,7 @@ export const SearchCouple: React.FunctionComponent<{
 
 export const Video: React.FC<{ file: string }> = ({ file }) => {
     const vidRef = useRef<HTMLVideoElement>(null)
+    const [showLoader, setShowLoader] = useState(false)
     const isVideoPlaying = (video: HTMLVideoElement) => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
     function isInView(el: HTMLVideoElement) {
         var rect = el.getBoundingClientRect();           // absolute position of video element
@@ -206,7 +207,9 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
             if (vidRef.current) {
                 if (isInView(vidRef.current)) {
                     vidRef.current.click()
+                    vidRef.current.muted = true
                     vidRef.current.play()
+
                 } else {
                     vidRef.current.pause()
                 }
@@ -215,12 +218,22 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
     })
 
     return (
-        <video src={file}
-            style={{ objectFit: "contain", backgroundColor: "black", width: "100%", height: "min(70vh, 500px)" }}
-            onClick={toggleVideo}
-            onEnded={() => vidRef.current?.play()}
-            ref={vidRef}
-        />
+        <div style={{ position: "relative", padding: 0, margin: 0 }}>
+            <video src={file}
+                style={{ objectFit: "contain", backgroundColor: "black", width: "100%", maxHeight: "min(70vh, 500px)" }}
+                onClick={toggleVideo}
+                onCanPlay={() => setShowLoader(false)}
+                onEnded={() => vidRef.current?.play()}
+                onWaiting={() => setShowLoader(true)}
+                muted
+                ref={vidRef}
+            />
+            {
+                showLoader ?
+                    <div style={{ position: "absolute", zIndex: 1, top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}><Loading size="medium" color="var(--success)" /></div>
+                    : null
+            }
+        </div>
     )
 }
 

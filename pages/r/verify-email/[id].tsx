@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CheckMark, Loading } from "../../../components/mis"
 import { BASEURL } from "../../../constants"
-import styles from '../../../styles/loginsignup.module.css'
 
 
 
@@ -20,7 +19,12 @@ export default function VerifyEmail() {
             onError: () => {
                 setResponse("ERROR")
             }
-        })
+        }
+    )
+
+    useEffect(() => {
+        mutation.mutate()
+    }, [])
 
     return (
         <div>

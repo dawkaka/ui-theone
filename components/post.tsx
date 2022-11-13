@@ -398,7 +398,7 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
     }
 
     return (
-        <article className={styles.container} style={{ width: "min(95%,470px)", marginInline: "auto", borderRadius: "var(--radius-small)" }}>
+        <article className={styles.container} style={{ width: "min(100%,470px)", marginInline: "auto", borderRadius: "var(--radius-small)" }}>
             <div>
                 <div className={styles.userInfoContainer}>
                     <div className={styles.infoWrapper}>
@@ -431,7 +431,7 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
                                 files?.map(file => {
                                     let post
                                     if (file.name.substring(file.name.length - 3) === "mp4") {
-                                        post = <Video file={`${IMAGEURL}/${file.name}`} />
+                                        post = <Video file={`${file.name}`} />
                                     } else {
                                         post = <img
                                             src={`${file.name}`}
