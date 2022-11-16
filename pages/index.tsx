@@ -5,8 +5,8 @@ import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { AiOutlineReload } from "react-icons/ai"
 import { BiArrowBack, BiSmile } from "react-icons/bi"
-import { BsChatSquare } from "react-icons/bs"
-import { IoMdClose } from "react-icons/io"
+import { BsChatSquare, BsHeartFill } from "react-icons/bs"
+import { IoMdClose, IoMdPhotos } from "react-icons/io"
 import { Actions, CheckMark, Rocket, Verified } from "../components/mis"
 import { NotFound } from "../components/notfound"
 import Header from "../components/pageHeader"
@@ -14,6 +14,8 @@ import { LandingPost } from "../components/post"
 import styles from "../styles/landing.module.css"
 import cStyles from "../styles/couple.module.css"
 import { LandingChatMsg as ChatMessage } from "./r/messages"
+import { RiVideoFill } from "react-icons/ri"
+import { FaHeartBroken } from "react-icons/fa"
 
 
 const Home: NextPage = () => {
@@ -303,7 +305,7 @@ const Home: NextPage = () => {
                   <div className={styles.sectionContent}>
                     <div>
                       <div>
-                        <Rocket recieving={false} />
+                        <IoMdPhotos size={50} color="darkred" />
                       </div>
                       <h4 className={styles.headerSmall}>Post Photos</h4>
                     </div>
@@ -359,7 +361,7 @@ const Home: NextPage = () => {
                   <div className={`${styles.sectionContent} ${styles.changePosition}`}>
                     <div>
                       <div>
-                        <Rocket recieving={false} />
+                        <RiVideoFill size={50} color="darkred" />
                       </div>
                       <h4 className={styles.headerSmall}>Post Short Videos</h4>
                     </div>
@@ -452,7 +454,7 @@ const Home: NextPage = () => {
                   <div className={`${styles.sectionContent}`}>
                     <div>
                       <div style={{ marginBottom: "var(--gap)" }}>
-                        <BsChatSquare size={40} color="darkred" />
+                        <FaHeartBroken size={40} color="darkred" />
                       </div>
                       <h4 className={styles.headerSmall}>Deactivate Your Couple Profile Anytime</h4>
                     </div>
@@ -558,7 +560,7 @@ const Home: NextPage = () => {
                   <div className={`${styles.sectionContent} ${styles.changePosition}`}>
                     <div>
                       <div style={{ marginBottom: "var(--gap)" }}>
-                        <BsChatSquare size={40} color="darkred" />
+                        <BsHeartFill size={40} color="darkred" />
                       </div>
                       <h4 className={styles.headerSmall}>Want to make and have a couple profile again?</h4>
                     </div>
