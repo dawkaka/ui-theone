@@ -6,7 +6,7 @@ import styles from "../styles/loginsignup.module.css"
 import { ErrCodes, Langs, Signup } from "../types";
 import tr from "../i18n/locales/signuplogin.json"
 import { useRouter } from "next/router";
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { BASEURL } from "../constants";
 import { getCountry, getState } from "../i18n/location";
@@ -143,10 +143,22 @@ const Signup: NextPage = () => {
         setUpdateUi(!updateUi)
     }
 
-    const mutation = useMutation((data: Signup) => {
-        const dataJSON = JSON.stringify(data)
-        return axios.post(`${BASEURL}/user/u/signup`, dataJSON)
-    })
+    const mutation = useMutation(
+        (data: Signup) => {
+            const dataJSON = JSON.stringify(data)
+            return axios.post(`${BASEURL}/user/u/signup`, dataJSON)
+        },
+        {
+            onSuccess: (data) => {
+                const id = data.data.link
+                console.log(id)
+                router.push(`/r/verify-email?id=${id}`)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        }
+    )
 
     const signup = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -164,7 +176,7 @@ const Signup: NextPage = () => {
                         <form className={styles.form} onSubmit={signup}>
                             {mutation.isError && (
                                 <div>
-                                    {mutation.error instanceof AxiosError ? mutation.error.response?.data?.errors?.map((err: string) => <p style={{ fontSize: 12, color: "red" }}>{err}</p>) : null}
+                                    {mutation.error instanceof AxiosError ? mutation.error.response?.data?.errors?.map((err: string) => <p key={err} style={{ fontSize: 12, color: "red" }}>{err}</p>) : null}
                                 </div>
                             )}
                             {

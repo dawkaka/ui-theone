@@ -48,7 +48,7 @@ export default function VerifyEmail() {
                             </div>
                     }
                     {
-                        response !== "" ? <div style={{ display: "flex", justifyContent: "center" }}><Loading color="var(--success)" size="large" /></div>
+                        response === "" ? <div style={{ display: "flex", justifyContent: "center" }}><Loading color="var(--success)" size="large" /></div>
                             : null
                     }
                 </div>
