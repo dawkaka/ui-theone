@@ -340,10 +340,10 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
 }
 
 
-export const LandingPost: React.FunctionComponent<PostT> = (props) => {
+export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> = (props) => {
     const {
         couple_name, verified, has_liked, profile_picture, id, caption,
-        likes_count, comments_count, files, created_at } = props
+        likes_count, comments_count, files, created_at, video } = props
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const router = useRouter()
@@ -351,8 +351,9 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const direc = useRef<"right" | "left">("right")
-    const postDate = postDateFormat(new Date().toString(), locale)
+    const postDate = postDateFormat(created_at, locale)
     useEffect(() => {
+
         slider.current!.addEventListener("scroll", () => {
             let width = window.getComputedStyle(slider.current!).width
             width = width.substring(0, width.length - 2)
@@ -385,10 +386,12 @@ export const LandingPost: React.FunctionComponent<PostT> = (props) => {
 
     let inter: NodeJS.Timer
     useEffect(() => {
-        inter = setInterval(() => {
-            scroll(direc.current)
+        if (!video) {
+            inter = setInterval(() => {
+                scroll(direc.current)
 
-        }, 3000)
+            }, 3000)
+        }
     }, [])
 
     if (curr === files.length) {

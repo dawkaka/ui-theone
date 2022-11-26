@@ -16,9 +16,10 @@ import cStyles from "../styles/couple.module.css"
 import { LandingChatMsg as ChatMessage } from "./r/messages"
 import { RiVideoFill } from "react-icons/ri"
 import { FaHeartBroken } from "react-icons/fa"
+import { IMAGEURL } from "../constants"
 
 
-const Home: NextPage = () => {
+const LandingPage: NextPage = () => {
 
   const [requestSent, setRequestSent] = useState(false)
   const [reqAccepted, setRequestAccepted] = useState(false)
@@ -116,9 +117,7 @@ const Home: NextPage = () => {
                 <header className={styles.heroContainer}>
                   <div className={styles.heroHeading}>
                     <h1 className={styles.headerLarge}>
-                      <span>Social </span> <span>Media </span> <span>Made </span> <span>for</span>
-                      <span>{' '}</span>
-                      <span>Couples</span>
+                      Social Media Made For Couples
                     </h1>
                   </div>
                   <div className={styles.heroImageContainer}>
@@ -298,7 +297,6 @@ const Home: NextPage = () => {
               <section id="what-next" className={styles.section}>
                 <div>
                   <h3 className={styles.headerMedium} style={{ marginBottom: "var(--gap)" }}>What's Next?</h3>
-                  <p>Once you have couple profile, you can...</p>
                 </div>
 
                 <div className={styles.twoCol}>
@@ -326,7 +324,7 @@ const Home: NextPage = () => {
                       { name: "/2.jpg", type: "image", alt: "", width: 500, height: 500 },
                       { name: "/6.jpg", type: "image", alt: "", width: 500, height: 500 },
 
-                    ]} couple_name="Teazi" caption="What a bomb shelll"
+                    ]} couple_name="Teazi" caption="❤️❤️❤️❤️❤️❤️❤️"
                       verified married={false} likes_count={5000000}
                       comments_count={3000}
                       created_at={new Date().toString()}
@@ -344,12 +342,13 @@ const Home: NextPage = () => {
                 <div className={styles.twoCol}>
                   <div className={"demo"} style={{ maxWidth: "470px", width: "fit-content", flexGrow: 0, padding: 0, textAlign: "left" }}>
                     <LandingPost files={[
-                      { name: "/landingvideo.mp4", type: "mp4", alt: "", width: 500, height: 500 },
-                    ]} couple_name="Teazi" caption="What a bomb shelll"
+                      { name: `${IMAGEURL}/landingvideo.mp4`, type: "mp4", alt: "", width: 500, height: 500 },
+                    ]} couple_name="Teazi" caption="We are ENGAGED 💍💍💍"
                       verified married={false} likes_count={10000000}
                       comments_count={35000}
                       created_at={new Date().toString()}
                       has_liked={true}
+                      video
                       is_this_couple={false}
                       comments_closed={true}
                       profile_picture={"/teazi3.jpeg"}
@@ -417,7 +416,7 @@ const Home: NextPage = () => {
                                 return (
                                   <div className={`${styles.msgDemo} msg-demo`} id={"msg-" + index}>
                                     <ChatMessage
-                                      text={message.text} me={index % 2 === 0} recieved={index % 2 === 0 && true}
+                                      text={message.text} me={message.me} recieved={message.me && true}
                                       date={message.date} type={message.type} key={message.date} />
                                   </div>
                                 )
@@ -448,7 +447,6 @@ const Home: NextPage = () => {
               <section id="what-next" className={styles.section}>
                 <div>
                   <h3 className={styles.headerMedium} style={{ marginBottom: "var(--gap)" }}>Incase of a Breakfast?</h3>
-                  <p>Once you decide on not having a couple profile again. E.g incase of a breakup</p>
                 </div>
                 <div className={styles.twoCol}>
                   <div className={`${styles.sectionContent}`}>
@@ -469,14 +467,14 @@ const Home: NextPage = () => {
 
 
                   <div className={styles.demoContainer}>
-                    <div className={`${styles.sendRequestDemo} demo`}>
+                    <div className={`${styles.sendRequestDemo} demo`} style={{ width: "min(95vw, 470px)" }}>
                       <div className={styles.urlBar}>
                         <AiOutlineReload />
                         <div>
                           <small>https://elwahid.com/teazi</small>
                         </div>
                       </div>
-                      <div className={styles.profileTop}>
+                      <div className={styles.profileTop} style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                         <NotFound type="couple" />
                       </div>
                     </div>
@@ -591,23 +589,13 @@ const Home: NextPage = () => {
 
 const messages = [
   {
-    text: "Helloooooo eazziiii\n❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️", type: "text", date: "9 nov 2022, 23:10"
+    text: "Helloooooo eazziiii\n❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️", type: "text", date: "9 nov 2022, 23:10", me: true
   },
-  { text: "How you dey naa", type: "text", date: "9 nov 2022, 23:19" },
-  { text: "bitching", type: "text", date: "9 nov 2022, 23:25" },
-  null,
-  { text: "Where are you?", type: "text", date: "9 nov 2022, 23:30" },
-  { text: "I'm in the studio", type: "text", date: "9 nov 2022, 23:35" },
-  null,
-  { text: "/5.jpg", type: "file", date: "9 nov 2022, 23:40" },
-  { text: "Hello eazi", type: "text", date: "9 nov 2022, 23:45" },
-  { text: "Hello eazi", type: "text", date: "9 nov 2022, 23:50" },
-  { text: "Hello eazi", type: "text", date: "9 nov 2022, 23:55" },
-  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:00" },
-  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:20" },
-  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:30" },
-  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:40" },
-  { text: "Hello eazi", type: "text", date: "9 nov 2022, 00:50" },
+  { text: "How you dey naa", type: "text", date: "9 nov 2022, 23:19", me: false },
+  { text: "bitching", type: "text", date: "9 nov 2022, 23:25", me: true },
+  { text: "Where are you?", type: "text", date: "9 nov 2022, 23:30", me: true },
+  { text: "I'm in the studio, recording something special for you.", type: "text", date: "9 nov 2022, 23:35", me: false },
+  { text: "/5.jpg", type: "file", date: "9 nov 2022, 23:40", me: false },
 ]
 
-export default Home
+export default LandingPage
