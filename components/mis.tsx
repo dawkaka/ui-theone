@@ -222,10 +222,13 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
             <video src={file}
                 style={{ objectFit: "contain", backgroundColor: "black", width: "100%", maxHeight: "min(70vh, 500px)" }}
                 onClick={toggleVideo}
+                onPlaying={() => setShowLoader(false)}
                 onCanPlay={() => setShowLoader(false)}
                 onEnded={() => vidRef.current?.play()}
                 onWaiting={() => setShowLoader(true)}
                 muted
+                playsInline
+                preload="none"
                 ref={vidRef}
             />
             {
