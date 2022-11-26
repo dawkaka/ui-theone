@@ -39,7 +39,7 @@
     padding: var(--gap);
     border-radius: var(--radius-small);
     background-color: var(--background);
-
+    color: var(--foreground);
 }
 
 .formItem {
