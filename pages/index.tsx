@@ -102,7 +102,7 @@ const LandingPage: NextPage = () => {
               </Link>
               <Link href={"/signup"}>
                 <a>
-                  <button className={styles.button}>Sign up</button>
+                  <button className={`${styles.button} ${styles.rainbow}`}>Sign up</button>
                 </a>
               </Link>
             </div>
@@ -491,7 +491,6 @@ const LandingPage: NextPage = () => {
                         </div>
                       </div>
                       <div className={cStyles.profileContainer} style={{ marginTop: "-20px", minHeight: "fit-content" }}>
-                        <Header title={"Teazi"} arrow />
                         <section className={cStyles.profileInfo}>
                           <div className={cStyles.coverPicContainer}>
                             <div className={cStyles.cover} >

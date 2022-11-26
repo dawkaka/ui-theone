@@ -50,6 +50,12 @@
     color: var(--foreground)
 }
 
+.rainbow {
+    background: linear-gradient(90deg, #ff2400 0% 10%, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+    color: white;
+    font-weight: 800;
+}
+
 .button:active {
     background-color: blueviolet !important;
 }
@@ -106,104 +112,6 @@
     border: 1px solid green;
 }
 
-
-
-.text_shadows {
-    text-shadow: 3px 3px 0 var(--color-secondary), 6px 6px 0 var(--color-tertiary),
-        9px 9px var(--color-quaternary), 12px 12px 0 var(--color-quinary);
-    font-family: bungee, sans-serif;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: calc(2rem + 5vw);
-    text-align: center;
-    margin: 0;
-    color: var(--color-primary);
-    animation: shadows 1.2s ease-in infinite, moves 1.2s ease-in infinite;
-    ;
-
-    letter-spacing: 0.4rem;
-}
-
-@keyframes shadows {
-    0% {
-        text-shadow: none;
-        transform: translate(0px, 0px);
-    }
-
-    10% {
-        text-shadow: 3px 3px 0 var(--color-secondary);
-    }
-
-    20% {
-        text-shadow: 3px 3px 0 var(--color-secondary),
-            6px 6px 0 var(--color-tertiary);
-    }
-
-    30% {
-        text-shadow: 3px 3px 0 var(--color-secondary),
-            6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary);
-    }
-
-    40% {
-        text-shadow: 3px 3px 0 var(--color-secondary),
-            6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary),
-            12px 12px 0 var(--color-quinary);
-        transform: translate(-12px, -12px);
-    }
-
-    50% {
-        text-shadow: 3px 3px 0 var(--color-secondary),
-            6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary),
-            12px 12px 0 var(--color-quinary);
-        transform: translate(-12px, -12px);
-    }
-
-    60% {
-        text-shadow: 3px 3px 0 var(--color-secondary),
-            6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary),
-            12px 12px 0 var(--color-quinary);
-        transform: translate(-12px, -12px);
-    }
-
-    70% {
-        text-shadow: 3px 3px 0 var(--color-secondary),
-            6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary);
-    }
-
-    80% {
-        text-shadow: 3px 3px 0 var(--color-secondary),
-            6px 6px 0 var(--color-tertiary);
-    }
-
-    90% {
-        text-shadow: 3px 3px 0 var(--color-secondary);
-    }
-
-    100% {
-        text-shadow: none;
-        transform: translate(0px, 0px);
-    }
-}
-
-@keyframes moves {
-    0% {}
-
-    40% {}
-
-    50% {}
-
-    60% {}
-
-    100% {}
-}
-
-
-
-
-
-
-
-
 .heroImageContainerInner {
     background: white;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
@@ -236,7 +144,7 @@
 
 .headerLarge {
     color: white;
-    font-size: 6rem;
+    font-size: 4rem;
     line-height: 1;
     font-weight: 800;
     letter-spacing: -.06em;
