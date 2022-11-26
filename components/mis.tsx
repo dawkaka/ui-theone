@@ -228,6 +228,7 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
                 onWaiting={() => setShowLoader(true)}
                 muted
                 playsInline
+                controls
                 preload="none"
                 ref={vidRef}
             />
