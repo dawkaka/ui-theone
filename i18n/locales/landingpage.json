@@ -1,0 +1,110 @@
+{
+    "en": {
+        "heroHeader": "Social Media For Couples",
+        "howitworks": {
+            "header": "How It Works",
+            "first": {
+                "header": "User A sends a request",
+                "text": "Once you have an account, you can send request to your partner by going to their profile. You can cancel the request anytime provided the user you sent the request to has not accepted nor reject you request"
+            },
+            "second": {
+                "header": "User B recieves the request",
+                "text": "Once you recieve a request, you have an option to accept or reject the request, double check the user name of the send and either accept or reject the request. Once you accept the request, a couple profile is created for you and your partner."
+            }
+        },
+        "whatnext": {
+            "header": "What's Next?",
+            "first": {
+                "header": "Post Photos",
+                "text": "Couples can upload photos and memories to share to their followers, couples can upload up to 10 photos slides per post, followers and other users can like and comment on these photos. Couples however can close and reopen comments anytime."
+            },
+            "second": {
+                "header": "Post Short Videos",
+                "text": "Share those beautiful and romantic moments in short 30 seconds video forms to your followers and other users."
+            },
+            "third": {
+                "header": "Messaging your Partner",
+                "text": "A messaging inbox is created especially for a single couple to chat and send streaks between them. It's made just for you and yours."
+            }
+        },
+        "breakup": {
+            "header": "Incase of a Breakfast?",
+            "first": {
+                "header": "Deactivate Your Couple Profile Anytime",
+                "text": "If a couple deactivates their profile, the couple profile will cease to exist and all their posts can no longer be viewed by anyone. Either partner can no longer be able to upload posts"
+            },
+            "second": {
+                "header": "Want to make and have a couple profile again?",
+                "text": "When a couple get back together, their couple profile is restored and their profile and all previous non deleted photos and videos can once again be seen by their followers and other users"
+            }
+        },
+        "signin": "Sign in",
+        "signup": "Sign up",
+        "followers": "Followers",
+        "following": "Following",
+        "sendrequest": "Send request",
+        "couplerequest": "Couple request",
+        "accept": "Accept",
+        "reject": "Reject",
+        "posts": "Posts",
+        "started": "Started",
+        "edit": "Edit",
+        "dating": "dating",
+        "requestaccepted": "Request accepted",
+        "requestsent": "Request sent"
+    },
+    "es": {
+        "heroHeader": "Redes sociales para parejas",
+        "howitworks": {
+            "header": "Cómo funciona",
+            "first": {
+                "header": "El usuario A envía una solicitud",
+                "text": "Una vez que tenga una cuenta, puede enviar una solicitud a su socio yendo a su perfil. Puede cancelar la solicitud en cualquier momento siempre que el usuario al que envió la solicitud no haya aceptado o rechazado su solicitud"
+            },
+            "second": {
+                "header": "La usuario B recibe la solicitud.",
+                "text": "Cuando recibe una solicitud, puede aceptarla o rechazarla, verificar dos veces el nombre de usuario del envío y aceptar o rechazar la solicitud. Una vez que acepta la solicitud, se crea un perfil de pareja para usted y su pareja."
+            }
+        },
+        "whatnext": {
+            "header": "¿Que sigue?",
+            "first": {
+                "header": "Publicar fotos",
+                "text": "Las parejas pueden subir fotos y recuerdos para compartir con sus seguidores, las parejas pueden subir hasta 10 diapositivas de fotos por publicación, los seguidores y otros usuarios pueden dar me gusta y comentar estas fotos. Sin embargo, las parejas pueden cerrar y reabrir los comentarios en cualquier momento."
+            },
+            "second": {
+                "header": "Publicar videos cortos",
+                "text": "Comparta esos hermosos y románticos momentos en breves formularios de video de 30 segundos con sus seguidores y otros usuarios."
+            },
+            "third": {
+                "header": "Enviar mensajes a su socio",
+                "text": "Se crea una bandeja de entrada de mensajes especialmente para que una pareja soltera chatee y envíe rayas entre ellos. Está hecho solo para ti y los tuyos."
+            }
+        },
+        "breakup": {
+            "header": "¿En caso de un desayuno?",
+            "first": {
+                "header": "Desactiva tu perfil de pareja en cualquier momento",
+                "text": "Si una pareja desactiva su perfil, el perfil de la pareja dejará de existir y nadie podrá ver todas sus publicaciones. Cualquiera de los socios ya no puede subir publicaciones."
+            },
+            "second": {
+                "header": "¿Quieres hacer y tener un perfil de pareja de nuevo?",
+                "text": "Cuando una pareja vuelve a estar junta, su perfil de pareja se restaura y sus seguidores y otros usuarios pueden volver a ver su perfil y todas las fotos y videos anteriores no eliminados."
+            }
+        },
+        "signin": "Acceso",
+        "signup": "Regístrase",
+        "followers": "Seguidores",
+        "following": "Siguiendo",
+        "sendrequest": "Enviar petición",
+        "couplerequest": "Solicitud de pareja",
+        "accept": "Aceptar",
+        "reject": "Rechazar",
+        "posts": "Publicaciones",
+        "started": "Empezado",
+        "edit": "Editar",
+        "dating": "fechado",
+        "requestaccepted": "Petición aceptada",
+        "requestsent": "Petición enviada"
+    }
+}

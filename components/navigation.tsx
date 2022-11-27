@@ -5,16 +5,14 @@ import Modal from "react-modal";
 import styles from "./styles/navigation.module.css"
 import { AiFillHome, AiOutlineBell, AiFillBell, AiOutlineHome, AiOutlineUser, AiOutlinePlus } from "react-icons/ai"
 import { BsBell, BsBellFill, BsChatSquare, BsChatSquareFill, BsHeartHalf, BsSearch } from "react-icons/bs"
-import { FaSearch, FaUser } from "react-icons/fa"
-import { MdEmail, MdOutlineMail } from 'react-icons/md'
+import { FaUser } from "react-icons/fa"
 import { IoMdClose } from "react-icons/io"
 import AddPost from "./newpost";
 import messages from "../i18n/locales/navigation..json"
 import { Langs } from "../types";
-import { Query, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
-import { start } from "repl";
 import { NotFound } from "./notfound";
 import { Loading } from "./mis";
 import { RiSearchFill, RiSearchLine } from "react-icons/ri";
