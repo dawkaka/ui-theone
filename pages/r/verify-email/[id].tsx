@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { CheckMark, Loading } from "../../../components/mis"
 import { BASEURL } from "../../../constants"
 
@@ -10,6 +10,7 @@ import { BASEURL } from "../../../constants"
 export default function VerifyEmail() {
     const router = useRouter()
     const [response, setResponse] = useState("")
+    const sentRef = useRef(false)
     const mutation = useMutation(
         () => axios.post(`${BASEURL}/user/verify-signup/${router.query.id}`),
         {
@@ -18,13 +19,18 @@ export default function VerifyEmail() {
             },
             onError: () => {
                 setResponse("ERROR")
+            },
+            onSettled: () => {
+                sentRef.current = true
             }
         }
     )
 
     useEffect(() => {
-        mutation.mutate()
-    }, [])
+        if (router.query.id && !sentRef.current) {
+            mutation.mutate()
+        }
+    }, [router.query])
 
     return (
         <div>
