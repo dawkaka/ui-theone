@@ -6,8 +6,13 @@ import { FormEvent, useState } from "react"
 import { CheckMark, Loading } from "../../components/mis"
 import { BASEURL } from "../../constants"
 import styles from "../../styles/loginsignup.module.css"
+import tr from "../../i18n/locales/misc.json"
+import { Langs } from "../../types"
 
 export default function ResetPassword() {
+    const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
     const [password, setPassword] = useState("")
     const [rpassword, setRPassword] = useState("")
     const [response, setResponse] = useState("")
@@ -30,17 +35,17 @@ export default function ResetPassword() {
     return (
         <div style={{ paddingTop: "20vh", paddingInline: "var(--gap)", width: "100vw", height: "100vh", backgroundColor: "var(--success)" }}>
             <div style={{ marginInline: "auto", backgroundColor: "var(--background)", borderRadius: "var(--radius-small)", boxShadow: "0 0 5px -1px var(--accents-5)", padding: "var(--gap) var(--gap-double)", maxWidth: "500px" }}>
-                <h1 style={{ marginBottom: "var(--gap)" }}>Reset Password!</h1>
-                <p>Enter new password to be  associated with your account</p>
+                <h1 style={{ marginBottom: "var(--gap)" }}>{localeTr.resetpassword.header}</h1>
+                <p>{localeTr.resetpassword.text}</p>
                 {
                     response !== "" ? response === "SUCCESS" ?
                         <div style={{ textAlign: "center", marginTop: "var(--gap)", display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--gap-half)" }}>
                             <CheckMark size={50} />
-                            <p>Password has been reset successfully </p>
-                            <button style={{ padding: "var(--gap-quarter) var(--gap)" }} onClick={() => replace("/login")}>Login</button>
+                            <p>{localeTr.resetpassword.passwordresetted}</p>
+                            <button style={{ padding: "var(--gap-quarter) var(--gap)" }} onClick={() => replace("/login")}>{localeTr.resetpassword.login}</button>
                         </div>
                         :
-                        <p style={{ color: "red", marginTop: "var(--gap)" }}>Something went wrong, check your  and try button again</p>
+                        <p style={{ color: "red", marginTop: "var(--gap)" }}>{localeTr.resetpassword.somethingwentwrong}</p>
                         :
                         null
                 }
@@ -48,24 +53,24 @@ export default function ResetPassword() {
                     response === "SUCCESS" ? null : <form onSubmit={submit} style={{ marginTop: "var(--gap)", display: "flex", flexDirection: "column" }}>
 
                         <div className={styles.formItem}>
-                            <label>Password<span style={{ color: "red" }}>*</span></label>
+                            <label>{localeTr.resetpassword.first.label}<span style={{ color: "red" }}>*</span></label>
                             <input
                                 type="password"
-                                placeholder={"Enter password"}
+                                placeholder={localeTr.resetpassword.first.placeholder}
                                 value={password}
                                 onChange={(e) => setPassword(e.currentTarget.value)}
                                 name="password" required />
                         </div>
                         <div className={styles.formItem}>
-                            <label>Repeat password<span style={{ color: "red" }}>*</span></label>
+                            <label>{localeTr.resetpassword.second.label}<span style={{ color: "red" }}>*</span></label>
                             <input
                                 type="password"
-                                placeholder="Repeat password"
+                                placeholder={localeTr.resetpassword.second.placeholder}
                                 value={rpassword}
                                 onChange={(e) => setRPassword(e.currentTarget.value)}
                                 name="password" required />
                         </div>
-                        <button style={{ padding: "var(--gap-half) var(--gap)", fontSize: "16px", display: "flex", justifyContent: "center" }}>{mutation.isLoading ? <Loading size="medium" color="white" /> : "Reset password"}</button>
+                        <button style={{ padding: "var(--gap-half) var(--gap)", fontSize: "16px", display: "flex", justifyContent: "center" }}>{mutation.isLoading ? <Loading size="medium" color="white" /> : localeTr.resetpassword.resetpassword}</button>
                     </form>
                 }
             </div>

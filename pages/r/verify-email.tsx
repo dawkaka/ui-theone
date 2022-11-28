@@ -5,11 +5,15 @@ import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react"
 import { CheckMark, Loading } from "../../components/mis"
 import { BASEURL } from "../../constants"
+import { Langs } from "../../types"
+import tr from "../../i18n/locales/misc.json"
 
 
 
 export default function VerifyEmail() {
     const router = useRouter()
+    const locale = router.locale || "en"
+    const localeTr = tr[locale as Langs]
     const [id, setID] = useState("")
     const [response, setResponse] = useState("")
     const [time, setTime] = useState(30)
@@ -51,14 +55,14 @@ export default function VerifyEmail() {
         <div>
             <div style={{ paddingTop: "20vh", paddingInline: "var(--gap)", width: "100vw", height: "100vh", backgroundColor: "var(--success)" }}>
                 <div style={{ marginInline: "auto", backgroundColor: "var(--background)", borderRadius: "var(--radius-small)", boxShadow: "0 0 5px -1px var(--accents-5)", padding: "var(--gap) var(--gap-double)", maxWidth: "500px" }}>
-                    <h1 style={{ marginBottom: "var(--gap-double)", textAlign: "center" }}>Email Verification Link</h1>
+                    <h1 style={{ marginBottom: "var(--gap-double)", textAlign: "center" }}>{localeTr.verificationemail.header}</h1>
 
                     <div style={{ textAlign: "center", marginTop: "var(--gap)", display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--gap)" }}>
                         {response === "SUCCESS" ?
                             <>
                                 <CheckMark size={50} />
-                                <h4>Link resent</h4>
-                                <p>If you still can't find the email, try signing up again and double check when entering the email</p>
+                                <h4>{localeTr.verificationemail.linkresent} </h4>
+                                <p>{localeTr.verificationemail.resenttext}</p>
                             </>
                             :
                             null
@@ -66,16 +70,16 @@ export default function VerifyEmail() {
                         {
                             response === "ERROR" ?
                                 <>
-                                    <p>Something went wrong, trying signing up again.</p>
-                                    <Link href="/signup"><a>Sign up</a></Link>
+                                    <p>{localeTr.verificationemail.somethingwentwrong}</p>
+                                    <Link href="/signup"><a>{localeTr.verificationemail.signup}</a></Link>
                                 </> : null
                         }
                         {
                             response === "" ?
                                 <>
-                                    <p>Check your email and click on the verification link to verify the email, make sure to check your spam as well the link might be in there</p>
-                                    <button style={{ padding: "var(--gap-half) var(--gap)", opacity: time > 0 ? 0.5 : 1 }} onClick={resendEmail}>Resend link</button>
-                                    <p>Resend email in {time}s</p>
+                                    <p>{localeTr.verificationemail.text}</p>
+                                    <button style={{ padding: "var(--gap-half) var(--gap)", opacity: time > 0 ? 0.5 : 1 }} onClick={resendEmail}>{localeTr.verificationemail.resendlink}</button>
+                                    <p>{localeTr.verificationemail.timer} {time}s</p>
                                 </>
                                 :
                                 null

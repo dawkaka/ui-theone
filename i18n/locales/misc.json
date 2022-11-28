@@ -1,0 +1,94 @@
+{
+    "en": {
+        "verificationemail": {
+            "header": "Email Verification Link",
+            "text": "Check your email and click on the verification link to verify the email, make sure to check your spam as well the link might be in there",
+            "resendlink": "Resend link",
+            "timer": "Resend email in",
+            "somethingwentwrong": "Something went wrong, try signing up again",
+            "signup": "Sign up",
+            "linkresent": "Link resent",
+            "resenttext": "If you still can't find the email, try signing up again and double check when entering the email"
+        },
+        "verifyemail": {
+            "header": "Verify Email",
+            "verified": "Email verified",
+            "somethingwentwrong": "Something went wrong. This email may have been verified already or the link is invalid/expired",
+            "gotohomepage": "Go to homepage",
+            "check": "Check if email is verified"
+        },
+        "forgotpassword": {
+            "header": "Forgot Password?",
+            "text": "Enter email associated with your account and we will send you a link to reset your password",
+            "somethingwentwrong": "Something went wrong, check your  and try button again",
+            "success": "A password reset link has been sent to your email, click on the link to reset your password",
+            "input": {
+                "label": "Email",
+                "placeholder": "Enter email"
+            },
+            "requestpasswordreset": "Request password reset"
+        },
+        "resetpassword": {
+            "header": "Reset Pasasword!",
+            "text": "Enter new password to be associated with your account",
+            "resetpassword": "Reset password",
+            "passwordresetted": "Password has been reset successfully",
+            "login": "Login",
+            "somethingwentwrong": "Something went wrong, check your  and try button again",
+            "first": {
+                "label": "New Password",
+                "placeholder": "Enter new password"
+            },
+            "second": {
+                "label": "Repeat password",
+                "placeholder": "Repeat password"
+            }
+        }
+    },
+    "es": {
+        "verificationemail": {
+            "header": "Enlace de verificación de correo electrónico",
+            "text": "Revise su correo electrónico y haga clic en el enlace de verificación para verificar el correo electrónico, asegúrese de revisar su correo no deseado y el enlace podría estar allí.",
+            "resendlink": "Reenviar enlace",
+            "timer": "Puede solicitar el reenvío de correo electrónico en",
+            "somethingwentwrong": "Algo salió mal, intentando registrarse de nuevo.",
+            "signup": "Registrarse",
+            "linkresent": "Enlace reenviado",
+            "resenttext": "Si aún no puede encontrar el correo electrónico, intente registrarse nuevamente y verifique dos veces al ingresar el correo electrónico"
+        },
+        "verifyemail": {
+            "header": "Verificar correo electrónico",
+            "verified": "Correo Electrónico Verificado",
+            "somethingwentwrong": "Algo salió mal. Es posible que este correo electrónico ya se haya verificado o que el enlace no sea válido o haya caducado",
+            "gotohomepage": "Ir a la página de inicio",
+            "check": "Comprobar si el correo electrónico está verificado"
+        },
+        "forgotpassword": {
+            "header": "¿Se te olvidó tu contraseña?",
+            "text": "Ingrese el correo electrónico asociado con su cuenta y le enviaremos un enlace para restablecer su contraseña",
+            "somethingwentwrong": "Algo salió mal, verifique su botón e inténtelo de nuevo",
+            "success": "Se ha enviado un enlace de restablecimiento de contraseña a su correo electrónico, haga clic en el enlace para restablecer su contraseña",
+            "input": {
+                "label": "Correo electrónico",
+                "placeholder": "Ingrese correo electrónico"
+            },
+            "requestpasswordreset": "Enviar"
+        },
+        "resetpassword": {
+            "header": "¡Restablecer contraseña!",
+            "text": "Introduzca una nueva contraseña para asociarla a su cuenta",
+            "resetpassword": "Restablecer la contraseña",
+            "passwordresetted": "La contraseña se ha restablecido con éxito",
+            "login": "Acceso",
+            "somethingwentwrong": "Algo salió mal, verifique su botón e inténtelo de nuevo",
+            "first": {
+                "label": "Nueva contraseña",
+                "placeholder": "Ingrese nueva contraseña"
+            },
+            "second": {
+                "label": "Repita la contraseña",
+                "placeholder": "Repita la contraseña"
+            }
+        }
+    }
+}
