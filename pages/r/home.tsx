@@ -1,18 +1,16 @@
 import Modal from 'react-modal';
 import styles from '../../styles/home.module.css'
 import Layout from "../../components/mainLayout";
-import PostFullView, { Post } from "../../components/post";
+import { Post } from "../../components/post";
 import Suggestions from "../../components/suggestions";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/home.json"
 import { Langs, PostT } from "../../types";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../../constants";
-import { Loader, Loading } from "../../components/mis";
+import { Loader } from "../../components/mis";
 import { useRef } from "react";
-import { getCountry } from "../../i18n/location";
-import Header from "../../components/pageHeader";
 
 
 Modal.setAppElement('#__next')

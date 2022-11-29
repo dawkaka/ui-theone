@@ -102,9 +102,18 @@ export default function Messages() {
     socket.on("sent", (data) => {
         console.log(data)
     })
+    socket.on("recieved", () => {
+        let msg = messages.map(msg => {
+            msg.recieved = true
+            return msg
+        })
+        setMessages(msg)
+    })
+
     socket.on("not-sent", error => {
         console.log(error)
     })
+
     socket.on("typing", () => {
         setTyping(true)
         if (messageContainer.current !== null) {
