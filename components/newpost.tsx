@@ -157,16 +157,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
     const sharePostMutation = useMutation(
         (data: FormData) => {
-            console.log(data.get("alts"))
             return axios.post(`${BASEURL}/post`, data)
-        },
-        {
-            onSuccess: (data) => {
-                console.log(data)
-            },
-            onError: (err) => {
-                console.log(err)
-            }
         })
 
 

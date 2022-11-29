@@ -13,7 +13,6 @@ export default function ForgotPassword() {
     const localeTr = tr[locale as Langs]
     const [email, setEmail] = useState("")
     const [response, setResponse] = useState("")
-    const { replace } = useRouter()
     const mutation = useMutation(
         () => axios.post(`${BASEURL}/user/request-password-reset/${email}`),
         {

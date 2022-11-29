@@ -2337,12 +2337,6 @@ export function getCountry() {
         },
     };
 
-    for (const [key, val] of Object.entries(timezones)) {
-        if (!val || !val.c) {
-            console.log(val)
-        }
-    }
-
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone as keyof typeof timezones | ""
 
     if (timezone === "" || !timezone) {

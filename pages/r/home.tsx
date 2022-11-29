@@ -35,7 +35,6 @@ export default function HomePage() {
         {
             getNextPageParam: (lastPage, pages) => {
                 if (lastPage.data) {
-                    console.log(lastPage.data)
                     if (lastPage.data?.pagination.end)
                         return undefined
                 }

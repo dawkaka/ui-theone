@@ -144,7 +144,6 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                 notify!.notify(message, type)
             },
             onError: (err) => {
-                console.log(err)
                 setFollowing(!following)
                 notify!.notify(err.response?.data.message, "ERROR")
             }

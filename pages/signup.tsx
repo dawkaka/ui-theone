@@ -151,12 +151,8 @@ const Signup: NextPage = () => {
         {
             onSuccess: (data) => {
                 const id = data.data.link
-                console.log(id)
                 router.push(`/r/verify-email?id=${id}`)
             },
-            onError: (err) => {
-                console.log(err)
-            }
         }
     )
 

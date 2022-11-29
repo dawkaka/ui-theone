@@ -156,7 +156,6 @@ const SearchResults: React.FC<{ query: string, active: boolean, type: string }> 
             staleTime: Infinity
         }
     )
-    console.log(data)
     const res = data?.data ? data.data : []
 
     return (

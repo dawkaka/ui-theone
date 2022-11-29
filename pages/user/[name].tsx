@@ -165,7 +165,6 @@ export default function Profile(props: any) {
     const block = () => {
         blockMutation.mutate()
     }
-    console.log(data)
 
     return (
         <Layout>
