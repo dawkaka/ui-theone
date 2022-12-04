@@ -2347,7 +2347,7 @@ export function getCountry() {
     if (timezones[timezone] !== undefined) {
         _country = timezones[timezone].c[0] as keyof typeof countries
     }
-    const country = _country ? countries[_country] : "USA"
+    const country = _country ? countries[_country] : "United States of America"
     return country;
 }
 
@@ -2355,11 +2355,15 @@ export function getState() {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     if (timezone === "" || !timezone) {
-        return null;
+        return "Chicago"
     }
 
-    const state = timezone.split("/")[1].replace("_", " ")
-
+    const stateArr = timezone.split("/")
+    let state = stateArr[1]
+    if (state) {
+        state = state.replace("_", " ")
+    } else {
+        state = stateArr[0]
+    }
     return state
-
 }

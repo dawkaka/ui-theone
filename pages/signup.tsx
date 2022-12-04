@@ -30,8 +30,8 @@ const Signup: NextPage = () => {
         user_name: "",
         password: "",
         repeat_password: "",
-        country: "",
-        state: ""
+        country: "United States of America",
+        state: "Chicago"
     })
 
     const errRef = useRef<{
