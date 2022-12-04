@@ -86,11 +86,11 @@ export default function Navigation() {
             {hideBottomTab ? "" : <aside className={styles.container}>
                 <nav className={styles.nav}>
                     <div className={`${styles.logoContainer}`} aria-label="company logo, el wahid">
-                        <Link href={"/r/home"}>
+                        <Link href={"/r/home"} scroll={false}>
                             <p>Elwahid</p>
                         </Link>
                     </div>
-                    <Link href={"/r/home"}>
+                    <Link href={"/r/home"} scroll={false}>
                         <div className={`${styles.navItem} ${pathname === "/r/home" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to home page">
                             <div style={{ position: "relative" }}>
                                 {
@@ -113,7 +113,7 @@ export default function Navigation() {
                             <p>{cMessages.home}</p>
                         </div>
                     </Link>
-                    <Link href={"/r/explore"}>
+                    <Link href={"/r/explore"} scroll={false}>
                         <div className={`${styles.navItem} ${pathname === "/r/explore" ? styles.activeNav : null}`} tabIndex={0} aria-label="go to explore page">
                             <div>
                                 {pathname === "/r/explore" ? <RiSearchFill size={iconSize} color="var(--success)" />
@@ -168,7 +168,7 @@ export default function Navigation() {
                         </div>
                     </Link>)
                     }
-                    <Link href={`/user/${startup.user_name}`}>
+                    <Link href={`/user/${startup.user_name}`} scroll={false}>
                         <div className={`${styles.navItem} ${pathname === "/user/[name]" && query.name === startup.user_name ? styles.activeNav : null}`} tabIndex={0} aria-label="go to your profile page">
                             <div>
                                 {pathname === "/user/[name]" && query.name === startup.user_name ? <FaUser size={iconSize}></FaUser> :

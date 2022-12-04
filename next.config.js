@@ -3,12 +3,15 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   i18n: {
-    locales: ['en', 'es', 'fr'],
+    locales: ['en', 'es'],
     defaultLocale: 'en',
   },
   images: {
-   domains:["d2xi011jjczziv.cloudfront.net"]
+    domains: ["d2xi011jjczziv.cloudfront.net"]
   },
+  experimental: {
+    scrollRestoration: true
+  }
 }
 
 module.exports = nextConfig

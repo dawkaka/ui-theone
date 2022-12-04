@@ -389,10 +389,10 @@ const LandingPage: NextPage = () => {
                               messages.map((message: any, index: number) => {
                                 if (message === null) return null
                                 return (
-                                  <div className={`${styles.msgDemo} msg-demo`} id={"msg-" + index}>
+                                  <div key={index} className={`${styles.msgDemo} msg-demo`} id={"msg-" + index}>
                                     <ChatMessage
                                       text={message.text} me={message.me} recieved={message.me && true}
-                                      date={message.date} type={message.type} key={message.date} />
+                                      date={message.date} type={message.type} />
                                   </div>
                                 )
                               })

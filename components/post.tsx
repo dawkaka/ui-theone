@@ -1,9 +1,9 @@
-import React, { ChangeEvent, FormEvent, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, { FormEvent, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { AiOutlineHeart, AiOutlineComment, AiFillHeart } from 'react-icons/ai';
-import { MdBlock, MdModeEdit, MdOutlineContentCopy, MdOutlineNavigateNext, MdReport } from "react-icons/md";
+import { MdModeEdit, MdOutlineContentCopy, MdOutlineNavigateNext, MdReport } from "react-icons/md";
 import styles from "./styles/post.module.css";
 import { Actions, Loading, Verified, Video } from "./mis";
 import { BsArrowUpRight, BsEmojiSmile } from "react-icons/bs";
@@ -243,7 +243,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                         }
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingInline: "var(--gap-half)" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "var(--gap-half) var(--gap-half) 0", borderTop: "var(--border)" }}>
                         <div className={styles.viewSliderPos}>
                             {
                                 files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
@@ -595,15 +595,12 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         () => axios.get(`${BASEURL}/post/${couplename}/${postId}`),
         { initialData, staleTime: Infinity })
 
-    if (data.data === null) {
-        return (
-
-            <NotFound type="post" />
-
-        )
-    }
     const post = data.data
+
     const [comments_closed, setComments_closed] = useState(post.comments_closed)
+    const [caption, setCaption] = useState(post.caption)
+    const [location, setLocation] = useState(post.location)
+
 
     const toggleCommentsMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => axios.post(`${BASEURL}/post/${post.id}/${comments_closed ? "ON" : "OFF"}`),
@@ -618,8 +615,12 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
             }
         }
     )
-    const [caption, setCaption] = useState(post.caption)
-    const [location, setLocation] = useState(post.location)
+
+    if (data.data === null) {
+        return (
+            <NotFound type="post" />
+        )
+    }
 
     return (
         <div className={styles.viewContent}>

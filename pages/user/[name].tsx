@@ -140,16 +140,10 @@ export default function Profile(props: any) {
         }
     )
 
-    const { isLoading, data } = useQuery(["profile", { name: router.query.name }],
+    const { data } = useQuery(["profile", { name: router.query.name }],
         () => axios.get(`${BASEURL}/user/${router.query.name}`),
         { initialData: props.user, staleTime: Infinity })
-    if (data.data === null) {
-        return (
-            <Layout>
-                <NotFound type="user" />
-            </Layout>
-        )
-    }
+
     const blockMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => axios.post(`${BASEURL}/couple/block/${router.query.name}`),
         {
@@ -162,8 +156,17 @@ export default function Profile(props: any) {
             }
         }
     )
+
     const block = () => {
         blockMutation.mutate()
+    }
+
+    if (data.data === null) {
+        return (
+            <Layout>
+                <NotFound type="user" />
+            </Layout>
+        )
     }
 
     return (

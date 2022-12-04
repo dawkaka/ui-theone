@@ -167,6 +167,7 @@
     align-items: center;
     padding: 8px var(--gap-quarter);
     justify-content: space-between;
+    border-bottom: var(--border);
 }
 
 .infoWrapper {
