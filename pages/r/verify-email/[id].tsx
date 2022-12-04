@@ -14,6 +14,7 @@ export default function VerifyEmail() {
     const localeTr = tr[locale as Langs]
     const [response, setResponse] = useState("")
     const sentRef = useRef(false)
+
     const mutation = useMutation(
         () => axios.post(`${BASEURL}/user/verify-signup/${router.query.id}`),
         {
@@ -29,11 +30,10 @@ export default function VerifyEmail() {
         }
     )
 
-    useEffect(() => {
-        if (router.query.id && !sentRef.current) {
-            mutation.mutate()
-        }
-    }, [router.query])
+    if (router.query.id && !sentRef.current) {
+        sentRef.current = true
+        mutation.mutate()
+    }
 
     return (
         <div>

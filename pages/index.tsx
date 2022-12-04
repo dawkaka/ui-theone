@@ -69,7 +69,7 @@ const LandingPage: NextPage = () => {
 
   useEffect(() => {
     createObserver()
-  }, [])
+  })
 
   useEffect(() => {
     const updateHeaderBackgorund = () => {
@@ -126,7 +126,7 @@ const LandingPage: NextPage = () => {
                   </div>
                   <div className={styles.heroImageContainer}>
                     <div className={styles.heroImageContainerInner}>
-                      <img src="/illu.gif" style={{ width: "100%" }} />
+                      <img src="/illu.gif" style={{ width: "100%" }} alt="" />
                     </div>
                   </div>
                 </header>
@@ -165,6 +165,7 @@ const LandingPage: NextPage = () => {
                                 style={{ objectFit: "cover", position: "absolute", borderRadius: "50%" }}
                                 src={`/temi.jpg`}
                                 className={styles.profileImage}
+                                alt=""
                               />
                             </div>
                             <div className={styles.titleContainer}>
@@ -219,7 +220,7 @@ const LandingPage: NextPage = () => {
                     <div style={{ maxWidth: "470px", width: "fit-content", flexGrow: 0, padding: 0, textAlign: "left" }}>
                       <div className={`${styles.requestModal} demo`} >
                         <div className={styles.requestHeader} id="full_description">
-                          <p role={"heading"}>{localeTr.couplerequest}</p>
+                          <p>{localeTr.couplerequest}</p>
                           <div
                             className={styles.closeContainer}
                           >
@@ -232,6 +233,7 @@ const LandingPage: NextPage = () => {
                             <img
                               src={`/8.jpg`}
                               className={styles.reqProfileImage}
+                              alt=""
                             />
                           </div>
                           <div className={styles.titleContainer} style={{ textAlign: "center", width: "100%" }}>
@@ -375,7 +377,7 @@ const LandingPage: NextPage = () => {
                               gap: "var(--gap-half)"
                             }}> <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
                                 <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
-                                  <Image layout="fill" objectFit="cover" src={`/8.jpg`} className={styles.profileImage} />
+                                  <Image layout="fill" objectFit="cover" src={`/8.jpg`} className={styles.profileImage} alt="" />
                                 </span>
                               </div>
                               <h4>mreazi</h4>
@@ -464,7 +466,7 @@ const LandingPage: NextPage = () => {
                         <section className={cStyles.profileInfo}>
                           <div className={cStyles.coverPicContainer}>
                             <div className={cStyles.cover} >
-                              <Image src={`/7.jpg`} height={"300px"} width={"900px"} objectFit="cover" id="cover" />
+                              <Image src={`/7.jpg`} height={"300px"} width={"900px"} objectFit="cover" id="cover" alt="" />
                             </div>
                           </div>
                           <div className={cStyles.profile}>
@@ -476,6 +478,7 @@ const LandingPage: NextPage = () => {
                                       src={`/teazi3.jpeg`}
                                       layout="fill"
                                       id="avatar"
+                                      alt=""
                                     />
                                   </div>
                                 </div>
@@ -534,16 +537,13 @@ const LandingPage: NextPage = () => {
                     <p className={`${styles.txL} ${styles.text80}`}>
                       {localeTr.breakup.second.text}
                     </p>
-                    {/* <ul className={styles.conList}>
-                      <h5 className={styles.headerXSmall}>Constraints</h5>
-                    </ul> */}
                   </div>
 
                 </div>
 
 
-              </section>
-            </div>
+              </section >
+            </div >
           </div >
 
         </div >

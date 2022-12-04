@@ -148,6 +148,7 @@ const Notification: React.FunctionComponent<{
                                         objectFit="cover"
                                         src={`${IMAGEURL}/${profilePicture}`}
                                         className={styles.profileImage}
+                                        alt="User's profile"
                                     />
                                 </span>
                             </div>

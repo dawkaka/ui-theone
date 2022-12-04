@@ -39,8 +39,9 @@ export default function Explore() {
             tabScrollRef.current = false
         }
         scrollRef.current?.addEventListener("scroll", scrollFunc)
+        const cleanUpRef = scrollRef.current
         return () => {
-            scrollRef.current?.removeEventListener("scroll", scrollFunc)
+            cleanUpRef?.removeEventListener("scroll", scrollFunc)
         }
     })
 

@@ -288,7 +288,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
     return (
         <div className={styles.requestModal} aria-label="couple request modal">
             <div className={styles.requestHeader} id="full_description">
-                <p aria-label="New couple request sent to you" role={"heading"}>{tr.couplerequest}</p>
+                <p aria-label="New couple request sent to you">{tr.couplerequest}</p>
                 <div onClick={() => close()}
                     className={styles.closeContainer}
                 >
@@ -303,6 +303,7 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
                                 <img
                                     src={`${IMAGEURL}/${data?.data.request.profile_picture}`}
                                     className={styles.profileImage}
+                                    alt=""
                                 />
                             </div>
                             <div className={styles.titleContainer}>

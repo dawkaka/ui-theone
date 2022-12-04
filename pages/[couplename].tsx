@@ -144,7 +144,7 @@ const CoupleProfile: NextPage = (props: any) => {
                         <section className={styles.profileInfo}>
                             <div className={styles.coverPicContainer}>
                                 <div className={styles.cover} >
-                                    <Image src={`${IMAGEURL}/${data?.data.cover_picture}`} height={"300px"} width={"900px"} objectFit="cover" id="cover" />
+                                    <Image src={`${IMAGEURL}/${data?.data.cover_picture}`} height={"300px"} width={"900px"} objectFit="cover" id="cover" alt="User's cover" />
                                 </div>
                                 {
                                     data?.data.is_this_couple && (
@@ -170,6 +170,7 @@ const CoupleProfile: NextPage = (props: any) => {
                                                 src={`${IMAGEURL}/${data?.data.profile_picture}`}
                                                 layout="fill"
                                                 id="avatar"
+                                                alt="Use's profile"
                                             />
                                         </div>
                                         {

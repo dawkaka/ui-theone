@@ -23,7 +23,7 @@ export default function VerifyEmail() {
             setID(router.query.id as string)
             router.replace('/r/verify-email', undefined, { shallow: true });
         }
-    }, [router.query])
+    }, [router])
 
     const mutation = useMutation(
         () => axios.post(`${BASEURL}/user/resend-verification-link/${id}`),

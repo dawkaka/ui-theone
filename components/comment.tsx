@@ -70,7 +70,10 @@ const Comment: React.FunctionComponent<comment> = (props) => {
       <div className={styles.header}>
         <div className={styles.header}>
           <div className={styles.profileContainer}>
-            <Image src={props.profile_url} width={40} height={40} className={styles.profileImage} />
+            <Image src={props.profile_url} width={40} height={40}
+              className={styles.profileImage}
+              alt="User's profile"
+            />
           </div>
           <div className={styles.commentInfo}>
             <div className={styles.nameContainer}>

@@ -182,6 +182,7 @@ export default function Profile(props: any) {
                                         style={{ objectFit: "cover", position: "absolute", borderRadius: "50%" }}
                                         src={`${IMAGEURL}/${data?.data.profile_picture}`}
                                         className={styles.profileImage}
+                                        alt="User's profile"
                                     />
                                     {
                                         data.data.is_this_user && (<span
@@ -413,7 +414,9 @@ const ShowPicture: React.FunctionComponent<{
                 <div className={styles.showImage}>
                     <Image src={file}
                         height="230px" width="230px" layout="responsive"
-                        objectFit="cover" id={`show-image-${position}`} />
+                        objectFit="cover" id={`show-image-${position}`}
+                        alt=""
+                    />
                 </div>
                 {isThisUser && (<span
                     className={styles.showImageEdit}

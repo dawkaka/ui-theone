@@ -135,7 +135,8 @@ export default function Messages() {
                                 gap: "var(--gap-half)"
                             }}> <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
                                     <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
-                                        <Image layout="fill" objectFit="cover" src={`${IMAGEURL}/${pData?.data.profile_picture}`} className={styles.profileImage} />
+                                        <Image layout="fill" objectFit="cover" src={`${IMAGEURL}/${pData?.data.profile_picture}`}
+                                            className={styles.profileImage} alt="User's cover" />
                                     </span>
                                 </div>
                                 <h4>{pData?.data.user_name}</h4>
@@ -251,6 +252,7 @@ const TextArea: React.FunctionComponent<{
                                                 width: "100%",
                                                 maxHeight: "100%"
                                             }}
+                                            alt=""
                                         />
                                         <div style={{ width: "100%", gap: "var(--gap)", position: "absolute", display: "flex", justifyContent: "center", bottom: "var(--gap-half)" }}>
                                             <button
@@ -359,6 +361,7 @@ const ChatUser: React.FunctionComponent<{
                         objectFit="cover"
                         src={props.avatar}
                         className={styles.profileImage}
+                        alt=""
                     />
                 </span>
             </div>
@@ -389,7 +392,7 @@ export const ChatMessage: React.FunctionComponent<{
         <div className={styles.messageContainer} onClick={toggle}>
             <div className={`${styles.messageInner} ${me ? styles.messageSent : ""} `}>
                 {
-                    type === "text" ? <p style={{ whiteSpace: "pre-wrap" }}> {text}</p> : < img src={`${IMAGEURL}/${text}`} className={styles.textImage} />
+                    type === "text" ? <p style={{ whiteSpace: "pre-wrap" }}> {text}</p> : < img src={`${IMAGEURL}/${text}`} className={styles.textImage} alt="" />
                 }
             </div >
             {
@@ -435,7 +438,7 @@ export const LandingChatMsg: React.FunctionComponent<{
                 {
                     type === "text" ? <p style={{ whiteSpace: "pre-wrap" }}> {text}</p>
                         :
-                        < img src={text} style={{ width: "min(100%,300px)", objectFit: "cover" }} />
+                        < img src={text} style={{ width: "min(100%,300px)", objectFit: "cover" }} alt="" />
                 }
             </div >
             {

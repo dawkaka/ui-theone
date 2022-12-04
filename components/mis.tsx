@@ -107,7 +107,7 @@ export const Carousel: React.FunctionComponent<{ files: string[], currFunc: (a: 
     }
     useEffect(() => {
         currFunc(curr)
-    }, [curr])
+    }, [curr, currFunc])
 
     return (
         <div className={styles.filesContainer}>
@@ -118,6 +118,7 @@ export const Carousel: React.FunctionComponent<{ files: string[], currFunc: (a: 
                             src={file}
                             className={styles.postImage}
                             loading="lazy"
+                            alt=""
                         />
                     </div>))
                 }
@@ -145,7 +146,8 @@ export const SearchUser: React.FunctionComponent<{
                 <article style={{ display: "flex", alignItems: "center", gap: "var(--gap-half)", marginBottom: "var(--gap-half)" }}>
 
                     <div>
-                        <img src={picture} style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+                        <img src={picture} alt=""
+                            style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "5px", color: "var(--accents-7)" }}>
                         <h4 style={{}}>{fullName}</h4>
@@ -169,7 +171,8 @@ export const SearchCouple: React.FunctionComponent<{
             <a>
                 <article style={{ display: "flex", alignItems: "center", gap: "var(--gap-half)", marginBottom: "var(--gap-half)" }}>
                     <div>
-                        <img src={picture} style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+                        <img src={picture} alt=""
+                            style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "5px", color: "var(--accents-7)" }}>
                         <h4 style={{}}>{name}{" "} {verified ? <Verified size={13} /> : ""}</h4>

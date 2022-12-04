@@ -191,6 +191,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                     objectFit="cover"
                                     src={`${IMAGEURL}/${profile_picture}`}
                                     className={styles.profileImage}
+                                    alt=""
                                 />
                             </span>
                         </div>
@@ -383,15 +384,15 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
         }
     }
 
-    let inter: NodeJS.Timer
+    const inter = useRef<NodeJS.Timer | null>()
     useEffect(() => {
         if (!video) {
-            inter = setInterval(() => {
+            inter.current = setInterval(() => {
                 scroll(direc.current)
 
             }, 3000)
         }
-    }, [])
+    }, [video])
 
     if (curr === files.length) {
         direc.current = "left"
@@ -411,6 +412,7 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
                                     objectFit="cover"
                                     src={`${profile_picture}`}
                                     className={styles.profileImage}
+                                    alt=""
                                 />
                             </span>
                         </div>
@@ -452,14 +454,18 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
                             }
                         </div>
                         {curr !== 0 && <div role="button" className={styles.prev} onClick={() => {
-                            clearInterval(inter)
+                            if (inter.current) {
+                                clearInterval(inter.current)
+                            }
                             scroll("left")
                         }}>
                             <MdOutlineNavigateNext size={20} className={styles.aIcon} />
                         </div>
                         }
                         {curr < files?.length - 1 && <div role="button" className={styles.next} onClick={() => {
-                            clearInterval(inter)
+                            if (inter.current) {
+                                clearInterval(inter.current)
+                            }
                             scroll("right")
                         }}>
                             <MdOutlineNavigateNext size={20} className={styles.aIcon} />
@@ -516,8 +522,9 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
             setCurr(Math.floor(scrollPos / widthNum))
         }
         slider.current?.addEventListener("scroll", scrollHandler)
+        const cleanUp = slider.current
         return () => {
-            slider.current?.removeEventListener("scroll", scrollHandler)
+            cleanUp?.removeEventListener("scroll", scrollHandler)
         }
     }, [])
 
@@ -673,7 +680,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                                 <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
                                     <Image
                                         layout="fill"
-
+                                        alt=""
                                         src={`${IMAGEURL}/${post.profile_picture}`}
                                         className={styles.profileImage}
                                     />

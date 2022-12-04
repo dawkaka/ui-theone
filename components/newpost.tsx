@@ -533,7 +533,8 @@ const ImagePreview: React.FC<{ file: string, remove: () => void, activate: () =>
                 <IoMdClose size={20} color="white" />
             </div>
 
-            <img src={file} width="70px" height={"70px"} style={{ flexShrink: 1 }} onClick={activate} />
+            <img src={file} width="70px" height={"70px"} style={{ flexShrink: 1 }} onClick={activate}
+                alt="" />
         </div>
 
     )

@@ -57,7 +57,11 @@ const CouplePreview: React.FunctionComponent<couple> = ({ name, isFollowing, mar
 
             <div className={styles.infoContainer}>
                 <div className={styles.imageContainer}>
-                    <Image className={styles.image} src={profile_picture} height="45px" width="45px" layout="fixed" />
+                    <Image className={styles.image}
+                        src={profile_picture} height="45px" width="45px"
+                        layout="fixed"
+                        alt="Couple's profile"
+                    />
                 </div>
                 <Link href={`/${name}`}>
                     <a>
