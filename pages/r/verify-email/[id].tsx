@@ -13,7 +13,7 @@ export default function VerifyEmail() {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-    const [response, setResponse] = useState("")
+    const [response, setResponse] = useState<"" | "SUCCESS" | "ERROR">("")
     const sentRef = useRef(false)
 
     const mutation = useMutation(
@@ -52,6 +52,10 @@ export default function VerifyEmail() {
                                 <button style={{ padding: "var(--gap-half) var(--gap)" }} onClick={() => router.replace("/r/home")}>{localeTr.verifyemail.gotohomepage}</button>
                             </div>
                             :
+                            null
+                    }
+                    {
+                        response !== "" && response === "ERROR" ?
                             <div style={{ textAlign: "center", marginTop: "var(--gap)", display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--gap)" }}>
 
                                 <p style={{ color: "red", marginTop: "var(--gap)" }}>
@@ -59,6 +63,8 @@ export default function VerifyEmail() {
                                 </p>
                                 <button style={{ padding: "var(--gap-half) var(--gap)" }} onClick={() => router.replace("/r/home")}>{localeTr.verifyemail.check}</button>
                             </div>
+                            :
+                            null
                     }
                     {
                         response === "" ? <div style={{ display: "flex", justifyContent: "center" }}><Loading color="var(--success)" size="large" /></div>
