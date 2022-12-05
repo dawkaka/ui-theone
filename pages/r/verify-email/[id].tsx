@@ -32,7 +32,7 @@ export default function VerifyEmail() {
             sentRef.current = true
             mutation.mutate()
         }
-    }, [router])
+    }, [router, mutation])
 
 
     return (
