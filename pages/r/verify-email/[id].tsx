@@ -25,16 +25,15 @@ export default function VerifyEmail() {
             onError: () => {
                 setResponse("ERROR")
             },
-            onSettled: () => {
-                sentRef.current = true
-            }
         }
     )
+    useEffect(() => {
+        if (router.query.id && !sentRef.current) {
+            sentRef.current = true
+            mutation.mutate()
+        }
+    }, [router])
 
-    if (router.query.id && !sentRef.current) {
-        sentRef.current = true
-        mutation.mutate()
-    }
 
     return (
         <div>
