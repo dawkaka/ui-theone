@@ -85,9 +85,9 @@ export default function Navigation() {
         <>
             {hideBottomTab ? "" : <aside className={styles.container}>
                 <nav className={styles.nav}>
-                    <div className={`${styles.logoContainer}`} aria-label="company logo, el wahid">
+                    <div className={`${styles.logoContainer}`} aria-label="company logo, Prime Couples">
                         <Link href={"/r/home"} scroll={false}>
-                            <p>Elwahid</p>
+                            <p>Prime Couples</p>
                         </Link>
                     </div>
                     <Link href={"/r/home"} scroll={false}>
@@ -209,7 +209,7 @@ export default function Navigation() {
                                     </div>
                                 }
                                 <div className={`${styles.logoContainer2}`}>
-                                    <p>Elwahid</p>
+                                    <p>Prime Couples</p>
                                 </div>
                                 <button
 

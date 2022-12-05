@@ -93,7 +93,7 @@ export default function Explore() {
                     <div className={styles.searchContainer}>
                         <input
                             type="search"
-                            placeholder={`${localeTr.search} el wahid`}
+                            placeholder={`${localeTr.search} Prime Couples`}
                             value={query}
                             onChange={(e) => {
                                 setQuery(e.target.value)
