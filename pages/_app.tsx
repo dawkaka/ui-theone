@@ -6,6 +6,7 @@ import axios from "axios";
 import { ToasContext } from "../components/context";
 import { Toast } from "../components/mis";
 import { BsTypeStrikethrough } from "react-icons/bs";
+import Head from "next/head";
 
 const queryClient = new QueryClient()
 axios.defaults.withCredentials = true
@@ -40,6 +41,22 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ToasContext.Provider value={notify}>
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+        <meta charSet="utf-8" />
+        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        <meta httpEquiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="referrer" content="always" />
+        <meta httpEquiv="X-UA-Compatible" />
+        <meta name="twitter:data1" content="" />
+        <meta name="twitter:label1" content="Prime Couples" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:description" content="" /><meta property="og:description" content="" />
+        <meta name="twitter:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
+        <meta name="twitter:image:src" content="https://www.primecouples.com/primecouplesOG.jpg" /><meta name="twitter:image:alt" content="Prime Couples" />
+        <meta property="og:image" content="https://www.primecouples.com/primecouplesOG.jpg" /><meta property="twitter:url" content="" />
+        <meta property="og:url" content="" />
+      </Head>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
         <Toast message={message} type={type} resetMessage={() => setMessage("")} />

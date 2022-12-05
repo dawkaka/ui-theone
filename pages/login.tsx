@@ -9,6 +9,7 @@ import { Langs } from "../types";
 import tr from "../i18n/locales/signuplogin.json"
 import { BASEURL } from "../constants";
 import { Loading } from "../components/mis";
+import Head from "next/head";
 
 const Login: NextPage = () => {
     const [emailOrUsername, setEmailOrUserName] = useState("")
@@ -37,6 +38,14 @@ const Login: NextPage = () => {
     }
     return (
         <div className={styles.pageMain}>
+            <Head>
+                <title>{localeTr.login} - Prime Couples</title>
+                <meta name="robots" content="index,follow" />
+                <meta name="twitter:domain" content="primecouples.com" />
+                <meta name="twitter:title" content={`${localeTr.login} - Social media made for couples`} />
+                <meta property="og:title" content="Social media made for couples" />
+            </Head>
+
             <main className={styles.main}>
                 <div className={styles.deco}></div>
                 <div className={styles.formContainer}>
