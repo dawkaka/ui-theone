@@ -42,7 +42,7 @@ const LandingPage: NextPage = () => {
 
     function msgsHandler(entries: IntersectionObserverEntry[]) {
       entries.forEach((entry) => {
-        if (entry.intersectionRatio >= 0.5) {
+        if (entry.intersectionRatio >= 0.3) {
           entry.target.classList.add(`${styles.messageAnime}`)
           // msgDemoObser.unobserve(entry.target)
         }
@@ -95,10 +95,10 @@ const LandingPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="Prime Couples is a social media made for couples, Post your soulmates anytime without worrying about mixing business with please." />
         <meta name="keywords" content="primecouples, prime couples, social media, theone, social media for couples, couple creators, soulmate, soulmates, power couples" />
-        <meta http-equiv="X-UA-Compatible" /><meta name="fragment" content="!" />
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" /><meta name="referrer" content="always" />
+        <meta httpEquiv="X-UA-Compatible" /><meta name="fragment" content="!" />
+        <meta httpEquiv="content-type" content="text/html; charset=UTF-8" /><meta name="referrer" content="always" />
         <meta charSet="utf-8" /><meta name="robots" content="index,follow" />
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         <meta name="twitter:data1" content="" /><meta name="twitter:label1" content="Prime Couples" /><meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:domain" content="primecouples.com" />
         <meta name="twitter:title" content="Social media made for couples" />
@@ -573,12 +573,12 @@ const LandingPage: NextPage = () => {
 
 const messages = [
   {
-    text: "Helloooooo eazziiii\n❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️", type: "text", date: "9 nov 2022, 23:10", me: true
+    text: "Helloooo eazziiii ❤️❤️❤️", type: "text", date: "9 nov 2022, 23:10", me: true
   },
-  { text: "How you dey naa", type: "text", date: "9 nov 2022, 23:19", me: false },
-  { text: "bitching", type: "text", date: "9 nov 2022, 23:25", me: true },
+  { text: "Hi cupcake, how are you doing.", type: "text", date: "9 nov 2022, 23:19", me: false },
+  { text: "I have you, that's all I need.", type: "text", date: "9 nov 2022, 23:25", me: true },
   { text: "Where are you?", type: "text", date: "9 nov 2022, 23:30", me: true },
-  { text: "I'm in the studio, recording something special for you.", type: "text", date: "9 nov 2022, 23:35", me: false },
+  { text: "I'm in the studio, recording something special for you ❤️", type: "text", date: "9 nov 2022, 23:35", me: false },
   { text: "/5.jpg", type: "file", date: "9 nov 2022, 23:40", me: false },
 ]
 
