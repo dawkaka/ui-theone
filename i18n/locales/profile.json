@@ -12,7 +12,9 @@
             "message": "Sending request means you are in a relatoinship with this person and want to show your love to the world.",
             "actiontext": "Send",
             "canceltext": "Cancel"
-        }
+        },
+        "title": "User profile",
+        "sendme": "Send me a couple request on Prime Couples"
     },
     "es": {
         "following": "Siguiendo",
@@ -27,6 +29,8 @@
             "message": "Enviar solicitud significa que estás en una relación con esta persona y quieres mostrar tu amor al mundo.",
             "actiontext": "Enviar",
             "canceltext": "Cancelar"
-        }
+        },
+        "title": "Perfil de usuario",
+        "sendme": "Envíame una solicitud de pareja en Prime Couples"
     }
 }

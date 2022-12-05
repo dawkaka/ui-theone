@@ -11,6 +11,7 @@ import axios, { AxiosError } from "axios";
 import { BASEURL } from "../constants";
 import { getCountry, getState } from "../i18n/location";
 import { Loading } from "../components/mis";
+import Head from "next/head";
 
 const Signup: NextPage = () => {
     const router = useRouter()
@@ -164,10 +165,17 @@ const Signup: NextPage = () => {
 
     return (
         <div className={styles.pageMain}>
+            <Head>
+                <title>{localeTr.signup} - Prime Couples</title>
+                <meta name="robots" content="index,follow" />
+                <meta name="twitter:domain" content="primecouples.com" />
+                <meta name="twitter:title" content={`${localeTr.signup} - ${localeTr.slogan}`} />
+                <meta property="og:title" content={`${localeTr.signup} - ${localeTr.slogan}`} />
+            </Head>
             <main className={styles.main}>
                 <div className={styles.deco}></div>
                 <div className={styles.formContainer}>
-                    <h2 style={{ textAlign: "center" }}>{localeTr.singup}</h2>
+                    <h2 style={{ textAlign: "center" }}>{localeTr.signup}</h2>
                     <div className={styles.indicatorsContainer}>
                         <form className={styles.form} onSubmit={signup}>
                             {mutation.isError && (
@@ -327,7 +335,7 @@ const Signup: NextPage = () => {
                                                 }}>{localeTr.back}</button>
 
                                             <button style={{ paddingBlock: "var(--gap-half)", opacity: hasErrors() ? .5 : 1 }}>
-                                                {mutation.isLoading ? <Loading color="white" size="small" /> : localeTr.singup}
+                                                {mutation.isLoading ? <Loading color="white" size="small" /> : localeTr.signup}
                                             </button>
                                         </div>
                                     </>

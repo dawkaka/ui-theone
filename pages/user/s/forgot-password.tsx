@@ -7,6 +7,7 @@ import { BASEURL } from "../../../constants"
 import styles from '../../../styles/loginsignup.module.css'
 import tr from "../../../i18n/locales/misc.json"
 import { Langs } from "../../../types"
+import Head from "next/head"
 export default function ForgotPassword() {
     const router = useRouter()
     const locale = router.locale || "en"
@@ -30,6 +31,10 @@ export default function ForgotPassword() {
     }
     return (
         <div style={{ paddingTop: "20vh", paddingInline: "var(--gap)", width: "100vw", height: "100vh", backgroundColor: "var(--success)" }}>
+            <Head>
+                <title>{localeTr.forgotpassword.header}</title>
+                <meta name="robots" content="noindex,nofollow" />
+            </Head>
             <div style={{ marginInline: "auto", backgroundColor: "var(--background)", borderRadius: "var(--radius-small)", boxShadow: "0 0 5px -1px var(--accents-5)", padding: "var(--gap) var(--gap-double)", maxWidth: "500px" }}>
                 <h1 style={{ marginBottom: "var(--gap)" }}>{localeTr.forgotpassword.header}</h1>
                 <p>{localeTr.forgotpassword.text}</p>

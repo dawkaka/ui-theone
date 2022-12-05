@@ -95,7 +95,6 @@ const LandingPage: NextPage = () => {
         <meta name="keywords" content="primecouples, prime couples, love, romance, lovers, social media, theone, social media for couples, couple creators, soulmate, soulmates, power couples" />
         <meta name="fragment" content="!" />
         <meta name="robots" content="index,follow" />
-        <meta name="twitter:domain" content="primecouples.com" />
         <meta name="twitter:title" content="Social media made for couples" />
         <meta property="og:title" content="Social media made for couples" />
       </Head>

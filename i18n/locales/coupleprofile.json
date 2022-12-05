@@ -11,7 +11,9 @@
         "report": "Report",
         "block": "Block",
         "reportcouple": "Report couple",
-        "posts": "Posts"
+        "posts": "Posts",
+        "title": "Couple profile",
+        "followus": "Follow us on Prime Couples"
     },
     "es": {
         "follow": "Seguir",
@@ -25,6 +27,8 @@
         "report": "Reporte",
         "block": "Bloquear",
         "reportcouple": "Reportar pareja",
-        "posts": "Publicacciones"
+        "posts": "Publicacciones",
+        "title": "Perfil de pareja",
+        "followus": "Síguenos en Prime Couples"
     }
 }

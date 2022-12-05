@@ -41,9 +41,8 @@ const Login: NextPage = () => {
             <Head>
                 <title>{localeTr.login} - Prime Couples</title>
                 <meta name="robots" content="index,follow" />
-                <meta name="twitter:domain" content="primecouples.com" />
-                <meta name="twitter:title" content={`${localeTr.login} - Social media made for couples`} />
-                <meta property="og:title" content="Social media made for couples" />
+                <meta name="twitter:title" content={`${localeTr.login} - ${localeTr.slogan}`} />
+                <meta property="og:title" content={`${localeTr.login} - ${localeTr.slogan}`} />
             </Head>
 
             <main className={styles.main}>
@@ -75,7 +74,7 @@ const Login: NextPage = () => {
                                 >
                                     {mutation.isLoading ? <Loading color="white" size="small" /> : localeTr.login}
                                 </button>
-                                <p>{localeTr.hasnoaccount} <Link href={"/signup"} shallow><a style={{ color: "var(--success)" }}>{localeTr.singup}</a></Link></p>
+                                <p>{localeTr.hasnoaccount} <Link href={"/signup"} shallow><a style={{ color: "var(--success)" }}>{localeTr.signup}</a></Link></p>
                             </div>
 
                         </form>

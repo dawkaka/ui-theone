@@ -24,6 +24,7 @@ import { Prompt } from "../../components/prompt";
 import { GetServerSideProps } from "next";
 import { ToasContext } from "../../components/context";
 import { NotFound } from "../../components/notfound";
+import Head from "next/head";
 Modal.setAppElement("#__next")
 
 export default function Profile(props: any) {
@@ -171,6 +172,16 @@ export default function Profile(props: any) {
 
     return (
         <Layout>
+            <Head>
+                <title>${data?.data.user_name} - {localeTr.title}</title>
+                <meta name="robots" content="index,follow" />
+                <meta name="twitter:domain" content="primecouples.com" />
+                <meta name="twitter:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
+                <meta property="og:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
+                <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+                <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+                <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+            </Head>
             <section className={styles.section} onClick={() => setShowActions(false)}>
                 <div className={styles.profileTopContainer}>
                     <div className={styles.profileTop}>

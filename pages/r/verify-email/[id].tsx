@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react"
 import { CheckMark, Loading } from "../../../components/mis"
@@ -37,6 +38,10 @@ export default function VerifyEmail() {
 
     return (
         <div>
+            <Head>
+                <title>{localeTr.verifyemail.header}</title>
+                <meta name="robots" content="noindex,nofollow" />
+            </Head>
             <div style={{ paddingTop: "20vh", paddingInline: "var(--gap)", width: "100vw", height: "100vh", backgroundColor: "var(--success)" }}>
                 <div style={{ marginInline: "auto", backgroundColor: "var(--background)", borderRadius: "var(--radius-small)", boxShadow: "0 0 5px -1px var(--accents-5)", padding: "var(--gap) var(--gap-double)", maxWidth: "500px" }}>
                     <h1 style={{ marginBottom: "var(--gap-double)", textAlign: "center" }}>{localeTr.verifyemail.header}</h1>

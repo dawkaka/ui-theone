@@ -24,6 +24,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { ToasContext } from "../components/context";
 import { NotFound } from "../components/notfound";
+import Head from "next/head";
 
 Modal.setAppElement("#__next")
 
@@ -137,6 +138,16 @@ const CoupleProfile: NextPage = (props: any) => {
 
     return (
         <>
+            <Head>
+                <title>${data?.data.couple_name} - {localeTr.title}</title>
+                <meta name="robots" content="index,follow" />
+                <meta name="twitter:domain" content="primecouples.com" />
+                <meta name="twitter:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
+                <meta property="og:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
+                <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+                <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+                <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+            </Head>
             <Layout>
                 <div className={styles.mainContainer} onClick={() => setShowActions(false)}>
                     {!data || !data.data ? <NotFound type="couple" /> : <div className={styles.profileContainer}>
