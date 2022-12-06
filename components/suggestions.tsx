@@ -20,7 +20,7 @@ const Suggestions: React.FunctionComponent = () => {
             <div className={styles.suggestionsWrapper}>
                 <h1>{localeTr.header}</h1>
                 {
-                    isLoading && <Loading size="medium" color="var(--success)" />
+                    isLoading ? <div style={{ width: "100%", display: "flex", justifyContent: "center" }}><Loading size="medium" color="var(--success)" /></div> : null
                 }
                 {
                     data?.data.map((c: any) => (
