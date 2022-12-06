@@ -28,6 +28,22 @@
     box-shadow: 0 0 10px var(--error-light);
 }
 
+.logoContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.logoContainer>img {
+    width: 60px
+}
+
+@media screen and (max-width: 600px) {
+    .logoContainer>h2 {
+        display: none;
+    }
+}
+
 .nav {
     display: flex;
     justify-content: space-between;
@@ -188,10 +204,6 @@
     .headerMedium {
         font-size: 2rem;
     }
-
-    .headerSmall {
-        font-size: 1.5rem;
-    }
 }
 
 @media screen and (max-width: 500px) {
@@ -235,11 +247,6 @@
     .heroHeading {
         max-width: 100%;
         text-align: center;
-    }
-
-    .headerButtonContainer .button {
-        font-size: 10px;
-        padding: 5px var(--gap-half);
     }
 }
 

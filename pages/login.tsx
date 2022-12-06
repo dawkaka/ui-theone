@@ -37,51 +37,52 @@ const Login: NextPage = () => {
         mutation.mutate({ user_name_or_email: emailOrUsername, password: password })
     }
     return (
-        <div className={styles.pageMain}>
+        <>
             <Head>
                 <title>{localeTr.login} - Prime Couples</title>
                 <meta name="robots" content="index,follow" />
                 <meta name="twitter:title" content={`${localeTr.login} - ${localeTr.slogan}`} />
                 <meta property="og:title" content={`${localeTr.login} - ${localeTr.slogan}`} />
             </Head>
+            <div className={styles.pageMain}>
+                <main className={styles.main}>
+                    <div className={styles.deco}></div>
+                    <div className={styles.formContainer}>
+                        <h2 style={{ textAlign: "center" }}>{localeTr.login}</h2>
+                        <div className={styles.indicatorsContainer}>
+                            <form className={styles.form} onSubmit={login}>
+                                {mutation.isError && mutation.error instanceof AxiosError ? <p style={{ color: "red", fontSize: "14px", marginBottom: "10px" }}>{mutation.error.response?.data.message}</p> : null}
 
-            <main className={styles.main}>
-                <div className={styles.deco}></div>
-                <div className={styles.formContainer}>
-                    <h2 style={{ textAlign: "center" }}>{localeTr.login}</h2>
-                    <div className={styles.indicatorsContainer}>
-                        <form className={styles.form} onSubmit={login}>
-                            {mutation.isError && mutation.error instanceof AxiosError ? <p style={{ color: "red", fontSize: "14px", marginBottom: "10px" }}>{mutation.error.response?.data.message}</p> : null}
+                                <div className={styles.formItem}>
+                                    <label>{localeTr.usernameoremail.title}</label>
+                                    <input type="text" placeholder={localeTr.usernameoremail.placeholder} name="user_name_or_email" required value={emailOrUsername}
+                                        onChange={(e) => setEmailOrUserName(e.currentTarget.value)} />
+                                </div>
+                                <div className={styles.formItem}>
+                                    <label>{localeTr.password.title}</label>
+                                    <input
+                                        type="password"
+                                        placeholder={localeTr.password.placeholder}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.currentTarget.value)}
+                                        name="password" required />
+                                    <Link href={"/user/s/forgot-password"}><a><small style={{ color: "var(--success)" }}>{localeTr.forgotpassword}</small></a></Link>
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", marginTop: "40px", gap: "var(--gap)" }}>
+                                    <button
+                                        style={{ paddingBlock: "var(--gap-half)", opacity: hasErrors ? .5 : 1, display: "flex", justifyContent: "center" }}
+                                    >
+                                        {mutation.isLoading ? <Loading color="white" size="small" /> : localeTr.login}
+                                    </button>
+                                    <p>{localeTr.hasnoaccount} <Link href={"/signup"} shallow><a style={{ color: "var(--success)" }}>{localeTr.signup}</a></Link></p>
+                                </div>
 
-                            <div className={styles.formItem}>
-                                <label>{localeTr.usernameoremail.title}</label>
-                                <input type="text" placeholder={localeTr.usernameoremail.placeholder} name="user_name_or_email" required value={emailOrUsername}
-                                    onChange={(e) => setEmailOrUserName(e.currentTarget.value)} />
-                            </div>
-                            <div className={styles.formItem}>
-                                <label>{localeTr.password.title}</label>
-                                <input
-                                    type="password"
-                                    placeholder={localeTr.password.placeholder}
-                                    value={password}
-                                    onChange={(e) => setPassword(e.currentTarget.value)}
-                                    name="password" required />
-                                <Link href={"/user/s/forgot-password"}><a><small style={{ color: "var(--success)" }}>{localeTr.forgotpassword}</small></a></Link>
-                            </div>
-                            <div style={{ display: "flex", flexDirection: "column", marginTop: "40px", gap: "var(--gap)" }}>
-                                <button
-                                    style={{ paddingBlock: "var(--gap-half)", opacity: hasErrors ? .5 : 1, display: "flex", justifyContent: "center" }}
-                                >
-                                    {mutation.isLoading ? <Loading color="white" size="small" /> : localeTr.login}
-                                </button>
-                                <p>{localeTr.hasnoaccount} <Link href={"/signup"} shallow><a style={{ color: "var(--success)" }}>{localeTr.signup}</a></Link></p>
-                            </div>
-
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </main >
-        </div >
+                </main >
+            </div >
+        </>
     )
 }
 

@@ -187,13 +187,6 @@ export const SearchCouple: React.FunctionComponent<{
 
 export const Video: React.FC<{ file: string }> = ({ file }) => {
     const vidRef = useRef<HTMLVideoElement>(null)
-    const [showLoader, setShowLoader] = useState(false)
-    const isVideoPlaying = (video: HTMLVideoElement) => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
-    function isInView(el: HTMLVideoElement) {
-        var rect = el.getBoundingClientRect();           // absolute position of video element
-        return (rect.top > 0 && rect.bottom < window.innerHeight);   // visible?
-    }
-
     const toggleVideo = () => {
         if (vidRef && vidRef.current) {
             if (vidRef.current.muted) {
@@ -205,41 +198,19 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
         }
     }
 
-    useEffect(() => {
-        window.document.addEventListener("scroll", () => {
-            if (vidRef.current) {
-                if (isInView(vidRef.current)) {
-                    vidRef.current.click()
-                    vidRef.current.muted = true
-                    vidRef.current.play()
-
-                } else {
-                    vidRef.current.pause()
-                }
-            }
-        })
-    })
-
     return (
         <div style={{ position: "relative", padding: 0, margin: 0 }}>
             <video src={file}
                 style={{ objectFit: "contain", backgroundColor: "black", width: "100%", maxHeight: "min(70vh, 500px)" }}
                 onClick={toggleVideo}
-                onPlaying={() => setShowLoader(false)}
-                onCanPlay={() => setShowLoader(false)}
                 onEnded={() => vidRef.current?.play()}
-                onWaiting={() => setShowLoader(true)}
                 muted
                 playsInline
                 controls
+                autoPlay
                 preload="none"
                 ref={vidRef}
             />
-            {
-                showLoader ?
-                    <div style={{ position: "absolute", zIndex: 1, top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}><Loading size="medium" color="var(--success)" /></div>
-                    : null
-            }
         </div>
     )
 }

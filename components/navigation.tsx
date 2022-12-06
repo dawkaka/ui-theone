@@ -87,7 +87,7 @@ export default function Navigation() {
                 <nav className={styles.nav}>
                     <div className={`${styles.logoContainer}`} aria-label="company logo, Prime Couples">
                         <Link href={"/r/home"} scroll={false}>
-                            <p>Prime Couples</p>
+                            <a style={{ fontWeight: "bold" }}>Prime Couples</a>
                         </Link>
                     </div>
                     <Link href={"/r/home"} scroll={false}>
@@ -209,7 +209,9 @@ export default function Navigation() {
                                     </div>
                                 }
                                 <div className={`${styles.logoContainer2}`}>
-                                    <p>Prime Couples</p>
+                                    <Link href={"/r/home"} scroll={false}>
+                                        <a style={{ fontWeight: "bold" }}>Prime Couples</a>
+                                    </Link>
                                 </div>
                                 <button
 
