@@ -8,11 +8,12 @@
 }
 
 .messagingContainer {
+    display: flex;
     background-color: var(--background);
     width: 100%;
     height: 90%;
     border: var(--border);
-    display: flex;
+    border-radius: var(--radius-big);
 }
 
 
@@ -33,26 +34,6 @@
     padding: var(--gap-half) var(--gap);
 }
 
-@media screen and (max-width: 750px) {
-    .messagePageContainer {
-        padding: 0;
-        border-right: none;
-    }
-
-    .messagingContainer {
-        height: 100%;
-        padding-inline: 0;
-        border: none;
-    }
-
-    .usersMessagesContainer {
-        border-right: none;
-    }
-
-    .backIcon {
-        padding-inline: 0;
-    }
-}
 
 @media screen and (max-width: 400px) {
     .header {
@@ -165,7 +146,6 @@
 
 .pmWrapper {
     padding: var(--gap) var(--gap-half) 0;
-
     height: calc(100% - 100px);
     overflow-y: auto;
 }
@@ -259,4 +239,47 @@
     color: var(--success-light);
     font-weight: bold;
     font-size: 15px;
+}
+
+@media screen and (max-width: 750px) {
+    .messagePageContainer {
+        padding: 0;
+        border-right: none;
+    }
+
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        background-color: var(--background);
+    }
+
+    .messagingContainer {
+        padding-inline: 0;
+        border: none;
+    }
+
+    .usersMessagesContainer {
+        border-right: none;
+    }
+
+    .backIcon {
+        padding-inline: 0;
+    }
+
+    .pmWrapper {
+        height: 100%;
+    }
+
+    .commentContainer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--background);
+        padding-block: calc(var(--gap-quarter) + var(--gap-half));
+        border: var(--border);
+    }
 }

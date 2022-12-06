@@ -5,14 +5,14 @@ import { BiArrowBack } from "react-icons/bi";
 import { useRouter } from "next/router";
 import tr from "../../i18n/locales/messages.json"
 import { Langs } from "../../types";
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL, SOCKETURL } from "../../constants";
 import { useTheme, useToggle, useUser } from "../../hooks";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import emTr from "../../i18n/locales/components/emoji.json"
 import dynamic from "next/dynamic";
-import { Categories, EmojiStyle } from "emoji-picker-react";
+import { Categories } from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { GoFileMedia } from "react-icons/go";
 import { io } from "socket.io-client";
