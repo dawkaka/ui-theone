@@ -28,7 +28,6 @@
 .actionItem {
     width: 100%;
     padding: var(--gap-half);
-    border-bottom: var(--border);
     color: var(--accents-7);
     cursor: pointer;
     display: flex;
@@ -167,7 +166,6 @@
     align-items: center;
     padding: 8px var(--gap-quarter);
     justify-content: space-between;
-    border-bottom: var(--border);
 }
 
 .infoWrapper {
@@ -207,11 +205,12 @@
 
 .filesContainer {
     position: relative;
+    border-top: var(--border);
+    border-bottom: var(--border);
 }
 
 .fileSlider {
     scroll-snap-type: x mandatory;
-    height: 100%;
     display: flex;
     overflow-y: hidden;
     align-tracks: center;
@@ -227,16 +226,19 @@
 }
 
 .fileContainer {
+    margin: 0;
+    padding: 0;
     flex-basis: 100%;
     flex-shrink: 0;
-    width: 100%;
+    margin-bottom: -4px;
+    min-height: 30vh;
+    background-color: var(--accents-1);
     scroll-snap-align: start;
     position: relative;
 }
 
 .postImage {
     width: 100%;
-    height: auto;
     background-color: var(--accents-3)
 }
 

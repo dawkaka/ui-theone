@@ -244,11 +244,15 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                         }
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "var(--gap-half) var(--gap-half) 0", borderTop: "var(--border)" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "var(--gap-half) var(--gap-half) 0" }}>
                         <div className={styles.viewSliderPos}>
                             {
-                                files?.length > 1 && files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
-
+                                files?.length > 1 ?
+                                    files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
+                                    :
+                                    <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>
+                                        {postDateFormat(created_at, locale)}
+                                    </p>
                             }
                         </div>
                         <PostIcons likes={likes_count} comments={comments_count} id={id} hasLiked={has_liked} />
@@ -261,7 +265,14 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                 <TextParser text={caption} />
                             </a>
                         </Link>
-                        <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDateFormat(created_at, locale)}</p>
+                        {
+                            files.length > 1 ?
+                                <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>
+                                    {postDateFormat(created_at, locale)}
+                                </p>
+                                :
+                                null
+                        }
                     </div>
                 </div>
                 <div
