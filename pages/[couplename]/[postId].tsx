@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { BiArrowBack } from "react-icons/bi"
 import Layout from "../../components/mainLayout"
+import { NotFound } from "../../components/notfound"
 import { PostFullView } from "../../components/post"
 import { BASEURL } from "../../constants"
 import styles from "../../styles/post.module.css"
@@ -11,6 +12,15 @@ import styles from "../../styles/post.module.css"
 export default function Post(props: any) {
     const router = useRouter()
     const { postId, couplename } = router.query
+
+    if (props.post.data === null) {
+        return (
+            <Layout>
+                <NotFound type="post" />
+            </Layout>
+        )
+    }
+
     return (
         <Layout>
             <div style={{
