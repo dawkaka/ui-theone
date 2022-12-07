@@ -173,7 +173,7 @@ export default function Profile(props: any) {
     return (
         <Layout>
             <Head>
-                <title>{data?.data.user_name} - {localeTr.title}</title>
+                <title>@{data?.data.user_name} - {localeTr.title}</title>
                 <meta name="robots" content="index,follow" />
                 <meta name="twitter:domain" content="primecouples.com" />
                 <meta name="twitter:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />

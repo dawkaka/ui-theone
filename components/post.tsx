@@ -27,6 +27,7 @@ import { postDateFormat } from "../libs/utils";
 import { ToasContext } from "./context";
 import { NotFound } from "./notfound";
 import { clearInterval } from "timers";
+import Head from "next/head";
 
 const Picker = dynamic(
     () => {
@@ -634,164 +635,176 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         }
     )
 
-    if (data.data === null) {
+    if (post === null) {
         return (
             <NotFound type="post" />
         )
     }
 
     return (
-        <div className={styles.viewContent}>
-            <div className={styles.viewFiles}>
-                <div className={styles.filesContainer} style={{ width: "100%" }}>
-                    <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent", width: "100%" }}>
-                        {
-                            post.files.map((file: any) => {
-                                let post
-                                if (file.name.substring(file.name.length - 3) === "mp4") {
-                                    post = <Video file={`${IMAGEURL}/${file.name}`} />
-                                } else {
-                                    post = <img
-                                        src={`${IMAGEURL}/${file.name}`}
-                                        className={styles.postImage}
-                                        width={"100%"}
-                                        alt={file.alt}
-                                        key={file.name}
-                                    />
-                                }
-                                return (
-                                    <div className={styles.fileContainer} key={file.name}>
-                                        {post}
-                                    </div>
-                                )
-                            })
+        <>
+            <Head>
+                <title>{localeTr.post} - @{post.couple_name}</title>
+                <meta name="robots" content="index,follow" />
+                <meta name="twitter:domain" content="primecouples.com" />
+                <meta name="twitter:title" content={`${localeTr.post} ${post.caption ? `- ${post.caption.substring(0, 30)}` : ""}`} />
+                <meta property="og:title" content={`${localeTr.post} ${post.caption ? `- ${post.caption.substring(0, 30)}` : ""}`} />
+                <meta name="twitter:image" content={`${IMAGEURL}/${post.files[0].name}`} />
+                <meta name="twitter:image:src" content={`${IMAGEURL}/${post.files[0].name}`} />
+                <meta property="og:image" content={`${IMAGEURL}/${post.files[0].name}`} />
+            </Head>
+            <div className={styles.viewContent}>
+                <div className={styles.viewFiles}>
+                    <div className={styles.filesContainer} style={{ width: "100%" }}>
+                        <div className={styles.fileSlider} ref={slider} style={{ backgroundColor: "transparent", width: "100%" }}>
+                            {
+                                post.files.map((file: any) => {
+                                    let post
+                                    if (file.name.substring(file.name.length - 3) === "mp4") {
+                                        post = <Video file={`${IMAGEURL}/${file.name}`} />
+                                    } else {
+                                        post = <img
+                                            src={`${IMAGEURL}/${file.name}`}
+                                            className={styles.postImage}
+                                            width={"100%"}
+                                            alt={file.alt}
+                                            key={file.name}
+                                        />
+                                    }
+                                    return (
+                                        <div className={styles.fileContainer} key={file.name}>
+                                            {post}
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                        {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>
+                            <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                        </div>
+                        }
+                        {curr < post.files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
+                            <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                        </div>
                         }
                     </div>
-                    {curr !== 0 && <div role="button" className={styles.prev} onClick={() => scroll("left")}>
-                        <MdOutlineNavigateNext size={20} className={styles.aIcon} />
+                    <div className={styles.viewSliderPos}>
+                        {
+                            post.files.length > 1 && post.files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
+                        }
                     </div>
-                    }
-                    {curr < post.files.length - 1 && <div role="button" className={styles.next} onClick={() => scroll("right")}>
-                        <MdOutlineNavigateNext size={20} className={styles.aIcon} />
-                    </div>
-                    }
                 </div>
-                <div className={styles.viewSliderPos}>
-                    {
-                        post.files.length > 1 && post.files.map((_: any, indx: number) => (<SliderIndicator pos={indx} curr={curr} key={indx} />))
-                    }
-                </div>
-            </div>
 
-            <div className={styles.viewComments}>
-                <div className={styles.scrollContainer}>
-                    <div className={styles.userInfoContainer}>
-                        <div className={styles.infoWrapper}>
-                            <div className={styles.imageContainer} style={{ width: "40px", height: "40px" }}>
-                                <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
-                                    <Image
-                                        layout="fill"
-                                        alt=""
-                                        src={`${IMAGEURL}/${post.profile_picture}`}
-                                        className={styles.profileImage}
-                                    />
-                                </span>
+                <div className={styles.viewComments}>
+                    <div className={styles.scrollContainer}>
+                        <div className={styles.userInfoContainer}>
+                            <div className={styles.infoWrapper}>
+                                <div className={styles.imageContainer} style={{ width: "40px", height: "40px" }}>
+                                    <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
+                                        <Image
+                                            layout="fill"
+                                            alt=""
+                                            src={`${IMAGEURL}/${post.profile_picture}`}
+                                            className={styles.profileImage}
+                                        />
+                                    </span>
+                                </div>
+
+                                <div className={styles.textEllipsis}>
+                                    <Link href={`/${post.couple_name}`}>
+                                        <a style={{ fontSize: "14px", fontWeight: "bold" }}>
+                                            {post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}
+                                        </a>
+                                    </Link>
+                                    <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{location}</p>
+                                </div>
                             </div>
-
-                            <div className={styles.textEllipsis}>
-                                <Link href={`/${post.couple_name}`}>
-                                    <a style={{ fontSize: "14px", fontWeight: "bold" }}>
-                                        {post.couple_name}{" "}{post.verified ? <Verified size={13} /> : ""}
-                                    </a>
-                                </Link>
-                                <p style={{ fontSize: "13px", color: "var(--accents-5)" }}>{location}</p>
+                            <div onClick={() => setModalOpen(true)}>
+                                <Actions size={24} orientation="potrait" />
                             </div>
                         </div>
-                        <div onClick={() => setModalOpen(true)}>
-                            <Actions size={24} orientation="potrait" />
-                        </div>
-                    </div>
-                    <div className={styles.captionContainer} style={{
-                        paddingTop: 0,
-                        borderBottom: "var(--border)"
+                        <div className={styles.captionContainer} style={{
+                            paddingTop: 0,
+                            borderBottom: "var(--border)"
 
-                    }}>
-                        <TextParser text={caption} />
-                        <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDateFormat(post.created_at, locale)}</p>
+                        }}>
+                            <TextParser text={caption} />
+                            <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDateFormat(post.created_at, locale)}</p>
 
-                        <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
-                            <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} hasLiked={post.has_liked} />
+                            <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
+                                <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} hasLiked={post.has_liked} />
+                            </div>
                         </div>
+                        <Comments id={post.id} />
+                    </div >
+                    <div className={styles.viewFixedBottom} style={{ textAlign: "center" }}>
+                        {comments_closed ? <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p> : <CommentArea isCard={false} id={post.id} />}
                     </div>
-                    <Comments id={post.id} />
                 </div >
-                <div className={styles.viewFixedBottom} style={{ textAlign: "center" }}>
-                    {comments_closed ? <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p> : <CommentArea isCard={false} id={post.id} />}
-                </div>
-            </div >
-            <Modal
-                closeTimeoutMS={200}
-                isOpen={modalOpen}
-                style={modalStyles}
-                onRequestClose={() => setModalOpen(false)} >
-                {
-                    step === "actions" && (
-                        <ul className={styles.modalBody}>
-                            {
-                                post.is_this_couple ? (
-                                    <>
-                                        <li className={styles.actionItem} onClick={() => setStep("edit")}><span>Edit</span><MdModeEdit size={25} /></li>
-                                        <li className={styles.actionItem} onClick={() => toggleCommentsMutation.mutate()}>
-                                            {
-                                                comments_closed ?
-                                                    <><span>{localeTr.opencomments}</span><BiCommentAdd size={25} /></>
-                                                    :
-                                                    <><span>{localeTr.closecomments}</span><BiCommentX size={25} /></>
-                                            }
-                                        </li>
-                                        <li className={styles.actionItem} onClick={copyPostURl}><span>{localeTr.copyurl}</span> <MdOutlineContentCopy size={25} /></li>
-                                        <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><span>{localeTr.delete}</span><AiOutlineDelete size={25} /></li>
-                                        <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
-                                    </>
-                                ) :
-                                    (
+                <Modal
+                    closeTimeoutMS={200}
+                    isOpen={modalOpen}
+                    style={modalStyles}
+                    onRequestClose={() => setModalOpen(false)} >
+                    {
+                        step === "actions" && (
+                            <ul className={styles.modalBody}>
+                                {
+                                    post.is_this_couple ? (
                                         <>
-                                            <li className={styles.actionItem} onClick={followUnfollow}><span>{following ? localeTr.unfollow : localeTr.follow} @{post.couple_name}</span><RiUserUnfollowLine size={25} /></li>
-                                            <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>{localeTr.copyurl}</span> </li>
-                                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><span>{localeTr.report}</span><MdReport size={25} /></li>
+                                            <li className={styles.actionItem} onClick={() => setStep("edit")}><span>Edit</span><MdModeEdit size={25} /></li>
+                                            <li className={styles.actionItem} onClick={() => toggleCommentsMutation.mutate()}>
+                                                {
+                                                    comments_closed ?
+                                                        <><span>{localeTr.opencomments}</span><BiCommentAdd size={25} /></>
+                                                        :
+                                                        <><span>{localeTr.closecomments}</span><BiCommentX size={25} /></>
+                                                }
+                                            </li>
+                                            <li className={styles.actionItem} onClick={copyPostURl}><span>{localeTr.copyurl}</span> <MdOutlineContentCopy size={25} /></li>
+                                            <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setPrOpen(true)}><span>{localeTr.delete}</span><AiOutlineDelete size={25} /></li>
                                             <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
                                         </>
-                                    )
-                            }
+                                    ) :
+                                        (
+                                            <>
+                                                <li className={styles.actionItem} onClick={followUnfollow}><span>{following ? localeTr.unfollow : localeTr.follow} @{post.couple_name}</span><RiUserUnfollowLine size={25} /></li>
+                                                <li className={styles.actionItem}><MdOutlineContentCopy size={25} /><span>{localeTr.copyurl}</span> </li>
+                                                <li className={`${styles.actionItem} ${styles.dangerAction}`} onClick={() => setStep("report")}><span>{localeTr.report}</span><MdReport size={25} /></li>
+                                                <li className={`${styles.actionItem}`} onClick={closeModal}><p style={{ marginInline: "auto" }}>{localeTr.close}</p></li>
+                                            </>
+                                        )
+                                }
 
-                        </ul>
-                    )
-                }
-                {
-                    step === "edit" && (
-                        <EditPost closeModal={closeModal} caption={post.caption} location={post.location} id={post.id} pId={postId} update={(caption: string, location: string) => {
-                            setCaption(caption)
-                            setLocation(location)
-                        }} />
-                    )
-                }
-                {
-                    step === "report" && (
-                        <ReportPost closeModal={closeModal} id={post.id} />
-                    )
-                }
-                <Prompt
-                    open={prOpen}
-                    close={() => setPrOpen(false)}
-                    title={localeTr.deletepost.title}
-                    message={localeTr.deletepost.message}
-                    actionText={localeTr.deletepost.actiontext}
-                    cancelText={localeTr.deletepost.canceltext}
-                    dangerAction
-                    acceptFun={() => deletePost.mutate(post.id)}
-                />
-            </Modal>
-        </div >
+                            </ul>
+                        )
+                    }
+                    {
+                        step === "edit" && (
+                            <EditPost closeModal={closeModal} caption={post.caption} location={post.location} id={post.id} pId={postId} update={(caption: string, location: string) => {
+                                setCaption(caption)
+                                setLocation(location)
+                            }} />
+                        )
+                    }
+                    {
+                        step === "report" && (
+                            <ReportPost closeModal={closeModal} id={post.id} />
+                        )
+                    }
+                    <Prompt
+                        open={prOpen}
+                        close={() => setPrOpen(false)}
+                        title={localeTr.deletepost.title}
+                        message={localeTr.deletepost.message}
+                        actionText={localeTr.deletepost.actiontext}
+                        cancelText={localeTr.deletepost.canceltext}
+                        dangerAction
+                        acceptFun={() => deletePost.mutate(post.id)}
+                    />
+                </Modal>
+            </div >
+        </>
     )
 }
 

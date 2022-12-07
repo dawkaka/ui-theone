@@ -146,7 +146,7 @@ const CoupleProfile: NextPage = (props: any) => {
     return (
         <>
             <Head>
-                <title>${data?.data.couple_name} - {localeTr.title}</title>
+                <title>@{data?.data.couple_name} - {localeTr.title}</title>
                 <meta name="robots" content="index,follow" />
                 <meta name="twitter:domain" content="primecouples.com" />
                 <meta name="twitter:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
