@@ -22,11 +22,11 @@
         },
         "couple": {
             "title": "Couple Not Found",
-            "message": "This couples can not be found"
+            "message": "This couples can not be found, check the couple name and try again."
         },
         "user": {
             "title": "User Not Found",
-            "message": "This user can not be found"
+            "message": "This user can not be found, check user name and try again."
         },
         "notifications": {
             "title": "Empty",
