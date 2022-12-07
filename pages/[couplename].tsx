@@ -135,13 +135,6 @@ const CoupleProfile: NextPage = (props: any) => {
         }
     }, [data])
 
-    if (data.data === null) {
-        return (
-            <Layout>
-                <NotFound type="couple" />
-            </Layout>
-        )
-    }
 
     return (
         <>
