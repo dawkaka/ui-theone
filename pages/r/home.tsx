@@ -11,6 +11,8 @@ import axios from "axios";
 import { BASEURL } from "../../constants";
 import { Loader } from "../../components/mis";
 import { useRef } from "react";
+import Head from "next/head";
+import { NotFound } from "../../components/notfound";
 
 
 Modal.setAppElement('#__next')
@@ -50,57 +52,67 @@ export default function HomePage() {
         axios.put(`${BASEURL}/user/new-posts`).then(() => { clearedRef.current = true }).catch(() => { })
     }
     return (
-        <Layout>
-            <div className={styles.home}>
-                <section className={styles.postsContainer}>
-                    <div className={styles.headerContainer}>
-                        <h3>{localeTr.header}</h3>
-                    </div>
-                    <div className={styles.content}>
-                        {
-                            posts.map((post: PostT) => {
-                                return (
-                                    <Post key={post.id} {...post} />
-                                )
-                            })
+        <>
+            <Head>
+                <title>{localeTr.header} - Prime Couples</title>
+                <meta name="robots" content="noindex,nofollow" />
+                <meta name="description" content={`User's timeline - Prime Couples, social media for couples`} />
+            </Head>
+            <Layout>
+                <div className={styles.home}>
+                    <section className={styles.postsContainer}>
+                        <div className={styles.headerContainer}>
+                            <h3>{localeTr.header}</h3>
+                        </div>
+                        <div className={styles.content}>
+                            {
+                                posts.length === 0 ? <NotFound type="home" /> : null
+                            }
+                            {
+                                posts.map((post: PostT) => {
+                                    return (
+                                        <Post key={post.id} {...post} />
+                                    )
+                                })
+                            }
+                            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
+                        </div>
+                    </section>
+                    <Suggestions />
+                </div>
+                <Modal
+                    closeTimeoutMS={200}
+                    isOpen={false}
+                    onRequestClose={() => router.back()}
+                    contentLabel="Post modal"
+                    style={{
+                        overlay: {
+                            zIndex: 1,
+                            backgroundColor: "rgba(0,0,0,0.7)",
+                            paddingInline: "var(--gap)",
+                            display: "grid",
+                            placeItems: "center",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: 0
+                        },
+                        content: {
+                            maxWidth: "940px",
+                            padding: 0,
+                            margin: 0,
+                            top: 0,
+                            borderRadius: 0,
+                            left: 0,
+                            overflow: "hidden",
+                            height: "90%",
+                            backgroundColor: "var(--background)",
+                            border: "none",
+                            position: "relative"
                         }
-                        <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
-                    </div>
-                </section>
-                <Suggestions />
-            </div>
-            <Modal
-                closeTimeoutMS={200}
-                isOpen={false}
-                onRequestClose={() => router.back()}
-                contentLabel="Post modal"
-                style={{
-                    overlay: {
-                        zIndex: 1,
-                        backgroundColor: "rgba(0,0,0,0.7)",
-                        paddingInline: "var(--gap)",
-                        display: "grid",
-                        placeItems: "center",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 0
-                    },
-                    content: {
-                        maxWidth: "940px",
-                        padding: 0,
-                        margin: 0,
-                        top: 0,
-                        borderRadius: 0,
-                        left: 0,
-                        overflow: "hidden",
-                        height: "90%",
-                        backgroundColor: "var(--background)",
-                        border: "none",
-                        position: "relative"
-                    }
-                }} >
-                {/* <PostFullView postId={router.query.postId} couplename={router.pathname} /> */}
-            </Modal>
-        </Layout >
+                    }} >
+                    {/* <PostFullView postId={router.query.postId} couplename={router.pathname} /> */}
+                </Modal>
+            </Layout >
+        </>
     )
 }

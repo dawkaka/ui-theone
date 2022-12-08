@@ -175,6 +175,7 @@ export default function Profile(props: any) {
             <Head>
                 <title>@{data?.data.user_name} - {localeTr.title}</title>
                 <meta name="robots" content="index,follow" />
+                <meta name="description" content={`@${data?.data.user_name}'s profile - Prime Couples, social media for couples`} />
                 <meta name="twitter:domain" content="primecouples.com" />
                 <meta name="twitter:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
                 <meta property="og:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />

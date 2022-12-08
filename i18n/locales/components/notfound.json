@@ -39,6 +39,10 @@
         "explore": {
             "title": "How strange",
             "message": "We have run out of posts to show you here."
+        },
+        "home": {
+            "title": "Empty",
+            "message": "Follow more couples and their posts will appear on your timeline"
         }
     },
     "es": {
@@ -81,6 +85,10 @@
         "explore": {
             "title": "Que raro",
             "message": "Nos hemos quedado sin publicaciones para mostrarte"
+        },
+        "home": {
+            "title": "Vacío",
+            "message": "Sigue a más parejas y sus publicaciones aparecerán en tu línea de tiempo"
         }
     }
 }
