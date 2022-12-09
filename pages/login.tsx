@@ -28,7 +28,7 @@ const Login: NextPage = () => {
         },
         {
             onSuccess: () => {
-                router.push(`/${locale}/r/home`)
+                router.push(`/r/home`)
             },
             onError: (err) => {
                 setError(err.response?.data?.message || localeTr.somethingwentwrong)

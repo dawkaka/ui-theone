@@ -83,14 +83,7 @@ const Signup: NextPage = () => {
         e.preventDefault()
         setStep(true)
     }
-    const country = getCountry()
-    const state = getState()
-    if (country) {
-        dataRef.current.country = country
-        if (state) {
-            dataRef.current.state = state
-        }
-    }
+
 
     const handleInputs = (e: ChangeEvent<HTMLInputElement>) => {
         const targ = e.currentTarget.name
@@ -160,6 +153,8 @@ const Signup: NextPage = () => {
     const signup = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (hasErrors() || mutation.isLoading) return
+        dataRef.current.country = getCountry()
+        dataRef.current.state = getState()
         mutation.mutate(dataRef.current)
     }
 

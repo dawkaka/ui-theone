@@ -2340,7 +2340,7 @@ export function getCountry() {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone as keyof typeof timezones | ""
 
     if (timezone === "" || !timezone) {
-        return null;
+        return "United States of America"
     }
 
     let _country
