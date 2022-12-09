@@ -60,7 +60,8 @@
             "Must start with an upppercase letter",
             "Only first letter should be upppercase"
         ],
-        "slogan": "Social media made for couples"
+        "slogan": "Social media made for couples",
+        "somethingwentwrong": "Something went wrong, please try again"
     },
     "es": {
         "signup": "Regístrase",
@@ -123,6 +124,7 @@
             "Debe comenzar con una letra mayúscula",
             "Solo la primera letra debe estar en mayúsculas"
         ],
-        "slogan": "Redes sociales hechas para parejas"
+        "slogan": "Redes sociales hechas para parejas",
+        "somethingwentwrong": "Algo salió mal. Por favor, vuelva a intentarlo"
     }
 }

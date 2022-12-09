@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import styles from "../styles/loginsignup.module.css"
 import { Langs } from "../types";
 import tr from "../i18n/locales/signuplogin.json"
@@ -17,17 +17,22 @@ const Login: NextPage = () => {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
+    const [error, setError] = useState([])
 
     const hasErrors = password === "" || emailOrUsername === "" ? true : false
 
-    const mutation = useMutation((data: { user_name_or_email: string, password: string }) => {
-        const d = JSON.stringify(data)
-        return axios.post(`${BASEURL}/user/u/login`, d)
-    },
+    const mutation = useMutation<AxiosResponse, AxiosError<any, any>, { user_name_or_email: string; password: string }>(
+        (data) => {
+            const d = JSON.stringify(data)
+            return axios.post(`${BASEURL}/user/u/login`, d)
+        },
         {
             onSuccess: () => {
                 router.push(`/${locale}/r/home`)
             },
+            onError: (err) => {
+                setError(err.response?.data?.message || localeTr.somethingwentwrong)
+            }
         }
     )
 
@@ -51,7 +56,7 @@ const Login: NextPage = () => {
                         <h2 style={{ textAlign: "center" }}>{localeTr.login}</h2>
                         <div className={styles.indicatorsContainer}>
                             <form className={styles.form} onSubmit={login}>
-                                {mutation.isError && mutation.error instanceof AxiosError ? <p style={{ color: "red", fontSize: "14px", marginBottom: "10px" }}>{mutation.error.response?.data.message}</p> : null}
+                                {mutation.isError ? <p style={{ color: "red", fontSize: "14px", marginBottom: "10px" }}>{error}</p> : null}
 
                                 <div className={styles.formItem}>
                                     <label>{localeTr.usernameoremail.title}</label>
