@@ -26,7 +26,6 @@ import { Prompt } from "./prompt";
 import { postDateFormat } from "../libs/utils";
 import { ToasContext } from "./context";
 import { NotFound } from "./notfound";
-import { clearInterval } from "timers";
 import Head from "next/head";
 
 const Picker = dynamic(
@@ -396,10 +395,10 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
         }
     }
 
-    const inter = useRef<NodeJS.Timer | null>()
+
     useEffect(() => {
         if (!video) {
-            inter.current = setInterval(() => {
+            setInterval(() => {
                 scroll(direc.current)
 
             }, 3000)
@@ -466,18 +465,12 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
                             }
                         </div>
                         {curr !== 0 && <div role="button" className={styles.prev} onClick={() => {
-                            if (inter.current) {
-                                clearInterval(inter.current)
-                            }
                             scroll("left")
                         }}>
                             <MdOutlineNavigateNext size={20} className={styles.aIcon} />
                         </div>
                         }
                         {curr < files?.length - 1 && <div role="button" className={styles.next} onClick={() => {
-                            if (inter.current) {
-                                clearInterval(inter.current)
-                            }
                             scroll("right")
                         }}>
                             <MdOutlineNavigateNext size={20} className={styles.aIcon} />

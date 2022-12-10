@@ -15,10 +15,11 @@ import cStyles from "../styles/couple.module.css"
 import { LandingChatMsg as ChatMessage } from "./r/messages"
 import { RiVideoFill } from "react-icons/ri"
 import { FaHeartBroken } from "react-icons/fa"
-import { IMAGEURL } from "../constants"
+import { IMAGEURL, noHomo } from "../constants"
 import { useRouter } from "next/router"
 import tr from "../i18n/locales/landingpage.json"
 import { Langs } from "../types"
+import { getCountry } from "../i18n/location"
 
 
 const LandingPage: NextPage = () => {
@@ -27,6 +28,7 @@ const LandingPage: NextPage = () => {
   const router = useRouter()
   const locale = router.locale || "en"
   const localeTr = tr[locale as Langs]
+  const [showRainbow, setShowRainbow] = useState(true)
 
   function createObserver() {
 
@@ -71,21 +73,25 @@ const LandingPage: NextPage = () => {
     createObserver()
   })
 
-  useEffect(() => {
-    const updateHeaderBackgorund = () => {
-      const h = document.querySelector("#header")
-      const body = document.querySelector("body")
-      if (!h || !body) return
-      if (body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-        h.classList.add(styles.scrolled)
-      } else {
-        h.classList.remove(styles.scrolled)
-      }
+  const updateHeaderBackgorund = () => {
+    const h = document.querySelector("#header")
+    const body = document.querySelector("body")
+    if (!h || !body) return
+    if (body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+      h.classList.add(styles.scrolled)
+    } else {
+      h.classList.remove(styles.scrolled)
     }
+  }
+
+  useEffect(() => {
+    const userCountry = getCountry()
+    setShowRainbow(!noHomo.includes(userCountry))
     window.addEventListener("scroll", updateHeaderBackgorund)
+    return () => {
+      window.removeEventListener("scroll", updateHeaderBackgorund)
+    }
   })
-
-
 
   return (
     <>
@@ -114,7 +120,7 @@ const LandingPage: NextPage = () => {
                 </Link>
                 <Link href={"/signup"}>
                   <a>
-                    <button className={`${styles.button} ${styles.rainbow}`}>{localeTr.signup}</button>
+                    <button className={`${styles.button} ${showRainbow ? styles.rainbow : ''}`}>{localeTr.signup}</button>
                   </a>
                 </Link>
               </div>
