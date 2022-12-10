@@ -1,5 +1,5 @@
 .pageMain {
-    width: min(100vw, 1300px);
+    width: min(100%, 1300px);
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -80,7 +80,8 @@
 @media only screen and (max-width: 750px) {
     .main {
         display: block;
-        height: 90%;
+        width: 100%;
+        height: 100%;
     }
 
     .deco {
