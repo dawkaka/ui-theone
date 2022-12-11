@@ -186,30 +186,52 @@ export const SearchCouple: React.FunctionComponent<{
 
 
 export const Video: React.FC<{ file: string }> = ({ file }) => {
-    const vidRef = useRef<HTMLVideoElement>(null)
+    const videoRef = useRef<HTMLVideoElement>(null)
     const toggleVideo = () => {
-        if (vidRef && vidRef.current) {
-            if (vidRef.current.muted) {
-                vidRef.current.muted = false
+        if (videoRef && videoRef.current) {
+            if (videoRef.current.muted) {
+                videoRef.current.muted = false
             } else {
-                vidRef.current.muted = true
+                videoRef.current.muted = true
 
             }
         }
     }
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (videoRef.current) {
+                        videoRef.current.play();
+                    }
+                } else {
+                    if (videoRef.current) {
+                        videoRef.current.pause();
+                    }
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        if (videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <div style={{ position: "relative", padding: 0, margin: 0 }}>
             <video src={file}
                 style={{ objectFit: "contain", backgroundColor: "black", width: "100%", maxHeight: "min(70vh, 500px)" }}
                 onClick={toggleVideo}
-                onEnded={() => vidRef.current?.play()}
+                onEnded={() => videoRef.current?.play()}
                 muted
                 playsInline
                 controls
                 autoPlay
                 preload="none"
-                ref={vidRef}
+                ref={videoRef}
             />
         </div>
     )

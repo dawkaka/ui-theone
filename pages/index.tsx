@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { AiOutlineReload } from "react-icons/ai"
 import { BiArrowBack, BiSmile } from "react-icons/bi"
 import { BsChatSquare, BsHeartFill } from "react-icons/bs"
