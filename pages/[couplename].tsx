@@ -153,6 +153,7 @@ const CoupleProfile: NextPage = (props: any) => {
                 <meta name="twitter:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
                 <meta property="og:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
                 <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+                <link rel="canonical" href={`https://primecouples.com/${data?.data.couple_name}`} />
                 <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
                 <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
             </Head>

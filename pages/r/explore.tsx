@@ -13,6 +13,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { BASEURL, IMAGEURL } from "../../constants"
 import { NotFound } from "../../components/notfound"
+import Head from "next/head"
 
 
 export default function Explore() {
@@ -87,13 +88,17 @@ export default function Explore() {
 
     return (
         <Layout>
-
+            <Head>
+                <title>{localeTr.title}</title>
+                <meta name="robots" content="noindex,nofollow" />
+                <meta name="description" content={`User's timeline - Prime Couples, social media for couples`} />
+            </Head>
             <div className={styles.main}>
                 <section className={styles.exploreContainer}>
                     <div className={styles.searchContainer}>
                         <input
                             type="search"
-                            placeholder={`${localeTr.search} Prime Couples`}
+                            placeholder={`${localeTr.search}`}
                             value={query}
                             onChange={(e) => {
                                 setQuery(e.target.value)
@@ -166,7 +171,7 @@ const SearchResults: React.FC<{ query: string, active: boolean, type: string }> 
             </div>
             }
             {
-                res.length === 0 && <NotFound type="search" />
+                !isLoading && res.length === 0 && <NotFound type="search" />
             }
             {
                 res.map((item: any) => type === "user" ? (

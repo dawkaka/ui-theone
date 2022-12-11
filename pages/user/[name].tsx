@@ -179,6 +179,7 @@ export default function Profile(props: any) {
                 <meta name="twitter:domain" content="primecouples.com" />
                 <meta name="twitter:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
                 <meta property="og:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
+                <link rel="canonical" href={`https://primecouples.com/user/${data?.data.user_name}`} />
                 <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
                 <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
                 <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />

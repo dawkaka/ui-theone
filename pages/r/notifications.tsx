@@ -17,6 +17,7 @@ import { Loader } from "../../components/mis";
 import { RiHeartsFill } from "react-icons/ri";
 import { useRef } from "react";
 import { NotFound } from "../../components/notfound";
+import Head from "next/head";
 
 export default function Notifications() {
     const router = useRouter()
@@ -53,6 +54,11 @@ export default function Notifications() {
     }
     return (
         <Layout>
+            <Head>
+                <title>{localeTr.title}</title>
+                <meta name="robots" content="noindex,nofollow" />
+                <meta name="description" content={`User's timeline - Prime Couples, social media for couples`} />
+            </Head>
             <div className={styles.main}>
                 <section className={styles.ntfsContainer}>
                     <Header title={localeTr.notifications} arrow={false} />

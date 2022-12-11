@@ -18,6 +18,7 @@ import { GoFileMedia } from "react-icons/go";
 import { io } from "socket.io-client";
 import { Loader } from "../../components/mis";
 import { postDateFormat } from "../../libs/utils";
+import Head from "next/head";
 
 const socket = io(`${SOCKETURL}/couple`, {
     withCredentials: true,
@@ -125,6 +126,11 @@ export default function Messages() {
     })
     return (
         <Layout>
+            <Head>
+                <title>{localeTr.title}</title>
+                <meta name="robots" content="noindex,nofollow" />
+                <meta name="description" content={`User's timeline - Prime Couples, social media for couples`} />
+            </Head>
             <div className={styles.messagePageContainer}>
                 <div className={styles.messagingContainer}>
                     <section className={styles.chatContainer}>

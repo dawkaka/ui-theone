@@ -643,6 +643,7 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                 <meta name="twitter:title" content={`${localeTr.post} ${post.caption ? `- ${post.caption.substring(0, 30)}` : ""}`} />
                 <meta property="og:title" content={`${localeTr.post} ${post.caption ? `- ${post.caption.substring(0, 30)}` : ""}`} />
                 <meta name="twitter:image" content={`${IMAGEURL}/${post.files[0].name}`} />
+                <link rel="canonical" href={`https://primecouples.com/${post.couple_name}/${postId}`} />
                 <meta name="twitter:image:src" content={`${IMAGEURL}/${post.files[0].name}`} />
                 <meta property="og:image" content={`${IMAGEURL}/${post.files[0].name}`} />
             </Head>

@@ -8,7 +8,8 @@
         "Request Rejected": "rejected your couple request",
         "Couple Request": "sent you a couple request",
         "Request Accepted": "accepted you couple request",
-        "Mentioned": "mentioned you in a post"
+        "Mentioned": "mentioned you in a post",
+        "title": "My notifications"
     },
     "es": {
         "notifications": "Notificaciones",
@@ -19,6 +20,7 @@
         "Request Rejected": "rechazó tu solicitud de pareja.",
         "Couple Request": "te envió una solicitud de pareja.",
         "Request Accepted": "aceptada tu solicitud de pareja",
-        "Mentioned": "te mencionaron en una publicación"
+        "Mentioned": "te mencionaron en una publicación",
+        "title": "Mis Notificaciones"
     }
 }

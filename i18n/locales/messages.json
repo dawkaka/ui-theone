@@ -3,12 +3,14 @@
         "writeMessage": "Type message",
         "typing": "Typing..",
         "send": "send",
-        "cancel": "cancel"
+        "cancel": "cancel",
+        "title": "Messaging - Prime Couple"
     },
     "es": {
         "writeMessage": "Escribe un mensaje",
         "typing": "Escribiendo...",
         "send": "enviar",
-        "cancel": "cancelar"
+        "cancel": "cancelar",
+        "title": "Mensajería - Prime Couple"
     }
 }

@@ -1,12 +1,14 @@
 {
     "en": {
-        "search": "Search",
+        "search": "Enter 3 or more characters to search",
         "users": "Users",
-        "couples": "Couples" 
+        "couples": "Couples",
+        "title": "Explore Prime Couples"
     },
-   "es": {
-        "search": "Buscar",
+    "es": {
+        "search": "Introduzca 3 o más caracteres para buscar",
         "users": "Usarios",
-        "couples": "Parejas" 
-    } 
+        "couples": "Parejas",
+        "title": "Explorar Prime Couples"
+    }
 }
