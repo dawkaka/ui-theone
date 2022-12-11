@@ -28,7 +28,7 @@ const LandingPage: NextPage = () => {
   const router = useRouter()
   const locale = router.locale || "en"
   const localeTr = tr[locale as Langs]
-  const [showRainbow, setShowRainbow] = useState(true)
+  const [showRainbow, setShowRainbow] = useState(false)
 
   function createObserver() {
 

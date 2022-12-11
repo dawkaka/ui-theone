@@ -8,7 +8,7 @@ import { AiFillCloseCircle } from "react-icons/ai"
 import tr from "../../i18n/locales/explore..json"
 import { useRouter } from "next/router"
 import { Langs, PostT } from "../../types"
-import { Loader, SearchCouple, SearchUser } from "../../components/mis"
+import { Loader, Loading, SearchCouple, SearchUser } from "../../components/mis"
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { BASEURL, IMAGEURL } from "../../constants"
@@ -18,7 +18,7 @@ import { NotFound } from "../../components/notfound"
 export default function Explore() {
     const router = useRouter()
     const [query, setQuery] = useState("")
-    const [tab, setTab] = useState<"users" | "couples">("users")
+    const [tab, setTab] = useState<"users" | "couples">("couples")
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -31,7 +31,7 @@ export default function Explore() {
             width = width.substring(0, width.length - 2)
             let scrolldiff = Number(width) - scrollRef.current!.scrollLeft
             let scroll = scrolldiff / Number(width)
-            if (scroll > 0.5) {
+            if (scroll < 0.5) {
                 setTab("users")
             } else {
                 setTab("couples")
@@ -48,7 +48,7 @@ export default function Explore() {
     const tabNavigation = (t: "users" | "couples") => {
         setTab(t)
         tabScrollRef.current = true
-        if (t === "users") {
+        if (t !== "users") {
             scrollRef.current?.scroll({ behavior: "smooth", left: 0 })
         } else {
             scrollRef.current?.scroll({ behavior: "smooth", left: 1000 })
@@ -97,27 +97,27 @@ export default function Explore() {
                             value={query}
                             onChange={(e) => {
                                 setQuery(e.target.value)
-                                if (e.target.value.length === 0) setTab("users")
+                                if (e.target.value.length === 0) setTab("couples")
                             }} />
                         <FaSearch className={styles.searchIcon} color="var(--accents-3)" />
 
                         {!!query && (<div className={styles.searchModal}>
                             <div className={styles.searchHeader}>
-                                <div className={styles.tabItem} onClick={() => tabNavigation("users")}>
-                                    <p>{localeTr.users}</p>
-                                    <div className={`${styles.indicator} ${styles.indOne} ${tab === "users" ? styles.tabActive : ""}`}></div>
-                                </div>
                                 <div className={`${styles.tabItem}`} onClick={() => tabNavigation("couples")}>
                                     <p>{localeTr.couples}</p>
                                     <div className={`${styles.indicator} ${styles.indTwo} ${tab !== "users" ? styles.tabActive : ""}`}></div>
+                                </div>
+                                <div className={styles.tabItem} onClick={() => tabNavigation("users")}>
+                                    <p>{localeTr.users}</p>
+                                    <div className={`${styles.indicator} ${styles.indOne} ${tab === "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={styles.closeSearch} onClick={() => setQuery("")}>
                                     <AiFillCloseCircle size={30} />
                                 </div>
                             </div>
                             <div className={styles.searchResults} ref={scrollRef}>
-                                <SearchResults query={query} active={tab === "users"} type="user" />
                                 <SearchResults query={query} active={tab != "users"} type="couple" />
+                                <SearchResults query={query} active={tab === "users"} type="user" />
                             </div>
 
                         </div>
@@ -153,7 +153,7 @@ const SearchResults: React.FC<{ query: string, active: boolean, type: string }> 
         [`search-${type}`, { query }],
         () => axios.get(`${BASEURL}/${type}/search/${query}`),
         {
-            enabled: active,
+            enabled: active && query.length > 2,
             staleTime: Infinity
         }
     )
@@ -161,7 +161,13 @@ const SearchResults: React.FC<{ query: string, active: boolean, type: string }> 
 
     return (
         <div className={styles.resultsContainer}>
-            {isLoading && <h3>Loading...</h3>}
+            {isLoading && query.length > 2 && <div style={{ display: "flex", justifyContent: "center" }}>
+                <Loading color="var(--success)" size="medium" />
+            </div>
+            }
+            {
+                res.length === 0 && <NotFound type="search" />
+            }
             {
                 res.map((item: any) => type === "user" ? (
                     <SearchUser

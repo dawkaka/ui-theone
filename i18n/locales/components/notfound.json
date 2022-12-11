@@ -43,6 +43,10 @@
         "home": {
             "title": "Empty",
             "message": "Follow more couples and their posts will appear on your timeline"
+        },
+        "search": {
+            "title": "Not Found",
+            "message": "No results found for this search"
         }
     },
     "es": {
@@ -89,6 +93,10 @@
         "home": {
             "title": "Vacío",
             "message": "Sigue a más parejas y sus publicaciones aparecerán en tu línea de tiempo"
+        },
+        "search": {
+            "title": "No Encontrada",
+            "message": "No se encontraron resultados para esta búsqueda"
         }
     }
 }

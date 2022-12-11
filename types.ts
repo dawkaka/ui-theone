@@ -68,4 +68,4 @@ export interface MutationResponse {
     type: MessageTypes
 }
 
-export type NotFoundT = "post" | "comments" | "followers" | "following" | "couple" | "user" | "posts" | "notifications" | "request" | "explore" | "home"
+export type NotFoundT = "post" | "comments" | "followers" | "following" | "couple" | "user" | "posts" | "notifications" | "request" | "explore" | "home" | "search"
