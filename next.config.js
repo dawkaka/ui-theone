@@ -9,9 +9,6 @@ const nextConfig = {
   images: {
     domains: ["d2xi011jjczziv.cloudfront.net"]
   },
-  experimental: {
-    scrollRestoration: true
-  }
 }
 
 module.exports = nextConfig
