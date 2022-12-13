@@ -1,6 +1,6 @@
 import { CSSProperties } from "react"
 import styles from "./styles/misc.module.css"
-import { useSpring, animated, useSpringRef, useChain } from "@react-spring/web";
+import { useSpring, animated } from "@react-spring/web";
 import { useState, useEffect, useRef } from "react";
 import { MdOutlineError, MdOutlineNavigateNext } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
@@ -243,8 +243,26 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
 export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetching: boolean }> = ({ loadMore, hasNext, isFetching }) => {
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
+    const loaderRef = useRef(null)
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    loadMore()
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        if (loaderRef.current) {
+            observer.observe(loaderRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
-        <>
+        <div ref={loaderRef}>
             {hasNext && (
                 <div style={{ width: "100%", textAlign: "center", paddingBlock: "var(--gap-quarter)", display: "flex", justifyContent: "center" }}>
                     {!isFetching ?
@@ -256,7 +274,7 @@ export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetchi
                 </div>
             )
             }
-        </>
+        </div>
     )
 }
 
@@ -332,6 +350,5 @@ export const Rocket: React.FC<{ recieving: boolean }> = ({ recieving }) => {
             <path d="M19.5 5.15089C19.3688 4.89994 19 4.97322 19 5.28761C19 5.49455 19.2173 5.71689 19.4652 5.98428C19.4749 5.99478 19.4875 6 19.5 6C19.5126 6 19.5251 5.99478 19.5348 5.98428C19.7837 5.71589 20 5.49461 20 5.28761C20 4.97216 19.6302 4.90183 19.5 5.15089V5.15089Z" fill="#8E04A5" />
             <path d="M6.29 6.36117C5.22062 6.35592 3.8775 6.89667 2.85313 7.85275C2.4625 8.21733 2.11813 8.64317 1.8525 9.12092C2.77688 8.46817 3.76312 8.26342 4.91687 8.86775C5.25687 8.0295 5.71062 7.17608 6.29 6.36117ZM12.4056 12.0621C11.4581 12.6402 10.5262 13.0572 9.72 13.3512C10.3675 14.4292 10.1487 15.3486 9.44875 16.2107C9.96062 15.9634 10.4169 15.642 10.8081 15.2762C11.8356 14.3184 12.4156 13.0619 12.4056 12.0621ZM16.2506 2.76025C15.9931 2.74392 15.7406 2.73575 15.4925 2.73575C10.1163 2.73575 7.05625 6.56125 5.9425 9.63833L8.8975 12.3969C12.29 11.2617 16.2831 8.51133 16.2831 3.54658C16.2831 3.2905 16.2725 3.02858 16.2506 2.76025ZM10.0706 8.54108C9.82625 8.313 9.82625 7.94433 10.0706 7.71625C10.315 7.48817 10.71 7.48817 10.9544 7.71625C11.1988 7.94433 11.1988 8.313 10.9544 8.54108C10.71 8.76917 10.3144 8.76858 10.0706 8.54108ZM11.8381 6.89142C11.35 6.43642 11.35 5.69733 11.8381 5.24175C12.3263 4.78617 13.1181 4.78617 13.6056 5.24175C14.0938 5.69733 14.0938 6.43583 13.6056 6.89142C13.1175 7.347 12.3263 7.347 11.8381 6.89142ZM2.51375 14.1562L1.9475 13.6277L5.2025 10.6014L5.76875 11.1299L2.51375 14.1562ZM5.62562 15.2395L5.05937 14.711L7.33188 12.5737L7.89812 13.1022L5.62562 15.2395ZM1.84938 16.7357L1.28313 16.2072L5.31312 12.4517L5.76875 13.1022L1.84938 16.7357Z" fill="#C50000" />
         </svg>
-
     )
 }
