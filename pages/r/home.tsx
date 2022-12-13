@@ -9,7 +9,7 @@ import { Langs, PostT } from "../../types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL } from "../../constants";
-import { Loader } from "../../components/mis";
+import { Loader, Loading } from "../../components/mis";
 import { useRef } from "react";
 import Head from "next/head";
 import { NotFound } from "../../components/notfound";
@@ -76,7 +76,10 @@ export default function HomePage() {
                                     )
                                 })
                             }
-                            <Loader loadMore={fetchNextPage} isFetching={isFetching || isLoading} hasNext={hasNextPage ? true : false} />
+                            {
+                                isLoading && posts.length === 0 ? <Loading color="var(--success)" size="medium" /> : null
+                            }
+                            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
                         </div>
                     </section>
                     <Suggestions />

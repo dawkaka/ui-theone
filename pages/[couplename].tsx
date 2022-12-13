@@ -7,7 +7,7 @@ import Header from "../components/pageHeader";
 import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import styles from "../styles/couple.module.css"
-import { Actions, Loader, SearchUser, Verified } from "../components/mis";
+import { Actions, Loader, Loading, SearchUser, Verified } from "../components/mis";
 import { Post } from "../components/post";
 import { MdModeEdit, MdReport } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
@@ -512,6 +512,7 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
     const {
         data,
         fetchNextPage,
+        isLoading,
         hasNextPage,
         isFetching,
     } = useInfiniteQuery(["posts", { coupleName }], fetchPosts,
@@ -533,7 +534,10 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
     return (
         <>
             {
-                posts.length === 0 && <NotFound type="posts" />
+                posts.length === 0 && !isLoading ? <NotFound type="posts" /> : null
+            }
+            {
+                isLoading && posts.length === 0 ? <Loading color="var(--success)" size="medium" /> : null
             }
             {
                 posts.map((post: PostT) => {
