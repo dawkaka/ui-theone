@@ -30,6 +30,11 @@ const LandingPage: NextPage = () => {
   const localeTr = tr[locale as Langs]
   const [showRainbow, setShowRainbow] = useState(false)
 
+  useEffect(() => {
+    if (localStorage.getItem("hasAccount")) {
+      router.replace(`/r/home`)
+    }
+  }, [])
   function createObserver() {
 
     function demosIntersectionHandler(entries: IntersectionObserverEntry[]) {

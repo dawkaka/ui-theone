@@ -144,6 +144,7 @@ const Signup: NextPage = () => {
         },
         {
             onSuccess: (data) => {
+                localStorage.setItem("hasAccount", "yes")
                 const id = data.data.link
                 router.push(`/r/verify-email?id=${id}`)
             },

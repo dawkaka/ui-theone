@@ -28,6 +28,7 @@ const Login: NextPage = () => {
         },
         {
             onSuccess: () => {
+                localStorage.setItem("hasAccount", "yes")
                 router.push(`/r/home`)
             },
             onError: (err) => {
