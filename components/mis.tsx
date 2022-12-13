@@ -229,6 +229,7 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
                 muted
                 playsInline
                 controls
+                controlsList="nodownload"
                 autoPlay
                 preload="none"
                 ref={videoRef}
