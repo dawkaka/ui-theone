@@ -166,6 +166,9 @@ const Signup: NextPage = () => {
                 <meta name="twitter:domain" content="primecouples.com" />
                 <meta name="twitter:title" content={`${localeTr.signup} - ${localeTr.slogan}`} />
                 <meta property="og:title" content={`${localeTr.signup} - ${localeTr.slogan}`} />
+                <meta name="twitter:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
+                <meta name="twitter:image:src" content="https://www.primecouples.com/primecouplesOG.jpg" />
+                <meta property="og:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
             </Head>
             <main className={styles.main}>
                 <div className={styles.deco}></div>

@@ -48,6 +48,9 @@ const Login: NextPage = () => {
                 <meta name="robots" content="index,follow" />
                 <meta name="twitter:title" content={`${localeTr.login} - ${localeTr.slogan}`} />
                 <meta property="og:title" content={`${localeTr.login} - ${localeTr.slogan}`} />
+                <meta name="twitter:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
+                <meta name="twitter:image:src" content="https://www.primecouples.com/primecouplesOG.jpg" />
+                <meta property="og:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
             </Head>
             <div className={styles.pageMain}>
                 <main className={styles.main}>
