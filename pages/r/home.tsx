@@ -30,6 +30,7 @@ export default function HomePage() {
         fetchNextPage,
         hasNextPage,
         isFetching,
+        isLoading,
         isFetchingNextPage,
     } = useInfiniteQuery(["feed"], fetchMessages,
         {
@@ -66,7 +67,7 @@ export default function HomePage() {
                         </div>
                         <div className={styles.content}>
                             {
-                                posts.length === 0 ? <NotFound type="home" /> : null
+                                posts.length === 0 && !(isLoading || isFetching) ? <NotFound type="home" /> : null
                             }
                             {
                                 posts.map((post: PostT) => {
@@ -75,7 +76,7 @@ export default function HomePage() {
                                     )
                                 })
                             }
-                            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
+                            <Loader loadMore={fetchNextPage} isFetching={isFetching || isLoading} hasNext={hasNextPage ? true : false} />
                         </div>
                     </section>
                     <Suggestions />
