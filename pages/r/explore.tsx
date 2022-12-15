@@ -143,7 +143,7 @@ export default function Explore() {
                             })
                         }
 
-                        <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
+                        <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} manual={false} />
                     </div>
                 </section>
                 <Suggestions />

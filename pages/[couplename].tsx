@@ -468,7 +468,7 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
                                 />
                             ))
                         }
-                        <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} />
+                        <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} manual={false} />
                     </div>
                 </div>
 
@@ -546,7 +546,7 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
                     )
                 })
             }
-            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
+            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} manual={false} />
         </>
     )
 }

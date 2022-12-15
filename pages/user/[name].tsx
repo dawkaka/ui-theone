@@ -512,7 +512,7 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                             <CouplePreview name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} isFollowing={flw.is_following} verified={flw.verified} />
                         ))
                     }
-                    <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} />
+                    <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} manual={false} />
                 </div>
             </div>
         </Modal>

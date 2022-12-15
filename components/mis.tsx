@@ -240,7 +240,7 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
 
 
 
-export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetching: boolean }> = ({ loadMore, hasNext, isFetching }) => {
+export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetching: boolean, manual: boolean }> = ({ loadMore, hasNext, isFetching, manual }) => {
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
     const loaderRef = useRef(null)
@@ -254,7 +254,7 @@ export const Loader: React.FC<{ loadMore: () => void, hasNext: boolean, isFetchi
             { threshold: 0.5 }
         );
 
-        if (loaderRef.current) {
+        if (loaderRef.current && !manual) {
             observer.observe(loaderRef.current);
         }
 

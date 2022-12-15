@@ -79,7 +79,7 @@ export default function HomePage() {
                             {
                                 isLoading && posts.length === 0 ? <Loading color="var(--success)" size="medium" /> : null
                             }
-                            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
+                            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} manual={false} />
                         </div>
                     </section>
                     <Suggestions />

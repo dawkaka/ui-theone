@@ -145,7 +145,7 @@ export default function Messages() {
                             </div>
                         </div>
                         <div className={styles.pmWrapper} ref={messageContainer}>
-                            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
+                            <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} manual />
                             {messages.map((message: any, index: number) => {
                                 return (
                                     <ChatMessage
