@@ -71,7 +71,7 @@ export default function Messages() {
     socket.on("message", (data) => {
         setMessages([...messages, data])
         if (messageContainer.current) {
-            setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "smooth" }))
+            messageContainer.current.lastElementChild?.scrollIntoView({ behavior: "smooth" })
         }
         socket.emit("recieved")
     })
@@ -85,17 +85,13 @@ export default function Messages() {
             }
             msgs = msgs.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
             setMessages([...msgs])
+            if (data.pages.length === 1) {
+                setTimeout(() => messageContainer.current!.lastElementChild?.scrollIntoView())
+            }
         }
         socket.emit("recieved")
-
     }, [data])
 
-    // useEffect(() => {
-
-    //     return () => {
-    //         socket.disconnect()
-    //     }
-    // }, [])
 
     socket.on("connect_error", (error) => {
         console.log(error)
@@ -117,9 +113,6 @@ export default function Messages() {
 
     socket.on("typing", () => {
         setTyping(true)
-        if (messageContainer.current !== null) {
-            setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
-        }
     })
     socket.on("not-typing", () => {
         setTyping(false)
@@ -151,7 +144,7 @@ export default function Messages() {
                                 <BiArrowBack />
                             </div>
                         </div>
-                        <div className={styles.pmWrapper}>
+                        <div className={styles.pmWrapper} ref={messageContainer}>
                             <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} />
                             {messages.map((message: any, index: number) => {
                                 return (
@@ -162,7 +155,6 @@ export default function Messages() {
                             })
                             }
                             {typing && <p style={{ color: "var(--success)", paddingLeft: "var(--gap-half)" }}>{localeTr.typing}</p>}
-                            <div ref={messageContainer}></div>
 
                         </div>
                         <div className={styles.writeMessageContainer}>
@@ -173,7 +165,7 @@ export default function Messages() {
                                         setMessages([])
                                         setMessages([...messages, { message, from: userId, type, date: "Now" }])
                                         if (messageContainer.current) {
-                                            setTimeout(() => messageContainer.current!.scrollIntoView({ behavior: "auto" }))
+                                            messageContainer.current.lastElementChild?.scrollIntoView({ behavior: "auto" })
                                         }
                                     }}
                                     sendAlert={(alert) => {
