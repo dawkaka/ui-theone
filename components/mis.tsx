@@ -1,6 +1,5 @@
 import { CSSProperties } from "react"
 import styles from "./styles/misc.module.css"
-import { useSpring, animated } from "@react-spring/web";
 import { useState, useEffect, useRef } from "react";
 import { MdOutlineError, MdOutlineNavigateNext } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
@@ -32,22 +31,16 @@ export const Actions: React.FunctionComponent<{ orientation: "potrait" | "landsc
 }
 
 export const CheckMark: React.FunctionComponent<{ size: number }> = ({ size }) => {
-    const styles = useSpring({
-        config: { friction: 8 },
-        from: { scale: 0.5 },
-        to: { scale: 1 },
-    })
 
     return (
-        <animated.svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 512 512"
+            className={styles.friction}
             height={size}
             width={size}
-            style={{ ...styles }}
         >
             <g fill="var(--success)">
                 <path
-
                     d="M474.045,173.813c-4.201,1.371-6.494,5.888-5.123,10.088c7.571,23.199,11.411,47.457,11.411,72.1
 		c0,62.014-24.149,120.315-68,164.166s-102.153,68-164.167,68s-120.316-24.149-164.167-68S16,318.014,16,256
 		S40.149,135.684,84,91.833s102.153-68,164.167-68c32.889,0,64.668,6.734,94.455,20.017c28.781,12.834,54.287,31.108,75.81,54.315
@@ -56,7 +49,6 @@ export const CheckMark: React.FunctionComponent<{ size: number }> = ({ size }) =
 		c0,66.287,25.814,128.607,72.687,175.479c46.872,46.873,109.192,72.687,175.48,72.687s128.608-25.813,175.48-72.687
 		c46.873-46.872,72.687-109.192,72.687-175.479c0-26.332-4.105-52.26-12.201-77.064
 		C482.762,174.736,478.245,172.445,474.045,173.813z"/>
-
                 <path
                     d="M504.969,83.262c-4.532-4.538-10.563-7.037-16.98-7.037s-12.448,2.499-16.978,7.034l-7.161,7.161
 		c-3.124,3.124-3.124,8.189,0,11.313c3.124,3.123,8.19,3.124,11.314-0.001l7.164-7.164c1.51-1.512,3.52-2.344,5.66-2.344
@@ -69,7 +61,7 @@ export const CheckMark: React.FunctionComponent<{ size: number }> = ({ size }) =
 		c4.532,4.538,10.563,7.037,16.98,7.037c6.417,0,12.448-2.499,16.977-7.033l275.847-275.848c4.536-4.536,7.034-10.565,7.034-16.978
 		S509.502,87.794,504.969,83.262z"/>
             </g>
-        </animated.svg >
+        </svg >
     )
 }
 

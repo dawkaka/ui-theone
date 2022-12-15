@@ -119,6 +119,37 @@
 
 }
 
+.friction {
+    animation: fric 1s ease-out;
+}
+
+@keyframes fric {
+    0% {
+        transform: scale(1.5);
+    }
+
+    20% {
+        transform: scale(.5);
+    }
+
+    40% {
+        transform: scale(1.2);
+    }
+
+    60% {
+        transform: scale(.8);
+    }
+
+    80% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
 @media screen and (max-width: 950px) {
     .toast {
         left: calc(50% - 20px)
