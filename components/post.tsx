@@ -639,13 +639,19 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
             <Head>
                 <title>{localeTr.post} - @{post.couple_name}</title>
                 <meta name="robots" content="index,follow" />
-                <meta name="twitter:domain" content="primecouples.com" />
-                <meta name="twitter:title" content={`${localeTr.post} ${post.caption ? `- ${post.caption.substring(0, 30)}` : ""}`} />
-                <meta property="og:title" content={`${localeTr.post} ${post.caption ? `- ${post.caption.substring(0, 30)}` : ""}`} />
-                <meta name="twitter:image" content={`${IMAGEURL}/${post.files[0].name}`} />
-                <link rel="canonical" href={`https://primecouples.com/${post.couple_name}/${postId}`} />
-                <meta name="twitter:image:src" content={`${IMAGEURL}/${post.files[0].name}`} />
+                <meta name="description" content={post.bio} />
+
+                <meta property="og:title" content={`${localeTr.post} - @${post.couple_name}`} />
+                <meta property="og:url" content={`${IMAGEURL}/${post.couple_name}/${postId}`} />
                 <meta property="og:image" content={`${IMAGEURL}/${post.files[0].name}`} />
+                <meta property="og:description" content={post.caption} />
+
+                <meta name="twitter:description" content={post.caption} />
+                <meta name="twitter:title" content={`${localeTr.post} - @${post.couple_name}`} />
+                <meta name="twitter:image:src" content={`${IMAGEURL}/${post.files[0].name}`} />
+                <meta name="twitter:image" content={`${IMAGEURL}/${post.files[0].name}`} />
+
+                <link rel="canonical" href={`${BASEURL}/${post.couple_name}/${postId}`} />
             </Head>
             <div className={styles.viewContent}>
                 <div className={styles.viewFiles}>

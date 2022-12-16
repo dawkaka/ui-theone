@@ -153,7 +153,8 @@ const CoupleProfile: NextPage = (props: any) => {
                 <meta property="og:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
                 <meta property="og:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
                 <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <meta property="og:url" content={`${IMAGEURL}/${data?.data.couple_name}`} />
+                <meta property="og:url" content={`${BASEURL}/${data?.data.couple_name}`} />
+
                 <meta name="twitter:description" content={`${data?.data.bio}`} />
                 <meta name="twitter:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
                 <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />

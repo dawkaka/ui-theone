@@ -162,7 +162,7 @@ export default function Profile(props: any) {
         blockMutation.mutate()
     }
 
-    if (data.data === null) {
+    if (!data || data.data === null) {
         return (
             <Layout>
                 <NotFound type="user" />
@@ -175,14 +175,19 @@ export default function Profile(props: any) {
             <Head>
                 <title>@{data?.data.user_name} - {localeTr.title}</title>
                 <meta name="robots" content="index,follow" />
-                <meta name="description" content={`@${data?.data.user_name}'s profile - Prime Couples, social media for couples`} />
-                <meta name="twitter:domain" content="primecouples.com" />
-                <meta name="twitter:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
+                <meta name="description" content={`@${data?.data.user_name} - ${data.data.bio}`} />
+
+                <meta property="og:url" content={`${BASEURL}/user/${data?.data.user_name}`} />
                 <meta property="og:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
-                <link rel="canonical" href={`https://primecouples.com/user/${data?.data.user_name}`} />
+                <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+                <meta property="og:description" content={data.data.bio} />
+
+                <meta name="twitter:description" content={data.data.bio} />
+                <meta name="twitter:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
                 <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
                 <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+                <link rel="canonical" href={`${BASEURL}/user/${data?.data.user_name}`} />
+
             </Head>
             <section className={styles.section} onClick={() => setShowActions(false)}>
                 <div className={styles.profileTopContainer}>
