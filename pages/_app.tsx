@@ -48,8 +48,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta httpEquiv="content-type" content="text/html; charset=UTF-8" />
         <meta name="referrer" content="always" />
         <meta httpEquiv="X-UA-Compatible" />
-        <meta property="twitter:url" content="" />
-        <meta property="og:url" content="" />
+
+        <meta name="twitter:label1" content="Prime Couples" />
+        <meta name="twitter:domain" content="primecouples.com" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />

@@ -106,11 +106,17 @@ const LandingPage: NextPage = () => {
         <meta name="keywords" content="primecouples, prime couples, love, romance, lovers, social media, theone, social media for couples, couple creators, soulmate, soulmates, power couples" />
         <meta name="fragment" content="!" />
         <meta name="robots" content="index,follow" />
-        <meta property="og:url" content="https://www.primecouples.com" />
-        <meta property="og:type" content="website" />
         <meta property="og:title" content="Social media made for couples" />
         <meta property="og:description" content="Prime Couples is a social media made for couples, Post your soulmates anytime without worrying about mixing business with pleasure." />
         <meta property="og:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
+        <meta property="og:url" content="https://www.primecouples.com" />
+
+        <meta name="twitter:title" content="Social media made for couples" />
+        <meta name="twitter:data1" content="" />
+        <meta name="twitter:description" content="Prime Couples is a social media made for couples, Post your soulmates anytime without worrying about mixing business with pleasure" />
+        <meta name="twitter:image:alt" content="Prime Couples" />
+        <meta name="twitter:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
+        <meta name="twitter:image:src" content="https://www.primecouples.com/primecouplesOG.jpg" />
       </Head>
       <div style={{ width: "100%" }}>
         <header className={`${styles.header} ${styles.widthControlWrapper}`} id="header">
