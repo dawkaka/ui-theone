@@ -150,12 +150,19 @@ const CoupleProfile: NextPage = (props: any) => {
                 <meta name="description" content={`@${data?.data.couple_name}'s profile - Prime Couples is a social media made for couples`} />
                 <meta name="robots" content="index,follow" />
                 <meta name="twitter:domain" content="primecouples.com" />
+                <meta name="twitter:data1" content="" />
+                <meta name="twitter:label1" content="Prime Couples" />
+                <meta name="twitter:domain" content="primecouples.com" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:description" content={`${data?.data.bio}`} />
+                <meta property="og:description" content={`${data?.data.bio}`} />
+                <meta property="og:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
                 <meta name="twitter:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
                 <meta property="og:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
                 <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <link rel="canonical" href={`https://primecouples.com/${data?.data.couple_name}`} />
                 <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
                 <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
+                <link rel="canonical" href={`${IMAGEURL}/${data?.data.couple_name}`} />
             </Head>
             <Layout>
                 <div className={styles.mainContainer} onClick={() => setShowActions(false)}>

@@ -112,11 +112,11 @@ const LandingPage: NextPage = () => {
         <meta name="twitter:domain" content="primecouples.com" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:description" content="" /><meta property="og:description" content="" />
+        <meta property="og:title" content="Social media made for couples" />
         <meta name="twitter:image:alt" content="Prime Couples" />
         <meta name="twitter:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
         <meta name="twitter:image:src" content="https://www.primecouples.com/primecouplesOG.jpg" />
         <meta property="og:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
-        <meta property="og:title" content="Social media made for couples" />
       </Head>
       <div style={{ width: "100%" }}>
         <header className={`${styles.header} ${styles.widthControlWrapper}`} id="header">
