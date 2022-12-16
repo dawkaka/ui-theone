@@ -60,6 +60,12 @@ export default function Explore() {
 
     }
 
+    useEffect(() => {
+        if (query === '') {
+            setTab('couples')
+        }
+    }, [query])
+
     const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/post/explore/${pageParam}`)
 
     const {
@@ -110,11 +116,11 @@ export default function Explore() {
                             <div className={styles.searchHeader}>
                                 <div className={`${styles.tabItem}`} onClick={() => tabNavigation("couples")}>
                                     <p>{localeTr.couples}</p>
-                                    <div className={`${styles.indicator} ${styles.indTwo} ${tab !== "users" ? styles.tabActive : ""}`}></div>
+                                    <div className={`${styles.indicator} ${styles.indOne} ${tab !== "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={styles.tabItem} onClick={() => tabNavigation("users")}>
                                     <p>{localeTr.users}</p>
-                                    <div className={`${styles.indicator} ${styles.indOne} ${tab === "users" ? styles.tabActive : ""}`}></div>
+                                    <div className={`${styles.indicator} ${styles.indTwo} ${tab === "users" ? styles.tabActive : ""}`}></div>
                                 </div>
                                 <div className={styles.closeSearch} onClick={() => setQuery("")}>
                                     <AiFillCloseCircle size={30} />
