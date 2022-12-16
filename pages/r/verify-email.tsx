@@ -17,7 +17,7 @@ export default function VerifyEmail() {
     const localeTr = tr[locale as Langs]
     const [id, setID] = useState("")
     const [response, setResponse] = useState("")
-    const [time, setTime] = useState(30)
+    const [time, setTime] = useState(60)
 
     useEffect(() => {
         if (router.query.id) {
