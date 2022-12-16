@@ -102,7 +102,7 @@ const LandingPage: NextPage = () => {
     <>
       <Head>
         <title>Prime Couples - {localeTr.heroHeader}</title>
-        <meta name="description" content="Prime Couples is a social media made for couples, Post your soulmates anytime without worrying about mixing business with please." />
+        <meta name="description" content="Prime Couples is a social media made for couples, Post your soulmates anytime without worrying about mixing business with pleasure." />
         <meta name="keywords" content="primecouples, prime couples, love, romance, lovers, social media, theone, social media for couples, couple creators, soulmate, soulmates, power couples" />
         <meta name="fragment" content="!" />
         <meta name="robots" content="index,follow" />
@@ -111,7 +111,8 @@ const LandingPage: NextPage = () => {
         <meta name="twitter:label1" content="Prime Couples" />
         <meta name="twitter:domain" content="primecouples.com" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:description" content="" /><meta property="og:description" content="" />
+        <meta name="twitter:description" content="Prime Couples is a social media made for couples, Post your soulmates anytime without worrying about mixing business with pleasure" />
+        <meta property="og:description" content="Prime Couples is a social media made for couples, Post your soulmates anytime without worrying about mixing business with pleasure." />
         <meta property="og:title" content="Social media made for couples" />
         <meta name="twitter:image:alt" content="Prime Couples" />
         <meta name="twitter:image" content="https://www.primecouples.com/primecouplesOG.jpg" />

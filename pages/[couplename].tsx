@@ -162,7 +162,6 @@ const CoupleProfile: NextPage = (props: any) => {
                 <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
                 <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
                 <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <link rel="canonical" href={`${IMAGEURL}/${data?.data.couple_name}`} />
             </Head>
             <Layout>
                 <div className={styles.mainContainer} onClick={() => setShowActions(false)}>
