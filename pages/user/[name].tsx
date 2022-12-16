@@ -1,11 +1,11 @@
-import { useRef, useState, useEffect, useContext, MouseEventHandler, MouseEvent } from "react";
+import { useRef, useState, useContext } from "react";
 import { ChangeEvent } from "react";
 import Image from "next/image";
 import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import Layout from "../../components/mainLayout";
 import styles from "../../styles/profile.module.css"
-import { MdBlock, MdModeEdit, MdReport } from "react-icons/md";
+import { MdBlock, MdModeEdit } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
