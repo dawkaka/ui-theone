@@ -270,6 +270,7 @@
     }
 
     .pmWrapper {
+        padding: 40px var(--gap-half) 15px;
         height: 100%;
     }
 
