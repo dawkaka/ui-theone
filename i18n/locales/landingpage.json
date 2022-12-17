@@ -4,27 +4,27 @@
         "howitworks": {
             "header": "How It Works",
             "first": {
-                "header": "User A sends a request",
-                "text": "Once you have an account, you can send request to your partner by going to their profile. You can cancel the request anytime provided the user you sent the request to has not accepted nor reject you request"
+                "header": "Sending a couple request",
+                "text": "To send a request to your partner, simply log in to your account and navigate to their profile. Click on the \"Send Request\" button to initiate the request. If you need to cancel the request at any time before your partner has accepted or rejected it, simply open the couple requests modal and click on \"Cancel Request\" button."
             },
             "second": {
-                "header": "User B recieves the request",
-                "text": "Once you recieve a request, you have an option to accept or reject the request, double check the user name of the send and either accept or reject the request. Once you accept the request, a couple profile is created for you and your partner."
+                "header": "Accepting or rejecting a couple requests",
+                "text": "When you receive a request from another user, you have the option to accept or reject it. It is important to double check the user name of the sender before making a decision. To accept the request, simply click on the \"Accept\" button. This will create a couple profile for you and your partner. If you decide to reject the request, click on the \"Reject\" button. "
             }
         },
         "whatnext": {
             "header": "What's Next?",
             "first": {
                 "header": "Post Photos",
-                "text": "Couples can upload photos and memories to share to their followers, couples can upload up to 10 photos slides per post, followers and other users can like and comment on these photos. Couples however can close and reopen comments anytime."
+                "text": "As a couple, you can share photos and memories with your followers by creating posts on your couple profile. Each post can contain up to 10 photo slides, and followers and other users can like and comment on these photos. You can choose to close comments on a post at any time, or reopen them if you have previously closed them. This allows you to control the level of interaction and feedback you receive on your posts. You can also choose to delete any inappropriate or unwanted posts as needed. Overall, the ability to share photos and memories with your followers and interact with them through likes and comments can be a fun and rewarding aspect of using the platform."
             },
             "second": {
                 "header": "Post Short Videos",
-                "text": "Share those beautiful and romantic moments in short 30 seconds video forms to your followers and other users."
+                "text": "In addition to sharing photos, couples can also share short 30-second or less video clips of their beautiful and romantic moments with their followers and other users on the platform. This is a great way to capture and share special moments with the people you love, and allows your followers to feel more connected to your relationship. Simply record and upload to share it with your followers in the same way you would share a photo post."
             },
             "third": {
                 "header": "Messaging your Partner",
-                "text": "A messaging inbox is created especially for a single couple to chat and send streaks between them. It's made just for you and yours."
+                "text": "The messaging inbox on the platform is a feature that is designed to enhance communication and connection between couples. It is a private space that is only accessible to you and your partner, and is not visible to other users on the platform. In addition to sending messages and photos, in future versions the messaging inbox will also include other features that are specifically designed for couples, such as the ability to share special moments and memories, plan events and activities, and track important dates and milestones. These additional features can make the messaging experience for couples even more enjoyable and rewarding than traditional messaging platforms."
             }
         },
         "breakup": {
@@ -58,27 +58,27 @@
         "howitworks": {
             "header": "Cómo funciona",
             "first": {
-                "header": "El usuario A envía una solicitud",
-                "text": "Una vez que tenga una cuenta, puede enviar una solicitud a su socio yendo a su perfil. Puede cancelar la solicitud en cualquier momento siempre que el usuario al que envió la solicitud no haya aceptado o rechazado su solicitud"
+                "header": "Enviando una solicitud de pareja",
+                "text": "Para enviar una solicitud a su socio, simplemente inicie sesión en su cuenta y navegue hasta su perfil. Haga clic en el botón \"Enviar solicitud\" para iniciar la solicitud. Si necesita cancelar la solicitud en cualquier momento antes de que su pareja la haya aceptado o rechazado, simplemente abra el modal de solicitudes de pareja y haga clic en el botón \"Cancelar solicitud\"."
             },
             "second": {
-                "header": "La usuario B recibe la solicitud.",
-                "text": "Cuando recibe una solicitud, puede aceptarla o rechazarla, verificar dos veces el nombre de usuario del envío y aceptar o rechazar la solicitud. Una vez que acepta la solicitud, se crea un perfil de pareja para usted y su pareja."
+                "header": "Aceptar o rechazar un par de solicitudes",
+                "text": "Cuando recibe una solicitud de otro usuario, tiene la opción de aceptarla o rechazarla. Es importante verificar dos veces el nombre de usuario del remitente antes de tomar una decisión. Para aceptar la solicitud, simplemente haga clic en el botón \"Aceptar\". Esto creará un perfil de pareja para usted y su pareja. Si decide rechazar la solicitud, haga clic en el botón \"Rechazar\"."
             }
         },
         "whatnext": {
             "header": "¿Que sigue?",
             "first": {
                 "header": "Publicar fotos",
-                "text": "Las parejas pueden subir fotos y recuerdos para compartir con sus seguidores, las parejas pueden subir hasta 10 diapositivas de fotos por publicación, los seguidores y otros usuarios pueden dar me gusta y comentar estas fotos. Sin embargo, las parejas pueden cerrar y reabrir los comentarios en cualquier momento."
+                "text": "Como pareja, puedes compartir fotos y recuerdos con tus seguidores creando publicaciones en tu perfil de pareja. Cada publicación puede contener hasta 10 diapositivas de fotos, y los seguidores y otros usuarios pueden dar me gusta y comentar sobre estas fotos. Puede optar por cerrar los comentarios de una publicación en cualquier momento o volver a abrirlos si los ha cerrado previamente. Esto le permite controlar el nivel de interacción y comentarios que recibe en sus publicaciones. También puede optar por eliminar cualquier publicación inapropiada o no deseada según sea necesario. En general, la capacidad de compartir fotos y recuerdos con sus seguidores e interactuar con ellos a través de Me gusta y comentarios puede ser un aspecto divertido y gratificante del uso de la plataforma."
             },
             "second": {
                 "header": "Publicar videos cortos",
-                "text": "Comparta esos hermosos y románticos momentos en breves formularios de video de 30 segundos con sus seguidores y otros usuarios."
+                "text": "Además de compartir fotos, las parejas también pueden compartir videos cortos de 30 segundos o menos de sus hermosos y románticos momentos con sus seguidores y otros usuarios en la plataforma. Esta es una excelente manera de capturar y compartir momentos especiales con las personas que amas y permite que tus seguidores se sientan más conectados con tu relación. Simplemente grabe y cárguelo para compartirlo con sus seguidores de la misma manera que compartiría una publicación de fotos."
             },
             "third": {
                 "header": "Enviar mensajes a su socio",
-                "text": "Se crea una bandeja de entrada de mensajes especialmente para que una pareja soltera chatee y envíe rayas entre ellos. Está hecho solo para ti y los tuyos."
+                "text": "La bandeja de entrada de mensajes en la plataforma es una característica que está diseñada para mejorar la comunicación y la conexión entre las parejas. Es un espacio privado al que solo pueden acceder usted y su pareja, y no es visible para otros usuarios en la plataforma. Además de enviar mensajes y fotos, en versiones futuras, la bandeja de entrada de mensajes también incluirá otras funciones diseñadas específicamente para parejas, como la capacidad de compartir momentos y recuerdos especiales, planificar eventos y actividades, y realizar un seguimiento de fechas e hitos importantes. Estas características adicionales pueden hacer que la experiencia de mensajería para parejas sea aún más placentera y gratificante que las plataformas de mensajería tradicionales."
             }
         },
         "breakup": {
