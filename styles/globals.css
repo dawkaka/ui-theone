@@ -260,3 +260,21 @@ input[type="search"]:focus {
     background: black;
   }
 }
+
+.prohibited-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap);
+  background-color: var(--background);
+  width: min(95%, 500px);
+  color: red;
+  border-radius: var(--radius-small);
+  margin: 20px auto;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.prohibited-message svg {
+  flex-shrink: 0;
+}

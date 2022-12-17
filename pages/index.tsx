@@ -20,6 +20,8 @@ import { useRouter } from "next/router"
 import tr from "../i18n/locales/landingpage.json"
 import { Langs } from "../types"
 import { getCountry } from "../i18n/location"
+import { ImBlocked } from "react-icons/im"
+import { MdReport } from "react-icons/md"
 
 
 const LandingPage: NextPage = () => {
@@ -379,6 +381,13 @@ const LandingPage: NextPage = () => {
                     </div>
                   </div>
 
+                  <div>
+                    <div className="prohibited-message">
+                      <MdReport size={30} />
+                      <p>Porn and nudity are strictly prohibited on this website.</p>
+                    </div>
+
+                  </div>
 
                   <div className={styles.twoCol} style={{ marginBottom: "100px" }}>
 
