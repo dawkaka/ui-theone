@@ -160,7 +160,7 @@ const LandingPage: NextPage = () => {
                           <div className={styles.heroCircle}>
                             <div className={styles.heroRotate}>
                               <div className={styles.planet}><img src="/6.jpg" alt="" /></div>
-                              <div className={styles.planet}><img src={showRainbow ? "/13.jpg" : "/9.jpg"} alt="" /></div>
+                              <div className={styles.planet}><img src={showRainbow ? "/13.jpg" : "/11.jpg"} alt="" /></div>
                               <div className={styles.planet}><img src={showRainbow ? "/12.jpg" : "/10.jpg"} alt="" /></div>
                               <div className={styles.planet}><img src="/9.jpg" alt="" /></div>
                             </div>
