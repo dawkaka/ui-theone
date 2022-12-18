@@ -84,7 +84,7 @@ h5,
 h6,
 p,
 ul,
-li {
+ul li {
   padding: 0;
   margin: 0;
   font-family: -apple-system,
@@ -152,7 +152,7 @@ body {
   align-items: center;
 }
 
-li {
+ul li {
   list-style: none;
 }
 
