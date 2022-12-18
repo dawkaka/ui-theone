@@ -20,7 +20,6 @@ import { useRouter } from "next/router"
 import tr from "../i18n/locales/landingpage.json"
 import { Langs } from "../types"
 import { getCountry } from "../i18n/location"
-import { ImBlocked } from "react-icons/im"
 import { MdReport } from "react-icons/md"
 
 
@@ -32,11 +31,6 @@ const LandingPage: NextPage = () => {
   const localeTr = tr[locale as Langs]
   const [showRainbow, setShowRainbow] = useState(false)
 
-  useEffect(() => {
-    if (localStorage.getItem("hasAccount")) {
-      router.replace(`/r/home`)
-    }
-  }, [])
   function createObserver() {
 
     function demosIntersectionHandler(entries: IntersectionObserverEntry[]) {
@@ -149,14 +143,29 @@ const LandingPage: NextPage = () => {
               <div className={styles.widthControlWrapper} style={{ color: "white" }}>
                 <div className={styles.widthControl}>
                   <header className={styles.heroContainer}>
-                    <div className={styles.heroHeading}>
-                      <h1 className={styles.headerLarge}>
-                        {localeTr.heroHeader}
-                      </h1>
-                    </div>
-                    <div className={styles.heroImageContainer}>
-                      <div className={styles.heroImageContainerInner}>
-                        <img src="/illu.gif" style={{ width: "100%" }} alt="" />
+                    <div className={styles.twoCol} style={{ alignItems: "center" }}>
+                      <div className={styles.heroHeading}>
+                        <h1 className={styles.headerLarge}>
+                          {localeTr.heroHeader}
+                        </h1>
+                        <p className={`${styles.txL} ${styles.text80}`}>
+                          Connect and share with your significant other on Prime Couples. Show the world your special moments as a couple,
+                          and stay connected through private messaging, even when distance or busy schedules may be an issue.
+                          Enhance your relationship while making your mark on the internet as a dynamic and influential couple with.
+                        </p>
+                      </div>
+                      <div className={styles.heroImageContainer}>
+                        <div className={styles.heroImageContainerInner}>
+                          <img src="/illu.gif" style={{ width: "80%", height: "80%", objectFit: "cover", borderRadius: "100%" }} alt="" />
+                          <div className={styles.heroCircle}>
+                            <div className={styles.heroRotate}>
+                              <div className={styles.planet}><img src="/6.jpg" alt="" /></div>
+                              <div className={styles.planet}><img src={showRainbow ? "/13.jpg" : "/9.jpg"} alt="" /></div>
+                              <div className={styles.planet}><img src={showRainbow ? "/12.jpg" : "/10.jpg"} alt="" /></div>
+                              <div className={styles.planet}><img src="/9.jpg" alt="" /></div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </header>
