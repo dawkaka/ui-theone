@@ -150,9 +150,7 @@ const LandingPage: NextPage = () => {
                           {localeTr.heroHeader}
                         </h1>
                         <p className={`${styles.txL} ${styles.text80}`}>
-                          Connect and share with your significant other on Prime Couples. Show the world your special moments as a couple,
-                          and stay connected through private messaging, even when distance or busy schedules may be an issue.
-                          Enhance your relationship while making your mark on the internet as a dynamic and influential couple with.
+                          {localeTr.subtext}
                         </p>
                       </div>
                       <div className={styles.heroImageContainer}>
@@ -394,7 +392,7 @@ const LandingPage: NextPage = () => {
                   <div>
                     <div className="prohibited-message">
                       <MdReport size={30} />
-                      <p>Porn and nudity are strictly prohibited on this website.</p>
+                      <p>{localeTr.prohibited}</p>
                     </div>
 
                   </div>

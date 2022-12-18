@@ -1,6 +1,7 @@
 {
     "en": {
         "heroHeader": "Social Media Made For Couples",
+        "subtext": "Connect and share with your significant other on Prime Couples. Show the world your special moments as a couple, and stay connected through private messaging, even when distance or busy schedules may be an issue. Enhance your relationship while making your mark on the internet as a dynamic and influential couple with.",
         "howitworks": {
             "header": "How It Works",
             "first": {
@@ -38,6 +39,7 @@
                 "text": "When a couple get back together, their couple profile is restored and their profile and all previous non deleted photos and videos can once again be seen by their followers and other users"
             }
         },
+        "prohibited": "Porn and nudity are strictly prohibited on this website.",
         "signin": "Sign in",
         "signup": "Sign up",
         "followers": "Followers",
@@ -55,6 +57,7 @@
     },
     "es": {
         "heroHeader": "Redes sociales para parejas",
+        "subtext": "Conéctate y comparte con tu pareja en Prime Couples. Muestre al mundo sus momentos especiales como pareja y manténgase conectado a través de mensajes privados, incluso cuando la distancia o los horarios ocupados puedan ser un problema. Mejore su relación mientras deja su huella en Internet como una pareja dinámica e influyente.",
         "howitworks": {
             "header": "Cómo funciona",
             "first": {
@@ -92,6 +95,7 @@
                 "text": "Cuando una pareja vuelve a estar junta, su perfil de pareja se restaura y sus seguidores y otros usuarios pueden volver a ver su perfil y todas las fotos y videos anteriores no eliminados."
             }
         },
+        "prohibited": "La pornografía y la desnudez están estrictamente prohibidas en este sitio web.",
         "signin": "Acceso",
         "signup": "Regístrase",
         "followers": "Seguidores",
