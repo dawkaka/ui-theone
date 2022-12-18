@@ -21,6 +21,7 @@ import tr from "../i18n/locales/landingpage.json"
 import { Langs } from "../types"
 import { getCountry } from "../i18n/location"
 import { MdReport } from "react-icons/md"
+import CookieBanner from "../components/cookie"
 
 
 const LandingPage: NextPage = () => {
@@ -593,6 +594,7 @@ const LandingPage: NextPage = () => {
             </div >
 
           </div >
+          <CookieBanner />
         </main >
         <footer >
 
