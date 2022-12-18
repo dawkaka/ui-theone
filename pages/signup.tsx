@@ -22,6 +22,7 @@ const Signup: NextPage = () => {
     const [updateUi, setUpdateUi] = useState(false)
     const [errMode, setErrMode] = useState(false)
     const [nameAvl, setNameAvailability] = useState(true)
+    const [checked, setChecked] = useState(false)
 
     const dataRef = useRef<Signup>({
         first_name: "",
@@ -324,6 +325,12 @@ const Signup: NextPage = () => {
                                             </div>
                                         </div>
 
+                                        <div className={styles.formItem}>
+                                            <p>
+                                                {localeTr.terms.text} {' '}
+                                                <Link href="/m/TERMS-CONDITIONS"><a style={{ color: "var(--success)", lineHeight: "150%" }}>{localeTr.terms.link}</a></Link>
+                                            </p>
+                                        </div>
                                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: "40px" }}>
                                             <button
                                                 onClick={back}

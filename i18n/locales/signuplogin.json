@@ -1,6 +1,6 @@
 {
     "en": {
-        "signup": "Singup",
+        "signup": "Sign up",
         "login": "Login",
         "next": "Next",
         "hasAccount": "Already have an account?",
@@ -61,7 +61,11 @@
             "Only first letter should be upppercase"
         ],
         "slogan": "Social media made for couples",
-        "somethingwentwrong": "Something went wrong, please try again"
+        "somethingwentwrong": "Something went wrong, please try again",
+        "terms": {
+            "text": "By clicking \"Sign up\" you are agreeing to our",
+            "link": "Terms and Privacy Policy"
+        }
     },
     "es": {
         "signup": "Regístrase",
@@ -125,6 +129,10 @@
             "Solo la primera letra debe estar en mayúsculas"
         ],
         "slogan": "Redes sociales hechas para parejas",
-        "somethingwentwrong": "Algo salió mal. Por favor, vuelva a intentarlo"
+        "somethingwentwrong": "Algo salió mal. Por favor, vuelva a intentarlo",
+        "terms": {
+            "text": "Al hacer clic en \"Registrarse\", acepta nuestros",
+            "link": "Términos y Política de privacidad"
+        }
     }
 }
