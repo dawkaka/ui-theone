@@ -93,7 +93,7 @@ const LandingPage: NextPage = () => {
     return () => {
       window.removeEventListener("scroll", updateHeaderBackgorund)
     }
-  })
+  }, [])
 
   return (
     <>
