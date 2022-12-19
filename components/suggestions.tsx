@@ -2,7 +2,7 @@ import styles from "./styles/suggestions.module.css"
 import CouplePreview from "./couplepreview"
 import tr from "../i18n/locales/components/suggestions.json"
 import { useRouter } from "next/router"
-import { Langs } from "../types"
+import { CouplePreviewT, Langs } from "../types"
 import { BASEURL, IMAGEURL } from "../constants"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
@@ -14,7 +14,26 @@ const Suggestions: React.FunctionComponent = () => {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-    const { isLoading, data } = useQuery(["suggested"], () => axios.get(`${BASEURL}/couple/u/suggested-accounts`), { staleTime: Infinity })
+    const queryClient = useQueryClient()
+    const cacheKey = "suggested"
+    const { isLoading, data } = useQuery([cacheKey], () => axios.get(`${BASEURL}/couple/u/suggested-accounts`).then(res => res.data), { staleTime: Infinity })
+
+    const updateCache = (couple_name: string) => {
+        queryClient.setQueryData([cacheKey], (oldData: CouplePreviewT[] | undefined) => {
+            if (oldData) {
+                const newData = oldData.map((preview) => {
+                    if (preview.couple_name === couple_name) {
+                        return { ...preview, is_following: !preview.is_following }
+                    }
+                    return preview
+                });
+                return newData;
+            }
+            return []
+        });
+    }
+
+
     return (
         <section className={styles.suggestionsContainer}>
             <div className={styles.suggestionsWrapper}>
@@ -23,12 +42,19 @@ const Suggestions: React.FunctionComponent = () => {
                     isLoading ? <div style={{ width: "100%", display: "flex", justifyContent: "center" }}><Loading size="medium" color="var(--success)" /></div> : null
                 }
                 {
-                    data?.data.map((c: any) => (
+                    data?.map((c: any) => (
                         <PreviewWithRemove
                             key={c.couple_name}
-                            node={<CouplePreview
-                                profile_picture={`${IMAGEURL}/${c.profile_picture}`}
-                                name={c.couple_name} isFollowing={false} married={c.married} verified={c.verified} />} name={c.couple_name} />
+                            node={
+                                <CouplePreview
+                                    key={c.couple_name}
+                                    profile_picture={`${IMAGEURL}/${c.profile_picture}`}
+                                    couple_name={c.couple_name} is_following={c.is_following} married={c.married} verified={c.verified}
+                                    updateCache={() => updateCache(c.couple_name)}
+                                />
+                            }
+                            name={c.couple_name}
+                        />
                     ))
                 }
             </div>

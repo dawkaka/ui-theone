@@ -61,6 +61,15 @@ export interface PostT {
     postId: string;
     comments_closed: boolean
 }
+export interface CouplePreviewT {
+    couple_name: string;
+    is_following: boolean;
+    married: boolean;
+    profile_picture: string;
+    verified: boolean;
+    updateCache: () => void
+}
+
 export type MessageTypes = "ERROR" | "SUCCESS" | "NEUTRAL"
 
 export interface MutationResponse {

@@ -15,7 +15,7 @@ import { EditUser } from "../../components/editprofile";
 import { Actions, Loader, Loading } from "../../components/mis";
 import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
-import { Langs, MutationResponse } from "../../types";
+import { CouplePreviewT, Langs, MutationResponse } from "../../types";
 import CouplePreview from "../../components/couplepreview";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
@@ -452,30 +452,59 @@ const ShowPicture: React.FunctionComponent<{
 
 const Following: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
     const { query: { name } } = useRouter()
-    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/following/${name}/${pageParam}`)
+    const queryClient = useQueryClient()
+
+    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/following/${name}/${pageParam}`).then(res => res.data)
+    const cacheKey = ["following", { name }]
     const {
         data,
         fetchNextPage,
         hasNextPage,
         isFetching,
         isFetchingNextPage,
-    } = useInfiniteQuery(["following", { name }], fetchPosts,
+    } = useInfiniteQuery(cacheKey, fetchPosts,
         {
             getNextPageParam: (lastPage, pages) => {
-                if (lastPage.data.pagination.end) {
+                if (lastPage.pagination.end) {
                     return undefined
                 }
-                return lastPage.data.pagination.next
+                return lastPage.pagination.next
             },
             staleTime: Infinity
         })
 
+
     let following: any[] = []
     if (data?.pages) {
         for (let page of data?.pages) {
-            following = following.concat(page.data.following)
+            following = following.concat(page.following)
         }
     }
+
+    const updateCache = (couple_name: string) => {
+        queryClient.setQueryData(cacheKey, (oldData: { pages: { following: CouplePreviewT[] }[] } | undefined) => {
+            if (oldData) {
+                const pages = oldData.pages
+                let page = 0
+                for (let i = 0; i < pages.length; i++) {
+                    if (pages[i].following.some(val => val.couple_name === couple_name)) {
+                        page = i
+                        break;
+                    }
+                }
+                pages[page].following = pages[page].following.map((preview) => {
+                    if (preview.couple_name === couple_name) {
+                        return { ...preview, is_following: !preview.is_following }
+                    }
+                    return preview
+                });
+                oldData.pages = pages
+                return oldData
+            }
+            return undefined
+        });
+    }
+
 
     return (
         <Modal closeTimeoutMS={200} isOpen={open} onRequestClose={close}
@@ -520,7 +549,7 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                     }
                     {
                         following.map(flw => (
-                            <CouplePreview name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} isFollowing={flw.is_following} verified={flw.verified} />
+                            <CouplePreview updateCache={() => updateCache(flw.couple_name)} couple_name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} is_following={flw.is_following} verified={flw.verified} />
                         ))
                     }
                     <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} manual={false} />
