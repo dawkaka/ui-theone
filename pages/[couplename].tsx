@@ -515,6 +515,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 }
 
+// eslint-disable-next-line react/display-name
 const Posts: React.FC<{ coupleName: string }> = React.memo(({ coupleName }) => {
 
     const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/${coupleName}/posts/${pageParam}`).then(res => res.data)
@@ -534,7 +535,6 @@ const Posts: React.FC<{ coupleName: string }> = React.memo(({ coupleName }) => {
             },
             staleTime: Infinity
         })
-
     let posts: any[] = []
     if (data?.pages) {
         for (let page of data?.pages) {

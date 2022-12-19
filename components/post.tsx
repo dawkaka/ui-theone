@@ -1068,127 +1068,127 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }
 const EditPost: React.FunctionComponent<{
     closeModal: () => void, caption: string, location: string,
     id: string, pId: string, couple_name: string; update: (caption: string, location: string) => void
-}> =
-    React.memo(({ closeModal, caption, location, id, pId, couple_name, update }) => {
-        const locale = useRouter().locale || "en"
-        const localeTr = tr[locale as Langs]
-        const [edit, setEdit] = useState({ caption: caption, location: location })
-        const queryClient = useQueryClient()
-        const notify = useContext(ToasContext)
+    // eslint-disable-next-line react/display-name
+}> = React.memo(({ closeModal, caption, location, id, pId, couple_name, update }) => {
+    const locale = useRouter().locale || "en"
+    const localeTr = tr[locale as Langs]
+    const [edit, setEdit] = useState({ caption: caption, location: location })
+    const queryClient = useQueryClient()
+    const notify = useContext(ToasContext)
 
 
-        const editMutation = useMutation<AxiosResponse, AxiosError<any, any>, { caption: string, location: string }>(
-            (edit: { caption: string, location: string }) => {
-                return axios.put(`${BASEURL}/post/${id}`, JSON.stringify(edit))
+    const editMutation = useMutation<AxiosResponse, AxiosError<any, any>, { caption: string, location: string }>(
+        (edit: { caption: string, location: string }) => {
+            return axios.put(`${BASEURL}/post/${id}`, JSON.stringify(edit))
+        },
+        {
+            onSuccess: (data) => {
+                queryClient.setQueryData(["post", { postId: pId }], (oldData: any) => {
+                    if (oldData) {
+                        return { ...oldData, location: edit.location, caption: edit.caption }
+                    }
+                    return undefined
+                });
+
+                queryClient.setQueryData(["feed"], (oldData: any) => {
+                    if (oldData) {
+                        const pages = oldData.pages
+                        let page = -1
+                        for (let i = 0; i < pages.length; i++) {
+                            if (pages[i].feed.some((val: any) => val.id === id)) {
+                                page = i
+                                break;
+                            }
+                        }
+                        if (page > -1) {
+                            pages[page].feed = pages[page].feed.map((post: any) => {
+                                if (post.id === id) {
+                                    return { ...post, location: edit.location, caption: edit.caption }
+                                }
+                                return post
+                            });
+                        }
+                        return { ...oldData, pages: [...pages] }
+                    }
+                    return undefined
+                })
+
+                queryClient.setQueryData(["posts", { coupleName: couple_name }], (oldData: any) => {
+                    if (oldData) {
+                        const { pages } = oldData
+                        let page = -1
+                        for (let i = 0; i < pages.length; i++) {
+                            if (pages[i].posts.some((val: any) => val.id === id)) {
+                                page = i
+                                break;
+                            }
+                        }
+                        if (page > -1) {
+                            pages[page].posts = pages[page].posts.map((post: any) => {
+                                if (post.id === id) {
+                                    return { ...post, location: edit.location, caption: edit.caption }
+                                }
+                                return post
+                            });
+                        }
+                        return { ...oldData, pages: [...pages] }
+                    }
+                    return undefined
+                })
+                closeModal()
+                update(edit.caption, edit.location)
+                const { message, type } = data.data as MutationResponse
+                notify!.notify(message, type)
             },
-            {
-                onSuccess: (data) => {
-                    queryClient.setQueryData(["post", { postId: pId }], (oldData: any) => {
-                        if (oldData) {
-                            return { ...oldData, location: edit.location, caption: edit.caption }
-                        }
-                        return undefined
-                    });
+            onError: err => {
+                notify!.notify(err.response?.data.message, "ERROR")
+            }
+        })
 
-                    queryClient.setQueryData(["feed"], (oldData: any) => {
-                        if (oldData) {
-                            const pages = oldData.pages
-                            let page = -1
-                            for (let i = 0; i < pages.length; i++) {
-                                if (pages[i].feed.some((val: any) => val.id === id)) {
-                                    page = i
-                                    break;
-                                }
-                            }
-                            if (page > -1) {
-                                pages[page].feed = pages[page].feed.map((post: any) => {
-                                    if (post.id === id) {
-                                        return { ...post, location: edit.location, caption: edit.caption }
-                                    }
-                                    return post
-                                });
-                            }
-                            return { ...oldData, pages: [...pages] }
-                        }
-                        return undefined
-                    })
+    const editPost = () => {
+        if (editMutation.isLoading) return
+        editMutation.mutate({ caption: edit.caption, location: edit.location })
+    }
 
-                    queryClient.setQueryData(["posts", { coupleName: couple_name }], (oldData: any) => {
-                        if (oldData) {
-                            const { pages } = oldData
-                            let page = -1
-                            for (let i = 0; i < pages.length; i++) {
-                                if (pages[i].posts.some((val: any) => val.id === id)) {
-                                    page = i
-                                    break;
-                                }
-                            }
-                            if (page > -1) {
-                                pages[page].posts = pages[page].posts.map((post: any) => {
-                                    if (post.id === id) {
-                                        return { ...post, location: edit.location, caption: edit.caption }
-                                    }
-                                    return post
-                                });
-                            }
-                            return { ...oldData, pages: [...pages] }
-                        }
-                        return undefined
-                    })
-                    closeModal()
-                    update(edit.caption, edit.location)
-                    const { message, type } = data.data as MutationResponse
-                    notify!.notify(message, type)
-                },
-                onError: err => {
-                    notify!.notify(err.response?.data.message, "ERROR")
-                }
-            })
-
-        const editPost = () => {
-            if (editMutation.isLoading) return
-            editMutation.mutate({ caption: edit.caption, location: edit.location })
-        }
-
-        return (
-            <div className={`${styles.modalBody} ${styles.editModal}`}>
-                <div className={styles.editHeader}>
-                    <div className={styles.backIcon} onClick={closeModal}>
-                        <IoMdClose size={20} color="var(--accents-6)" />
-                    </div>
-                    <p>{localeTr.edit}</p>
-                    <button onClick={editPost}
-                        className={styles.saveButton}
-                    >
-                        {editMutation.isLoading ? <Loading size="small" color="white" /> : localeTr.save}
-                    </button>
+    return (
+        <div className={`${styles.modalBody} ${styles.editModal}`}>
+            <div className={styles.editHeader}>
+                <div className={styles.backIcon} onClick={closeModal}>
+                    <IoMdClose size={20} color="var(--accents-6)" />
                 </div>
-                <div className={`${styles.modalContent} ${styles.captionStage}`}>
-                    <div className={styles.editItem}>
-                        <label htmlFor="caption">{localeTr.caption.title}</label>
-                        <textarea
-                            placeholder={localeTr.caption.placeholder}
-                            className={styles.textArea}
-                            id="caption"
-                            defaultValue={caption}
-                            onChange={(e) => setEdit({ ...edit, caption: e.target.value })}
-                        ></textarea>
-                    </div>
-                    <div className={styles.editItem}>
-                        <label htmlFor="location">{localeTr.location.title}</label>
-                        <input
-                            type="text"
-                            placeholder={localeTr.location.placeholder}
-                            id="location"
-                            defaultValue={location}
-                            onChange={(e) => setEdit({ ...edit, location: e.target.value })}
-                        />
-                    </div>
-                </div>
-
+                <p>{localeTr.edit}</p>
+                <button onClick={editPost}
+                    className={styles.saveButton}
+                >
+                    {editMutation.isLoading ? <Loading size="small" color="white" /> : localeTr.save}
+                </button>
             </div>
-        )
-    })
+            <div className={`${styles.modalContent} ${styles.captionStage}`}>
+                <div className={styles.editItem}>
+                    <label htmlFor="caption">{localeTr.caption.title}</label>
+                    <textarea
+                        placeholder={localeTr.caption.placeholder}
+                        className={styles.textArea}
+                        id="caption"
+                        defaultValue={caption}
+                        onChange={(e) => setEdit({ ...edit, caption: e.target.value })}
+                    ></textarea>
+                </div>
+                <div className={styles.editItem}>
+                    <label htmlFor="location">{localeTr.location.title}</label>
+                    <input
+                        type="text"
+                        placeholder={localeTr.location.placeholder}
+                        id="location"
+                        defaultValue={location}
+                        onChange={(e) => setEdit({ ...edit, location: e.target.value })}
+                    />
+                </div>
+            </div>
+
+        </div>
+    )
+})
 
 const SliderIndicator: React.FC<{ pos: number, curr: number }> = ({ pos, curr }) => {
     return (
