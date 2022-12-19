@@ -6,7 +6,7 @@ import tr from "../i18n/locales/components/editprofile.json"
 import { EditCouple, EditUser as EditU, EditUserT, ErrCodes, Langs, MutationResponse } from "../types"
 import { useRouter } from "next/router"
 import { isRealName } from "../libs/validators"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query"
 import axios, { AxiosError, AxiosResponse } from "axios"
 import { BASEURL } from "../constants"
 import { ToasContext } from "./context"
@@ -38,7 +38,7 @@ const modalStyles: Modal.Styles = {
     }
 }
 
-const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bioG: string, dc: string, web: string, coupleName: string }> =
+const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bioG: string, dc: string, web: string, coupleName: string, cacheKey: QueryKey }> =
     ({ open, close, bioG, dc, web, coupleName }) => {
 
         const router = useRouter()
@@ -164,7 +164,12 @@ export const EditUser: React.FunctionComponent<EditUserT> = ({ open, close, firs
         },
         {
             onSuccess: (data) => {
-                queryClient.invalidateQueries(["profile", { name: router.query.name }])
+                queryClient.setQueryData(["profile", { name: router.query.name }], (oldData: EditUserT | undefined) => {
+                    if (oldData) {
+                        return { ...oldData, first_name: firstName, last_name: lastName, bio: bioRef.current, website: webRef.current, dob: dateRef.current }
+                    }
+                    return undefined
+                });
                 close()
                 const { message, type } = data.data as MutationResponse
                 notify!.notify(message, type)

@@ -46,6 +46,7 @@ export default function Profile(props: any) {
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const [showActions, setShowActions] = useState(false)
+    const cacheKey = ["profile", { name: router.query.name }]
 
     const editProfileImage = (e: React.MouseEvent<HTMLSpanElement>) => {
         targetRef.current = "avatar"
@@ -58,10 +59,10 @@ export default function Profile(props: any) {
         },
         {
             onSuccess: (data) => {
-                queryClient.invalidateQueries(["profile", { name: router.query.name }])
+                queryClient.invalidateQueries(cacheKey)
                 avatarImgRef.current!.src = newFileRef.current
                 setIsOpen(false)
-                const { message, type } = data.data as MutationResponse
+                const { message, type } = data as any
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -81,7 +82,7 @@ export default function Profile(props: any) {
                 if (imgTarget) {
                     imgTarget.srcset = newFileRef.current
                 }
-                const { message, type } = data.data as MutationResponse
+                const { message, type } = data as any
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -132,7 +133,7 @@ export default function Profile(props: any) {
         {
             onSuccess: (data) => {
                 queryClient.invalidateQueries(['pending-request'])
-                const { message, type } = data.data as MutationResponse
+                const { message, type } = data as any
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -141,15 +142,14 @@ export default function Profile(props: any) {
         }
     )
 
-    const { data } = useQuery(["profile", { name: router.query.name }],
-        () => axios.get(`${BASEURL}/user/${router.query.name}`),
-        { initialData: props.user, staleTime: Infinity })
+    const { data } = useQuery(cacheKey, () => axios.get(`${BASEURL}/user/${router.query.name}`).then(res => res.data),
+        { initialData: props.user.data, staleTime: Infinity })
 
     const blockMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => axios.post(`${BASEURL}/couple/block/${router.query.name}`),
         {
             onSuccess: (data) => {
-                const { message, type } = data.data as MutationResponse
+                const { message, type } = data as any
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -162,7 +162,7 @@ export default function Profile(props: any) {
         blockMutation.mutate()
     }
 
-    if (!data || data.data === null) {
+    if (data === null) {
         return (
             <Layout>
                 <NotFound type="user" />
@@ -173,20 +173,20 @@ export default function Profile(props: any) {
     return (
         <Layout>
             <Head>
-                <title>@{data?.data.user_name} - {localeTr.title}</title>
+                <title>@{data?.user_name} - {localeTr.title}</title>
                 <meta name="robots" content="index,follow" />
-                <meta name="description" content={`@${data?.data.user_name} - ${data.data.bio}`} />
+                <meta name="description" content={`@${data?.user_name} - ${data.bio}`} />
 
-                <meta property="og:url" content={`${BASEURL}/user/${data?.data.user_name}`} />
-                <meta property="og:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
-                <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <meta property="og:description" content={data.data.bio} />
+                <meta property="og:url" content={`${BASEURL}/user/${data?.user_name}`} />
+                <meta property="og:title" content={`${localeTr.sendme} @${data?.user_name}`} />
+                <meta property="og:image" content={`${IMAGEURL}/${data?.profile_picture}`} />
+                <meta property="og:description" content={data.bio} />
 
-                <meta name="twitter:description" content={data.data.bio} />
-                <meta name="twitter:title" content={`${localeTr.sendme} @${data?.data.user_name}`} />
-                <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <link rel="canonical" href={`${BASEURL}/user/${data?.data.user_name}`} />
+                <meta name="twitter:description" content={data.bio} />
+                <meta name="twitter:title" content={`${localeTr.sendme} @${data?.user_name}`} />
+                <meta name="twitter:image" content={`${IMAGEURL}/${data?.profile_picture}`} />
+                <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.profile_picture}`} />
+                <link rel="canonical" href={`${BASEURL}/user/${data?.user_name}`} />
 
             </Head>
             <section className={styles.section} onClick={() => setShowActions(false)}>
@@ -198,12 +198,12 @@ export default function Profile(props: any) {
                                     <img
                                         ref={avatarImgRef}
                                         style={{ objectFit: "cover", position: "absolute", borderRadius: "50%" }}
-                                        src={`${IMAGEURL}/${data?.data.profile_picture}`}
+                                        src={`${IMAGEURL}/${data?.profile_picture}`}
                                         className={styles.profileImage}
                                         alt="User's profile"
                                     />
                                     {
-                                        data.data.is_this_user && (<span
+                                        data.is_this_user && (<span
                                             className={styles.avatarContainer}
                                             style={{ width: "116px", height: "116px" }}
                                             onClick={editProfileImage}
@@ -214,16 +214,16 @@ export default function Profile(props: any) {
                                     }
                                 </div>
                                 <div className={styles.titleContainer}>
-                                    <h3 className={styles.userName}>@{data.data.user_name}</h3>
-                                    <h2 data-e2e="user-subtitle" className={styles.realName}>{data.data.first_name} {data.data.last_name}</h2>
+                                    <h3 className={styles.userName}>@{data.user_name}</h3>
+                                    <h2 data-e2e="user-subtitle" className={styles.realName}>{data.first_name} {data.last_name}</h2>
                                     <div className={styles.requestContainer}>
                                         <div className={styles.requestButtonWrapper}>
                                             {
-                                                !data.data.is_this_user ?
+                                                !data.is_this_user ?
                                                     <button type="button" className={styles.requestButton}
-                                                        style={{ opacity: data.data.has_partner ? "0.5" : "1" }}
+                                                        style={{ opacity: data.has_partner ? "0.5" : "1" }}
                                                         onClick={() => {
-                                                            if (data.data.has_partner) return
+                                                            if (data.has_partner) return
                                                             setPrOpen(true)
                                                         }}>{localeTr.sendrequest}</button>
                                                     :
@@ -237,16 +237,16 @@ export default function Profile(props: any) {
                             </div>
                             <h2 className={styles.countInfo}>
                                 <div className={styles.countItem} onClick={() => setOpenFollowing(true)}>
-                                    <strong title="Following">{data.data.following_count}</strong>
+                                    <strong title="Following">{data.following_count}</strong>
                                     <span className={styles.countItemTitle}>{localeTr.following}</span>
                                 </div>
                             </h2>
                             <h2 className={styles.bio}>
-                                {data.data.bio}
+                                {data.bio}
                             </h2>
                         </div>
                         {
-                            data.data.is_this_user ? (
+                            data.is_this_user ? (
                                 <div className={styles.actions} onClick={() => setOpenSettings(true)}>
                                     <Actions orientation="landscape" size={25} />
                                 </div>
@@ -279,9 +279,9 @@ export default function Profile(props: any) {
                 <div className={styles.profileBottom}>
                     <div className={styles.showImagesWrapper}>
                         {
-                            data.data.show_pictures.map((file: string, indx: number) => {
+                            data.show_pictures.map((file: string, indx: number) => {
                                 return (
-                                    <ShowPicture file={`${IMAGEURL}/${file}`} position={indx} editProfileImage={editShowImage} key={indx} isThisUser={data.data.is_this_user} />
+                                    <ShowPicture file={`${IMAGEURL}/${file}`} position={indx} editProfileImage={editShowImage} key={indx} isThisUser={data.is_this_user} />
                                 )
                             })
                         }
@@ -301,11 +301,11 @@ export default function Profile(props: any) {
 
                 />
                 <EditUser open={editOpen} close={() => setEditOpen(false)}
-                    first_name={data.data.first_name}
-                    last_name={data.data.last_name}
-                    bio={data.data.bio}
-                    website={data.data.website}
-                    dob={data.data.date_of_birth}
+                    first_name={data.first_name}
+                    last_name={data.last_name}
+                    bio={data.bio}
+                    website={data.website}
+                    dob={data.date_of_birth}
                 />
                 <UserSettings open={openSettings} close={() => setOpenSettings(false)} />
                 <Following open={openFollowing} close={() => setOpenFollowing(false)} heading={localeTr.following} />
