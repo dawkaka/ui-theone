@@ -50,7 +50,7 @@ const CouplePreview: React.FunctionComponent<CouplePreviewT> = ({ couple_name, i
                         alt="Couple's profile"
                     />
                 </div>
-                <Link href={`/${name}`}>
+                <Link href={`/${couple_name}`}>
                     <a>
                         <div className={styles.coupleInfo}>
                             <h4>{couple_name}{' '} {verified ? <Verified size={14} /> : ""}</h4>

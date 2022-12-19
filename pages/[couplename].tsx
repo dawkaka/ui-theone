@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import EditCouple from "../components/editprofile";
 import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
-import { Langs, MutationResponse, PostT } from "../types";
+import { Langs, PostT } from "../types";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
