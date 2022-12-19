@@ -93,8 +93,8 @@
 .requestContainer {
     position: relative;
     width: 100%;
-    min-height: 50vh;
-    max-height: 90vh;
+    min-height: 50%;
+    max-height: 90%;
     overflow-y: auto;
     padding-bottom: var(--gap);
 }

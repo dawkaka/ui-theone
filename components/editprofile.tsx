@@ -19,6 +19,8 @@ const modalStyles: Modal.Styles = {
         paddingInline: "var(--gap)",
         display: "flex",
         flexDirection: "column",
+        overflowY: "auto",
+        overflowX: "hidden",
         margin: 0
     },
     content: {
@@ -26,8 +28,7 @@ const modalStyles: Modal.Styles = {
         position: "relative",
         padding: 0,
         margin: 0,
-        overflow: "hidden",
-        backgroundColor: "black",
+        overflowX: "hidden",
         justifyContent: "center",
         display: "flex",
         flexDirection: "column",
