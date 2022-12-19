@@ -66,7 +66,7 @@ export default function Explore() {
         }
     }, [query])
 
-    const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/post/explore/${pageParam}`)
+    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/post/explore/${pageParam}`)
 
     const {
         data,
@@ -74,7 +74,7 @@ export default function Explore() {
         hasNextPage,
         isFetching,
         isFetchingNextPage,
-    } = useInfiniteQuery(["explore"], fetchMessages,
+    } = useInfiniteQuery(["explore"], fetchPosts,
         {
             getNextPageParam: (lastPage, pages) => {
                 if (lastPage.data) {
@@ -82,7 +82,8 @@ export default function Explore() {
                         return undefined
                 }
                 return lastPage.data?.pagination.next
-            }
+            },
+            staleTime: Infinity
         })
 
     let posts: any[] = []

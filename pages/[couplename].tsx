@@ -413,7 +413,8 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
                     return undefined
                 }
                 return lastPage.data.pagination.next
-            }
+            },
+            staleTime: Infinity
         })
     let followers: any[] = []
     if (data?.pages) {
@@ -530,7 +531,8 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
                     return undefined
                 }
                 return lastPage.data.pagination.next
-            }
+            },
+            staleTime: Infinity
         })
 
     let posts: any[] = []

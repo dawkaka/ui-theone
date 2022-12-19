@@ -60,7 +60,7 @@ export default function Navigation() {
 
     const { data } = useQuery(["startup"], () => {
         return axios.get(`${BASEURL}/user/u/startup`)
-    }, { staleTime: 10000 })
+    })
     let startup = {
         has_partner: false,
         notifications_count: 0,
@@ -272,9 +272,14 @@ const Request: React.FunctionComponent<{ close: () => void }> = ({ close }) => {
     const tr = locale ? messages[locale as Langs] : messages["en"]
     const queryClient = useQueryClient()
 
-    const { isLoading, data, isError } = useQuery(["pending-request"], () => {
-        return axios.get(`${BASEURL}/user/u/pending-request`)
-    })
+    const { isLoading, data, isError } = useQuery(["pending-request"],
+        () => {
+            return axios.get(`${BASEURL}/user/u/pending-request`)
+        },
+        {
+            staleTime: Infinity
+        }
+    )
 
     const requestMutation = useMutation(
         (action: string) => {

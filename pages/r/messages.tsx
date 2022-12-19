@@ -44,7 +44,7 @@ export default function Messages() {
     const localeTr = tr[locale as Langs]
     const userId = useUser()
 
-    const pData = useQuery(["partner", { userId }], () => axios.get(`${BASEURL}/user/u/partner`)).data
+    const pData = useQuery(["partner", { userId }], () => axios.get(`${BASEURL}/user/u/partner`), { staleTime: Infinity }).data
 
     const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/couple/p-messages/${pageParam}`)
     const {
@@ -61,7 +61,8 @@ export default function Messages() {
                         return undefined
                 }
                 return lastPage.data?.pagination.next
-            }
+            },
+            staleTime: Infinity
         })
 
     socket.on('connect', () => {

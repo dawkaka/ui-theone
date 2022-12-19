@@ -40,7 +40,8 @@ export default function HomePage() {
                         return undefined
                 }
                 return lastPage.data?.pagination.next
-            }
+            },
+            staleTime: Infinity
         })
 
     let posts: any[] = []

@@ -466,8 +466,10 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                     return undefined
                 }
                 return lastPage.data.pagination.next
-            }
+            },
+            staleTime: Infinity
         })
+
     let following: any[] = []
     if (data?.pages) {
         for (let page of data?.pages) {

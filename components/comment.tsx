@@ -157,7 +157,8 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
           return undefined
         }
         return lastPage.data.pagination.next
-      }
+      },
+      staleTime: Infinity
     })
   const userId = useUser()
   let comments: any[] = []

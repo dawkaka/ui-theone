@@ -40,7 +40,8 @@ export default function Notifications() {
                         return undefined
                 }
                 return lastPage.data?.pagination.next
-            }
+            },
+            staleTime: Infinity
         })
 
     let notifications: any[] = []

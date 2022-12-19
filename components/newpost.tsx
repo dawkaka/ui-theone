@@ -322,14 +322,11 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                 {
                                     files.current.map((file, index) => {
                                         return (
-                                            <>
-                                                <ImagePreview file={file} key={index} remove={() => removeImage(index)} activate={async () => {
-                                                    setImage({ data: file });
-                                                    ind.current = index
+                                            <ImagePreview file={file} key={index} remove={() => removeImage(index)} activate={async () => {
+                                                setImage({ data: file });
+                                                ind.current = index
 
-                                                }} />
-
-                                            </>
+                                            }} />
                                         )
                                     })
                                 }
