@@ -38,7 +38,7 @@ const modalStyles: Modal.Styles = {
     }
 }
 
-const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bioG: string, dc: string, web: string, coupleName: string, cacheKey: QueryKey }> =
+const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bioG: string, dc: string, web: string, coupleName: string }> =
     ({ open, close, bioG, dc, web, coupleName }) => {
 
         const router = useRouter()
@@ -58,7 +58,13 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bi
             },
             {
                 onSuccess: (data) => {
-                    queryClient.invalidateQueries(["profile", { coupleName }])
+                    queryClient.invalidateQueries()
+                    queryClient.setQueryData(["profile", { coupleName }], (oldData: EditCouple | undefined) => {
+                        if (oldData) {
+                            return { ...oldData, bio: bio, date_commenced: dc, website: website.current }
+                        }
+                        return undefined
+                    });
                     close()
                     const { message, type } = data.data as MutationResponse
                     notify!.notify(message, type)

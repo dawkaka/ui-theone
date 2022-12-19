@@ -84,7 +84,7 @@ const CoupleProfile: NextPage = (props: any) => {
                     document.querySelector<HTMLImageElement>("#cover")!.srcset = newFileRef.current
                 }
                 setIsOpen(false)
-                const { message, type } = data.data as MutationResponse
+                const { message, type } = data as any
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -107,11 +107,11 @@ const CoupleProfile: NextPage = (props: any) => {
 
     const followMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => {
-            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${data?.data.couple_name}`)
+            return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${data.couple_name}`)
         },
         {
             onSuccess: (data) => {
-                const { message, type } = data.data as MutationResponse
+                const { message, type } = data as any
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -125,17 +125,18 @@ const CoupleProfile: NextPage = (props: any) => {
         setFollowing(!following)
     }
 
-    const { isLoading, data } = useQuery(["profile", { coupleName: router.query.couplename }],
-        () => axios.get(`${BASEURL}/${router.query.couplename}`),
-        { initialData: props.couple, staleTime: Infinity })
+    const { data } = useQuery(["profile", { coupleName: router.query.couplename }],
+        () => axios.get(`${BASEURL}/${router.query.couplename}`).then(res => res.data),
+        { initialData: props.couple.data, staleTime: Infinity })
 
     useEffect(() => {
-        if (data.data) {
-            setFollowing(data.data.is_following)
+        if (data) {
+            setFollowing(data.is_following)
         }
     }, [data])
 
-    if (data.data === null) {
+    console.log(data)
+    if (!data) {
         return (
             <Layout>
                 <NotFound type="couple" />
@@ -146,32 +147,32 @@ const CoupleProfile: NextPage = (props: any) => {
     return (
         <>
             <Head>
-                <title>@{data?.data.couple_name} - {localeTr.title}</title>
-                <meta name="description" content={`@${data?.data.couple_name}'s profile - Prime Couples is a social media made for couples`} />
+                <title>@{data.couple_name} - {localeTr.title}</title>
+                <meta name="description" content={`@${data.couple_name}'s profile - Prime Couples is a social media made for couples`} />
                 <meta name="robots" content="index,follow" />
-                <meta property="og:description" content={`${data?.data.bio}`} />
-                <meta property="og:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
-                <meta property="og:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
-                <meta property="og:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <meta property="og:url" content={`${BASEURL}/${data?.data.couple_name}`} />
+                <meta property="og:description" content={`${data.bio}`} />
+                <meta property="og:title" content={`${localeTr.followus} @${data.couple_name}`} />
+                <meta property="og:title" content={`${localeTr.followus} @${data.couple_name}`} />
+                <meta property="og:image" content={`${IMAGEURL}/${data.profile_picture}`} />
+                <meta property="og:url" content={`${BASEURL}/${data.couple_name}`} />
 
-                <meta name="twitter:description" content={`${data?.data.bio}`} />
-                <meta name="twitter:title" content={`${localeTr.followus} @${data?.data.couple_name}`} />
-                <meta name="twitter:image" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <meta name="twitter:image:src" content={`${IMAGEURL}/${data?.data.profile_picture}`} />
-                <link rel="canonical" href={`${IMAGEURL}/${data?.data.couple_name}`} />
+                <meta name="twitter:description" content={`${data.bio}`} />
+                <meta name="twitter:title" content={`${localeTr.followus} @${data.couple_name}`} />
+                <meta name="twitter:image" content={`${IMAGEURL}/${data.profile_picture}`} />
+                <meta name="twitter:image:src" content={`${IMAGEURL}/${data.profile_picture}`} />
+                <link rel="canonical" href={`${IMAGEURL}/${data.couple_name}`} />
             </Head>
             <Layout>
                 <div className={styles.mainContainer} onClick={() => setShowActions(false)}>
-                    {!data || !data.data ? <NotFound type="couple" /> : <div className={styles.profileContainer}>
-                        <Header title={data?.data.couple_name} arrow />
+                    {!data || !data ? <NotFound type="couple" /> : <div className={styles.profileContainer}>
+                        <Header title={data.couple_name} arrow />
                         <section className={styles.profileInfo}>
                             <div className={styles.coverPicContainer}>
                                 <div className={styles.cover} >
-                                    <Image src={`${IMAGEURL}/${data?.data.cover_picture}`} height={"300px"} width={"900px"} objectFit="cover" id="cover" alt="User's cover" />
+                                    <Image src={`${IMAGEURL}/${data.cover_picture}`} height={"300px"} width={"900px"} objectFit="cover" id="cover" alt="User's cover" />
                                 </div>
                                 {
-                                    data?.data.is_this_couple && (
+                                    data.is_this_couple && (
                                         <div
                                             className={styles.editCover}
                                             style={{ position: "absolute", top: 0, right: 0 }}
@@ -191,14 +192,14 @@ const CoupleProfile: NextPage = (props: any) => {
                                     <div className={styles.imageContainer}>
                                         <div className={styles.profileImage}>
                                             <Image
-                                                src={`${IMAGEURL}/${data?.data.profile_picture}`}
+                                                src={`${IMAGEURL}/${data.profile_picture}`}
                                                 layout="fill"
                                                 id="avatar"
                                                 alt="Use's profile"
                                             />
                                         </div>
                                         {
-                                            data?.data.is_this_couple && (
+                                            data.is_this_couple && (
                                                 <div className={styles.avatarContainer}>
                                                     <MdModeEdit size={20} color="white" style={{ top: "50%", left: "50%" }} />
                                                     <input
@@ -214,7 +215,7 @@ const CoupleProfile: NextPage = (props: any) => {
                                         <div style={{ position: "relative" }}>
                                             <div onClick={(e) => {
                                                 e.stopPropagation()
-                                                if (data.data.is_this_couple) {
+                                                if (data.is_this_couple) {
                                                     setOpenSettings(true)
                                                 } else {
                                                     setShowActions(!showActions)
@@ -233,34 +234,34 @@ const CoupleProfile: NextPage = (props: any) => {
                                                 </ul>
                                             }
                                         </div>
-                                        {!data.data.is_this_couple ? <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
+                                        {!data.is_this_couple ? <button className={`${styles.button} ${following ? styles.buttonDull : ""}`} onClick={followUnfollow}>{following ? localeTr.following : localeTr.follow}</button>
                                             :
                                             <button className={styles.editButton} onClick={() => setEditOpen(true)}>{localeTr.edit}</button>}
                                     </div>
                                 </div>
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>
-                                    <p className={styles.userName}>{data?.data.couple_name} {data?.data.verified ? <Verified size={15} /> : ""}</p>
-                                    <p style={{ color: "var(--accents-5)" }}>{data.data.married ? "married" : "dating"}</p>
-                                    <p className={styles.bio}>{data?.data.bio}</p>
+                                    <p className={styles.userName}>{data.couple_name} {data.verified ? <Verified size={15} /> : ""}</p>
+                                    <p style={{ color: "var(--accents-5)" }}>{data.married ? "married" : "dating"}</p>
+                                    <p className={styles.bio}>{data.bio}</p>
                                     <div style={{ marginTop: "var(--gap-half)" }}>
-                                        <a href={data.data.website} style={{ color: "var(--success)" }}>{data.data.website}</a>
+                                        <a href={data.website} style={{ color: "var(--success)" }}>{data.website}</a>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
                                         <h2 className={styles.countInfo}>
                                             <div className={styles.countItem}>
-                                                <strong title="Number of posts">{data?.data.post_count}</strong>
+                                                <strong title="Number of posts">{data.post_count}</strong>
                                                 <span className={styles.countItemTitle}>{localeTr.posts}</span>
                                             </div>
                                         </h2>
                                         <h2 className={styles.countInfo}>
                                             <div className={styles.countItem} onClick={() => setOpenFollowers(true)}>
-                                                <strong title="Number of followers">{data?.data.followers_count}</strong>
+                                                <strong title="Number of followers">{data.followers_count}</strong>
                                                 <span className={styles.countItemTitle}>{localeTr.followers}</span>
                                             </div>
                                         </h2>
                                         <h2 className={styles.countInfo}>
                                             <div className={`${styles.countItem} ${styles.dateStarted}`}>
-                                                <p title="Date relationship started">{new Date(data.data.date_commenced).toDateString().substring(3)}</p>
+                                                <p title="Date relationship started">{new Date(data.date_commenced).toDateString().substring(3)}</p>
                                                 <span className={styles.countItemTitle}>{localeTr.started}</span>
                                             </div>
                                         </h2>
@@ -278,11 +279,11 @@ const CoupleProfile: NextPage = (props: any) => {
                         <Suggestions />
                     </div>
 
-                    {data && data.data && <>
+                    {data && <>
                         <EditCouple open={editOpen} close={() => setEditOpen(false)}
-                            web={data.data.website} bioG={data.data.bio}
-                            dc={data.data.date_commenced} coupleName={router.query.couplename as string} />
-                        <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} married={data.data.married} />
+                            web={data.website} bioG={data.bio}
+                            dc={data.date_commenced} coupleName={router.query.couplename as string} />
+                        <CoupleSettings open={openSettings} close={() => setOpenSettings(false)} married={data.married} />
                         <CoupleReportModal open={openReportModal} close={() => setOpenReportModal(false)} />
                         <Followers open={openFollowers} close={() => setOpenFollowers(false)} heading={localeTr.followers} />
 
