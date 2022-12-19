@@ -5,7 +5,7 @@ import { Verified } from "./mis";
 import tr from "../i18n/locales/components/couplepreview.json"
 import { useRouter } from "next/router";
 import { CouplePreviewT, Langs, MutationResponse } from "../types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL } from "../constants";
 import Link from "next/link";

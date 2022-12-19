@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useRef, useEffect, useContext } from "react";
+import React, { ChangeEvent, useState, useRef, useEffect, useContext } from "react";
 import Image from "next/image";
 import { GetServerSideProps, NextPage } from "next";
 import Layout from "../components/mainLayout";
@@ -135,7 +135,6 @@ const CoupleProfile: NextPage = (props: any) => {
         }
     }, [data])
 
-    console.log(data)
     if (!data) {
         return (
             <Layout>
@@ -516,9 +515,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 }
 
-const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
+const Posts: React.FC<{ coupleName: string }> = React.memo(({ coupleName }) => {
 
-    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/${coupleName}/posts/${pageParam}`)
+    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/${coupleName}/posts/${pageParam}`).then(res => res.data)
     const {
         data,
         fetchNextPage,
@@ -528,10 +527,10 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
     } = useInfiniteQuery(["posts", { coupleName }], fetchPosts,
         {
             getNextPageParam: (lastPage, pages) => {
-                if (lastPage.data.pagination.end) {
+                if (lastPage.pagination.end) {
                     return undefined
                 }
-                return lastPage.data.pagination.next
+                return lastPage.pagination.next
             },
             staleTime: Infinity
         })
@@ -539,7 +538,7 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
     let posts: any[] = []
     if (data?.pages) {
         for (let page of data?.pages) {
-            posts = posts.concat(page.data.posts)
+            posts = posts.concat(page.posts)
         }
     }
     return (
@@ -560,4 +559,4 @@ const Posts: React.FC<{ coupleName: string }> = ({ coupleName }) => {
             <Loader loadMore={fetchNextPage} isFetching={isFetching} hasNext={hasNextPage ? true : false} manual={false} />
         </>
     )
-}
+})

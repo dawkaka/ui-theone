@@ -24,7 +24,7 @@ export default function HomePage() {
     const clearedRef = useRef(false)
 
     // const { data } = useQuery(["feed"], () => axios.get(`${BASEURL}/user/feed/0`))
-    const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/feed/${pageParam}`)
+    const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/feed/${pageParam}`).then(res => res.data)
     const {
         data,
         fetchNextPage,
@@ -47,12 +47,13 @@ export default function HomePage() {
     let posts: any[] = []
     if (data && data.pages) {
         for (let page of data.pages) {
-            posts = posts.concat(page.data.feed)
+            posts = posts.concat(page.feed)
         }
     }
     if (data && !clearedRef.current) {
         axios.put(`${BASEURL}/user/new-posts`).then(() => { clearedRef.current = true }).catch(() => { })
     }
+
     return (
         <>
             <Head>

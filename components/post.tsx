@@ -324,7 +324,12 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                 }
                 {
                     step === "edit" && (
-                        <EditPost closeModal={closeModal} caption={caption} location={location} id={id}
+                        <EditPost
+                            closeModal={closeModal}
+                            caption={caption}
+                            location={location}
+                            id={id} pId={postId}
+                            couple_name={couple_name}
                             update={(caption: string, location: string) => {
                                 setCaption(caption)
                                 setLocation(location)
@@ -605,11 +610,10 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
     }
 
 
-    const { data } = useQuery(["post", { postId }],
-        () => axios.get(`${BASEURL}/post/${couplename}/${postId}`),
-        { initialData, staleTime: Infinity })
+    const { data: post } = useQuery(["post", { postId }],
+        () => axios.get(`${BASEURL}/post/${couplename}/${postId}`).then(res => res.data),
+        { initialData: initialData.data, staleTime: Infinity })
 
-    const post = data.data
 
     const [comments_closed, setComments_closed] = useState(post.comments_closed)
     const [caption, setCaption] = useState(post.caption)
@@ -635,7 +639,6 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
             <NotFound type="post" />
         )
     }
-
     return (
         <>
             <Head>
@@ -783,10 +786,17 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                     }
                     {
                         step === "edit" && (
-                            <EditPost closeModal={closeModal} caption={post.caption} location={post.location} id={post.id} pId={postId} update={(caption: string, location: string) => {
-                                setCaption(caption)
-                                setLocation(location)
-                            }} />
+                            <EditPost
+                                closeModal={closeModal}
+                                caption={post.caption}
+                                location={post.location}
+                                id={post.id} pId={postId}
+                                couple_name={post.couple_name}
+                                update={(caption: string, location: string) => {
+                                    setCaption(caption)
+                                    setLocation(location)
+                                }}
+                            />
                         )
                     }
                     {
@@ -1057,13 +1067,13 @@ const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }
 
 const EditPost: React.FunctionComponent<{
     closeModal: () => void, caption: string, location: string,
-    id: string, pId?: string, update: (caption: string, location: string) => void
+    id: string, pId: string, couple_name: string; update: (caption: string, location: string) => void
 }> =
-    ({ closeModal, caption, location, id, pId, update }) => {
+    React.memo(({ closeModal, caption, location, id, pId, couple_name, update }) => {
         const locale = useRouter().locale || "en"
         const localeTr = tr[locale as Langs]
-        const editRef = useRef({ caption: caption, location: location })
-        const queryclient = useQueryClient()
+        const [edit, setEdit] = useState({ caption: caption, location: location })
+        const queryClient = useQueryClient()
         const notify = useContext(ToasContext)
 
 
@@ -1073,13 +1083,62 @@ const EditPost: React.FunctionComponent<{
             },
             {
                 onSuccess: (data) => {
-                    queryclient.invalidateQueries(["post", { postId: pId }])
-                    queryclient.invalidateQueries(["feed"])
-                    queryclient.invalidateQueries(["posts"])
+                    queryClient.setQueryData(["post", { postId: pId }], (oldData: any) => {
+                        if (oldData) {
+                            return { ...oldData, location: edit.location, caption: edit.caption }
+                        }
+                        return undefined
+                    });
+
+                    queryClient.setQueryData(["feed"], (oldData: any) => {
+                        if (oldData) {
+                            const pages = oldData.pages
+                            let page = -1
+                            for (let i = 0; i < pages.length; i++) {
+                                if (pages[i].feed.some((val: any) => val.id === id)) {
+                                    page = i
+                                    break;
+                                }
+                            }
+                            if (page > -1) {
+                                pages[page].feed = pages[page].feed.map((post: any) => {
+                                    if (post.id === id) {
+                                        return { ...post, location: edit.location, caption: edit.caption }
+                                    }
+                                    return post
+                                });
+                            }
+                            return { ...oldData, pages: [...pages] }
+                        }
+                        return undefined
+                    })
+
+                    queryClient.setQueryData(["posts", { coupleName: couple_name }], (oldData: any) => {
+                        if (oldData) {
+                            const { pages } = oldData
+                            let page = -1
+                            for (let i = 0; i < pages.length; i++) {
+                                if (pages[i].posts.some((val: any) => val.id === id)) {
+                                    page = i
+                                    break;
+                                }
+                            }
+                            if (page > -1) {
+                                pages[page].posts = pages[page].posts.map((post: any) => {
+                                    if (post.id === id) {
+                                        return { ...post, location: edit.location, caption: edit.caption }
+                                    }
+                                    return post
+                                });
+                            }
+                            return { ...oldData, pages: [...pages] }
+                        }
+                        return undefined
+                    })
                     closeModal()
+                    update(edit.caption, edit.location)
                     const { message, type } = data.data as MutationResponse
                     notify!.notify(message, type)
-                    update(editRef.current.caption, editRef.current.location)
                 },
                 onError: err => {
                     notify!.notify(err.response?.data.message, "ERROR")
@@ -1088,7 +1147,7 @@ const EditPost: React.FunctionComponent<{
 
         const editPost = () => {
             if (editMutation.isLoading) return
-            editMutation.mutate({ caption: editRef.current.caption, location: editRef.current.location })
+            editMutation.mutate({ caption: edit.caption, location: edit.location })
         }
 
         return (
@@ -1112,7 +1171,7 @@ const EditPost: React.FunctionComponent<{
                             className={styles.textArea}
                             id="caption"
                             defaultValue={caption}
-                            onChange={(e) => editRef.current.caption = e.target.value}
+                            onChange={(e) => setEdit({ ...edit, caption: e.target.value })}
                         ></textarea>
                     </div>
                     <div className={styles.editItem}>
@@ -1122,14 +1181,14 @@ const EditPost: React.FunctionComponent<{
                             placeholder={localeTr.location.placeholder}
                             id="location"
                             defaultValue={location}
-                            onChange={(e) => editRef.current.location = e.target.value}
+                            onChange={(e) => setEdit({ ...edit, location: e.target.value })}
                         />
                     </div>
                 </div>
 
             </div>
         )
-    }
+    })
 
 const SliderIndicator: React.FC<{ pos: number, curr: number }> = ({ pos, curr }) => {
     return (

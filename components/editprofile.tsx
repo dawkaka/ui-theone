@@ -58,7 +58,6 @@ const EditCouple: React.FunctionComponent<{ open: boolean, close: () => void, bi
             },
             {
                 onSuccess: (data) => {
-                    queryClient.invalidateQueries()
                     queryClient.setQueryData(["profile", { coupleName }], (oldData: EditCouple | undefined) => {
                         if (oldData) {
                             return { ...oldData, bio: bio, date_commenced: dc, website: website.current }
