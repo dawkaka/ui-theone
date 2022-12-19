@@ -216,6 +216,8 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                     backgroundColor: "var(--modal-overlay)",
                     paddingInline: "var(--gap)",
                     display: "flex",
+                    overflowY: "auto",
+                    overflowX: "hidden",
                     flexDirection: "column",
                     margin: 0
                 },

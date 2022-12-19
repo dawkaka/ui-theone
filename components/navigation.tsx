@@ -246,10 +246,10 @@ export default function Navigation() {
                         position: "relative",
                         padding: 0,
                         margin: 0,
-                        overflow: "hidden",
+                        overflowY: "auto",
+                        overflowX: "hidden",
                         justifyContent: "center",
                         display: "flex",
-
                         flexDirection: "column",
                         alignItems: "center",
                         left: 0,

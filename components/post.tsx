@@ -41,6 +41,8 @@ const modalStyles: Modal.Styles = {
         backgroundColor: "var(--modal-overlay)",
         padding: 0,
         paddingInline: "var(--gap)",
+        overflowY: "auto",
+        overflowX: "hidden",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

@@ -318,6 +318,8 @@ export default function Profile(props: any) {
                             zIndex: 1,
                             backgroundColor: "var(--modal-overlay)",
                             paddingInline: "var(--gap)",
+                            overflowY: "auto",
+                            overflowX: "hidden",
                             display: "flex",
                             flexDirection: "column",
                             margin: 0
@@ -479,6 +481,8 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
             style={{
                 overlay: {
                     zIndex: 1,
+                    overflowY: "auto",
+                    overflowX: "hidden",
                     backgroundColor: "var(--modal-overlay)",
                     paddingInline: "var(--gap)",
                     display: "flex",

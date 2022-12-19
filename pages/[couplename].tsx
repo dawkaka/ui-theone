@@ -295,6 +295,8 @@ const CoupleProfile: NextPage = (props: any) => {
                                     zIndex: 1,
                                     backgroundColor: "var(--modal-overlay)",
                                     paddingInline: "var(--gap)",
+                                    overflowY: "auto",
+                                    overflowX: "hidden",
                                     display: "flex",
                                     flexDirection: "column",
                                     margin: 0
@@ -430,6 +432,8 @@ const Followers: React.FunctionComponent<{ open: boolean, close: () => void, hea
                     backgroundColor: "var(--modal-overlay)",
                     paddingInline: "var(--gap)",
                     display: "flex",
+                    overflowY: "auto",
+                    overflowX: "hidden",
                     flexDirection: "column",
                     margin: 0
                 },
