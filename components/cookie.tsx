@@ -11,7 +11,7 @@ const CookieBanner: React.FunctionComponent = () => {
     React.useEffect(() => {
         const cookiesAccepted = localStorage.getItem("cookiesAccepted");
         if (cookiesAccepted === "true") {
-            setCookiesAccepted(false);
+            setCookiesAccepted(true);
         }
     }, []);
 
