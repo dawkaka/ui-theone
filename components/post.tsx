@@ -257,7 +257,13 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                                     </p>
                             }
                         </div>
-                        <PostIcons likes={likes_count} comments={comments_count} id={id} hasLiked={has_liked} />
+                        <PostIcons
+                            likes={likes_count}
+                            comments={comments_count}
+                            id={id} hasLiked={has_liked}
+                            couple_name={couple_name}
+                            postId={postId}
+                        />
                     </div>
                     <div className={styles.captionContainer}>
                         <Link
@@ -492,7 +498,14 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
 
                             }
                         </div>
-                        <PostIcons likes={likes_count} comments={comments_count} id={id} hasLiked={has_liked} />
+                        <PostIcons
+                            likes={likes_count}
+                            comments={comments_count}
+                            id={id}
+                            couple_name={"somethingrandom"}
+                            hasLiked={has_liked}
+                            postId={"somethingrandom"}
+                        />
                     </div>
                     <div className={styles.captionContainer}>
                         <div>
@@ -737,7 +750,14 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                             <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDateFormat(post.created_at, locale)}</p>
 
                             <div className={styles.postStats} style={{ marginLeft: 0, paddingInline: 0 }}>
-                                <PostIcons likes={post.likes_count} comments={post.comments_count} id={post.id} hasLiked={post.has_liked} />
+                                <PostIcons
+                                    likes={post.likes_count}
+                                    comments={post.comments_count}
+                                    id={post.id}
+                                    hasLiked={post.has_liked}
+                                    postId={postId}
+                                    couple_name={post.couple_name}
+                                />
                             </div>
                         </div>
                         <Comments id={post.id} />
@@ -932,57 +952,115 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
     )
 }
 
-const PostIcons: React.FunctionComponent<{ likes: number, comments: number, id: string, hasLiked: boolean }> = ({ likes, comments, id, hasLiked }) => {
-    const { locale } = useRouter()
+const PostIcons: React.FunctionComponent<{ postId: string, likes: number, comments: number, id: string, hasLiked: boolean, couple_name: string }> =
+    ({ postId, likes, comments, id, hasLiked, couple_name }) => {
+        const { locale } = useRouter()
 
-    const [liked, setLiked] = useState(hasLiked)
-    const [likesNum, setLikes] = useState(likes)
-    const l = new Intl.NumberFormat(locale, { notation: "compact" }).format(likesNum)
-    const c = new Intl.NumberFormat(locale, { notation: "compact" }).format(comments)
+        const [liked, setLiked] = useState(hasLiked)
+        const [likesNum, setLikes] = useState(likes)
+        const l = new Intl.NumberFormat(locale, { notation: "compact" }).format(likesNum)
+        const c = new Intl.NumberFormat(locale, { notation: "compact" }).format(comments)
+        const likedRef = useRef(false)
+        const queryClient = useQueryClient()
 
+        const likePost = useMutation<AxiosResponse, AxiosError<any, any>, string>(
+            (action: string) => {
+                return axios.patch(`${BASEURL}/post/${action}/${id}`)
+            },
+            {
+                onSuccess: () => {
+                    queryClient.setQueryData(["post", { postId }], (oldData: PostT | undefined) => {
+                        if (oldData) {
+                            return { ...oldData, likes_count: likedRef.current ? oldData.likes_count + 1 : oldData.likes_count - 1, has_liked: likedRef.current }
+                        }
+                        return undefined
+                    });
 
-    const likePost = useMutation<AxiosResponse, AxiosError<any, any>, string>(
-        (action: string) => {
-            return axios.patch(`${BASEURL}/post/${action}/${id}`)
-        },
-        {
-            onError: () => {
-                if (liked) {
-                    setLikes(likesNum - 1)
-                } else {
-                    setLikes(likesNum + 1)
-                }
-                setLiked(!liked)
-            }
-        }
-    )
+                    queryClient.setQueryData(["feed"], (oldData: { pages: { feed: PostT[] }[] } | undefined) => {
+                        if (oldData) {
+                            const pages = oldData.pages
+                            let page = -1
+                            for (let i = 0; i < pages.length; i++) {
+                                if (pages[i].feed.some((val: any) => val.id === id)) {
+                                    page = i
+                                    break;
+                                }
+                            }
+                            if (page > -1) {
+                                pages[page].feed = pages[page].feed.map((post: any) => {
+                                    if (post.id === id) {
+                                        return { ...post, likes_count: likedRef.current ? post.likes_count + 1 : post.likes_count - 1, has_liked: likedRef.current }
+                                    }
+                                    return post
+                                });
+                            }
+                            return { ...oldData, pages: [...pages] }
+                        }
+                        return undefined
+                    })
 
-    return (
-        <div className={styles.postIcons}>
-            <div className={styles.postIcon}>
-                <div>
-                    <AiOutlineComment size={25} />
-                </div>
-                <p>{c}</p>
-            </div>
-            <div className={styles.postIcon}>
-                <div onClick={() => {
+                    queryClient.setQueryData(["posts", { coupleName: couple_name }], (oldData: any) => {
+                        if (oldData) {
+                            const { pages } = oldData
+                            let page = -1
+                            for (let i = 0; i < pages.length; i++) {
+                                if (pages[i].posts.some((val: any) => val.id === id)) {
+                                    page = i
+                                    break;
+                                }
+                            }
+                            if (page > -1) {
+                                pages[page].posts = pages[page].posts.map((post: any) => {
+                                    if (post.id === id) {
+                                        return { ...post, likes_count: likedRef.current ? post.likes_count + 1 : post.likes_count - 1, has_liked: likedRef.current }
+                                    }
+                                    return post
+                                });
+                            }
+                            return { ...oldData, pages: [...pages] }
+                        }
+                        return undefined
+                    })
+                },
+                onError: () => {
                     if (liked) {
-                        likePost.mutate("unlike")
                         setLikes(likesNum - 1)
                     } else {
-                        likePost.mutate("like")
                         setLikes(likesNum + 1)
                     }
                     setLiked(!liked)
-                }} style={{ cursor: "pointer" }} >
-                    {liked ? <AiFillHeart size={25} color="var(--error)" /> : <AiOutlineHeart size={25} />}
+                }
+            }
+        )
+
+        return (
+            <div className={styles.postIcons}>
+                <div className={styles.postIcon}>
+                    <div>
+                        <AiOutlineComment size={25} />
+                    </div>
+                    <p>{c}</p>
                 </div>
-                <p>{l}</p>
+                <div className={styles.postIcon}>
+                    <div onClick={() => {
+                        if (liked) {
+                            likedRef.current = false
+                            likePost.mutate("unlike")
+                            setLikes(likesNum - 1)
+                        } else {
+                            likedRef.current = true
+                            likePost.mutate("like")
+                            setLikes(likesNum + 1)
+                        }
+                        setLiked(!liked)
+                    }} style={{ cursor: "pointer" }} >
+                        {liked ? <AiFillHeart size={25} color="var(--error)" /> : <AiOutlineHeart size={25} />}
+                    </div>
+                    <p>{l}</p>
+                </div>
             </div>
-        </div>
-    )
-}
+        )
+    }
 
 const ReportPost: React.FunctionComponent<{ closeModal: () => void, id: string }> = ({ closeModal, id }) => {
 
