@@ -539,4 +539,4 @@ const ImagePreview: React.FC<{ file: string, remove: () => void, activate: () =>
     )
 }
 
-export default AddPost
+export default React.memo(AddPost)

@@ -3,7 +3,7 @@ import styles from "./styles/comment.module.css";
 import Image from 'next/image';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useRouter } from "next/router";
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { Actions, Loader } from "./mis";
@@ -13,27 +13,51 @@ import { MutationResponse } from "../types";
 import { ToasContext } from "./context";
 import { TextParser } from "./post";
 import { NotFound } from "./notfound";
-interface comment {
-  userName: string;
+
+interface CommentT {
+  user_name: string;
   comment: string;
   date: Date;
   likes_count: number;
   profile_url: string;
   isThisUser: boolean;
-  hasLiked: boolean;
-  hasPartner: boolean;
+  has_liked: boolean;
+  has_partner: boolean;
   id: string;
   postId: string
 }
 
-const Comment: React.FunctionComponent<comment> = (props) => {
+const Comment: React.FunctionComponent<CommentT> = (props) => {
   const { locale } = useRouter()
   const [likes, setLikes] = useState(props.likes_count)
   const likesCount = new Intl.NumberFormat(locale, { notation: "compact" }).format(likes)
   const [showActions, setShowActions] = useState(false)
-  const [liked, setLiked] = useState(props.hasLiked)
+  const [liked, setLiked] = useState(props.has_liked)
   const [deleted, setDeleted] = useState(false)
+  const likedRef = useRef(false)
+  const queryClient = useQueryClient()
   const notify = useContext(ToasContext)
+  const { postId, id } = props
+
+  const updateDeleteCache = () => {
+    queryClient.setQueryData(["comments", { id: postId }], (oldData: any) => {
+      if (oldData) {
+        const { pages } = oldData
+        let page = -1
+        for (let i = 0; i < pages.length; i++) {
+          if (pages[i].comments.some((val: any) => val.id === id)) {
+            page = i
+            break;
+          }
+        }
+        if (page > -1) {
+          pages[page].comments = pages[page].comments.filter((comment: any) => comment.id !== id);
+        }
+        return { ...oldData, pages }
+      }
+      return undefined
+    })
+  }
 
   const deleteMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
     () => {
@@ -41,12 +65,14 @@ const Comment: React.FunctionComponent<comment> = (props) => {
     },
     {
       onSuccess: (data) => {
+        updateDeleteCache()
         setShowActions(false)
         setDeleted(true)
         const { message, type } = data.data as MutationResponse
         notify?.notify(message, type)
       },
       onError: (err) => {
+        setDeleted(false)
         notify?.notify(err.response?.data.message, "ERROR")
       }
     }
@@ -57,6 +83,30 @@ const Comment: React.FunctionComponent<comment> = (props) => {
       return axios.patch(`${BASEURL}/post/comment/${liked}/${props.postId}/${props.id}`)
     },
     {
+      onSuccess: () => {
+        queryClient.setQueryData(["comments", { id: postId }], (oldData: any) => {
+          if (oldData) {
+            const { pages } = oldData
+            let page = -1
+            for (let i = 0; i < pages.length; i++) {
+              if (pages[i].comments.some((val: any) => val.id === id)) {
+                page = i
+                break;
+              }
+            }
+            if (page > -1) {
+              pages[page].comments = pages[page].comments.map((comment: CommentT) => {
+                if (comment.id === id) {
+                  return { ...comment, likes_count: likedRef.current ? props.likes_count + 1 : props.likes_count - 1, has_liked: likedRef.current }
+                }
+                return comment
+              });
+            }
+            return { ...oldData, pages }
+          }
+          return undefined
+        })
+      },
       onError: () => {
         setLiked(!liked)
       }
@@ -77,9 +127,9 @@ const Comment: React.FunctionComponent<comment> = (props) => {
           </div>
           <div className={styles.commentInfo}>
             <div className={styles.nameContainer}>
-              <Link href={`/user/${props.userName}`}>
+              <Link href={`/user/${props.user_name}`}>
                 <a>
-                  <h5>{props.userName}</h5>
+                  <h5>{props.user_name}</h5>
                 </a>
               </Link>
               <AiFillHeart color="var(--error)" size={12} title="has partner"></AiFillHeart>
@@ -123,9 +173,11 @@ const Comment: React.FunctionComponent<comment> = (props) => {
         <div className={styles.iconContainer}>
           <div onClick={() => {
             if (liked) {
+              likedRef.current = false
               likeMututation.mutate("unlike")
               setLikes(likes - 1)
             } else {
+              likedRef.current = true
               likeMututation.mutate("like")
               setLikes(likes + 1)
             }
@@ -143,7 +195,7 @@ const Comment: React.FunctionComponent<comment> = (props) => {
 
 
 export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
-  const fetchComments = ({ pageParam = 0 }) => axios.get(`${BASEURL}/post/comments/${id}/${pageParam}`)
+  const fetchComments = ({ pageParam = 0 }) => axios.get(`${BASEURL}/post/comments/${id}/${pageParam}`).then(res => res.data)
   const {
     data,
     fetchNextPage,
@@ -153,18 +205,19 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
   } = useInfiniteQuery(["comments", { id }], fetchComments,
     {
       getNextPageParam: (lastPage, pages) => {
-        if (lastPage.data.pagination.end) {
+        if (lastPage.pagination.end) {
           return undefined
         }
-        return lastPage.data.pagination.next
+        return lastPage.pagination.next
       },
       staleTime: Infinity
     })
+
   const userId = useUser()
   let comments: any[] = []
   if (data?.pages) {
     for (let page of data?.pages) {
-      comments = comments.concat(page.data.comments)
+      comments = comments.concat(page.comments)
     }
   }
   return (
@@ -179,10 +232,10 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
               key={comment.id}
               id={comment.id}
               postId={id}
-              userName={comment.user_name}
+              user_name={comment.user_name}
               profile_url={`${IMAGEURL}/${comment.profile_picture}`}
-              hasPartner={comment.has_partner}
-              hasLiked={comment.has_liked}
+              has_partner={comment.has_partner}
+              has_liked={comment.has_liked}
               isThisUser={comment.user_id === userId}
               comment={comment.comment}
               date={new Date(comment.created_at)}
