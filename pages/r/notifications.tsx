@@ -24,7 +24,7 @@ export default function Notifications() {
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const clearedRef = useRef(false)
-    const fetchMessages = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/notifications/${pageParam}`)
+    const fetchNotifs = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/notifications/${pageParam}`).then(res => res.data)
 
     const {
         data,
@@ -32,22 +32,25 @@ export default function Notifications() {
         hasNextPage,
         isFetching,
         isFetchingNextPage,
-    } = useInfiniteQuery(["notifications"], fetchMessages,
+    } = useInfiniteQuery(["notifications"], fetchNotifs,
         {
             getNextPageParam: (lastPage, pages) => {
-                if (lastPage.data) {
-                    if (lastPage.data?.pagination.end)
+                if (lastPage) {
+                    if (lastPage.pagination.end) {
                         return undefined
+                    }
                 }
-                return lastPage.data?.pagination.next
+                return lastPage.pagination.next
             },
             staleTime: Infinity
         })
 
+    console.log(data)
+
     let notifications: any[] = []
     if (data && data.pages) {
         for (let page of data.pages) {
-            notifications = notifications.concat(page.data.notifications)
+            notifications = notifications.concat(page.notifications)
         }
     }
     if (data && !clearedRef.current) {
@@ -58,7 +61,6 @@ export default function Notifications() {
             <Head>
                 <title>{localeTr.title}</title>
                 <meta name="robots" content="noindex,nofollow" />
-                <meta name="description" content={`User's timeline - Prime Couples, social media for couples`} />
             </Head>
             <div className={styles.main}>
                 <section className={styles.ntfsContainer}>
@@ -84,7 +86,7 @@ export default function Notifications() {
                                     name={notif.name}
                                     profilePicture={notif.profile}
                                     user={notif.user}
-                                    isNew={index < data?.pages[0].data.new_count}
+                                    isNew={index < data?.pages[0].new_count}
                                     key={index}
                                 />
                             ))

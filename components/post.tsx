@@ -286,7 +286,17 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                 <div
                     style={{ position: "relative", borderTop: "var(--border)", textAlign: "center" }}
                 >
-                    {comments_closed ? <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p> : <CommentArea isCard={false} id={id} />}
+                    {
+                        comments_closed ?
+                            <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p>
+                            :
+                            <CommentArea
+                                isCard={false}
+                                id={id}
+                                postId={postId}
+                                couple_name={couple_name}
+                            />
+                    }
                 </div>
 
             </div>
@@ -514,10 +524,8 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
                         <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDate}</p>
                     </div>
                 </div>
-                <div
-                    style={{ position: "relative", borderTop: "var(--border)", textAlign: "center" }}
-                >
-                    {comments_closed ? <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p> : <CommentArea isCard={false} id={id} />}
+                <div style={{ position: "relative", borderTop: "var(--border)", textAlign: "center" }}>
+                    <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p>
                 </div>
 
             </div>
@@ -763,7 +771,16 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
                         <Comments id={post.id} />
                     </div >
                     <div className={styles.viewFixedBottom} style={{ textAlign: "center" }}>
-                        {comments_closed ? <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p> : <CommentArea isCard={false} id={post.id} />}
+                        {comments_closed ?
+                            <p style={{ color: "var(--accents-3)", paddingBlock: "var(--gap-half)" }}>{localeTr.disablecomments}</p>
+                            :
+                            <CommentArea
+                                isCard={false}
+                                id={post.id}
+                                postId={postId}
+                                couple_name={post.couple_name}
+                            />
+                        }
                     </div>
                 </div >
                 <Modal
@@ -841,12 +858,13 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
 }
 
 
-const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({ isCard, id }) => {
+const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string, postId: string, couple_name: string }> = ({ isCard, id, postId, couple_name }) => {
     const locale = useRouter().locale || "en"
     const localeTr = tr[locale as Langs]
     const emojiTr = emTr[locale as Langs]
     const [openEmoji, setOpenEmoji] = useState(false)
     const [comment, setComment] = useState("")
+    const queryClient = useQueryClient()
     const theme = useTheme()
     const notify = useContext(ToasContext)
 
@@ -858,6 +876,60 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
         {
             onSuccess: data => {
                 setComment("")
+                queryClient.setQueryData(["feed"], (oldData: { pages: { feed: PostT[] }[] } | undefined) => {
+                    if (oldData) {
+                        const pages = oldData.pages
+                        let page = -1
+                        for (let i = 0; i < pages.length; i++) {
+                            if (pages[i].feed.some((val: any) => val.id === id)) {
+                                page = i
+                                break;
+                            }
+                        }
+                        if (page > -1) {
+                            pages[page].feed = pages[page].feed.map((post: any) => {
+                                if (post.id === id) {
+                                    return { ...post, comments_count: post.comments_count + 1 }
+                                }
+                                return post
+                            });
+                        }
+                        return { ...oldData, pages: [...pages] }
+                    }
+                    return undefined
+                })
+
+                queryClient.setQueryData(["posts", { coupleName: couple_name }], (oldData: any) => {
+                    if (oldData) {
+                        const { pages } = oldData
+                        let page = -1
+                        for (let i = 0; i < pages.length; i++) {
+                            if (pages[i].posts.some((val: any) => val.id === id)) {
+                                page = i
+                                break;
+                            }
+                        }
+                        if (page > -1) {
+                            pages[page].posts = pages[page].posts.map((post: any) => {
+                                if (post.id === id) {
+                                    console.log(post)
+                                    return { ...post, comments_count: post.comments_count + 1 }
+                                }
+                                return post
+                            });
+                        }
+                        return { ...oldData, pages: [...pages] }
+                    }
+                    return undefined
+                })
+
+                queryClient.setQueryData(["post", { postId }], (oldData: PostT | undefined) => {
+                    if (oldData) {
+                        return { ...oldData, comments_count: oldData.comments_count + 1 }
+                    }
+                    return undefined
+                });
+
                 const { message, type } = data.data as MutationResponse
                 notify!.notify(message, type)
             },
@@ -879,8 +951,12 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string }> = ({
             <form
                 onSubmit={postComment}
                 className={styles.commentContainer}
+                onClick={() => setOpenEmoji(false)}
             >
-                <div onClick={() => setOpenEmoji(!openEmoji)} style={{ display: "grid", placeItems: "center" }}>
+                <div onClick={(e) => {
+                    e.stopPropagation()
+                    setOpenEmoji(!openEmoji)
+                }} style={{ display: "grid", placeItems: "center" }}>
                     <BsEmojiSmile />
                 </div>
                 <textarea aria-label={localeTr.addcomment} placeholder={localeTr.addcomment + "..."}

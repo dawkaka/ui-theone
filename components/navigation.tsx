@@ -24,6 +24,7 @@ export default function Navigation() {
     const [hideHeader, setHideHeader] = useState(false)
     const [openPostModal, setOpenPostModal] = useState(false)
     const [hideBottomTab, setHideBottomTab] = useState(false)
+    const queryClient = useQueryClient()
 
     const modalOverlay: CSSProperties = {
         zIndex: 1,
@@ -59,7 +60,7 @@ export default function Navigation() {
     }, [pathname])
 
     const { data } = useQuery(["startup"], () => {
-        return axios.get(`${BASEURL}/user/u/startup`)
+        return axios.get(`${BASEURL}/user/u/startup`).then(res => res.data)
     })
     let startup = {
         has_partner: false,
@@ -70,13 +71,19 @@ export default function Navigation() {
         pending_request: 0
     }
     if (data) {
+        if (data.new_posts_count > 0) {
+            queryClient.invalidateQueries(["feed"])
+        }
+        if (data.notifications_count > 0) {
+            queryClient.invalidateQueries(["notifications"])
+        }
         startup = {
-            new_posts_count: data.data.new_posts_count,
-            has_partner: data.data.has_partner,
-            notifications_count: data.data.notifications_count,
-            user_name: data.data.user_name,
-            new_messages_count: data.data.new_messages_count,
-            pending_request: data.data.pending_request
+            new_posts_count: data.new_posts_count,
+            has_partner: data.has_partner,
+            notifications_count: data.notifications_count,
+            user_name: data.user_name,
+            new_messages_count: data.new_messages_count,
+            pending_request: data.pending_request
 
         }
     }

@@ -541,7 +541,7 @@ const LandingPage: NextPage = () => {
                                   <p style={{ color: "var(--accents-5)" }}>{localeTr.dating}</p>
                                   <p className={cStyles.bio}>Mr eazi and temi</p>
                                   <div style={{ marginTop: "var(--gap-half)" }}>
-                                    <a style={{ color: "var(--success)" }}>https://www.teazi.com</a>
+                                    <p style={{ color: "var(--success)" }}>https://www.teazi.com</p>
                                   </div>
                                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
                                     <h2 className={cStyles.countInfo}>
