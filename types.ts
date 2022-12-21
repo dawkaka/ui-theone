@@ -71,6 +71,19 @@ export interface CouplePreviewT {
     verified: boolean;
     updateCache: () => void
 }
+export interface CommentT {
+    user_name: string;
+    comment: string;
+    date: Date;
+    likes_count: number;
+    profile_url: string;
+    isThisUser: boolean;
+    has_liked: boolean;
+    has_partner: boolean;
+    id: string;
+    postId: string
+}
+
 
 export type MessageTypes = "ERROR" | "SUCCESS" | "NEUTRAL"
 

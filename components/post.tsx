@@ -12,7 +12,7 @@ import { RiUserUnfollowLine } from "react-icons/ri";
 import Modal from 'react-modal';
 import Comments from "./comment";
 import { useRouter } from "next/router";
-import { Langs, MutationResponse, PostT } from "../types";
+import { CommentT, Langs, MutationResponse, PostT } from "../types";
 import tr from "../i18n/locales/components/post.json";
 import emTr from "../i18n/locales/components/emoji.json"
 import { BiCommentAdd, BiCommentX } from "react-icons/bi";
@@ -869,13 +869,23 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string, postId
     const notify = useContext(ToasContext)
 
 
-    const { mutate, isLoading } = useMutation<AxiosResponse, AxiosError<any, any>, string>(
-        (comment) => {
-            return axios.post(`${BASEURL}/post/comment/${id}`, JSON.stringify({ comment }))
+    const { mutate, isLoading } = useMutation<{ comment: CommentT, notif: MutationResponse }, AxiosError<any, any>, string>(
+        async (comment) => {
+            return axios.post(`${BASEURL}/post/comment/${id}`, JSON.stringify({ comment })).then(res => res.data)
         },
         {
             onSuccess: data => {
+                console.log(data)
                 setComment("")
+                queryClient.setQueryData(["comments", { id }], (oldData: any) => {
+                    if (oldData) {
+                        const { pages } = oldData
+                        pages[0].comments.unshift(data.comment)
+                        return { ...oldData, pages }
+                    }
+                    return undefined
+                })
+
                 queryClient.setQueryData(["feed"], (oldData: { pages: { feed: PostT[] }[] } | undefined) => {
                     if (oldData) {
                         const pages = oldData.pages
@@ -930,7 +940,7 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string, postId
                     return undefined
                 });
 
-                const { message, type } = data.data as MutationResponse
+                const { message, type } = data.notif
                 notify!.notify(message, type)
             },
             onError: err => {

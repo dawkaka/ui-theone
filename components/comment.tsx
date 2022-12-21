@@ -9,23 +9,11 @@ import { BASEURL, IMAGEURL } from "../constants";
 import { Actions, Loader } from "./mis";
 import Link from "next/link";
 import { useUser } from "../hooks";
-import { MutationResponse } from "../types";
+import { CommentT, MutationResponse } from "../types";
 import { ToasContext } from "./context";
 import { TextParser } from "./post";
 import { NotFound } from "./notfound";
 
-interface CommentT {
-  user_name: string;
-  comment: string;
-  date: Date;
-  likes_count: number;
-  profile_url: string;
-  isThisUser: boolean;
-  has_liked: boolean;
-  has_partner: boolean;
-  id: string;
-  postId: string
-}
 
 const Comment: React.FunctionComponent<CommentT> = (props) => {
   const { locale } = useRouter()
