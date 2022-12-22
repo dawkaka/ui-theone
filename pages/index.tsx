@@ -361,7 +361,7 @@ const LandingPage: NextPage = () => {
                   <div className={styles.twoCol}>
                     <div className={"demo"} style={{ maxWidth: "470px", width: "fit-content", flexGrow: 0, padding: 0, textAlign: "left" }}>
                       <LandingPost files={[
-                        { name: `${IMAGEURL}/landingvideo.mp4`, type: "mp4", alt: "", width: 500, height: 500 },
+                        { name: "/landingvideo.mp4", type: "mp4", alt: "", width: 500, height: 500 },
                       ]} couple_name="Teazi" caption="We are ENGAGED 💍💍💍"
                         verified married={false} likes_count={10000000}
                         comments_count={35000}
