@@ -71,6 +71,7 @@ export default function Explore() {
     const {
         data,
         fetchNextPage,
+        isLoading,
         hasNextPage,
         isFetching,
         isFetchingNextPage,
@@ -140,7 +141,13 @@ export default function Explore() {
 
                     <div className={styles.ntfs}>
                         {
-                            posts.length === 0 && <NotFound type="explore" />
+                            posts.length === 0 && !isLoading && <NotFound type="explore" />
+                        }
+                        {
+                            posts.length === 0 && isLoading ?
+                                <div style={{ display: "flex", justifyContent: "center" }}> <Loading color="var(--success)" size="medium" /></div>
+                                :
+                                null
                         }
                         {
                             posts.map((post: PostT) => {

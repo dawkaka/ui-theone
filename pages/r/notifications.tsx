@@ -13,7 +13,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BASEURL, IMAGEURL } from "../../constants";
 import { BsHeartFill, BsHeartHalf, BsPlusCircleFill } from "react-icons/bs";
-import { Loader } from "../../components/mis";
+import { Loader, Loading } from "../../components/mis";
 import { RiHeartsFill } from "react-icons/ri";
 import { useRef } from "react";
 import { NotFound } from "../../components/notfound";
@@ -30,6 +30,7 @@ export default function Notifications() {
         data,
         fetchNextPage,
         hasNextPage,
+        isLoading,
         isFetching,
         isFetchingNextPage,
     } = useInfiniteQuery(["notifications"], fetchNotifs,
@@ -44,8 +45,6 @@ export default function Notifications() {
             },
             staleTime: Infinity
         })
-
-    console.log(data)
 
     let notifications: any[] = []
     if (data && data.pages) {
@@ -67,7 +66,13 @@ export default function Notifications() {
                     <Header title={localeTr.notifications} arrow={false} />
                     <div className={styles.ntfs}>
                         {
-                            notifications.length === 0 && <NotFound type="notifications" />
+                            notifications.length === 0 && !isLoading ? <NotFound type="notifications" /> : null
+                        }
+                        {
+                            notifications.length === 0 && isLoading ?
+                                <div style={{ display: "flex", justifyContent: "center" }}> <Loading color="var(--success)" size="medium" /></div>
+                                :
+                                null
                         }
                         {
                             notifications.map((notif: {
