@@ -12,10 +12,8 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true
   },
-  assetPrefix: {
-    headers: {
-      'Cache-Control': 'public, max-age=1296000'
-    }
+  headers: {
+    'Cache-Control': 'public, max-age=1296000'
   }
 }
 
