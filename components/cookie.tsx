@@ -7,7 +7,7 @@ const CookieBanner: React.FunctionComponent = () => {
     const router = useRouter()
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
-    const [cookiesAccepted, setCookiesAccepted] = React.useState(false);
+    const [cookiesAccepted, setCookiesAccepted] = React.useState(true);
     React.useEffect(() => {
         const cookiesAccepted = localStorage.getItem("cookiesAccepted");
         if (cookiesAccepted === "true") {

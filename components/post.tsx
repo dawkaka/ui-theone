@@ -381,11 +381,13 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
     const slider = useRef<HTMLDivElement>(null)
     const [curr, setCurr] = useState(0)
     const router = useRouter()
-    const [comments_closed, setComments_closed] = useState(props.comments_closed)
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const direc = useRef<"right" | "left">("right")
-    const postDate = postDateFormat(created_at, locale)
+    let postDate = postDateFormat("Dec 22, 2022, 6:06 PM", locale)
+    if (video) {
+        postDate = postDateFormat("Dec 22, 2022, 6:20 PM", locale)
+    }
     useEffect(() => {
 
         slider.current!.addEventListener("scroll", () => {
@@ -521,6 +523,7 @@ export const LandingPost: React.FunctionComponent<PostT & { video?: boolean }> =
                         <div>
                             <TextParser text={caption} />
                         </div>
+
                         <p style={{ color: "var(--accents-3)", fontSize: "small", marginTop: "var(--gap-quarter)" }}>{postDate}</p>
                     </div>
                 </div>
