@@ -22,6 +22,7 @@ import { Langs } from "../types"
 import { getCountry } from "../i18n/location"
 import { MdReport } from "react-icons/md"
 import CookieBanner from "../components/cookie"
+import { postDateFormat } from "../libs/utils"
 
 
 const LandingPage: NextPage = () => {
@@ -120,7 +121,7 @@ const LandingPage: NextPage = () => {
           <div className={styles.widthControl}>
             <nav className={styles.nav}>
               <div className={styles.logoContainer}>
-                <img src="/logo.png" alt="logo" />
+                <img src="/logo.webp" alt="logo" />
                 <h2 className={styles.headerSmall} style={{ marginBottom: 0 }}>Prime Couples</h2>
               </div>
               <div className={styles.headerButtonContainer}>
@@ -158,10 +159,10 @@ const LandingPage: NextPage = () => {
                           <img src="/illu.gif" style={{ width: "80%", height: "80%", objectFit: "cover", borderRadius: "100%" }} alt="" />
                           <div className={styles.heroCircle}>
                             <div className={styles.heroRotate}>
-                              <div className={styles.planet}><img src="/6.jpg" alt="" /></div>
-                              <div className={styles.planet}><img src={showRainbow ? "/13.jpg" : "/11.jpg"} alt="" /></div>
-                              <div className={styles.planet}><img src={showRainbow ? "/12.jpg" : "/10.jpg"} alt="" /></div>
-                              <div className={styles.planet}><img src="/9.jpg" alt="" /></div>
+                              <div className={styles.planet}><img src="/6.webp" alt="" /></div>
+                              <div className={styles.planet}><img src={showRainbow ? "/13.webp" : "/11.webp"} alt="" /></div>
+                              <div className={styles.planet}><img src={showRainbow ? "/12.webp" : "/10.webp"} alt="" /></div>
+                              <div className={styles.planet}><img src="/9.webp" alt="" /></div>
                             </div>
                           </div>
                         </div>
@@ -201,7 +202,7 @@ const LandingPage: NextPage = () => {
                               <div className={styles.imageContainer} style={{ width: "116px", height: "116px" }}>
                                 <img
                                   style={{ objectFit: "cover", position: "absolute", borderRadius: "50%" }}
-                                  src={`/temi.jpg`}
+                                  src={`/temi.webp`}
                                   className={styles.profileImage}
                                   alt=""
                                 />
@@ -269,7 +270,7 @@ const LandingPage: NextPage = () => {
                           <div className={styles.mRequestContainer}>
                             <div className={styles.reqImageContainer}>
                               <img
-                                src={`/8.jpg`}
+                                src={`/8.webp`}
                                 className={styles.reqProfileImage}
                                 alt=""
                               />
@@ -298,7 +299,6 @@ const LandingPage: NextPage = () => {
 
                         </div >
                       </div>
-
 
                       <div className={styles.changePosition}>
                         <div>
@@ -337,11 +337,11 @@ const LandingPage: NextPage = () => {
                     </div>
                     <div className={"demo"} style={{ maxWidth: "470px", width: "fit-content", flexGrow: 0, padding: 0, textAlign: "left" }}>
                       <LandingPost files={[
-                        { name: "/3.jpg", type: "image", alt: "", width: 500, height: 500 },
-                        { name: "/4.jpg", type: "image", alt: "", width: 500, height: 500 },
-                        { name: "/1.jpg", type: "image", alt: "", width: 500, height: 500 },
-                        { name: "/2.jpg", type: "image", alt: "", width: 500, height: 500 },
-                        { name: "/6.jpg", type: "image", alt: "", width: 500, height: 500 },
+                        { name: "/3.webp", type: "image", alt: "", width: 500, height: 500 },
+                        { name: "/4.webp", type: "image", alt: "", width: 500, height: 500 },
+                        { name: "/1.webp", type: "image", alt: "", width: 500, height: 500 },
+                        { name: "/2.webp", type: "image", alt: "", width: 500, height: 500 },
+                        { name: "/6.webp", type: "image", alt: "", width: 500, height: 500 },
 
                       ]} couple_name="Teazi" caption="❤️❤️❤️❤️❤️❤️❤️"
                         verified married={false} likes_count={5000000}
@@ -350,7 +350,7 @@ const LandingPage: NextPage = () => {
                         has_liked={true}
                         is_this_couple={false}
                         comments_closed={true}
-                        profile_picture={"/6.jpg"}
+                        profile_picture={"/6.webp"}
                         location="Bali, Indonesia"
                         id="wolaeafjdfajsldfkjwlfjwad"
                         postId="wdaomdas"
@@ -370,7 +370,7 @@ const LandingPage: NextPage = () => {
                         video
                         is_this_couple={false}
                         comments_closed={true}
-                        profile_picture={"/6.jpg"}
+                        profile_picture={"/6.webp"}
                         location="Bali, Indonesia"
                         id="wolaeafjdfajsldfkjwlfjwad"
                         postId="wdaomdas"
@@ -422,7 +422,7 @@ const LandingPage: NextPage = () => {
                                 gap: "var(--gap-half)"
                               }}> <div className={styles.imageContainer} style={{ width: "35px", height: "35px" }}>
                                   <span className={styles.avatarContainer} style={{ width: "35px", height: "35px" }}>
-                                    <Image layout="fill" objectFit="cover" src={`/8.jpg`} className={styles.profileImage} alt="" />
+                                    <Image layout="fill" objectFit="cover" src={`/8.webp`} className={styles.profileImage} alt="" />
                                   </span>
                                 </div>
                                 <h4>mreazi</h4>
@@ -511,7 +511,7 @@ const LandingPage: NextPage = () => {
                           <section className={cStyles.profileInfo}>
                             <div className={cStyles.coverPicContainer}>
                               <div className={cStyles.cover} >
-                                <Image src={`/7.jpg`} height={"300px"} width={"900px"} objectFit="cover" id="cover" alt="" />
+                                <Image src={`/7.webp`} height={"300px"} width={"900px"} objectFit="cover" id="cover" alt="" />
                               </div>
                             </div>
                             <div className={cStyles.profile}>
@@ -520,7 +520,7 @@ const LandingPage: NextPage = () => {
                                   <div className={cStyles.imageContainer}>
                                     <div className={cStyles.profileImage}>
                                       <Image
-                                        src={`/6.jpg`}
+                                        src={`/6.webp`}
                                         layout="fill"
                                         id="avatar"
                                         alt=""
@@ -558,7 +558,7 @@ const LandingPage: NextPage = () => {
                                     </h2>
                                     <h2 className={cStyles.countInfo}>
                                       <div className={`${cStyles.countItem} ${styles.dateStarted}`}>
-                                        <p title="Date relationship started">{new Date().toDateString().substring(3)}</p>
+                                        <p title="Date relationship started">Dec 22, 2019</p>
                                         <span className={cStyles.countItemTitle}>{localeTr.started}</span>
                                       </div>
                                     </h2>
@@ -611,7 +611,7 @@ const messages = [
   { text: "I have you, that's all I need.", type: "text", date: "9 nov 2022, 23:25", me: true },
   { text: "Where are you?", type: "text", date: "9 nov 2022, 23:30", me: true },
   { text: "I'm in the studio, recording something special for you ❤️", type: "text", date: "9 nov 2022, 23:35", me: false },
-  { text: "/5.jpg", type: "file", date: "9 nov 2022, 23:40", me: false },
+  { text: "/5.webp", type: "file", date: "9 nov 2022, 23:40", me: false },
 ]
 
 export default LandingPage
