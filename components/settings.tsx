@@ -49,6 +49,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
     const [theme, setTheme] = useState<Theme>(Theme.LIGHT)
     const [prOpen, setPrOpen] = useState(false)
     const notify = useContext(ToasContext)
+    const nameRef = useRef("")
     const queryclient = useQueryClient()
 
     const locale = router.locale || "en"
@@ -62,7 +63,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
             onSuccess: (data) => {
                 const { message, type } = data.data as MutationResponse
                 notify!.notify(message, type)
-                queryclient.invalidateQueries(["startup"])
+                router.replace(`/user/${nameRef.current}`)
             },
             onError: (err) => {
                 notify!.notify(err.response?.data.message, "ERROR")
@@ -72,6 +73,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
 
     const changeName = (newName: string) => {
         if (newName.length < 4 || changeNameMutation.isLoading) return
+        nameRef.current = newName
         changeNameMutation.mutate({ user_name: newName })
     }
 
@@ -175,6 +177,7 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
         },
         {
             onSuccess: (data) => {
+                router.replace("/login")
                 const { message, type } = data.data as MutationResponse
                 notify!.notify(message, type)
 
@@ -319,6 +322,7 @@ export const CoupleSettings: React.FunctionComponent<{
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const [prOpen, setPrOpen] = useState(false)
+    const nameRef = useRef("")
     const notify = useContext(ToasContext)
 
 
@@ -330,6 +334,7 @@ export const CoupleSettings: React.FunctionComponent<{
             onSuccess: (data) => {
                 const { message, type } = data.data as MutationResponse
                 notify!.notify(message, type)
+                router.replace(`/${nameRef.current}`)
             },
             onError: (err) => {
                 notify?.notify(err.response?.data.message, "ERROR")
@@ -339,6 +344,7 @@ export const CoupleSettings: React.FunctionComponent<{
 
     const changeCoupleName = (newName: string) => {
         if (newName.length < 4 || changeNameMutation.isLoading) return
+        nameRef.current = newName
         changeNameMutation.mutate({ couple_name: newName })
     }
 
