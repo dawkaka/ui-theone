@@ -11,7 +11,6 @@
     flex: 1 1 auto;
     margin: 0px auto;
     padding: var(--gap-double);
-    border-bottom: var(--border);
 }
 
 .profileTop {
@@ -297,7 +296,9 @@
 
 .showImagesWrapper {
     display: grid;
+    padding: var(--gap-half);
     grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--gap-half);
 }
 
 @media screen and (max-width: 850px) {

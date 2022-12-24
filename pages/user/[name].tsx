@@ -285,8 +285,6 @@ export default function Profile(props: any) {
                                 )
                             })
                         }
-
-
                     </div>
                 </div>
                 <Prompt

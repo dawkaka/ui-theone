@@ -51,7 +51,8 @@ export default function HomePage() {
         }
     }
     if (data && !clearedRef.current) {
-        axios.put(`${BASEURL}/user/new-posts`).then(() => { clearedRef.current = true }).catch(() => { })
+        clearedRef.current = true
+        axios.put(`${BASEURL}/user/new-posts`).then(() => { }).catch(() => { clearedRef.current = false })
     }
 
     return (
