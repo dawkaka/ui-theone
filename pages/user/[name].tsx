@@ -225,7 +225,7 @@ export default function Profile(props: any) {
                                         <div className={styles.requestButtonWrapper}>
                                             {
                                                 !data.is_this_user ?
-                                                    data.couple_name !== "" ?
+                                                    data.couple_name ?
                                                         <Link href={`/${data.couple_name}`}>
                                                             <a
                                                                 className={styles.requestButton}
