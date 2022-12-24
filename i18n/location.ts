@@ -2355,7 +2355,7 @@ export function getState() {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     if (timezone === "" || !timezone) {
-        null
+        return "chicago"
     }
 
     const stateArr = timezone.split("/")

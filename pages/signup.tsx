@@ -155,7 +155,7 @@ const Signup: NextPage = () => {
     const signup = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (hasErrors() || mutation.isLoading) return
-        dataRef.current.country = getCountry()
+        dataRef.current.country = getCountry() || "United States of America"
         dataRef.current.state = getState()
         mutation.mutate(dataRef.current)
     }
