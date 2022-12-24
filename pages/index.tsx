@@ -88,6 +88,10 @@ const LandingPage: NextPage = () => {
   }
 
   useEffect(() => {
+    const userCountry = getCountry()
+    if (userCountry) {
+      setShowRainbow(!noHomo.includes(userCountry))
+    }
     window.addEventListener("scroll", updateHeaderBackgorund)
     return () => {
       window.removeEventListener("scroll", updateHeaderBackgorund)
