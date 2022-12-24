@@ -363,6 +363,10 @@
 
 
 @media only screen and (max-width:500px) {
+    .requestButtonWrapper {
+        justify-content: center;
+    }
+
     .profileBottom {
         margin-bottom: 50px
     }

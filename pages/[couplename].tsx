@@ -25,6 +25,7 @@ import { BASEURL, IMAGEURL } from "../constants";
 import { ToasContext } from "../components/context";
 import { NotFound } from "../components/notfound";
 import Head from "next/head";
+import Link from "next/link";
 
 Modal.setAppElement("#__next")
 
@@ -241,6 +242,24 @@ const CoupleProfile: NextPage = (props: any) => {
                                 <div style={{ marginTop: "var(--gap-half)", color: "var(--accents-7)" }}>
                                     <p className={styles.userName}>{data.couple_name} {data.verified ? <Verified size={15} /> : ""}</p>
                                     <p style={{ color: "var(--accents-5)" }}>{data.married ? "married" : "dating"}</p>
+                                    {
+                                        data.user_names && data.user_names.length === 2 ?
+                                            <div style={{ color: "var(--success)", marginBlock: "var(--gap-quarter)", display: "flex" }}>
+                                                <Link href={`/user/${data.user_names[0]}`}>
+                                                    <a>
+                                                        {data.user_names[0]}
+                                                    </a>
+                                                </Link>
+                                                <p style={{ color: "var(--foreground)", marginInline: "5px" }}>&</p>
+                                                <Link href={`/user/${data.user_names[1]}`}>
+                                                    <a>
+                                                        {data.user_names[1]}
+                                                    </a>
+                                                </Link>
+                                            </div>
+                                            :
+                                            null
+                                    }
                                     <p className={styles.bio}>{data.bio}</p>
                                     <div style={{ marginTop: "var(--gap-half)" }}>
                                         <a href={data.website} style={{ color: "var(--success)" }}>{data.website}</a>
