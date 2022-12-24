@@ -25,6 +25,8 @@ import { GetServerSideProps } from "next";
 import { ToasContext } from "../../components/context";
 import { NotFound } from "../../components/notfound";
 import Head from "next/head";
+import Link from "next/link";
+import { AiFillHeart } from "react-icons/ai";
 Modal.setAppElement("#__next")
 
 export default function Profile(props: any) {
@@ -62,7 +64,7 @@ export default function Profile(props: any) {
                 queryClient.invalidateQueries(cacheKey)
                 avatarImgRef.current!.src = newFileRef.current
                 setIsOpen(false)
-                const { message, type } = data as any
+                const { message, type } = data.data as MutationResponse
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -144,6 +146,7 @@ export default function Profile(props: any) {
 
     const { data } = useQuery(cacheKey, () => axios.get(`${BASEURL}/user/${router.query.name}`).then(res => res.data),
         { initialData: props.user.data, staleTime: Infinity })
+    console.log(data)
 
     const blockMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => axios.post(`${BASEURL}/couple/block/${router.query.name}`),
@@ -214,22 +217,43 @@ export default function Profile(props: any) {
                                     }
                                 </div>
                                 <div className={styles.titleContainer}>
-                                    <h3 className={styles.userName}>@{data.user_name}</h3>
+                                    <h3 className={styles.userName}>@{data.user_name}
+                                        {data.has_partner ? <AiFillHeart color="var(--error)" size={18} title="has partner"></AiFillHeart> : null}
+                                    </h3>
                                     <h2 data-e2e="user-subtitle" className={styles.realName}>{data.first_name} {data.last_name}</h2>
                                     <div className={styles.requestContainer}>
                                         <div className={styles.requestButtonWrapper}>
                                             {
                                                 !data.is_this_user ?
-                                                    <button type="button" className={styles.requestButton}
-                                                        style={{ opacity: data.has_partner ? "0.5" : "1" }}
-                                                        onClick={() => {
-                                                            if (data.has_partner) return
-                                                            setPrOpen(true)
-                                                        }}>{localeTr.sendrequest}</button>
+                                                    data.couple_name !== "" ?
+                                                        <Link href={`/${data.couple_name}`}>
+                                                            <a
+                                                                className={styles.requestButton}
+                                                                style={{ color: "white" }}
+                                                            >
+                                                                {localeTr.coupleprofile}
+                                                            </a>
+                                                        </Link>
+                                                        :
+                                                        <button type="button" className={styles.requestButton}
+                                                            onClick={() => {
+                                                                setPrOpen(true)
+                                                            }}>{localeTr.sendrequest}</button>
                                                     :
-                                                    <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>
-                                                        {localeTr.edit}
-                                                    </button>
+                                                    <>
+                                                        <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>
+                                                            {localeTr.edit}
+                                                        </button>
+                                                        <Link href={`/${data.couple_name}`}>
+                                                            <a
+                                                                className={styles.requestButton}
+                                                                style={{ color: "white" }}
+                                                            >
+                                                                {localeTr.coupleprofile}
+                                                            </a>
+                                                        </Link>
+                                                    </>
+
                                             }
                                         </div>
                                     </div>

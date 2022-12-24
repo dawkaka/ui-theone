@@ -120,7 +120,6 @@ const Comment: React.FunctionComponent<CommentT> = (props) => {
                   <h5>{props.user_name}</h5>
                 </a>
               </Link>
-              <AiFillHeart color="var(--error)" size={12} title="has partner"></AiFillHeart>
             </div>
             <small style={{ fontSize: "11px" }}>{props.date.toLocaleDateString()}</small>
           </div>

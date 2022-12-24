@@ -204,12 +204,25 @@
     opacity: 1;
 }
 
+.requestButtonWrapper {
+    display: flex;
+    gap: var(--gap-half)
+}
+
 .requestButton {
     border-radius: var(--radius-tiny);
     background-color: var(--success-light);
     font-size: var(--font-size);
-    padding: var(--gap-quarter) var(--gap);
+    padding: 5px var(--gap);
+    max-width: 150px;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
     user-select: none;
+}
+
+.buttonWC {
+    max-width: 100px;
 }
 
 .userActions {

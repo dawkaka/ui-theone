@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { ChangeEvent, FormEvent, FormEventHandler, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { isEmail, isPassword, isRealName, isUserName } from "../libs/validators";
 import styles from "../styles/loginsignup.module.css"
 import { ErrCodes, Langs, Signup } from "../types";
