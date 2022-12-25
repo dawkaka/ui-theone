@@ -146,7 +146,6 @@ export default function Profile(props: any) {
 
     const { data } = useQuery(cacheKey, () => axios.get(`${BASEURL}/user/${router.query.name}`).then(res => res.data),
         { initialData: props.user.data, staleTime: Infinity })
-    console.log(data)
 
     const blockMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
         () => axios.post(`${BASEURL}/couple/block/${router.query.name}`),

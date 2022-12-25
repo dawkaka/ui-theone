@@ -66,7 +66,6 @@ export default function Messages() {
         })
 
     socket.on('connect', () => {
-        console.log('Connected to the server')
     })
 
     socket.on("message", (data) => {
@@ -95,10 +94,8 @@ export default function Messages() {
 
 
     socket.on("connect_error", (error) => {
-        console.log(error)
     })
     socket.on("sent", (data) => {
-        console.log(data)
     })
     socket.on("recieved", () => {
         let msg = messages.map(msg => {
@@ -109,7 +106,6 @@ export default function Messages() {
     })
 
     socket.on("not-sent", error => {
-        console.log(error)
     })
 
     socket.on("typing", () => {

@@ -878,7 +878,6 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string, postId
         },
         {
             onSuccess: data => {
-                console.log(data)
                 setComment("")
                 queryClient.setQueryData(["comments", { id }], (oldData: any) => {
                     if (oldData) {
@@ -925,7 +924,6 @@ const CommentArea: React.FunctionComponent<{ isCard: boolean, id: string, postId
                         if (page > -1) {
                             pages[page].posts = pages[page].posts.map((post: any) => {
                                 if (post.id === id) {
-                                    console.log(post)
                                     return { ...post, comments_count: post.comments_count + 1 }
                                 }
                                 return post
