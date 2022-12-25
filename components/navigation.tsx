@@ -59,7 +59,7 @@ export default function Navigation() {
 
     }, [pathname])
 
-    const { data } = useQuery(["startup"], () => {
+    const { data } = useQuery(["startup"], async () => {
         return axios.get(`${BASEURL}/user/u/startup`).then(res => res.data)
     })
     let startup = {
@@ -71,12 +71,6 @@ export default function Navigation() {
         pending_request: 0
     }
     if (data) {
-        if (data.new_posts_count > 0) {
-            queryClient.invalidateQueries(["feed"])
-        }
-        if (data.notifications_count > 0) {
-            queryClient.invalidateQueries(["notifications"])
-        }
         startup = {
             new_posts_count: data.new_posts_count,
             has_partner: data.has_partner,

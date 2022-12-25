@@ -43,7 +43,6 @@ export default function Notifications() {
                 }
                 return lastPage.pagination.next
             },
-            staleTime: Infinity
         })
 
     let notifications: any[] = []

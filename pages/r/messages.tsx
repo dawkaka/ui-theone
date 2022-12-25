@@ -62,7 +62,6 @@ export default function Messages() {
                 }
                 return lastPage.data?.pagination.next
             },
-            staleTime: Infinity
         })
 
     socket.on('connect', () => {

@@ -41,7 +41,6 @@ export default function HomePage() {
                 }
                 return lastPage.data?.pagination.next
             },
-            staleTime: Infinity
         })
 
     let posts: any[] = []
