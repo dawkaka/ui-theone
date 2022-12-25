@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const withPWA = require("next-pwa")({
+  dest: 'public',
+  register: true
+})
+
+module.exports = withPWA({
   reactStrictMode: true,
   swcMinify: true,
   i18n: {
@@ -14,7 +19,5 @@ const nextConfig = {
   },
   headers: {
     'Cache-Control': 'public, max-age=1296000'
-  }
-}
-
-module.exports = nextConfig
+  },
+})
