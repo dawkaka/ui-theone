@@ -92,6 +92,9 @@ const LandingPage: NextPage = () => {
     // if (userCountry) {
     //   setShowRainbow(!noHomo.includes(userCountry))
     // }
+    if (localStorage.getItem("hasAccount")) {
+      router.replace("/r/home")
+    }
     window.addEventListener("scroll", updateHeaderBackgorund)
     return () => {
       window.removeEventListener("scroll", updateHeaderBackgorund)
