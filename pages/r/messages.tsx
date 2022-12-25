@@ -70,7 +70,7 @@ export default function Messages() {
     socket.on("message", (data) => {
         setMessages([...messages, data])
         if (messageContainer.current) {
-            messageContainer.current.lastElementChild?.scrollIntoView({ behavior: "smooth" })
+            setTimeout(() => { messageContainer.current?.lastElementChild?.scrollIntoView({ behavior: "auto" }) }, 1)
         }
         socket.emit("recieved")
     })
@@ -161,7 +161,7 @@ export default function Messages() {
                                         setMessages([])
                                         setMessages([...messages, { message, from: userId, type, date: "Now" }])
                                         if (messageContainer.current) {
-                                            messageContainer.current.lastElementChild?.scrollIntoView({ behavior: "auto" })
+                                            setTimeout(() => { messageContainer.current?.lastElementChild?.scrollIntoView({ behavior: "auto" }) }, 1)
                                         }
                                     }}
                                     sendAlert={(alert) => {
