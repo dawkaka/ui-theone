@@ -564,7 +564,6 @@ export function PostFullView({ couplename, postId, initialData }: { couplename: 
         }
     }, [])
 
-
     const closeModal = useCallback(() => {
         setStep("actions")
         setModalOpen(false)
