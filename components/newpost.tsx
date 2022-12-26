@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef, useEffect } from "react";
+import React, { useState, ChangeEvent, useRef, useEffect, useContext } from "react";
 import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import Modal from "react-modal";
@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { GoFileMedia } from "react-icons/go";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { Carousel, CheckMark, Loading, Video } from "./mis";
+import { Carousel, CheckMark, Loading, Toast, Video } from "./mis";
 import tr from "../i18n/locales/components/newpost.json"
 import { useRouter } from "next/router";
 import { Langs } from "../types";
@@ -17,6 +17,7 @@ import { BASEURL } from "../constants";
 import { BsFillPlayBtnFill, BsPlayBtn } from "react-icons/bs";
 import { NotFound } from "./notfound";
 import { MdOutlineSmsFailed } from "react-icons/md";
+import { ToasContext } from "./context";
 //import Cropper from "cropperjs";
 
 Modal.setAppElement("body")
@@ -36,6 +37,8 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [cropper, setCropper] = useState<Cropper>()
     const [vid, setVid] = useState<string>("")
     const [responseError, setResponseError] = useState("")
+    const [fileTypeError, setFileTypeError] = useState("")
+    const notify = useContext(ToasContext)
 
 
     const files = useRef<string[]>([])
@@ -54,6 +57,12 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         const fs = e.currentTarget.files
         setVid("")
         if (fs) {
+            const extInd = fs[0].name.lastIndexOf(".")
+            const ext = fs[0].name.substring(extInd)
+            if (![".jpeg", ".jpg", ".png"].includes(ext)) {
+                setFileTypeError("Unsurppoted image format.")
+                return
+            }
             const reader = new FileReader()
             reader.readAsDataURL(fs[0])
             reader.onload = () => {
@@ -67,15 +76,19 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     }
 
     const addImage = (e: ChangeEvent<HTMLInputElement>) => {
-        if (!lockAsRatio) {
-            setLockAsRatio(true)
-        }
+
         if (files.current.length > 9) {
             alert("Images cant' be more than 10")
             return
         }
         const fs = e.currentTarget.files
         if (fs) {
+            const extInd = fs[0].name.lastIndexOf(".")
+            const ext = fs[0].name.substring(extInd)
+            if (![".jpeg", ".jpg", ".png"].includes(ext)) {
+                notify!.notify("Unsupported image format.", "ERROR")
+                return
+            }
             const reader = new FileReader()
             reader.readAsDataURL(fs[0])
             reader.onload = () => {
@@ -84,6 +97,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                 ind.current = blobs.current.length - 1
                 setImage({ data: reader.result as any })
                 e.target.value = ""
+            }
+            if (!lockAsRatio) {
+                setLockAsRatio(true)
             }
         }
     }
@@ -203,9 +219,16 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         blobs.current = []
         setVid("")
     }
+
     const handleVideo = (e: ChangeEvent<HTMLInputElement>) => {
         const fs = e.currentTarget.files
         if (fs) {
+            const extInd = fs[0].name.lastIndexOf(".")
+            const ext = fs[0].name.substring(extInd)
+            if (ext !== ".mp4") {
+                setFileTypeError("Unsupported video format, only mp4 allowed.")
+                return
+            }
             const reader = new FileReader()
             reader.readAsDataURL(fs[0])
             reader.onload = () => {
@@ -260,6 +283,9 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                             </div>
                         </div>
                         <div className={styles.modalContent}>
+                            {
+                                fileTypeError !== "" ? <p style={{ color: "red" }}>{fileTypeError}</p> : null
+                            }
                             <div className={styles.fileIcons}>
                                 <GoFileMedia size={100} className={styles.fileIcon2} />
                                 <BsPlayBtn size={100} className={styles.fileIcon1} />
@@ -271,6 +297,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
                                     <input
                                         type="file" onChange={newFile}
                                         accept="image/jpeg, image/png"
+
                                     />
                                 </button>
 

@@ -211,7 +211,7 @@ export const Post: React.FunctionComponent<PostT> = (props) => {
                     </div>
                 </div>
                 <div>
-                    <div className={styles.filesContainer}>
+                    <div className={styles.filesContainer} style={{ borderTop: "var(--border)" }}>
                         <div className={styles.fileSlider} ref={slider}>
                             {
 
