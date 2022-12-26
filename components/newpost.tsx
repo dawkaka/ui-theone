@@ -12,9 +12,11 @@ import tr from "../i18n/locales/components/newpost.json"
 import { useRouter } from "next/router";
 import { Langs } from "../types";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL } from "../constants";
 import { BsFillPlayBtnFill, BsPlayBtn } from "react-icons/bs";
+import { NotFound } from "./notfound";
+import { MdOutlineSmsFailed } from "react-icons/md";
 //import Cropper from "cropperjs";
 
 Modal.setAppElement("body")
@@ -33,6 +35,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
     const [location, setLocation] = useState("")
     const [cropper, setCropper] = useState<Cropper>()
     const [vid, setVid] = useState<string>("")
+    const [responseError, setResponseError] = useState("")
 
 
     const files = useRef<string[]>([])
@@ -155,10 +158,17 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         setCurrentAlt(alt[carouselCurrent])
     }, [carouselCurrent, alt])
 
-    const sharePostMutation = useMutation(
-        (data: FormData) => {
+    const sharePostMutation = useMutation<AxiosResponse, AxiosError<any, any>, FormData>(
+        (data) => {
             return axios.post(`${BASEURL}/post`, data)
-        })
+        },
+        {
+            onError: (err) => {
+                const msg = err.response?.data.message || "Something went wrong"
+                setResponseError(msg)
+            }
+        }
+    )
 
 
     const sharePost = async () => {
@@ -505,7 +515,16 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
 
                         <div className={styles.modalContent}>
                             {
-                                sharePostMutation.isLoading ? <Loading color="var(--success)" size="large" /> : <CheckMark size={200} />
+                                sharePostMutation.isLoading ?
+                                    <Loading color="var(--success)" size="large" />
+                                    :
+                                    sharePostMutation.isError ?
+                                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", color: "red" }}>
+                                            <MdOutlineSmsFailed size={40} />
+                                            <p style={{ marginTop: "10px" }}>{responseError}</p>
+                                        </div>
+                                        :
+                                        <CheckMark size={200} />
                             }
                         </div>
                     </div>
