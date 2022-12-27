@@ -60,7 +60,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
             const extInd = fs[0].name.lastIndexOf(".")
             const ext = fs[0].name.substring(extInd)
             if (![".jpeg", ".jpg", ".png"].includes(ext)) {
-                setFileTypeError("Unsurppoted image format.")
+                setFileTypeError("Unsupported image format.")
                 return
             }
             const reader = new FileReader()
