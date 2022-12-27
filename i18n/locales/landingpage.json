@@ -29,7 +29,7 @@
             }
         },
         "breakup": {
-            "header": "Incase of a Breakfast?",
+            "header": "Incase of a Breakup?",
             "first": {
                 "header": "Deactivate Your Couple Profile Anytime",
                 "text": "If a couple deactivates their profile, the couple profile will cease to exist and all their posts can no longer be viewed by anyone. Either partner can no longer be able to upload posts"
@@ -85,7 +85,7 @@
             }
         },
         "breakup": {
-            "header": "¿En caso de un desayuno?",
+            "header": "¿En caso de una ruptura?",
             "first": {
                 "header": "Desactiva tu perfil de pareja en cualquier momento",
                 "text": "Si una pareja desactiva su perfil, el perfil de la pareja dejará de existir y nadie podrá ver todas sus publicaciones. Cualquiera de los socios ya no puede subir publicaciones."
