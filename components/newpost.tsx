@@ -180,7 +180,7 @@ const AddPost: React.FunctionComponent<{ open: () => void; isOpen: boolean, clos
         },
         {
             onError: (err) => {
-                const msg = err.response?.data.message || "Something went wrong"
+                const msg = err.response ? err.response.data.message : "Something went wrong"
                 setResponseError(msg)
             }
         }

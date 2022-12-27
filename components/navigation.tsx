@@ -11,7 +11,7 @@ import AddPost from "./newpost";
 import messages from "../i18n/locales/navigation..json"
 import { Langs } from "../types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
 import { NotFound } from "./notfound";
 import { Loading } from "./mis";
@@ -24,6 +24,7 @@ export default function Navigation() {
     const [hideHeader, setHideHeader] = useState(false)
     const [openPostModal, setOpenPostModal] = useState(false)
     const [hideBottomTab, setHideBottomTab] = useState(false)
+    const router = useRouter()
     const queryClient = useQueryClient()
 
     const modalOverlay: CSSProperties = {
@@ -33,6 +34,15 @@ export default function Navigation() {
         display: "flex",
         flexDirection: "column",
         margin: 0
+    }
+
+    let startup = {
+        has_partner: false,
+        notifications_count: 0,
+        user_name: "",
+        new_posts_count: 0,
+        new_messages_count: 0,
+        pending_request: 0
     }
 
     const cMessages = locale ? messages[locale as Langs] : messages["en"]
@@ -59,17 +69,16 @@ export default function Navigation() {
 
     }, [pathname])
 
-    const { data } = useQuery(["startup"], async () => {
+    const { data, error, isError } = useQuery<AxiosResponse<any, any>, AxiosError, any>(["startup"], async () => {
         return axios.get(`${BASEURL}/user/u/startup`).then(res => res.data)
     })
-    let startup = {
-        has_partner: false,
-        notifications_count: 0,
-        user_name: "",
-        new_posts_count: 0,
-        new_messages_count: 0,
-        pending_request: 0
+
+    if (isError) {
+        if (error.response?.status === 401) {
+            router.push("/login")
+        }
     }
+
     if (data) {
         startup = {
             new_posts_count: data.new_posts_count,
