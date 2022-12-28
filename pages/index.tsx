@@ -88,10 +88,10 @@ const LandingPage: NextPage = () => {
   }
 
   useEffect(() => {
-    // const userCountry = getCountry()
-    // if (userCountry) {
-    //   setShowRainbow(!noHomo.includes(userCountry))
-    // }
+    const userCountry = getCountry()
+    if (userCountry) {
+      setShowRainbow(!noHomo.includes(userCountry))
+    }
     if (localStorage.getItem("hasAccount")) {
       router.replace("/r/home")
     }
