@@ -13,10 +13,24 @@
     width: 100%;
     height: 90%;
     border: var(--border);
-    border-radius: var(--radius-big);
 }
 
+@media screen and (max-width: 750px) {
+    .messagingContainer {
+        height: 95%;
+    }
+}
 
+.usersMessagesContainer {
+    height: 100%;
+    width: 100%;
+    flex: 1.5;
+    border-right: 1px solid var(--accents-2);
+    overflow-y: auto;
+    border-right: 2px solid var(--accents-2);
+    overflow-y: hidden;
+    position: relative;
+}
 
 .header {
     padding: 0 var(--gap);
@@ -67,7 +81,6 @@
 
 .chatItemContainer {
     display: flex;
-    align-items: center;
     position: relative;
     min-width: 0;
     padding: var(--gap-quarter);
@@ -241,7 +254,7 @@
     font-size: 15px;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 650px) {
     .messagePageContainer {
         padding: 0;
         border-right: none;

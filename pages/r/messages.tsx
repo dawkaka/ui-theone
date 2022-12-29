@@ -123,6 +123,34 @@ export default function Messages() {
             </Head>
             <div className={styles.messagePageContainer}>
                 <div className={styles.messagingContainer}>
+                    <section className={styles.usersMessagesContainer}>
+                        <div className={styles.fixedContainer}>
+                            <div className={styles.header}>
+                                <h3>Messaging</h3>
+                            </div>
+                            <div className={styles.searchContainer}>
+                                <input type="search" placeholder="Search messages..." className={styles.search} />
+                            </div>
+                        </div>
+                        <div className={styles.chatItemsContainer}>
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified={false} />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me5.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me4.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                            <ChatUser name="dawkaka" avatar="/me.jpg" isVerified />
+                        </div>
+
+                        <div></div>
+                    </section>
                     <section className={styles.chatContainer}>
                         <div className={styles.header}>
                             <div style={{
@@ -349,8 +377,8 @@ const ChatUser: React.FunctionComponent<{
 }> = (props) => {
     return (
         <div className={`${styles.chatItemContainer} ${!props.isVerified ? styles.chatItemActive : ""} `}>
-            <div className={styles.imageContainer} style={{ width: "60px", height: "60px" }}>
-                <span className={styles.avatarContainer} style={{ width: "60px", height: "60px" }}>
+            <div className={styles.imageContainer} style={{ width: "40px", height: "40px" }}>
+                <span className={styles.avatarContainer} style={{ width: "40px", height: "40px" }}>
                     <Image
                         layout="fill"
                         objectFit="cover"
@@ -365,7 +393,7 @@ const ChatUser: React.FunctionComponent<{
                     <h4>{props.name}</h4>
                     <h5>{new Date().toLocaleDateString()}</h5>
                 </div>
-                <p className={styles.message}>{props.isVerified ? props.name : "You"}: gara how are you doing aalkj adhdl that fore the from and aow lww want let you know</p>
+                <p className={styles.message}>{props.isVerified ? props.name : "You"}: gara how are you doing aalkj...</p>
             </div>
         </div>
     )
