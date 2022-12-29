@@ -35,11 +35,11 @@ export default function HomePage() {
     } = useInfiniteQuery(["feed"], fetchMessages,
         {
             getNextPageParam: (lastPage, pages) => {
-                if (lastPage.data) {
-                    if (lastPage.data?.pagination.end)
+                if (lastPage) {
+                    if (lastPage.pagination.end)
                         return undefined
                 }
-                return lastPage.data?.pagination.next
+                return lastPage.pagination.next
             },
         })
 
