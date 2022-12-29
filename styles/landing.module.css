@@ -17,10 +17,8 @@
 
 .header {
     width: 100%;
-    position: fixed;
-    top: 0;
+    background-color: var(--success);
     padding: var(--gap-half) 0;
-    z-index: 1;
 }
 
 .scrolled {
@@ -94,25 +92,24 @@
 
 
 .heroMainContainer {
-    background-attachment: fixed;
     background-color: #fe2c55;
 }
 
 .heroContainer {
     position: relative;
     display: flex;
-    margin-top: 20px;
     flex-direction: column;
+    margin-top: 20px;
     align-items: center;
     width: 100%;
-    padding: var(--space-24x) var(--gap);
+    padding: var(--gap);
     gap: var(--space-large);
 }
 
 @media screen and (max-width: 750px) {
     .heroContainer {
         margin-top: 50px;
-        padding: var(--space-16x) 0;
+        padding: var(--gap) 0;
     }
 }
 

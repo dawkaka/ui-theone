@@ -76,28 +76,10 @@ const LandingPage: NextPage = () => {
     createObserver()
   })
 
-  const updateHeaderBackgorund = () => {
-    const h = document.querySelector("#header")
-    const body = document.querySelector("body")
-    if (!h || !body) return
-    if (body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-      h.classList.add(styles.scrolled)
-    } else {
-      h.classList.remove(styles.scrolled)
-    }
-  }
-
   useEffect(() => {
     const userCountry = getCountry()
     if (userCountry) {
       setShowRainbow(!noHomo.includes(userCountry))
-    }
-    if (localStorage.getItem("hasAccount")) {
-      router.replace("/r/home")
-    }
-    window.addEventListener("scroll", updateHeaderBackgorund)
-    return () => {
-      window.removeEventListener("scroll", updateHeaderBackgorund)
     }
   }, [])
 
