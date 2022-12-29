@@ -390,10 +390,10 @@ const ChatUser: React.FunctionComponent<{
             </div>
             <div className={styles.messageInfoContainer}>
                 <div className={styles.messageTop}>
-                    <h4>{props.name}</h4>
-                    <h5>{new Date().toLocaleDateString()}</h5>
+                    <h4 style={{ fontWeight: 600, color: "var(--accents-7)" }}>{props.name}</h4>
+                    <small style={{ fontSize: "12px", color: "var(--accents-6)" }}>{new Date().toLocaleDateString()}</small>
                 </div>
-                <p className={styles.message}>{props.isVerified ? props.name : "You"}: gara how are you doing aalkj...</p>
+                <p className={styles.message}>Gara how are you doing aalkj...</p>
             </div>
         </div>
     )
@@ -415,7 +415,9 @@ export const ChatMessage: React.FunctionComponent<{
         <div className={styles.messageContainer} onClick={toggle}>
             <div className={`${styles.messageInner} ${me ? styles.messageSent : ""} `}>
                 {
-                    type === "text" ? <p style={{ whiteSpace: "pre-wrap" }}> {text}</p> : < img src={`${IMAGEURL}/${text}`} className={styles.textImage} alt="" />
+                    type === "text" ? <p style={{ whiteSpace: "pre-wrap" }}> {text}</p>
+                        :
+                        < img src={`${IMAGEURL}/${text}`} className={styles.textImage} alt="" />
                 }
             </div >
             {
