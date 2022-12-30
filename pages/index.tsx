@@ -14,15 +14,13 @@ import styles from "../styles/landing.module.css"
 import cStyles from "../styles/couple.module.css"
 import { LandingChatMsg as ChatMessage } from "./r/messages"
 import { RiVideoFill } from "react-icons/ri"
-import { FaHeartBroken } from "react-icons/fa"
-import { IMAGEURL } from "../constants"
+import { FaAngleDown, FaHeartBroken } from "react-icons/fa"
 import { useRouter } from "next/router"
 import tr from "../i18n/locales/landingpage.json"
 import { Langs } from "../types"
 import { getCountry } from "../i18n/location"
 import { MdReport } from "react-icons/md"
 import CookieBanner from "../components/cookie"
-import { postDateFormat } from "../libs/utils"
 
 
 const LandingPage: NextPage = () => {
@@ -132,7 +130,7 @@ const LandingPage: NextPage = () => {
               <div className={styles.widthControlWrapper} style={{ color: "white" }}>
                 <div className={styles.widthControl}>
                   <header className={styles.heroContainer}>
-                    <div className={styles.twoCol} style={{ alignItems: "center" }}>
+                    <div className={styles.twoCol} style={{ alignItems: "center", justifyContent: "space-between" }}>
                       <div className={styles.heroHeading}>
                         <h1 className={styles.headerLarge}>
                           {localeTr.heroHeader}
@@ -572,9 +570,18 @@ const LandingPage: NextPage = () => {
                     </div>
 
                   </div>
+                </section>
 
+                <section style={{ marginTop: "clamp(50px, 20vh, 150px)" }}>
+                  <h2 className={styles.headerMedium}>Frequently Asked Questions</h2>
+                  <div>
+                    <Faq title="What is Prime Couples?" content="Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples" />
+                    <Faq title="What is Prime Couples?" content="Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples" />
+                    <Faq title="What is Prime Couples?" content="Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples" />
+                    <Faq title="What is Prime Couples?" content="Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples" />
+                  </div>
+                </section>
 
-                </section >
               </div >
             </div >
 
@@ -586,6 +593,19 @@ const LandingPage: NextPage = () => {
         </footer>
       </div >
     </>
+  )
+}
+
+
+const Faq: React.FC<{ title: string, content: string }> = ({ title, content }) => {
+  return (
+    <div style={{ backgroundColor: "var(--background)", padding: "var(--gap)", borderRadius: "var(--radius-small)", marginTop: "var(--gap)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--gap-half)" }}>
+        <p className={styles.txL} style={{ color: "var(--foreground)", fontWeight: "400" }}>{title}</p>
+        <FaAngleDown size={25} />
+      </div>
+      <p style={{ maxWidth: "700px", color: "var(--accents-7)" }}>{content}</p>
+    </div>
   )
 }
 
