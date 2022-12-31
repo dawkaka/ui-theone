@@ -580,16 +580,16 @@ const LandingPage: NextPage = () => {
                       content="Yes, individuals who are not in relationships are welcome to join Prime Couples and engage with the content and couples that interest them. This may include following and interacting with posts from their favorite couples. However people without partners can not creat posts of their own."
                     />
                     <Faq
+                      title="Can't couples just create a joint Instagram account instead?"
+                      content="Well, you could try using a hammer to open a bottle of wine, but a corkscrew is just a little more... cork-savvy."
+                    />
+                    <Faq
                       title="Is prime couples free to use?"
                       content="Yes"
                     />
                     <Faq
                       title="Is prime couples available in other languages?"
                       content="Yes, we currently support English and Spanish. More languages will be added"
-                    />
-                    <Faq
-                      title="Can't couples just create a joint Instagram account instead?"
-                      content="Well, you could try using a hammer to open a bottle of wine, but a corkscrew is just a little more... cork-savvy."
                     />
                   </div>
                 </section>
