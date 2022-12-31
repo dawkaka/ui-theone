@@ -574,11 +574,23 @@ const LandingPage: NextPage = () => {
 
                 <section style={{ marginTop: "clamp(50px, 20vh, 150px)" }}>
                   <h2 className={styles.headerMedium}>Frequently Asked Questions</h2>
-                  <div>
-                    <Faq title="What is Prime Couples?" content="Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples" />
-                    <Faq title="What is Prime Couples?" content="Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples" />
-                    <Faq title="What is Prime Couples?" content="Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples" />
-                    <Faq title="What is Prime Couples?" content="Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples, Prime Couples is an all in one social media made for couples" />
+                  <div style={{ padding: "var(--gap-half) min(3vw, var(--gap))" }}>
+                    <Faq
+                      title="Can people without partners join?"
+                      content="Yes, individuals who are not in relationships are welcome to join Prime Couples and engage with the content and couples that interest them. This may include following and interacting with posts from their favorite couples. However people without partners can not creat posts of their own."
+                    />
+                    <Faq
+                      title="Is prime couples free to use?"
+                      content="Yes"
+                    />
+                    <Faq
+                      title="Is prime couples available in other languages?"
+                      content="Yes, we currently support English and Spanish. More languages will be added"
+                    />
+                    <Faq
+                      title="Can't couples just create a joint Instagram account instead?"
+                      content="Well, you could try using a hammer to open a bottle of wine, but a corkscrew is just a little more... cork-savvy."
+                    />
                   </div>
                 </section>
 
@@ -598,13 +610,14 @@ const LandingPage: NextPage = () => {
 
 
 const Faq: React.FC<{ title: string, content: string }> = ({ title, content }) => {
+  const [opened, setOpened] = useState(false)
   return (
-    <div style={{ backgroundColor: "var(--background)", padding: "var(--gap)", borderRadius: "var(--radius-small)", marginTop: "var(--gap)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--gap-half)" }}>
+    <div style={{ backgroundColor: "var(--background)", padding: "var(--gap)", borderRadius: "var(--radius-small)", marginTop: "var(--gap-half)" }}>
+      <div role="button" style={{ display: "flex", justifyContent: "space-between", cursor: "pointer" }} onClick={() => setOpened(!opened)}>
         <p className={styles.txL} style={{ color: "var(--foreground)", fontWeight: "400" }}>{title}</p>
-        <FaAngleDown size={25} />
+        <FaAngleDown size={20} style={{ transform: opened ? "rotate(180deg)" : "rotate(0)" }} />
       </div>
-      <p style={{ maxWidth: "700px", color: "var(--accents-7)" }}>{content}</p>
+      {opened ? <p style={{ maxWidth: "700px", color: "var(--accents-7)", marginTop: "var(--gap-half)" }}>{content}</p> : null}
     </div>
   )
 }
