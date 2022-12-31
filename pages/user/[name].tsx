@@ -216,10 +216,10 @@ export default function Profile(props: any) {
                                     }
                                 </div>
                                 <div className={styles.titleContainer}>
+                                    <h2 data-e2e="user-subtitle" className={styles.realName}>{data.first_name} {data.last_name}</h2>
                                     <h3 className={styles.userName}>@{data.user_name}
                                         {data.has_partner ? <AiFillHeart color="var(--error)" size={18} title="has partner"></AiFillHeart> : null}
                                     </h3>
-                                    <h2 data-e2e="user-subtitle" className={styles.realName}>{data.first_name} {data.last_name}</h2>
                                     <div className={styles.requestContainer}>
                                         <div className={styles.requestButtonWrapper}>
                                             {

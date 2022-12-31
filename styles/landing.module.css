@@ -268,6 +268,7 @@
     font-size: 4rem;
     line-height: 1;
     font-weight: 800;
+    letter-spacing: -0.05em;
 }
 
 .headerMedium {
@@ -275,6 +276,7 @@
     font-size: 3rem;
     line-height: 1;
     font-weight: 800;
+    letter-spacing: -0.05em;
 }
 
 .headerSmall {
@@ -283,6 +285,7 @@
     line-height: 1;
     font-weight: 800;
     margin-bottom: var(--gap);
+    letter-spacing: -0.05em;
 }
 
 .headerXSmall {
@@ -290,6 +293,7 @@
     font-size: 1rem;
     line-height: 1;
     font-weight: 800;
+    letter-spacing: -0.05em;
 }
 
 @media screen and (max-width: 700px) {

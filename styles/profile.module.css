@@ -24,8 +24,6 @@
 
 .infoContainer {
     display: flex;
-    flex-direction: row;
-    -webkit-box-align: center;
     gap: var(--gap)
 }
 
@@ -180,9 +178,10 @@
 }
 
 .realName {
-    font-weight: 500;
+    font-weight: bold;
     font-size: 25px;
     max-width: 350px;
+    margin-bottom: var(--gap-half);
 }
 
 .requestContainer {
