@@ -79,6 +79,9 @@ const LandingPage: NextPage = () => {
     if (userCountry) {
       setShowRainbow(!noHomo.includes(userCountry))
     }
+    if (localStorage.getItem("hasAccount")) {
+      router.push("/r/home")
+    }
   }, [])
 
   return (
