@@ -72,6 +72,38 @@ const LandingPage: NextPage = () => {
 
   useEffect(() => {
     createObserver()
+
+    const planets = Array.from(document.getElementsByClassName(`${styles.planet}`))
+    const circle = document.getElementById("circle")
+    planets.forEach((planet) => {
+      planet.addEventListener("mouseover", (e) => {
+        planets.forEach(planet => {
+          if (circle) {
+            circle.style.animationPlayState = "paused"
+          }
+          if (planet instanceof HTMLElement) {
+            planet.style.animationPlayState = "paused";
+            if (planet.childNodes && planet.childNodes[0] instanceof HTMLElement) {
+              planet.childNodes[0].style.animationPlayState = "paused"
+            }
+          }
+        });
+      });
+
+      planet.addEventListener("mouseout", () => {
+        planets.forEach(planet => {
+          if (circle) {
+            circle.style.animationPlayState = "running";
+          }
+          if (planet instanceof HTMLElement) {
+            planet.style.animationPlayState = "running";
+            if (planet.childNodes && planet.childNodes[0] instanceof HTMLElement) {
+              planet.childNodes[0].style.animationPlayState = "running";
+            }
+          }
+        });
+      })
+    });
   })
 
   useEffect(() => {
@@ -146,7 +178,7 @@ const LandingPage: NextPage = () => {
                         <div className={styles.heroImageContainerInner}>
                           <img src="/illu.gif" style={{ width: "80%", height: "80%", objectFit: "cover", borderRadius: "100%" }} alt="" />
                           <div className={styles.heroCircle}>
-                            <div className={styles.heroRotate}>
+                            <div className={styles.heroRotate} id="circle">
                               <div className={styles.planet}><img src="/6.webp" alt="" /></div>
                               <div className={styles.planet}><img src={showRainbow ? "/13.webp" : "/11.webp"} alt="" /></div>
                               <div className={styles.planet}><img src={showRainbow ? "/12.webp" : "/10.webp"} alt="" /></div>
