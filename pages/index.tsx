@@ -72,38 +72,6 @@ const LandingPage: NextPage = () => {
 
   useEffect(() => {
     createObserver()
-
-    const planets = Array.from(document.getElementsByClassName(`${styles.planet}`))
-    const circle = document.getElementById("circle")
-    planets.forEach((planet) => {
-      planet.addEventListener("mouseover", (e) => {
-        planets.forEach(planet => {
-          if (circle) {
-            circle.style.animationPlayState = "paused"
-          }
-          if (planet instanceof HTMLElement) {
-            planet.style.animationPlayState = "paused";
-            if (planet.childNodes && planet.childNodes[0] instanceof HTMLElement) {
-              planet.childNodes[0].style.animationPlayState = "paused"
-            }
-          }
-        });
-      });
-
-      planet.addEventListener("mouseout", () => {
-        planets.forEach(planet => {
-          if (circle) {
-            circle.style.animationPlayState = "running";
-          }
-          if (planet instanceof HTMLElement) {
-            planet.style.animationPlayState = "running";
-            if (planet.childNodes && planet.childNodes[0] instanceof HTMLElement) {
-              planet.childNodes[0].style.animationPlayState = "running";
-            }
-          }
-        });
-      })
-    });
   })
 
   useEffect(() => {
@@ -164,31 +132,7 @@ const LandingPage: NextPage = () => {
             <div className={styles.heroMainContainer} >
               <div className={styles.widthControlWrapper} style={{ color: "white" }}>
                 <div className={styles.widthControl}>
-                  <header className={styles.heroContainer}>
-                    <div className={styles.twoCol} style={{ alignItems: "center", justifyContent: "space-between" }}>
-                      <div className={styles.heroHeading}>
-                        <h1 className={styles.headerLarge}>
-                          {localeTr.heroHeader}
-                        </h1>
-                        <p className={`${styles.txL} ${styles.text80}`}>
-                          {localeTr.subtext}
-                        </p>
-                      </div>
-                      <div className={styles.heroImageContainer}>
-                        <div className={styles.heroImageContainerInner}>
-                          <img src="/illu.gif" style={{ width: "80%", height: "80%", objectFit: "cover", borderRadius: "100%" }} alt="" />
-                          <div className={styles.heroCircle}>
-                            <div className={styles.heroRotate} id="circle">
-                              <div className={styles.planet}><img src="/6.webp" alt="" /></div>
-                              <div className={styles.planet}><img src={showRainbow ? "/13.webp" : "/11.webp"} alt="" /></div>
-                              <div className={styles.planet}><img src={showRainbow ? "/12.webp" : "/10.webp"} alt="" /></div>
-                              <div className={styles.planet}><img src="/9.webp" alt="" /></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </header>
+                  <Hero showRainbow={showRainbow} />
                 </div>
               </div>
             </div>
@@ -643,6 +587,73 @@ const LandingPage: NextPage = () => {
   )
 }
 
+const Hero: React.FC<{ showRainbow: boolean }> = ({ showRainbow }) => {
+  const router = useRouter()
+  const locale = router.locale || "en"
+  const localeTr = tr[locale as Langs]
+
+  useEffect(() => {
+    const planets = Array.from(document.getElementsByClassName(`${styles.planet}`))
+    const circle = document.getElementById("circle")
+    planets.forEach((planet) => {
+      planet.addEventListener("mouseover", (e) => {
+        planets.forEach(planet => {
+          if (circle) {
+            circle.style.animationPlayState = "paused"
+          }
+          if (planet instanceof HTMLElement) {
+            planet.style.animationPlayState = "paused";
+            if (planet.childNodes && planet.childNodes[0] instanceof HTMLElement) {
+              planet.childNodes[0].style.animationPlayState = "paused"
+            }
+          }
+        });
+      });
+
+      planet.addEventListener("mouseout", () => {
+        planets.forEach(planet => {
+          if (circle) {
+            circle.style.animationPlayState = "running";
+          }
+          if (planet instanceof HTMLElement) {
+            planet.style.animationPlayState = "running";
+            if (planet.childNodes && planet.childNodes[0] instanceof HTMLElement) {
+              planet.childNodes[0].style.animationPlayState = "running";
+            }
+          }
+        });
+      })
+    });
+  })
+
+  return (
+    <header className={styles.heroContainer}>
+      <div className={styles.twoCol} style={{ alignItems: "center", justifyContent: "space-between" }}>
+        <div className={styles.heroHeading}>
+          <h1 className={styles.headerLarge}>
+            {localeTr.heroHeader}
+          </h1>
+          <p className={`${styles.txL} ${styles.text80}`}>
+            {localeTr.subtext}
+          </p>
+        </div>
+        <div className={styles.heroImageContainer}>
+          <div className={styles.heroImageContainerInner}>
+            <img src="/illu.gif" style={{ width: "80%", height: "80%", objectFit: "cover", borderRadius: "100%" }} alt="" />
+            <div className={styles.heroCircle}>
+              <div className={styles.heroRotate} id="circle">
+                <div className={styles.planet}><img src="/6.webp" alt="" /></div>
+                <div className={styles.planet}><img src={showRainbow ? "/13.webp" : "/11.webp"} alt="" /></div>
+                <div className={styles.planet}><img src={showRainbow ? "/12.webp" : "/10.webp"} alt="" /></div>
+                <div className={styles.planet}><img src="/9.webp" alt="" /></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  )
+}
 
 const Faq: React.FC<{ title: string, content: string }> = ({ title, content }) => {
   const [opened, setOpened] = useState(false)
