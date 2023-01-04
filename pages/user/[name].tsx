@@ -700,17 +700,20 @@ const RecommendedActions: React.FC<{ completed: ("profile" | "bio" | "show" | "f
                     {
                         actions.map(({ icon, title, message, completed, btnText, btnFunc }) => {
                             return (
-                                <div style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    flexShrink: 0,
-                                    width: "200px",
-                                    border: "var(--border)",
-                                    borderRadius: "var(--radius-small)",
-                                    padding: "var(--gap) var(--gap-half)",
-                                    alignItems: "center",
-                                    gap: "var(--gap-quarter)"
-                                }}>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        flexShrink: 0,
+                                        width: "200px",
+                                        border: "var(--border)",
+                                        borderRadius: "var(--radius-small)",
+                                        padding: "var(--gap) var(--gap-half)",
+                                        alignItems: "center",
+                                        gap: "var(--gap-quarter)"
+                                    }}
+                                    key={title}
+                                >
                                     {icon}
                                     <span style={{ fontWeight: "bold", lineHeight: "100%" }}>{title}</span>
                                     <small style={{ textAlign: "center", marginBottom: "var(--gap-half)" }}>{message}</small>
