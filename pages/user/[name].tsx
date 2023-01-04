@@ -1,18 +1,18 @@
-import { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useMemo } from "react";
 import { ChangeEvent } from "react";
 import Image from "next/image";
 import "cropperjs/dist/cropper.css";
 import Cropper from "react-cropper";
 import Layout from "../../components/mainLayout";
 import styles from "../../styles/profile.module.css"
-import { MdBlock, MdModeEdit } from "react-icons/md";
+import { MdBlock, MdModeEdit, MdOutlineAddToPhotos, MdPeopleOutline } from "react-icons/md";
 import { GoFileMedia } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
-import { BiArrowBack } from "react-icons/bi";
+import { BiArrowBack, BiMessageRounded } from "react-icons/bi";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import { EditUser } from "../../components/editprofile";
-import { Actions, Loader, Loading } from "../../components/mis";
+import { Actions, CheckMark, Loader, Loading, Verified } from "../../components/mis";
 import { UserSettings } from "../../components/settings"
 import tr from "../../i18n/locales/profile.json"
 import { CouplePreviewT, Langs, MutationResponse } from "../../types";
@@ -26,7 +26,8 @@ import { ToasContext } from "../../components/context";
 import { NotFound } from "../../components/notfound";
 import Head from "next/head";
 import Link from "next/link";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineUser } from "react-icons/ai";
+import { BsPeople } from "react-icons/bs";
 Modal.setAppElement("#__next")
 
 export default function Profile(props: any) {
@@ -50,7 +51,7 @@ export default function Profile(props: any) {
     const [showActions, setShowActions] = useState(false)
     const cacheKey = ["profile", { name: router.query.name }]
 
-    const editProfileImage = (e: React.MouseEvent<HTMLSpanElement>) => {
+    const editProfileImage = () => {
         targetRef.current = "avatar"
         setIsOpen(true)
     }
@@ -171,6 +172,34 @@ export default function Profile(props: any) {
             </Layout>
         )
     }
+
+    const { completed, pos } = useMemo(() => {
+        const arr: ("profile" | "bio" | "show" | "follow")[] = []
+        if (!data) return { completed: arr, pos: 0 }
+        console.log(data)
+        const { profile_picture, bio, show_pictures, following_count } = data as { profile_picture: string, bio: string, following_count: number, show_pictures: string[] }
+        if (profile_picture.indexOf("default") > -1) {
+            arr.push("profile")
+        }
+        if (!bio || bio === "-") {
+            arr.push("bio")
+        }
+        if (following_count < 5) {
+            arr.push("follow")
+        }
+        let pos = -1
+        const pics = show_pictures.filter((pic, i) => {
+            let isdefault = pic.indexOf("default") > -1
+            if (pos < 0 && isdefault) {
+                pos = i
+            }
+            return isdefault
+        })
+        if (pics.length > 0) {
+            arr.push("show")
+        }
+        return { completed: arr, pos: pos }
+    }, [data])
 
     return (
         <Layout>
@@ -294,11 +323,23 @@ export default function Profile(props: any) {
                                     </div>
                                 )
                             )
-
                         }
-
                     </div>
                 </div>
+
+                {
+                    data.is_this_user && completed.length > 0 ?
+                        <RecommendedActions
+                            completed={completed}
+                            addShow={() => editShowImage(pos)}
+                            addPro={editProfileImage}
+                            addBio={() => setEditOpen(true)}
+                            addCouples={() => { }}
+                        />
+                        :
+                        null
+                }
+
                 <div className={styles.profileBottom}>
                     <div className={styles.showImagesWrapper}>
                         {
@@ -604,3 +645,92 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         return { props: { user: { data: null } } }
     }
 }
+
+
+const RecommendedActions: React.FC<{ completed: ("profile" | "bio" | "show" | "follow")[], addPro: () => void, addBio: () => void, addShow: () => void, addCouples: () => void }> =
+    React.memo(({ completed, addBio, addCouples, addPro, addShow }) => {
+        const size = 50
+        const [actions, setActions] = useState([
+            {
+                icon: <AiOutlineUser size={size} />,
+                title: "Add profile photo",
+                message: "Select a profile picture to represent yourself on Prime Couples",
+                completed: !completed.includes("profile"),
+                btnText: "Add photo",
+                btnFunc: addPro
+            },
+            {
+                icon: <BiMessageRounded size={size} />,
+                title: "Add bio",
+                message: "Give your followers a brief overview of who you are",
+                completed: !completed.includes("bio"),
+                btnText: "Add bio",
+                btnFunc: addBio
+            },
+            {
+                icon: <MdOutlineAddToPhotos size={size} />,
+                title: "Add show photos",
+                message: "Add up to 6 pictures to your profile to help people identify you.",
+                completed: !completed.includes("show"),
+                btnText: "Add show photo",
+                btnFunc: addShow
+            },
+            {
+                icon: <BsPeople size={size} />,
+                title: "Find more couples",
+                message: "Follow your favorite couples to stay up to date with their posts.",
+                completed: !completed.includes("follow"),
+                btnText: "Find couples",
+                btnFunc: addCouples
+            }
+        ])
+
+        return (
+            <div style={{ display: "grid", paddingTop: "var(--gap)" }}>
+                <p style={{ marginLeft: "var(--gap)" }}>Finish up your profile</p>
+                <small
+                    style={{
+                        marginLeft: "var(--gap)",
+                        marginTop: "var(--gap-half)"
+                    }}>
+                    <span style={{ color: "var(--success)" }}>{4 - completed.length} of 4</span> copmlete
+                </small>
+                <div style={{ display: "flex", flexWrap: "nowrap", padding: "var(--gap)", gap: "var(--gap)", overflowX: "auto" }}>
+                    {
+                        actions.map(({ icon, title, message, completed, btnText, btnFunc }) => {
+                            return (
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    flexShrink: 0,
+                                    width: "200px",
+                                    border: "var(--border)",
+                                    borderRadius: "var(--radius-small)",
+                                    padding: "var(--gap) var(--gap-half)",
+                                    alignItems: "center",
+                                    gap: "var(--gap-quarter)"
+                                }}>
+                                    {icon}
+                                    <span style={{ fontWeight: "bold", lineHeight: "100%" }}>{title}</span>
+                                    <small style={{ textAlign: "center", marginBottom: "var(--gap-half)" }}>{message}</small>
+                                    <div style={{ marginTop: "auto" }}>
+                                        {
+                                            completed ?
+                                                <CheckMark size={35} />
+                                                :
+                                                <button
+                                                    style={{ width: "150px", paddingBlock: "var(--gap-quarter)" }}
+                                                    onClick={() => btnFunc()}
+                                                >
+                                                    {btnText}
+                                                </button>
+                                        }
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+        )
+    })

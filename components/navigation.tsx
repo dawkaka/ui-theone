@@ -181,8 +181,8 @@ export default function Navigation() {
                     <Link href={`/user/${startup.user_name}`} scroll={false}>
                         <div className={`${styles.navItem} ${pathname === "/user/[name]" && query.name === startup.user_name ? styles.activeNav : null}`} tabIndex={0} aria-label="go to your profile page">
                             <div>
-                                {pathname === "/user/[name]" && query.name === startup.user_name ? <FaUser size={iconSize}></FaUser> :
-                                    <AiOutlineUser size={iconSize} color="var(--accents-6)"></AiOutlineUser>
+                                {pathname === "/user/[name]" && query.name === startup.user_name ? <FaUser size={iconSize} /> :
+                                    <AiOutlineUser size={iconSize} color="var(--accents-6)" />
                                 }
                             </div>
                             <p>{cMessages.profile}</p>
