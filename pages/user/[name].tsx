@@ -648,6 +648,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 
 const RecommendedActions: React.FC<{ completed: ("profile" | "bio" | "show" | "follow")[], addPro: () => void, addBio: () => void, addShow: () => void, addCouples: () => void }> =
+    // eslint-disable-next-line react/display-name
     React.memo(({ completed, addBio, addCouples, addPro, addShow }) => {
         const size = 50
         const [actions, setActions] = useState([
