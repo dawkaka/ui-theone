@@ -165,14 +165,6 @@ export default function Profile(props: any) {
         blockMutation.mutate()
     }
 
-    if (data === null) {
-        return (
-            <Layout>
-                <NotFound type="user" />
-            </Layout>
-        )
-    }
-
     const { completed, pos } = useMemo(() => {
         const arr: ("profile" | "bio" | "show" | "follow")[] = []
         if (!data) return { completed: arr, pos: 0 }
@@ -200,6 +192,14 @@ export default function Profile(props: any) {
         }
         return { completed: arr, pos: pos }
     }, [data])
+
+    if (data === null) {
+        return (
+            <Layout>
+                <NotFound type="user" />
+            </Layout>
+        )
+    }
 
     return (
         <Layout>
