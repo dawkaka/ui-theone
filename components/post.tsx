@@ -1121,12 +1121,14 @@ const PostIcons: React.FunctionComponent<{ postId: string, likes: number, commen
 
         return (
             <div className={styles.postIcons}>
-                <div className={styles.postIcon}>
-                    <div>
-                        <AiOutlineComment size={25} />
-                    </div>
-                    <p>{c}</p>
-                </div>
+                <Link href={`/${couple_name}/${postId}`}>
+                    <a className={styles.postIcon}>
+                        <div>
+                            <AiOutlineComment size={25} />
+                        </div>
+                        <p>{c}</p>
+                    </a>
+                </Link >
                 <div className={styles.postIcon}>
                     <div onClick={() => {
                         if (liked) {
@@ -1144,7 +1146,7 @@ const PostIcons: React.FunctionComponent<{ postId: string, likes: number, commen
                     </div>
                     <p>{l}</p>
                 </div>
-            </div>
+            </div >
         )
     }
 
