@@ -22,7 +22,8 @@ const Signup: NextPage = () => {
     const [updateUi, setUpdateUi] = useState(false)
     const [errMode, setErrMode] = useState(false)
     const [nameAvl, setNameAvailability] = useState(true)
-    const [checked, setChecked] = useState(false)
+    const [showPassword, setShowPassword] = useState<"password" | "text">("password")
+
 
     const dataRef = useRef<Signup>({
         first_name: "",
@@ -286,10 +287,10 @@ const Signup: NextPage = () => {
                                                 }
                                             </div>
                                         </div>
-                                        <div className={styles.formItem}>
+                                        <div className={styles.formItem} style={{ position: "relative" }}>
                                             <label htmlFor="password">{localeTr.password.title}</label>
                                             <input
-                                                type="password"
+                                                type={showPassword}
                                                 placeholder={localeTr.password.placeholder}
                                                 name="password"
                                                 required
@@ -297,6 +298,23 @@ const Signup: NextPage = () => {
                                                 value={dataRef.current.password}
                                                 onChange={handleInputs}
                                             />
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setShowPassword(showPassword === "password" ? "text" : "password")
+                                                }}
+                                                style={{
+                                                    position: "absolute",
+                                                    backgroundColor: "transparent",
+                                                    color: "var(--success)",
+                                                    padding: 0,
+                                                    right: "var(--gap-quarter)",
+                                                    top: "33px",
+
+                                                }}
+                                            >
+                                                {showPassword === "password" ? "show" : "hide"}
+                                            </button>
                                             <div className={styles.errorsContainer}>
                                                 {
                                                     errRef.current.passwordErrs.map(val => {

@@ -18,7 +18,7 @@ const Login: NextPage = () => {
     const locale = router.locale || "en"
     const localeTr = tr[locale as Langs]
     const [error, setError] = useState([])
-
+    const [showPassword, setShowPassword] = useState<"password" | "text">("password")
     const hasErrors = password === "" || emailOrUsername === "" ? true : false
 
     const mutation = useMutation<AxiosResponse, AxiosError<any, any>, { user_name_or_email: string; password: string }>(
@@ -67,14 +67,32 @@ const Login: NextPage = () => {
                                     <input type="text" placeholder={localeTr.usernameoremail.placeholder} name="user_name_or_email" required value={emailOrUsername}
                                         onChange={(e) => setEmailOrUserName(e.currentTarget.value)} />
                                 </div>
-                                <div className={styles.formItem}>
+                                <div className={styles.formItem} style={{ position: "relative" }}>
                                     <label>{localeTr.password.title}</label>
                                     <input
-                                        type="password"
+                                        type={showPassword}
                                         placeholder={localeTr.password.placeholder}
                                         value={password}
                                         onChange={(e) => setPassword(e.currentTarget.value)}
                                         name="password" required />
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setShowPassword(showPassword === "password" ? "text" : "password")
+                                        }}
+                                        style={{
+                                            position: "absolute",
+                                            backgroundColor: "transparent",
+                                            color: "var(--success)",
+                                            padding: 0,
+                                            right: "var(--gap-quarter)",
+                                            top: "50%",
+                                            transform: "translateY(-50%)"
+
+                                        }}
+                                    >
+                                        {showPassword === "password" ? "show" : "hide"}
+                                    </button>
                                     <Link href={"/user/s/forgot-password"}><a><small style={{ color: "var(--success)" }}>{localeTr.forgotpassword}</small></a></Link>
                                 </div>
                                 <div style={{ display: "flex", flexDirection: "column", marginTop: "40px", gap: "var(--gap)" }}>
