@@ -15,7 +15,8 @@
             "canceltext": "Cancel"
         },
         "title": "User profile",
-        "sendme": "Send me a couple request on Prime Couples"
+        "sendme": "Send me a couple request on Prime Couples",
+        "findcouples": "Follow Couples"
     },
     "es": {
         "following": "Siguiendo",
@@ -33,6 +34,7 @@
             "canceltext": "Cancelar"
         },
         "title": "Perfil de usuario",
-        "sendme": "Envíame una solicitud de pareja en Prime Couples"
+        "sendme": "Envíame una solicitud de pareja en Prime Couples",
+        "findcouples": "Seguir parejas"
     }
 }

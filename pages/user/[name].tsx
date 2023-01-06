@@ -28,6 +28,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { AiFillHeart, AiOutlineUser } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
+import { FindCouples } from "../../components/suggestions";
 Modal.setAppElement("#__next")
 
 export default function Profile(props: any) {
@@ -41,6 +42,7 @@ export default function Profile(props: any) {
     const [editOpen, setEditOpen] = useState(false)
     const [openSettings, setOpenSettings] = useState(false)
     const [openFollowing, setOpenFollowing] = useState(false)
+    const [openFind, setOpenFind] = useState(false)
     const [prOpen, setPrOpen] = useState(false)
     const queryClient = useQueryClient()
     const notify = useContext(ToasContext)
@@ -334,7 +336,7 @@ export default function Profile(props: any) {
                             addShow={() => editShowImage(pos)}
                             addPro={editProfileImage}
                             addBio={() => setEditOpen(true)}
-                            addCouples={() => { }}
+                            addCouples={() => setOpenFind(true)}
                         />
                         :
                         null
@@ -371,6 +373,7 @@ export default function Profile(props: any) {
                 />
                 <UserSettings open={openSettings} close={() => setOpenSettings(false)} />
                 <Following open={openFollowing} close={() => setOpenFollowing(false)} heading={localeTr.following} />
+                <FindCouples open={openFind} close={() => setOpenFind(false)} heading={localeTr.findcouples} />
                 <Modal
                     closeTimeoutMS={200}
                     isOpen={isOpen}
@@ -512,115 +515,7 @@ const ShowPicture: React.FunctionComponent<{
         )
     }
 
-const Following: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
-    const { query: { name } } = useRouter()
-    const queryClient = useQueryClient()
 
-    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/following/${name}/${pageParam}`).then(res => res.data)
-    const cacheKey = ["following", { name }]
-    const {
-        data,
-        fetchNextPage,
-        hasNextPage,
-        isFetching,
-        isFetchingNextPage,
-    } = useInfiniteQuery(cacheKey, fetchPosts,
-        {
-            getNextPageParam: (lastPage, pages) => {
-                if (lastPage.pagination.end) {
-                    return undefined
-                }
-                return lastPage.pagination.next
-            },
-            staleTime: Infinity
-        })
-
-
-    let following: any[] = []
-    if (data?.pages) {
-        for (let page of data?.pages) {
-            following = following.concat(page.following)
-        }
-    }
-
-    const updateCache = (couple_name: string) => {
-        queryClient.setQueryData(cacheKey, (oldData: { pages: { following: CouplePreviewT[] }[] } | undefined) => {
-            if (oldData) {
-                const pages = oldData.pages
-                let page = 0
-                for (let i = 0; i < pages.length; i++) {
-                    if (pages[i].following.some(val => val.couple_name === couple_name)) {
-                        page = i
-                        break;
-                    }
-                }
-                pages[page].following = pages[page].following.map((preview) => {
-                    if (preview.couple_name === couple_name) {
-                        return { ...preview, is_following: !preview.is_following }
-                    }
-                    return preview
-                });
-                oldData.pages = pages
-                return oldData
-            }
-            return undefined
-        });
-    }
-
-
-    return (
-        <Modal closeTimeoutMS={200} isOpen={open} onRequestClose={close}
-
-            style={{
-                overlay: {
-                    zIndex: 1,
-                    overflowY: "auto",
-                    overflowX: "hidden",
-                    backgroundColor: "var(--modal-overlay)",
-                    paddingInline: "var(--gap)",
-                    display: "flex",
-                    flexDirection: "column",
-                    margin: 0
-                },
-                content: {
-                    alignSelf: "center",
-                    position: "relative",
-                    padding: 0,
-                    margin: 0,
-                    backgroundColor: "var(--background)",
-                    display: "flex",
-                    flexDirection: "column",
-                    left: 0,
-                    border: "none",
-                }
-            }}
-        >
-            <div className={styles.modalBody} style={{ maxWidth: "400px" }}>
-                <div className={styles.requestHeader}>
-                    <p>{" "}</p>
-                    <p>{heading}</p>
-                    <div onClick={() => close()}
-                        className={styles.closeContainer}
-                    >
-                        <IoMdClose color="tranparent" size={25} />
-                    </div>
-                </div>
-                <div className={styles.followingContent}>
-                    {
-                        following.length === 0 && <NotFound type="following" />
-                    }
-                    {
-                        following.map(flw => (
-                            <CouplePreview updateCache={() => updateCache(flw.couple_name)} couple_name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} is_following={flw.is_following} verified={flw.verified} />
-                        ))
-                    }
-                    <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} manual={false} />
-                </div>
-            </div>
-        </Modal>
-    )
-
-}
 
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -735,6 +630,118 @@ const RecommendedActions: React.FC<{ completed: ("profile" | "bio" | "show" | "f
                         })
                     }
                 </div>
+
             </div>
         )
     })
+
+
+const Following: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
+    const { query: { name } } = useRouter()
+    const queryClient = useQueryClient()
+
+    const fetchPosts = ({ pageParam = 0 }) => axios.get(`${BASEURL}/user/following/${name}/${pageParam}`).then(res => res.data)
+    const cacheKey = ["following", { name }]
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery(cacheKey, fetchPosts,
+        {
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.pagination.end) {
+                    return undefined
+                }
+                return lastPage.pagination.next
+            },
+            staleTime: Infinity
+        })
+
+
+    let following: any[] = []
+    if (data?.pages) {
+        for (let page of data?.pages) {
+            following = following.concat(page.following)
+        }
+    }
+
+    const updateCache = (couple_name: string) => {
+        queryClient.setQueryData(cacheKey, (oldData: { pages: { following: CouplePreviewT[] }[] } | undefined) => {
+            if (oldData) {
+                const pages = oldData.pages
+                let page = 0
+                for (let i = 0; i < pages.length; i++) {
+                    if (pages[i].following.some(val => val.couple_name === couple_name)) {
+                        page = i
+                        break;
+                    }
+                }
+                pages[page].following = pages[page].following.map((preview) => {
+                    if (preview.couple_name === couple_name) {
+                        return { ...preview, is_following: !preview.is_following }
+                    }
+                    return preview
+                });
+                oldData.pages = pages
+                return oldData
+            }
+            return undefined
+        });
+    }
+
+
+    return (
+        <Modal closeTimeoutMS={200} isOpen={open} onRequestClose={close}
+
+            style={{
+                overlay: {
+                    zIndex: 1,
+                    overflowY: "auto",
+                    overflowX: "hidden",
+                    backgroundColor: "var(--modal-overlay)",
+                    paddingInline: "var(--gap)",
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: 0
+                },
+                content: {
+                    alignSelf: "center",
+                    position: "relative",
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: "var(--background)",
+                    display: "flex",
+                    flexDirection: "column",
+                    left: 0,
+                    border: "none",
+                }
+            }}
+        >
+            <div className={styles.modalBody} style={{ maxWidth: "400px" }}>
+                <div className={styles.requestHeader}>
+                    <p>{" "}</p>
+                    <p>{heading}</p>
+                    <div onClick={() => close()}
+                        className={styles.closeContainer}
+                    >
+                        <IoMdClose color="tranparent" size={25} />
+                    </div>
+                </div>
+                <div className={styles.followingContent}>
+                    {
+                        following.length === 0 && <NotFound type="following" />
+                    }
+                    {
+                        following.map(flw => (
+                            <CouplePreview updateCache={() => updateCache(flw.couple_name)} couple_name={flw.couple_name} key={flw.couple_name} profile_picture={`${IMAGEURL}/${flw.profile_picture}`} married={flw.married} is_following={flw.is_following} verified={flw.verified} />
+                        ))
+                    }
+                    <Loader hasNext={hasNextPage ? true : false} loadMore={fetchNextPage} isFetching={isFetching} manual={false} />
+                </div>
+            </div>
+        </Modal>
+    )
+
+}

@@ -3,12 +3,15 @@ import CouplePreview from "./couplepreview"
 import tr from "../i18n/locales/components/suggestions.json"
 import { useRouter } from "next/router"
 import { CouplePreviewT, Langs } from "../types"
+import Modal from 'react-modal'
 import { BASEURL, IMAGEURL } from "../constants"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { Loading } from "./mis"
 import React, { useState } from "react"
 import { AiFillCloseCircle } from "react-icons/ai"
+import { IoMdClose } from "react-icons/io"
+Modal.setAppElement("#__next")
 
 const Suggestions: React.FunctionComponent = () => {
     const router = useRouter()
@@ -96,3 +99,85 @@ const PreviewWithRemove: React.FC<{ node: React.ReactNode, name: string }> = ({ 
 }
 
 export default Suggestions
+
+
+export const FindCouples: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
+    const { query: { name } } = useRouter()
+    const queryClient = useQueryClient()
+
+    const cacheKey = "suggested"
+    const { isLoading, data } = useQuery([cacheKey], () => axios.get(`${BASEURL}/couple/u/suggested-accounts`).then(res => res.data), { staleTime: Infinity })
+
+    const updateCache = (couple_name: string) => {
+        queryClient.setQueryData([cacheKey], (oldData: CouplePreviewT[] | undefined) => {
+            if (oldData) {
+                const newData = oldData.map((preview) => {
+                    if (preview.couple_name === couple_name) {
+                        return { ...preview, is_following: !preview.is_following }
+                    }
+                    return preview
+                });
+                return newData;
+            }
+            return []
+        });
+    }
+
+
+
+    return (
+        <Modal closeTimeoutMS={200} isOpen={open} onRequestClose={close}
+
+            style={{
+                overlay: {
+                    zIndex: 1,
+                    overflowY: "auto",
+                    overflowX: "hidden",
+                    backgroundColor: "var(--modal-overlay)",
+                    paddingInline: "var(--gap)",
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: 0
+                },
+                content: {
+                    alignSelf: "center",
+                    position: "relative",
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: "var(--background)",
+                    display: "flex",
+                    flexDirection: "column",
+                    left: 0,
+                    border: "none",
+                }
+            }}
+        >
+            <div className={styles.modalBody} style={{ maxWidth: "400px" }}>
+                <div className={styles.requestHeader}>
+                    <p>{" "}</p>
+                    <p>{heading}</p>
+                    <div onClick={() => close()}
+                        className={styles.closeContainer}
+                    >
+                        <IoMdClose color="tranparent" size={25} />
+                    </div>
+                </div>
+                <div className={styles.followingContent}>
+                    {
+                        isLoading ? <div style={{ width: "100%", display: "flex", justifyContent: "center" }}><Loading size="medium" color="var(--success)" /></div> : null
+                    }
+                    {
+                        data?.map((c: any) => (
+                            <CouplePreview
+                                key={c.couple_name}
+                                profile_picture={`${IMAGEURL}/${c.profile_picture}`}
+                                couple_name={c.couple_name} is_following={c.is_following} married={c.married} verified={c.verified}
+                                updateCache={() => updateCache(c.couple_name)}
+                            />
+                        ))
+                    }
+                </div>
+            </div>
+        </Modal>
+    )
+}
