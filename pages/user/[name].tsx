@@ -254,7 +254,7 @@ export default function Profile(props: any) {
                                         <div className={styles.requestButtonWrapper}>
                                             {
                                                 !data.is_this_user ?
-                                                    data.couple_name ?
+                                                    data.has_partner ?
                                                         <Link href={`/${data.couple_name}`}>
                                                             <a
                                                                 className={styles.requestButton}
@@ -273,14 +273,16 @@ export default function Profile(props: any) {
                                                         <button onClick={() => setEditOpen(true)} className={`${styles.requestButton} ${styles.editButton}`}>
                                                             {localeTr.edit}
                                                         </button>
-                                                        <Link href={`/${data.couple_name}`}>
-                                                            <a
-                                                                className={styles.requestButton}
-                                                                style={{ color: "white" }}
-                                                            >
-                                                                {localeTr.coupleprofile}
-                                                            </a>
-                                                        </Link>
+                                                        {
+                                                            data.has_partner && <Link href={`/${data.couple_name}`}>
+                                                                <a
+                                                                    className={styles.requestButton}
+                                                                    style={{ color: "white" }}
+                                                                >
+                                                                    {localeTr.coupleprofile}
+                                                                </a>
+                                                            </Link>
+                                                        }
                                                     </>
 
                                             }

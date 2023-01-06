@@ -227,14 +227,6 @@ export const UserSettings: React.FunctionComponent<{ open: boolean, close: () =>
                         submit={changePassword}
                         isChanging={passwordMutation.isLoading}
                     />
-                    <SettingInputItem
-                        type="email"
-                        title={localeTr.email.title}
-                        placeholder={localeTr.email.placehoder}
-                        actionTitle={localeTr.change}
-                        submit={changeEmail}
-                        isChanging={emailMutation.isLoading}
-                    />
                     <SettingRadio title={localeTr.opentorequest.title} options={[{ value: "ON", label: localeTr.opentorequest.yes }, { value: "OFF", label: localeTr.opentorequest.no }]} value={"ON"} handleChange={statusMutation.mutate} />
                     <SettingRadio title={localeTr.language.title} options={[{ value: "en", label: "English" }, { value: "es", label: "Español" }]} value={locale} handleChange={langChange} />
                     <SettingRadio title={localeTr.theme.title} options={[{ value: "light", label: localeTr.theme.light }, { value: "dark", label: localeTr.theme.dark }]} value={theme} handleChange={themeChange} />
