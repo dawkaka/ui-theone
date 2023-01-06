@@ -49,7 +49,7 @@ export default function VerifyEmail() {
                             <div style={{ textAlign: "center", marginTop: "var(--gap)", display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--gap)" }}>
                                 <CheckMark size={50} />
                                 <p>{localeTr.verifyemail.verified}</p>
-                                <button style={{ padding: "var(--gap-half) var(--gap)" }} onClick={() => router.replace("/r/home")}>{localeTr.verifyemail.gotohomepage}</button>
+                                <button style={{ padding: "var(--gap-half) var(--gap)" }} onClick={() => router.replace(`/user/${mutation.data?.data.user_name}`)}>{localeTr.verifyemail.gotohomepage}</button>
                             </div>
                             :
                             null
@@ -61,7 +61,7 @@ export default function VerifyEmail() {
                                 <p style={{ color: "red", marginTop: "var(--gap)" }}>
                                     {localeTr.verifyemail.somethingwentwrong}
                                 </p>
-                                <button style={{ padding: "var(--gap-half) var(--gap)" }} onClick={() => router.replace("/r/home")}>{localeTr.verifyemail.check}</button>
+                                <button style={{ padding: "var(--gap-half) var(--gap)" }} onClick={() => router.replace(`/user/${mutation.data?.data.user_name}`)}>{localeTr.verifyemail.check}</button>
                             </div>
                             :
                             null
