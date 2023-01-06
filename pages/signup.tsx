@@ -32,7 +32,6 @@ const Signup: NextPage = () => {
         date_of_birth: "",
         user_name: "",
         password: "",
-        repeat_password: "",
         country: "United States of America",
         state: "Chicago"
     })
@@ -44,7 +43,6 @@ const Signup: NextPage = () => {
         date_of_birthErrs: ErrCodes,
         uNameErrs: ErrCodes,
         passwordErrs: ErrCodes,
-        repeat_passwordErrs: ErrCodes
     }>({
         first_nameErrs: [],
         last_nameErrs: [],
@@ -52,7 +50,6 @@ const Signup: NextPage = () => {
         date_of_birthErrs: [],
         uNameErrs: [],
         passwordErrs: [],
-        repeat_passwordErrs: []
     })
 
     const next = (e: FormEvent) => {
@@ -124,14 +121,6 @@ const Signup: NextPage = () => {
                 errs = isPassword(value)
                 errRef.current.passwordErrs = errs
                 dataRef.current.password = value
-                break;
-            case "repeat_password":
-                if (dataRef.current.password !== value) {
-                    errRef.current.repeat_passwordErrs = [0]
-                } else {
-                    errRef.current.repeat_passwordErrs = []
-                }
-                dataRef.current.repeat_password = value
                 break;
             default:
                 break;
@@ -323,26 +312,6 @@ const Signup: NextPage = () => {
                                                 }
                                             </div>
                                         </div>
-                                        <div className={styles.formItem}>
-                                            <label htmlFor="email">{localeTr.repeatpassword.title}</label>
-                                            <input
-                                                type="password"
-                                                placeholder={localeTr.repeatpassword.placeholder}
-                                                name="repeat_password"
-                                                required
-                                                id="email"
-                                                value={dataRef.current.repeat_password}
-                                                onChange={handleInputs}
-                                            />
-                                            <div className={styles.errorsContainer}>
-                                                {
-                                                    errRef.current.repeat_passwordErrs.map(val => {
-                                                        return <p key={val} style={{ color: errMode ? "var(--error)" : "" }}>{localeTr.repeatpassword.errors[val]}</p>
-                                                    })
-                                                }
-                                            </div>
-                                        </div>
-
                                         <div className={styles.formItem}>
                                             <p>
                                                 {localeTr.terms.text} {' '}
