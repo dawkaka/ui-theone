@@ -28,7 +28,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { AiFillHeart, AiOutlineUser } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
-import { FindCouples } from "../../components/suggestions";
 Modal.setAppElement("#__next")
 
 export default function Profile(props: any) {
@@ -719,7 +718,7 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
                 }
             }}
         >
-            <div className={styles.modalBody} style={{ maxWidth: "400px" }}>
+            <div className={styles.modalBody} style={{ maxWidth: "450px" }}>
                 <div className={styles.requestHeader}>
                     <p>{" "}</p>
                     <p>{heading}</p>
@@ -744,4 +743,85 @@ const Following: React.FunctionComponent<{ open: boolean, close: () => void, hea
         </Modal>
     )
 
+}
+
+const FindCouples: React.FunctionComponent<{ open: boolean, close: () => void, heading: string }> = ({ open, close, heading }) => {
+    const { query: { name } } = useRouter()
+    const queryClient = useQueryClient()
+
+    const cacheKey = "suggested"
+    const { isLoading, data } = useQuery([cacheKey], () => axios.get(`${BASEURL}/couple/u/suggested-accounts`).then(res => res.data), { staleTime: Infinity })
+
+    const updateCache = (couple_name: string) => {
+        queryClient.setQueryData([cacheKey], (oldData: CouplePreviewT[] | undefined) => {
+            if (oldData) {
+                const newData = oldData.map((preview) => {
+                    if (preview.couple_name === couple_name) {
+                        return { ...preview, is_following: !preview.is_following }
+                    }
+                    return preview
+                });
+                return newData;
+            }
+            return []
+        });
+    }
+
+
+
+    return (
+        <Modal closeTimeoutMS={200} isOpen={open} onRequestClose={close}
+
+            style={{
+                overlay: {
+                    zIndex: 1,
+                    overflowY: "auto",
+                    overflowX: "hidden",
+                    backgroundColor: "var(--modal-overlay)",
+                    paddingInline: "var(--gap)",
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: 0
+                },
+                content: {
+                    alignSelf: "center",
+                    position: "relative",
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: "var(--background)",
+                    display: "flex",
+                    flexDirection: "column",
+                    left: 0,
+                    border: "none",
+                }
+            }}
+        >
+            <div className={styles.modalBody} style={{ maxWidth: "450px" }}>
+                <div className={styles.requestHeader}>
+                    <p>{" "}</p>
+                    <p>{heading}</p>
+                    <div onClick={() => close()}
+                        className={styles.closeContainer}
+                    >
+                        <IoMdClose color="tranparent" size={25} />
+                    </div>
+                </div>
+                <div className={styles.followingContent}>
+                    {
+                        isLoading ? <div style={{ width: "100%", display: "flex", justifyContent: "center" }}><Loading size="medium" color="var(--success)" /></div> : null
+                    }
+                    {
+                        data?.map((c: any) => (
+                            <CouplePreview
+                                key={c.couple_name}
+                                profile_picture={`${IMAGEURL}/${c.profile_picture}`}
+                                couple_name={c.couple_name} is_following={c.is_following} married={c.married} verified={c.verified}
+                                updateCache={() => updateCache(c.couple_name)}
+                            />
+                        ))
+                    }
+                </div>
+            </div>
+        </Modal>
+    )
 }
