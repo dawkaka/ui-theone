@@ -28,6 +28,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { AiFillHeart, AiOutlineUser } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
+import { useUser } from "../../hooks";
 Modal.setAppElement("#__next")
 
 export default function Profile(props: any) {
@@ -56,6 +57,8 @@ export default function Profile(props: any) {
         targetRef.current = "avatar"
         setIsOpen(true)
     }
+
+    const { hasPartner: thisUserHasPatner } = useUser()
 
     const updatePicMutation = useMutation<AxiosResponse, AxiosError<any, any>, FormData>(
         (data) => {
@@ -246,7 +249,7 @@ export default function Profile(props: any) {
                                     }
                                 </div>
                                 <div className={styles.titleContainer}>
-                                    <h2 data-e2e="user-subtitle" className={styles.realName}>{data.first_name} {data.last_name}</h2>
+                                    <h2 className={styles.realName}>{data.first_name} {data.last_name}</h2>
                                     <h3 className={styles.userName}>@{data.user_name}
                                         {data.has_partner ? <AiFillHeart color="var(--error)" size={18} title="has partner"></AiFillHeart> : null}
                                     </h3>
@@ -264,7 +267,7 @@ export default function Profile(props: any) {
                                                             </a>
                                                         </Link>
                                                         :
-                                                        <button type="button" className={styles.requestButton}
+                                                        !thisUserHasPatner && <button type="button" className={styles.requestButton}
                                                             onClick={() => {
                                                                 setPrOpen(true)
                                                             }}>{localeTr.sendrequest}</button>

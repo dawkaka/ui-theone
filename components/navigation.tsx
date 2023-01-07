@@ -89,6 +89,9 @@ export default function Navigation() {
             pending_request: data.pending_request
 
         }
+        if (data.has_partner) {
+            localStorage.setItem("hasPartner", "true")
+        }
     }
     const iconSize = 25
     return (

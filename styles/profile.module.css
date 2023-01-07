@@ -24,7 +24,8 @@
 
 .infoContainer {
     display: flex;
-    gap: var(--gap)
+    align-items: center;
+    gap: var(--gap);
 }
 
 .imageContainer {
@@ -181,7 +182,6 @@
     font-weight: bold;
     font-size: 25px;
     max-width: 350px;
-    margin-bottom: var(--gap-half);
 }
 
 .requestContainer {
@@ -391,7 +391,7 @@
     .infoContainer {
         flex-direction: column;
         align-items: center;
-        gap: var(--gap-half)
+        gap: var(--gap-half);
     }
 
     .actions {
