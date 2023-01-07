@@ -104,7 +104,7 @@
     --planets: calc(var(--circleDiameter) / 4)
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 768px) {
     .heroContainer {
         margin-top: 50px;
         padding: var(--gap) 0;
@@ -122,7 +122,7 @@
 
 .heroImageContainer {
     display: grid;
-    place-items: center;
+    place-items: end;
     overflow: hidden;
     padding: 50px;
     width: min(100%, 600px);
@@ -367,7 +367,12 @@
 
 
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 768px) {
+    .heroImageContainer {
+        place-items: center;
+        padding: 50px 0;
+    }
+
     .section {
         gap: var(--space-16x)
     }
@@ -385,30 +390,6 @@
 .text80 {
     max-width: 600px;
     min-width: 0;
-}
-
-.conList {
-    margin-top: var(--gap);
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-quarter);
-    position: relative;
-    color: white;
-}
-
-.conList>li {
-    padding-left: var(--gap-quarter);
-}
-
-.conList>li::marker {
-    content: "";
-    top: 0;
-    left: 0;
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background-color: red;
 }
 
 .sectionContent {
@@ -479,7 +460,7 @@
     border-radius: 25px;
 }
 
-@media screen and (max-width:750px) {
+@media screen and (max-width:768px) {
     .profileTop {
         padding: 0 var(--gap) var(--gap);
     }
@@ -726,7 +707,7 @@
     padding: var(--gap-half) var(--gap);
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 768px) {
     .messagePageContainer {
         padding: 0;
         border-right: none;
