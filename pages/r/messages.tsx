@@ -42,7 +42,7 @@ export default function Messages() {
     const [typing, setTyping] = useState(false)
     const messageContainer = useRef<HTMLDivElement>(null)
     const localeTr = tr[locale as Langs]
-    const userId = useUser()
+    const { id: userId } = useUser()
 
     const pData = useQuery(["partner", { userId }], () => axios.get(`${BASEURL}/user/u/partner`), { staleTime: Infinity }).data
 

@@ -200,7 +200,7 @@ export const Comments: React.FunctionComponent<{ id: string }> = ({ id }) => {
       staleTime: Infinity
     })
 
-  const userId = useUser()
+  const { id: userId } = useUser()
   let comments: any[] = []
   if (data?.pages) {
     for (let page of data?.pages) {

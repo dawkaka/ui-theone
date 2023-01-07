@@ -14,12 +14,12 @@ export const useTheme = () => {
 }
 
 export const useUser = () => {
-    const [user, setUser] = useState("")
+    const [user, setUser] = useState({ id: "", hasPartner: false })
     useEffect(() => {
         document.cookie.split(";").forEach(cookie => {
             const cc = cookie.trim().split("=")
             if (cc[0] === "user_ID") {
-                setUser(cc[1])
+                setUser({ hasPartner: localStorage.getItem("hasPartner") !== null, id: cc[1] })
             }
         })
     }, [])
