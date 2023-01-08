@@ -104,42 +104,43 @@ const LandingPage: NextPage = () => {
         <meta name="twitter:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
         <meta name="twitter:image:src" content="https://www.primecouples.com/primecouplesOG.jpg" />
       </Head>
-      <div style={{ width: "100%" }}>
-        <header className={`${styles.header} ${styles.widthControlWrapper}`} id="header">
-          <div className={styles.widthControl}>
-            <nav className={styles.nav}>
-              <div className={styles.logoContainer}>
-                <img src="/logo.webp" alt="logo" />
-                <h2 className={styles.headerSmall} style={{ marginBottom: 0 }}>Prime Couples</h2>
-              </div>
-              <div className={styles.headerButtonContainer}>
-                <Link href={"/login"}>
-                  <a>
-                    <button className={`${styles.button} ${styles.buttonOutline}`}>{localeTr.signin}</button>
-                  </a>
-                </Link>
-                <Link href={"/signup"}>
-                  <a>
-                    <button className={`${styles.button} ${showRainbow ? styles.rainbow : ''}`}>{localeTr.signup}</button>
-                  </a>
-                </Link>
-              </div>
-            </nav>
-          </div>
-        </header>
-        <main style={{ backgroundColor: "var(--success)", paddingBottom: "200px" }}>
-          <div className={styles.sectionsContainer}>
-            <div className={styles.heroMainContainer} >
-              <div className={styles.widthControlWrapper} style={{ color: "white" }}>
-                <div className={styles.widthControl}>
-                  <Hero showRainbow={showRainbow} />
+      <div style={{ width: "100%", backgroundColor: "var(--success)" }} >
+        <div className={styles.heroMainContainer}>
+          <header className={`${styles.header} ${styles.widthControlWrapper}`} id="header">
+            <div className={styles.widthControl}>
+              <nav className={styles.nav}>
+                <div className={styles.logoContainer}>
+                  <img src="/logo.webp" alt="logo" />
+                  <h2 className={styles.headerSmall} style={{ marginBottom: 0 }}>Prime Couples</h2>
                 </div>
+                <div className={styles.headerButtonContainer}>
+                  <Link href={"/login"}>
+                    <a>
+                      <button className={`${styles.button} ${styles.buttonOutline}`}>{localeTr.signin}</button>
+                    </a>
+                  </Link>
+                  <Link href={"/signup"}>
+                    <a>
+                      <button className={`${styles.button} ${showRainbow ? styles.rainbow : ''}`}>{localeTr.signup}</button>
+                    </a>
+                  </Link>
+                </div>
+              </nav>
+            </div>
+          </header>
+          <div>
+            <div className={styles.widthControlWrapper} style={{ color: "white" }}>
+              <div className={styles.widthControl}>
+                <Hero showRainbow={showRainbow} />
               </div>
             </div>
-
+          </div>
+        </div>
+        <main style={{ backgroundColor: "var(--success)", paddingBottom: "200px" }}>
+          <div className={styles.sectionsContainer}>
             <div className={styles.widthControlWrapper} style={{ backgroundColor: "var(--success)" }}>
               <div className={styles.widthControl}>
-                <section id="how-it-work" className={styles.section}>
+                <section id="how-it-work" className={styles.section} style={{ marginTop: "var(--gap-double)" }}>
                   <h3 className={styles.headerMedium}>{localeTr.howitworks.header}</h3>
                   <div className={styles.twoCol}>
                     <div className={styles.sectionContent}>

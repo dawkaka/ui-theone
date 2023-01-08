@@ -15,9 +15,12 @@
     gap: var(--space-24x);
 }
 
+.heroMainContainer {
+    min-height: 100vh;
+}
+
 .header {
     width: 100%;
-    background-color: var(--success);
     padding: var(--gap-half) 0;
 }
 
