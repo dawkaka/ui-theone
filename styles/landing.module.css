@@ -16,9 +16,6 @@
 }
 
 .heroMainContainer {
-    background: #fe2c55;
-    background: -webkit-linear-gradient(to top, #fe2c55, #f5c04d);
-    background: linear-gradient(to top, #fe2c55, rebeccapurple);
     min-height: 100vh;
 }
 
