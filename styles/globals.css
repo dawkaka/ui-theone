@@ -278,3 +278,34 @@ input[type="search"]:focus {
 .prohibited-message svg {
   flex-shrink: 0;
 }
+
+.progress-bar {
+  height: 5px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #ddd;
+  z-index: 999;
+}
+
+.progress-bar::before {
+  content: "";
+  height: 5px;
+  width: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--success);
+  animation: progress 2s ease-in-out;
+}
+
+@keyframes progress {
+  from {
+    width: 0%
+  }
+
+  to {
+    width: 100%
+  }
+}
