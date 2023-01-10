@@ -68,17 +68,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ToasContext.Provider value={notify}>
       <QueryClientProvider client={queryClient}>
-        <div>
-          {
-            loading && (
-              <div className="progress-bar">
-                <div style={{ width: `${progress * 100}%` }} />
-              </div>
-            )
-          }
-          <Component {...pageProps} />
-          <Toast message={message} type={type} resetMessage={() => setMessage("")} />
-        </div>
+        {
+          loading && (
+            <div className="progress-bar">
+              <div style={{ width: `${progress * 100}%` }} />
+            </div>
+          )
+        }
+        <Component {...pageProps} />
+        <Toast message={message} type={type} resetMessage={() => setMessage("")} />
       </QueryClientProvider >
     </ToasContext.Provider>
   )
