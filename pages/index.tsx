@@ -121,7 +121,7 @@ const LandingPage: NextPage = () => {
                   </Link>
                   <Link href={"/signup"}>
                     <a>
-                      <button className={`${styles.button} ${showRainbow ? styles.rainbow : ''}`}>{localeTr.signup}</button>
+                      <button className={styles.button}>{localeTr.signup}</button>
                     </a>
                   </Link>
                 </div>
