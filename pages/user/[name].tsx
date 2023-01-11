@@ -77,7 +77,7 @@ export default function Profile(props: any) {
             }
         }
     )
-    const updateShowPicMutation = useMutation<AxiosResponse, AxiosError<any, any>, FormData>(
+    const updateShowPicMutation = useMutation<AxiosResponse<MutationResponse>, AxiosError<any, any>, FormData>(
         (data) => {
             return axios.post(`${BASEURL}/user/show-pictures/${showImage}`, data)
         },
@@ -89,7 +89,7 @@ export default function Profile(props: any) {
                 if (imgTarget) {
                     imgTarget.srcset = newFileRef.current
                 }
-                const { message, type } = data as any
+                const { message, type } = data.data
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -133,15 +133,15 @@ export default function Profile(props: any) {
         targetRef.current = "show"
     }
 
-    const sendRequestMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
+    const sendRequestMutation = useMutation<AxiosResponse<MutationResponse>, AxiosError<any, any>>(
         () => {
             return axios.post(`${BASEURL}/user/couple-request/${router.query.name}`)
         },
         {
             onSuccess: (data) => {
                 queryClient.invalidateQueries(['pending-request'])
-                const { message, type } = data as any
-                notify?.notify(message, type)
+                const { message } = data.data
+                notify?.notify(message, "SUCCESS")
             },
             onError: (err) => {
                 notify?.notify(err.response?.data.message, "ERROR")
@@ -152,11 +152,11 @@ export default function Profile(props: any) {
     const { data } = useQuery(cacheKey, () => axios.get(`${BASEURL}/user/${router.query.name}`).then(res => res.data),
         { initialData: props.user.data, staleTime: Infinity })
 
-    const blockMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
+    const blockMutation = useMutation<AxiosResponse<MutationResponse>, AxiosError<any, any>>(
         () => axios.post(`${BASEURL}/couple/block/${router.query.name}`),
         {
             onSuccess: (data) => {
-                const { message, type } = data as any
+                const { message, type } = data.data
                 notify?.notify(message, type)
             },
             onError: (err) => {

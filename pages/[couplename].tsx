@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import EditCouple from "../components/editprofile";
 import { CoupleReportModal, CoupleSettings } from "../components/settings";
 import tr from "../i18n/locales/coupleprofile.json"
-import { Langs, PostT } from "../types";
+import { Langs, MutationResponse, PostT } from "../types";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASEURL, IMAGEURL } from "../constants";
@@ -85,7 +85,7 @@ const CoupleProfile: NextPage = (props: any) => {
                     document.querySelector<HTMLImageElement>("#cover")!.srcset = newFileRef.current
                 }
                 setIsOpen(false)
-                const { message, type } = data as any
+                const { message, type } = data.data as MutationResponse
                 notify?.notify(message, type)
             },
             onError: (err) => {
@@ -106,13 +106,13 @@ const CoupleProfile: NextPage = (props: any) => {
         updatePicMutation.mutate(formData)
     }
 
-    const followMutation = useMutation<AxiosResponse, AxiosError<any, any>>(
+    const followMutation = useMutation<AxiosResponse<MutationResponse>, AxiosError<any, any>>(
         () => {
             return axios.post(`${BASEURL}/user/${!following ? "follow" : "unfollow"}/${data.couple_name}`)
         },
         {
             onSuccess: (data) => {
-                const { message, type } = data as any
+                const { message, type } = data.data
                 notify?.notify(message, type)
             },
             onError: (err) => {
