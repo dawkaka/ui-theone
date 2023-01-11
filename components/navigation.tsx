@@ -183,7 +183,7 @@ export default function Navigation() {
                         </div>
                     </Link>)
                     }
-                    <Link href={`/user/${startup.user_name}`} scroll={false}>
+                    <Link href={startup.user_name ? `/user/${startup.user_name}` : `/login`} scroll={false}>
                         <div className={`${styles.navItem} ${pathname === "/user/[name]" && query.name === startup.user_name ? styles.activeNav : null}`} tabIndex={0} aria-label="go to your profile page">
                             <div>
                                 {pathname === "/user/[name]" && query.name === startup.user_name ? <FaUser size={iconSize} /> :

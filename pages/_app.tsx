@@ -6,6 +6,7 @@ import axios from "axios";
 import { ToasContext } from "../components/context";
 import { Toast } from "../components/mis";
 import Router from "next/router";
+import { Analytics } from '@vercel/analytics/react';
 
 const queryClient = new QueryClient()
 axios.defaults.withCredentials = true
@@ -77,6 +78,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }
         <Component {...pageProps} />
         <Toast message={message} type={type} resetMessage={() => setMessage("")} />
+        <Analytics />
       </QueryClientProvider >
     </ToasContext.Provider>
   )
