@@ -91,6 +91,8 @@ export default function Navigation() {
         }
         if (data.has_partner) {
             localStorage.setItem("hasPartner", "true")
+        } else {
+            localStorage.removeItem("hasPartner")
         }
     }
     const iconSize = 25
