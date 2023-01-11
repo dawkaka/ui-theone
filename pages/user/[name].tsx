@@ -70,7 +70,7 @@ export default function Profile(props: any) {
                 avatarImgRef.current!.src = newFileRef.current
                 setIsOpen(false)
                 const { message, type } = data.data as MutationResponse
-                notify?.notify(message, type)
+                notify?.notify(message, "SUCCESS")
             },
             onError: (err) => {
                 notify?.notify(err.response?.data.message, "ERROR")
@@ -172,7 +172,6 @@ export default function Profile(props: any) {
     const { completed, pos } = useMemo(() => {
         const arr: ("profile" | "bio" | "show" | "follow")[] = []
         if (!data) return { completed: arr, pos: 0 }
-        console.log(data)
         const { profile_picture, bio, show_pictures, following_count } = data as { profile_picture: string, bio: string, following_count: number, show_pictures: string[] }
         if (profile_picture.indexOf("default") > -1) {
             arr.push("profile")
