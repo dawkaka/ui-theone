@@ -79,8 +79,7 @@
 
 .errorsContainer {
     margin-left: var(--gap);
-    background-color: var(--accents-2);
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .errorsContainer p {

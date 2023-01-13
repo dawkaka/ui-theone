@@ -45,7 +45,7 @@
 .formItem {
     display: flex;
     flex-direction: column;
-    margin-bottom: var(--gap);
+    margin-bottom: 12px;
     gap: 5px
 }
 
@@ -67,14 +67,12 @@
 }
 
 .errorsContainer {
-    margin-left: var(--gap);
-    background-color: var(--accents-2);
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .errorsContainer p {
-    margin: var(--gap-quarter);
-    color: var(--success-dark);
+    margin-top: 5px;
+    color: red
 }
 
 @media only screen and (max-width: 750px) {

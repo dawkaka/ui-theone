@@ -67,7 +67,7 @@ const Login: NextPage = () => {
                                     <input type="text" placeholder={localeTr.usernameoremail.placeholder} name="user_name_or_email" required value={emailOrUsername}
                                         onChange={(e) => setEmailOrUserName(e.currentTarget.value)} />
                                 </div>
-                                <div className={styles.formItem} style={{ position: "relative" }}>
+                                <div className={styles.formItem} style={{ position: "relative", marginTop: "20px" }}>
                                     <label>{localeTr.password.title}</label>
                                     <input
                                         type={showPassword}
@@ -82,6 +82,7 @@ const Login: NextPage = () => {
                                         }}
                                         style={{
                                             position: "absolute",
+                                            fontSize: "15px",
                                             backgroundColor: "transparent",
                                             color: "var(--success)",
                                             padding: 0,
