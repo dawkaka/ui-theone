@@ -561,8 +561,7 @@ const LandingPage: NextPage = () => {
                     />
                     <Faq
                       title="Can't couples just create a joint Instagram account instead?"
-                      content="Well, you could try using a hammer to open a bottle of wine, but a corkscrew is just a little more... cork-savvy."
-                    />
+                      content="Creating a couple profile is just a click away, no need to create a new account with a different email or phone number, both partners have equal access to the account, which means that one partner cannot hijack the account, and many more. Above all, Prime Couples offers a community of like-minded individuals who are all in about relationships, making it a more appropriate platform for couples to share their moments." />
                     <Faq
                       title="Is prime couples free to use?"
                       content="Yes"
@@ -664,7 +663,7 @@ const Faq: React.FC<{ title: string, content: string }> = ({ title, content }) =
         <p className={styles.txL} style={{ color: "var(--foreground)", fontWeight: "400" }}>{title}</p>
         <FaAngleDown size={20} style={{ transform: opened ? "rotate(180deg)" : "rotate(0)" }} />
       </div>
-      {opened ? <p style={{ maxWidth: "700px", color: "var(--accents-7)", marginTop: "var(--gap-half)" }}>{content}</p> : null}
+      {opened ? <p style={{ maxWidth: "700px", color: "var(--accents-5)", marginTop: "var(--gap-half)" }}>{content}</p> : null}
     </div>
   )
 }
