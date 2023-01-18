@@ -16,7 +16,7 @@ const Suggestions: React.FunctionComponent = () => {
     const localeTr = tr[locale as Langs]
     const queryClient = useQueryClient()
     const cacheKey = "suggested"
-    const { isLoading, data } = useQuery([cacheKey], () => axios.get(`${BASEURL}/couple/u/suggested-accounts`).then(res => res.data), { staleTime: Infinity })
+    const { isLoading, data } = useQuery([cacheKey], () => axios.get(`${BASEURL}/couple/u/suggested-accounts`).then(res => res.data), { staleTime: Infinity, retry: 3 })
 
     const updateCache = (couple_name: string) => {
         queryClient.setQueryData([cacheKey], (oldData: CouplePreviewT[] | undefined) => {

@@ -8,7 +8,13 @@ import { Toast } from "../components/mis";
 import Router from "next/router";
 import { Analytics } from '@vercel/analytics/react';
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 3,
+    }
+  }
+})
 axios.defaults.withCredentials = true
 
 function MyApp({ Component, pageProps }: AppProps) {
