@@ -217,13 +217,12 @@ export const Video: React.FC<{ file: string }> = ({ file }) => {
             <video src={file}
                 style={{ objectFit: "contain", backgroundColor: "black", width: "100%", maxHeight: "min(70vh, 500px)" }}
                 onClick={toggleVideo}
-                onEnded={() => videoRef.current?.play()}
+                loop
                 muted
                 playsInline
                 controls
                 controlsList="nodownload"
                 autoPlay
-                preload="none"
                 ref={videoRef}
             />
         </div>
