@@ -24,8 +24,12 @@
         top: 0;
         left: 0;
         position: fixed;
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
         height: 50px;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
         align-items: center;
         gap: var(--gap-quarter);
         background-color: var(--background);
@@ -36,6 +40,7 @@
     }
 
     .backIcon {
+        display: -ms-grid;
         display: grid;
         place-items: center;
         border-radius: 50%;

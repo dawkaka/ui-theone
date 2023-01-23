@@ -12,8 +12,15 @@
     background-color: var(--background);
     border-radius: var(--radius-small);
     max-height: 60vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     overflow: auto;
 }
@@ -30,8 +37,14 @@
     padding: var(--gap-half);
     color: var(--accents-7);
     cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap-half);
     font-size: 18px;
@@ -48,14 +61,22 @@
 
 .editModal {
     width: min(95vw, 500px);
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
     justify-content: start;
 }
 
 .editHeader {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     height: 50px;
     padding: 0 var(--gap-half) 0 var(--gap-half);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     border-bottom: 2px solid var(--accents-2);
     width: 100%;
@@ -82,15 +103,27 @@
 .modalContent {
     width: 100%;
     height: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     overflow-y: auto;
     padding: var(--gap-half);
 }
 
 .editItem {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     width: 100%;
     gap: var(--gap-quarter);
@@ -129,13 +162,22 @@
 }
 
 .report {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
 }
 
 .reportItem {
     width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap-half);
     border-bottom: var(--border);
@@ -151,6 +193,9 @@
 
 .reportItem label {
     font-size: 18px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
     cursor: pointer;
 }
@@ -162,26 +207,43 @@
 }
 
 .userInfoContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: 8px var(--gap-quarter);
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
 }
 
 .infoWrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap-half);
 }
 
 .imageContainer {
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
 }
 
 .avatarContainer {
+    display: -ms-grid;
     display: grid;
     border: var(--border);
     place-items: center;
@@ -200,6 +262,7 @@
     width: min(350px, 50vw);
     white-space: nowrap;
     overflow: hidden;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
 }
 
@@ -209,10 +272,15 @@
 }
 
 .fileSlider {
+    -ms-scroll-snap-type: x mandatory;
     scroll-snap-type: x mandatory;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     overflow-y: hidden;
     align-tracks: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     -webkit-overflow-scrolling: touch;
     overflow-x: scroll;
@@ -227,7 +295,9 @@
 .fileContainer {
     margin: 0;
     padding: 0;
+    -ms-flex-preferred-size: 100%;
     flex-basis: 100%;
+    -ms-flex-negative: 0;
     flex-shrink: 0;
     margin-bottom: -4px;
     min-height: 30vh;
@@ -246,10 +316,16 @@
     cursor: pointer;
     position: absolute;
     top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+    display: -ms-grid;
     display: grid;
     place-items: center;
     padding: var(--gap)var(--gap-half);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
@@ -261,6 +337,8 @@
 
 .prev {
     left: 0;
+    -webkit-transform: translateY(-50%) rotate(180deg);
+    -ms-transform: translateY(-50%) rotate(180deg);
     transform: translateY(-50%) rotate(180deg);
 }
 
@@ -269,21 +347,35 @@
 }
 
 .postStats {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: var(--gap-half);
     padding-bottom: 0;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
 }
 
 .postIcons {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap);
 }
 
 .postIcon {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: 5px
 }
@@ -304,9 +396,15 @@
 }
 
 .commentContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
     align-items: flex-end;
     max-height: 100px;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     padding-inline: var(--gap-half);
     padding-block: var(--gap-half);
@@ -316,6 +414,8 @@
 .commentContainer textarea {
     background: none;
     border: none;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
     flex-grow: 1;
     font-size: inherit;
     max-height: 80px;
@@ -347,7 +447,11 @@
 }
 
 .viewSliderPos {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     gap: 2px
 }
@@ -385,6 +489,8 @@
     }
 
     .viewFiles {
+        height: -webkit-max-content;
+        height: -moz-max-content;
         height: max-content;
     }
 

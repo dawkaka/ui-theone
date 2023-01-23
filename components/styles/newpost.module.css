@@ -5,10 +5,16 @@
 }
 
 .requestHeader {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     height: 50px;
     padding: 0 var(--gap-half) 0 var(--gap-half);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     border-bottom: 2px solid var(--accents-2);
     width: 100%;
@@ -37,6 +43,7 @@
 .backIcon {
     color: var(--accents-3);
     cursor: pointer;
+    display: -ms-grid;
     display: grid;
     place-items: center;
     padding: var(--gap-half);
@@ -45,10 +52,19 @@
 
 .modalContent {
     width: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     min-height: calc(70vh);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     overflow-y: auto;
 }
@@ -61,7 +77,11 @@
 }
 
 .aspectRatios {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap);
     padding: var(--gap-half) var(--gap-half) 0;
@@ -96,6 +116,8 @@
 .addImage svg {
     left: 50%;
     top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     z-index: -1;
     position: absolute;
@@ -120,13 +142,20 @@
 .fileIcons {
     margin-bottom: var(--gap-double);
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     color: var(--accents-7);
 }
 
 .selectFile {
+    display: -ms-grid;
     display: grid;
     gap: var(--gap-half)
 }
@@ -155,6 +184,8 @@
 
 
 .captionStage {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
     justify-content: flex-start;
     height: 100%;
     padding: var(--gap);
@@ -162,7 +193,12 @@
 
 
 .editItem {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     width: 100%;
     gap: var(--gap-quarter);
@@ -229,12 +265,17 @@
     position: relative;
     width: 100%;
     max-height: 700px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
 }
 
 .pfileContainer img {
     width: 100%;
+    -o-object-fit: contain;
     object-fit: contain;
 }
 
@@ -245,14 +286,23 @@
     position: absolute;
     display: none;
     padding-inline: var(--gap);
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     background-color: rgba(0, 0, 0, 0.2);
 }
 
 .altTextContainer>div {
     width: 100%;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     cursor: pointer;
     padding-right: var(--gap-half);
@@ -262,12 +312,16 @@
 .altButton {
     position: absolute;
     z-index: 2;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     left: 0;
 }
 
 .altButton button {
     background-color: rgba(0, 0, 0, 0.7);
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     font-weight: normal;
     border-radius: var(--radius-tiny);

@@ -6,8 +6,15 @@
 }
 
 .profileTopContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     margin: 0px auto;
     padding: var(--gap-double);
@@ -15,15 +22,24 @@
 
 .profileTop {
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     margin-bottom: 20px;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     gap: var(--space-large);
 }
 
 .infoContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap);
 }
@@ -31,16 +47,13 @@
 .imageContainer {
     position: relative;
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-align-items: center;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
 }
 
@@ -56,6 +69,7 @@
 }
 
 .avatarContainer:hover {
+    display: -ms-grid;
     display: grid;
 }
 
@@ -65,6 +79,7 @@
 }
 
 .profileImage:hover~.avatarContainer {
+    display: -ms-grid;
     display: grid;
 }
 
@@ -76,19 +91,34 @@
 
 .modalContent {
     width: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     min-height: calc(50vh);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     overflow-y: auto;
 }
 
 .requestHeader {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     height: 50px;
     padding: 0 var(--gap-half) 0 var(--gap-half);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     border-bottom: 2px solid var(--accents-2);
     width: 100%;
@@ -117,6 +147,7 @@
 .backIcon {
     color: var(--accents-3);
     cursor: pointer;
+    display: -ms-grid;
     display: grid;
     place-items: center;
     padding: var(--gap-half);
@@ -138,6 +169,8 @@
 }
 
 .fileIcon1 {
+    -webkit-transform: rotate(25deg);
+    -ms-transform: rotate(25deg);
     transform: rotate(25deg);
     left: 50px
 }
@@ -162,8 +195,15 @@
 }
 
 .titleContainer {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
     flex: 1 1 0%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     cursor: pointer;
     overflow: hidden;
@@ -174,6 +214,7 @@
     font-size: 22px;
     padding-bottom: var(--gap-quarter);
     overflow: hidden;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     color: var(--accents-6);
 }
@@ -204,6 +245,8 @@
 }
 
 .requestButtonWrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: var(--gap-half)
 }
@@ -217,6 +260,9 @@
     word-break: keep-all;
     white-space: nowrap;
     overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
@@ -237,7 +283,11 @@
     border-bottom: var(--border);
     color: var(--accents-7);
     cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap-half);
     font-size: 18px;
@@ -262,8 +312,11 @@
 }
 
 .countInfo {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     margin-top: 22px;
     color: var(--accents-7)
@@ -273,8 +326,11 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 25px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
     align-items: baseline;
     cursor: default;
 }
@@ -307,14 +363,17 @@
 }
 
 .showImagesWrapper {
+    display: -ms-grid;
     display: grid;
     padding: var(--gap-half);
+    -ms-grid-columns: 1fr var(--gap-half) 1fr var(--gap-half) 1fr;
     grid-template-columns: 1fr 1fr 1fr;
     gap: var(--gap-half);
 }
 
 @media screen and (max-width: 850px) {
     .showImagesWrapper {
+        -ms-grid-columns: 1fr 1fr;
         grid-template-columns: 1fr 1fr;
     }
 }
@@ -327,6 +386,7 @@
 
 @media screen and (max-width: 450px) {
     .showImagesWrapper {
+        -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
     }
 }
@@ -363,6 +423,8 @@
 
 @media only screen and (max-width:500px) {
     .requestButtonWrapper {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
         justify-content: center;
     }
 
@@ -371,6 +433,8 @@
     }
 
     .profileTopContainer {
+        -webkit-box-pack: grid;
+        -ms-flex-pack: grid;
         justify-content: grid;
         place-items: center;
         padding-inline: var(--gap-quarter);
@@ -383,13 +447,19 @@
 
 
     .infoWrapper {
+        display: -ms-grid;
         display: grid;
         place-items: center;
         text-align: center;
     }
 
     .infoContainer {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
         flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
         align-items: center;
         gap: var(--gap-half);
     }
@@ -399,10 +469,14 @@
     }
 
     .userName {
+        -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
         order: 1
     }
 
     .requestContainer {
+        -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
         order: 2;
     }
 

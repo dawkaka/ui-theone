@@ -1,6 +1,8 @@
 .mainWrapper {
     max-width: 1200px;
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 9fr;
     grid-template-columns: 1fr 9fr;
 }
 
@@ -10,12 +12,14 @@
 
 @media only screen and (max-width: 900px) {
     .mainWrapper {
+        -ms-grid-columns: 1fr 12fr;
         grid-template-columns: 1fr 12fr;
     }
 }
 
 @media only screen and (max-width: 750px) {
     .mainWrapper {
+        -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
         width: 100vw;
     }

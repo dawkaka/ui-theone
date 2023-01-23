@@ -119,6 +119,7 @@ a {
 *,
 *::before,
 *::after {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -140,15 +141,26 @@ a {
 }
 
 body {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   background-color: var(--background);
 }
 
 #__next {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -158,6 +170,8 @@ ul li {
 
 button {
   border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   appearance: none;
   background-color: var(--success-light);
   margin: 0;
@@ -177,20 +191,32 @@ input[type="search"]:focus {
 }
 
 .ReactModal__Content {
+  -webkit-transform: translateY(-500px);
+  -ms-transform: translateY(-500px);
   transform: translateY(-500px);
+  -webkit-transition: -webkit-transform 200ms ease-in;
+  transition: -webkit-transform 200ms ease-in;
+  -o-transition: transform 200ms ease-in;
   transition: transform 200ms ease-in;
+  transition: transform 200ms ease-in, -webkit-transform 200ms ease-in;
 }
 
 .ReactModal__Content--after-open {
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
   transform: translateY(0);
 }
 
 .ReactModal__Content--before-close {
+  -webkit-transform: translateY(100vh);
+  -ms-transform: translateY(100vh);
   transform: translateY(100vh);
 }
 
 .ReactModal__Overlay {
   opacity: 0;
+  -webkit-transition: opacity 200ms ease-in-out;
+  -o-transition: opacity 200ms ease-in-out;
   transition: opacity 200ms ease-in-out;
 }
 
@@ -211,42 +237,52 @@ input[type="search"]:focus {
 }
 
 #msg-0 {
+  -webkit-animation-delay: 1s;
   animation-delay: 1s;
 }
 
 #msg-1 {
+  -webkit-animation-delay: 2s;
   animation-delay: 2s;
 }
 
 #msg-2 {
+  -webkit-animation-delay: 3s;
   animation-delay: 3s;
 }
 
 #msg-3 {
+  -webkit-animation-delay: 4s;
   animation-delay: 4s;
 }
 
 #msg-4 {
+  -webkit-animation-delay: 5s;
   animation-delay: 5s;
 }
 
 #msg-5 {
+  -webkit-animation-delay: 6s;
   animation-delay: 6s;
 }
 
 #msg-6 {
+  -webkit-animation-delay: 7s;
   animation-delay: 7s;
 }
 
 #msg-7 {
+  -webkit-animation-delay: 8s;
   animation-delay: 8s;
 }
 
 #msg-8 {
+  -webkit-animation-delay: 9s;
   animation-delay: 9s;
 }
 
 #msg-9 {
+  -webkit-animation-delay: 10s;
   animation-delay: 10s;
 }
 
@@ -262,8 +298,14 @@ input[type="search"]:focus {
 }
 
 .prohibited-message {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   gap: var(--gap);
   background-color: var(--background);
@@ -276,6 +318,7 @@ input[type="search"]:focus {
 }
 
 .prohibited-message svg {
+  -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
@@ -297,7 +340,18 @@ input[type="search"]:focus {
   top: 0;
   left: 0;
   background: var(--success);
+  -webkit-animation: progress 2s ease-in-out;
   animation: progress 2s ease-in-out;
+}
+
+@-webkit-keyframes progress {
+  from {
+    width: 0%
+  }
+
+  to {
+    width: 100%
+  }
 }
 
 @keyframes progress {

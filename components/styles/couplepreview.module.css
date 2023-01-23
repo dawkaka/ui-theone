@@ -1,15 +1,26 @@
 .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap);
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     margin-bottom: var(--gap-half);
 }
 
 .infoContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap-half);
+    -ms-flex-negative: 1;
     flex-shrink: 1;
 }
 
@@ -20,10 +31,12 @@
 
 .image {
     border-radius: 50%;
+    -o-object-fit: cover;
     object-fit: cover;
 }
 
 .coupleInfo {
+    -ms-flex-negative: 1;
     flex-shrink: 1;
 }
 
@@ -41,11 +54,13 @@
 .button {
     padding: .3em .2em;
     font-size: 1.1rem;
+    -ms-flex-preferred-size: 20%;
     flex-basis: 20%;
     border-radius: var(--radius-tiny);
     min-width: 85px;
     overflow: hidden;
     white-space: nowrap;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     font-weight: normal;
 }

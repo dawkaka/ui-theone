@@ -1,5 +1,7 @@
 .mainContainer {
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 7fr 5fr;
     grid-template-columns: 7fr 5fr;
 }
 
@@ -30,6 +32,8 @@
 
 .profile {
     position: relative;
+    -webkit-transform: translateY(-80px);
+    -ms-transform: translateY(-80px);
     transform: translateY(-80px);
     padding-inline: var(--gap-half);
     border-bottom: var(--border);
@@ -37,10 +41,18 @@
 }
 
 .flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
     align-items: flex-end;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     min-height: 130px;
+    height: -webkit-max-content;
+    height: -moz-max-content;
     height: max-content;
 
 }
@@ -70,7 +82,11 @@
     position: absolute;
     cursor: pointer;
     display: none;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     width: 100%;
     height: 100%;
@@ -78,28 +94,40 @@
 }
 
 .avatarContainer:hover {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
 }
 
 .profileImage:hover+.avatarContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
 }
 
 
 .profileActBtnContainer {
     margin-bottom: var(--gap-half);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: var(--gap);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
     height: fit-content;
 }
 
 .profileActBtnContainer button {
     padding: .3em 0;
     font-size: 1.1rem;
+    -ms-flex-preferred-size: 20%;
     flex-basis: 20%;
     min-width: 100px;
     border-radius: var(--radius-tiny);
+    -ms-flex-negative: 0;
     flex-shrink: 0;
     font-weight: normal;
 }
@@ -123,7 +151,11 @@
     border-bottom: var(--border);
     color: var(--accents-7);
     cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: var(--gap-half);
     font-size: 18px;
@@ -146,19 +178,34 @@
 
 .modalContent {
     width: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     min-height: calc(50vh);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     overflow-y: auto;
 }
 
 .requestHeader {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     height: 50px;
     padding: 0 var(--gap-half) 0 var(--gap-half);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     border-bottom: 2px solid var(--accents-2);
     width: 100%;
@@ -187,6 +234,7 @@
 .backIcon {
     color: var(--accents-3);
     cursor: pointer;
+    display: -ms-grid;
     display: grid;
     place-items: center;
     padding: var(--gap-half);
@@ -208,6 +256,8 @@
 }
 
 .fileIcon1 {
+    -webkit-transform: rotate(25deg);
+    -ms-transform: rotate(25deg);
     transform: rotate(25deg);
     left: 50px
 }
@@ -236,6 +286,7 @@
     margin-top: -10px;
     font-weight: bold;
     color: var(--accents-7);
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
     max-width: 450px;
@@ -255,8 +306,11 @@
 }
 
 .countInfo {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     margin-top: var(--gap-half);
     color: var(--accents-7);
@@ -266,8 +320,11 @@
     font-weight: 600;
     font-size: 1rem;
     line-height: 25px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
     align-items: baseline;
     cursor: default;
 }
@@ -287,8 +344,15 @@
 
 .postsContainer {
     margin-top: -60px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
@@ -303,12 +367,15 @@
 
 .followersContent>div {
     width: min(100%, 300px);
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
     align-self: center;
     margin-inline: auto;
 }
 
 @media screen and (max-width: 750px) {
     .mainContainer {
+        -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
     }
 
