@@ -354,14 +354,6 @@ const LandingPage: NextPage = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <div className="prohibited-message">
-                      <MdReport size={30} />
-                      <p>{localeTr.prohibited}</p>
-                    </div>
-
-                  </div>
-
                   <div className={styles.twoCol} style={{ marginBottom: "100px" }}>
 
                     <div className={`${styles.sectionContent}`}>
