@@ -34,6 +34,10 @@
 .header {
     width: 100%;
     padding: var(--gap-half) 0;
+    position: fixed;
+    background-color: #FCF5EB;
+    z-index: 999;
+    border-bottom: 1px solid var(--accents-2);
 }
 
 .scrolled {
@@ -110,8 +114,8 @@
 
 
 .buttonOutline {
-    background-color: var(--background);
     border: var(--border);
+    background-color: transparent;
     color: var(--foreground)
 }
 
@@ -139,6 +143,7 @@
     -ms-flex-align: center;
     align-items: center;
     width: 100%;
+    margin-top: 90px;
     padding: var(--gap);
     gap: var(--space-large);
     --circleDiameter: 25vw;
@@ -147,7 +152,7 @@
 
 @media screen and (max-width: 768px) {
     .heroContainer {
-        margin-top: 50px;
+        margin-top: 100px;
         padding: var(--gap) 0;
         --circleDiameter: 55vw;
         --planets: calc(var(--circleDiameter) / 4)
@@ -419,8 +424,7 @@
     }
 
     .headerButtonContainer .button {
-        padding: 10px var(--gap-half);
-        font-size: 14px;
+        padding: 10px 15px;
     }
 
     .heroHeading {
