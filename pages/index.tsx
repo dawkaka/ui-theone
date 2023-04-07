@@ -19,7 +19,6 @@ import { useRouter } from "next/router"
 import tr from "../i18n/locales/landingpage.json"
 import { Langs } from "../types"
 import { getCountry } from "../i18n/location"
-import { MdReport } from "react-icons/md"
 import CookieBanner from "../components/cookie"
 
 
@@ -104,7 +103,7 @@ const LandingPage: NextPage = () => {
         <meta name="twitter:image" content="https://www.primecouples.com/primecouplesOG.jpg" />
         <meta name="twitter:image:src" content="https://www.primecouples.com/primecouplesOG.jpg" />
       </Head>
-      <div style={{ width: "100%", backgroundColor: "var(--success)" }} >
+      <div style={{ width: "100%", backgroundColor: "#FCF5EB" }} >
         <div className={styles.heroMainContainer}>
           <header className={`${styles.header} ${styles.widthControlWrapper}`} id="header">
             <div className={styles.widthControl}>
@@ -136,9 +135,9 @@ const LandingPage: NextPage = () => {
             </div>
           </div>
         </div>
-        <main style={{ backgroundColor: "var(--success)", paddingBottom: "200px" }}>
+        <main style={{ backgroundColor: "#FCF5EB", paddingBottom: "200px" }}>
           <div className={styles.sectionsContainer}>
-            <div className={styles.widthControlWrapper} style={{ backgroundColor: "var(--success)" }}>
+            <div className={styles.widthControlWrapper} style={{ backgroundColor: "#FCF5EB" }}>
               <div className={styles.widthControl}>
                 <section id="how-it-work" className={styles.section} style={{ marginTop: "var(--gap-double)" }}>
                   <h3 className={styles.headerMedium}>{localeTr.howitworks.header}</h3>
@@ -544,9 +543,9 @@ const LandingPage: NextPage = () => {
                   </div>
                 </section>
 
-                <section style={{ marginTop: "clamp(50px, 20vh, 150px)" }}>
-                  <h2 className={styles.headerMedium}>Frequently Asked Questions</h2>
-                  <div style={{ padding: "var(--gap-half) min(3vw, var(--gap))" }}>
+                <section style={{ marginTop: "200px" }}>
+                  <h2 className={styles.headerMedium} style={{ marginBottom: "40px" }}>Frequently Asked Questions</h2>
+                  <div>
                     <Faq
                       title="Can people without partners join?"
                       content="Yes, individuals who are not in relationships are welcome to join Prime Couples and engage with the content and couples that interest them. This may include following and interacting with posts from their favorite couples. However people without partners can not creat posts of their own."
@@ -648,7 +647,7 @@ const Hero: React.FC<{ showRainbow: boolean }> = ({ showRainbow }) => {
 }
 
 const Faq: React.FC<{ title: string, content: string }> = ({ title, content }) => {
-  const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState(true)
   return (
     <div style={{ backgroundColor: "var(--background)", padding: "var(--gap)", borderRadius: "var(--radius-small)", marginTop: "var(--gap-half)" }}>
       <div role="button" style={{ display: "flex", justifyContent: "space-between", cursor: "pointer" }} onClick={() => setOpened(!opened)}>
