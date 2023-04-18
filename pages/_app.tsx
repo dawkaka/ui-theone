@@ -84,7 +84,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }
         <Component {...pageProps} />
         <Toast message={message} type={type} resetMessage={() => setMessage("")} />
-        <Analytics />
+        {/* <Analytics /> */}
       </QueryClientProvider >
     </ToasContext.Provider>
   )
